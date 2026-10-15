@@ -22,7 +22,7 @@
 | 2. 自行设置报告的固件版本 | [中文](methods/02-firmware-version/README.md) / [English](methods/02-firmware-version/README.en.md) | 解析本机 FAT，修改 `updater/dat4` 的两字节 BCD，支持 `0.00`–`9.99`，保留其余内容 |
 | 3. FL2 / FL3 移植与刷入 | [中文](methods/03-fl2-fl3/README.md) / [English](methods/03-fl2-fl3/README.en.md) | AP/CP、供体数据转换、配置及 NOR 同步；**当前滤镜颜色与官方版本存在差异** |
 | 4. 副厂电池电量显示与提示限制 | [中文](methods/04-third-party-battery/README.md) / [English](methods/04-third-party-battery/README.en.md) | 16条 AP 指令恢复真实电量显示、跳过副厂提示，保留认证源状态与充电/温度保护；附精确配方、离线补丁与回滚 |
-| 5. 副厂镜头能力过滤与对焦速度限制 | [中文](methods/05-third-party-lens-af/README.md) / [English](methods/05-third-party-lens-af/README.en.md) | 六处 CP 局部修改，保留镜头已上报能力和速度 profile；**对焦速度改善未经实机测试** |
+| 5. 镜头 AF 机制与兼容能力过滤 | [中文](methods/05-third-party-lens-af/README.md) / [English](methods/05-third-party-lens-af/README.en.md) | 分别分析 ID 能力过滤与类别/能力/档案范围门控；六处 CP 补丁仅保留上报能力和速度 profile，范围门控未修改；**速度改善未经实机测试** |
 
 方法 1 不会自动安装 FL2/FL3；方法 2 修改的是报告版本，不能自动使旧程序具备新功能。方法 3 的安装前提与完整流程在自己的文档中说明。
 

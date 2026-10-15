@@ -4,6 +4,8 @@
 
 本页保留首次发布的81项测试及FL2/FL3包验证。新增方法4/5的最新100项测试、分区/组合包检查与未测试状态见 [新增方法验证](features-validation.md)。当前FL2/FL3颜色与官方版本存在差异；镜头对焦速度修改未经实机测试。 / This page retains the initial81-test release evidence. See [feature validation](features-validation.md) for the latest 100-test extension, filesystem/package checks and untested status. Current FL2/FL3 colors differ from the official version; lens speed effects have not undergone physical testing.
 
+2026-10-15 新增镜头原版流程研究：[中文](../methods/05-third-party-lens-af/README.md) / [English](../methods/05-third-party-lens-af/README.en.md)、[回放脚本](../tools/replay_lens_af_flow.py)和[16组原生回放结果](../methods/05-third-party-lens-af/native-flow-results.json)。分别验证 ID 兼容过滤、请求/缓存/速度选择及描述符范围回退；范围类别和协议输入为合成数据，setter 参数传递显式桥接。它不修改现有补丁配方，不新增范围解锁，也不验证实机速度。 / Additional stock-flow research separates ID filtering from descriptor-based range fallback. The 16 original-instruction cases use synthetic inputs and an explicit setter-argument bridge. This does not change the patch recipe, unlock the range gate or validate physical performance.
+
 ## 首次发布源码验证 / Initial source release validation
 
 - 在新的 Python 3.12 虚拟环境安装核心、测试和可选固件依赖；81 项自动测试通过。 / Installed in a fresh Python 3.12 environment; 81 automated tests passed.

@@ -1,0 +1,989 @@
+{
+  "result": "PASS",
+  "verification_kind": "bounded_original_CP_instruction_replay",
+  "source": {
+    "role": "stock CP evidence input",
+    "bytes": 16236816,
+    "sha256": "7b9b137d696e5972d20db7f9119076172ed8e0730805d7f0b4c31b87689e2c2b"
+  },
+  "script_sha256": "be73462c234593061e42abd20bc9f066e8a6b652c5605efc5f4759282b977b58",
+  "engine": {
+    "name": "Unicorn",
+    "version": "2.1.4"
+  },
+  "case_count": 16,
+  "cases": [
+    {
+      "result": "PASS",
+      "stage": "info7_ID_classification_and_filter",
+      "lens_id": "0xc530",
+      "config": 0,
+      "fixture": "64-byte all-FF stress response with explicit ID",
+      "raw_packet_hex": "ffffffffffffffffffff30c5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "stored_packet_hex": "fff303ffffffffff00a030c500000000ffffffffffffffffffff640000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "compatibility_flag": 1,
+      "lens_id_preserved": true,
+      "executions": [
+        {
+          "entry": "0x3b3c88",
+          "stop": "0x3b3cc2",
+          "return_r0": 33554462,
+          "instructions": 84,
+          "trace_sha256": "9949dca60dd9a673bb7349f5f1cc014fbc47d16313f2fd38294d1acbe07aeed2",
+          "visited_points": [
+            "0x3b3c88",
+            "0x98ed0e",
+            "0x9975d6",
+            "0x997618",
+            "0x997624"
+          ],
+          "stubbed_calls": [
+            "0x98ed0e"
+          ]
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info7_ID_classification_and_filter",
+      "lens_id": "0x8050",
+      "config": 0,
+      "fixture": "64-byte all-FF stress response with explicit ID",
+      "raw_packet_hex": "ffffffffffffffffffff5080ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "stored_packet_hex": "ffffffffffffffffffff5080ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "compatibility_flag": 0,
+      "lens_id_preserved": true,
+      "executions": [
+        {
+          "entry": "0x3b3c88",
+          "stop": "0x3b3cc2",
+          "return_r0": 0,
+          "instructions": 50,
+          "trace_sha256": "03c01a07625d07e352306c1ff2c10884daf42f86dfc9611f7a0a654cd3962f3b",
+          "visited_points": [
+            "0x3b3c88",
+            "0x98ed0e",
+            "0x9975d6",
+            "0x997618"
+          ],
+          "stubbed_calls": [
+            "0x98ed0e"
+          ]
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info7_ID_classification_and_filter",
+      "lens_id": "0xffff",
+      "config": 0,
+      "fixture": "64-byte all-FF stress response with explicit ID",
+      "raw_packet_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "stored_packet_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "compatibility_flag": 0,
+      "lens_id_preserved": true,
+      "executions": [
+        {
+          "entry": "0x3b3c88",
+          "stop": "0x3b3cc2",
+          "return_r0": 0,
+          "instructions": 50,
+          "trace_sha256": "a36ae1122fa58e017b624b39e7cd772c79740e57b3d7d148c73f9186842faf67",
+          "visited_points": [
+            "0x3b3c88",
+            "0x98ed0e",
+            "0x9975d6",
+            "0x997618"
+          ],
+          "stubbed_calls": [
+            "0x98ed0e"
+          ]
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info7_ID_classification_and_filter",
+      "lens_id": "0xc530",
+      "config": 1,
+      "fixture": "64-byte all-FF stress response with explicit ID",
+      "raw_packet_hex": "ffffffffffffffffffff30c5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "stored_packet_hex": "fff303ffffffffff00a030c500000000ffffffffffffffffffff640000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "compatibility_flag": 1,
+      "lens_id_preserved": true,
+      "executions": [
+        {
+          "entry": "0x3b3c88",
+          "stop": "0x3b3cc2",
+          "return_r0": 33554462,
+          "instructions": 71,
+          "trace_sha256": "2c782eb058e8a0f30cf0fcbca290762c60c2a0b12a57d882f9476d8d3782e404",
+          "visited_points": [
+            "0x3b3c88",
+            "0x98ed0e",
+            "0x9975d6",
+            "0x997618",
+            "0x997624"
+          ],
+          "stubbed_calls": [
+            "0x98ed0e"
+          ]
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info7_ID_classification_and_filter",
+      "lens_id": "0xc530",
+      "config": 2,
+      "fixture": "64-byte all-FF stress response with explicit ID",
+      "raw_packet_hex": "ffffffffffffffffffff30c5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "stored_packet_hex": "ffffffffffffffffffff30c5ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "compatibility_flag": 0,
+      "lens_id_preserved": true,
+      "executions": [
+        {
+          "entry": "0x3b3c88",
+          "stop": "0x3b3cc2",
+          "return_r0": 0,
+          "instructions": 37,
+          "trace_sha256": "6d73d04a2d4baff6afbac8e60aaea99d84cddba6565a16c3f0ed665162571d76",
+          "visited_points": [
+            "0x3b3c88",
+            "0x98ed0e",
+            "0x9975d6",
+            "0x997618"
+          ],
+          "stubbed_calls": [
+            "0x98ed0e"
+          ]
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info3D_request_filter_copy_speed",
+      "lens_id": "0xc530",
+      "config": 0,
+      "physical_capabilities_fixture": true,
+      "raw_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000902030000000000000000000000000003000000000000000000000000000",
+      "stored_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "stored_capabilities": "0x0",
+      "stored_speed_flags": "0x0",
+      "calibration_fixture": [
+        7000,
+        6000,
+        5000,
+        9000,
+        8000,
+        7000
+      ],
+      "selected_fixture_MaxFcSpeed": [
+        0,
+        0
+      ],
+      "cached_command3D": 1,
+      "cached_command5A": 0,
+      "body_mode_fixture": 4,
+      "frequency_fixture": [
+        96,
+        0
+      ],
+      "executions": [
+        {
+          "entry": "0x9975d6",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 25,
+          "trace_sha256": "581609bab0991cce73cc1839c0a9672265e3090268a77a2a5f990a76bf609ec2",
+          "visited_points": [
+            "0x9975d6"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3ad130",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 38,
+          "trace_sha256": "f34bb607491fe2d9163c249eb05b258fd8aeac05d7564cd2be0a9b17c0de51a4",
+          "visited_points": [
+            "0x3ad130",
+            "0x997618"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b31ec",
+          "stop": "0x3b3762",
+          "return_r0": 1,
+          "instructions": 13,
+          "trace_sha256": "e5df4490f05e023fa934e810ac314b57a3c6ae3526a21617208f5849dff06794",
+          "visited_points": [
+            "0x3b31ec"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b321e",
+          "stop": "0x3b324c",
+          "return_r0": 33591609,
+          "instructions": 214,
+          "trace_sha256": "d6e6c23b5feab3d793042da890c2f81bbccc5e7606770a520eec7712476fbad4",
+          "visited_points": [
+            "0x3b321e",
+            "0x585fb8",
+            "0x5866ac",
+            "0x98f0f4",
+            "0x997618",
+            "0x997940"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x394978",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 507,
+          "trace_sha256": "56f8f61eb5395505c032be54e5671238eee8c7f03aaa157d3c197dd09a5dce31",
+          "visited_points": [
+            "0x394978",
+            "0x9579d0"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info3D_request_filter_copy_speed",
+      "lens_id": "0xd123",
+      "config": 0,
+      "physical_capabilities_fixture": true,
+      "raw_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000902030000000000000000000000000003000000000000000000000000000",
+      "stored_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "stored_capabilities": "0x0",
+      "stored_speed_flags": "0x0",
+      "calibration_fixture": [
+        7000,
+        6000,
+        5000,
+        9000,
+        8000,
+        7000
+      ],
+      "selected_fixture_MaxFcSpeed": [
+        0,
+        0
+      ],
+      "cached_command3D": 1,
+      "cached_command5A": 0,
+      "body_mode_fixture": 4,
+      "frequency_fixture": [
+        96,
+        0
+      ],
+      "executions": [
+        {
+          "entry": "0x9975d6",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 25,
+          "trace_sha256": "581609bab0991cce73cc1839c0a9672265e3090268a77a2a5f990a76bf609ec2",
+          "visited_points": [
+            "0x9975d6"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3ad130",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 38,
+          "trace_sha256": "f34bb607491fe2d9163c249eb05b258fd8aeac05d7564cd2be0a9b17c0de51a4",
+          "visited_points": [
+            "0x3ad130",
+            "0x997618"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b31ec",
+          "stop": "0x3b3762",
+          "return_r0": 1,
+          "instructions": 13,
+          "trace_sha256": "e5df4490f05e023fa934e810ac314b57a3c6ae3526a21617208f5849dff06794",
+          "visited_points": [
+            "0x3b31ec"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b321e",
+          "stop": "0x3b324c",
+          "return_r0": 33591609,
+          "instructions": 214,
+          "trace_sha256": "d6e6c23b5feab3d793042da890c2f81bbccc5e7606770a520eec7712476fbad4",
+          "visited_points": [
+            "0x3b321e",
+            "0x585fb8",
+            "0x5866ac",
+            "0x98f0f4",
+            "0x997618",
+            "0x997940"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x394978",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 507,
+          "trace_sha256": "56f8f61eb5395505c032be54e5671238eee8c7f03aaa157d3c197dd09a5dce31",
+          "visited_points": [
+            "0x394978",
+            "0x9579d0"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info3D_request_filter_copy_speed",
+      "lens_id": "0x8050",
+      "config": 0,
+      "physical_capabilities_fixture": true,
+      "raw_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000902030000000000000000000000000003000000000000000000000000000",
+      "stored_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000902030000000000000000000000000003000000000000000000000000000",
+      "stored_capabilities": "0x30209000",
+      "stored_speed_flags": "0x30",
+      "calibration_fixture": [
+        7000,
+        6000,
+        5000,
+        9000,
+        8000,
+        7000
+      ],
+      "selected_fixture_MaxFcSpeed": [
+        7000,
+        9000
+      ],
+      "cached_command3D": 1,
+      "cached_command5A": 0,
+      "body_mode_fixture": 4,
+      "frequency_fixture": [
+        96,
+        0
+      ],
+      "executions": [
+        {
+          "entry": "0x9975d6",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 24,
+          "trace_sha256": "4560c6b402723373040cab46bdaaae8e1bd5f1a3c76c56ea9dd2d0d56b7b24ba",
+          "visited_points": [
+            "0x9975d6"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3ad130",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 42,
+          "trace_sha256": "48bd1aef3f46d034328ae219da221028306cf0505c1fa7222c7d89378b8be2ca",
+          "visited_points": [
+            "0x3ad130",
+            "0x997618"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b31ec",
+          "stop": "0x3b3762",
+          "return_r0": 1,
+          "instructions": 13,
+          "trace_sha256": "e5df4490f05e023fa934e810ac314b57a3c6ae3526a21617208f5849dff06794",
+          "visited_points": [
+            "0x3b31ec"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b321e",
+          "stop": "0x3b324c",
+          "return_r0": 33591609,
+          "instructions": 149,
+          "trace_sha256": "eb6ce86fe5f842869aa3d3530c4fef078afdb4d0b11bf9b2b7198b12edf3a054",
+          "visited_points": [
+            "0x3b321e",
+            "0x585fb8",
+            "0x98f0f4",
+            "0x997618"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x394978",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 94,
+          "trace_sha256": "55e89c72d3c7e4c16601a81cc44a1e21a247ab70eb8392844b19a78831dc1505",
+          "visited_points": [
+            "0x394978",
+            "0x9579d0",
+            "0x9579fe"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info3D_request_filter_copy_speed",
+      "lens_id": "0xffff",
+      "config": 0,
+      "physical_capabilities_fixture": true,
+      "raw_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000902030000000000000000000000000003000000000000000000000000000",
+      "stored_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000902030000000000000000000000000003000000000000000000000000000",
+      "stored_capabilities": "0x30209000",
+      "stored_speed_flags": "0x30",
+      "calibration_fixture": [
+        7000,
+        6000,
+        5000,
+        9000,
+        8000,
+        7000
+      ],
+      "selected_fixture_MaxFcSpeed": [
+        7000,
+        9000
+      ],
+      "cached_command3D": 1,
+      "cached_command5A": 0,
+      "body_mode_fixture": 4,
+      "frequency_fixture": [
+        96,
+        0
+      ],
+      "executions": [
+        {
+          "entry": "0x9975d6",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 24,
+          "trace_sha256": "0f3de2cd45e968ac9725bb2dab6ee3cf7ce321db66f103661099a4ecb39e7414",
+          "visited_points": [
+            "0x9975d6"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3ad130",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 42,
+          "trace_sha256": "48bd1aef3f46d034328ae219da221028306cf0505c1fa7222c7d89378b8be2ca",
+          "visited_points": [
+            "0x3ad130",
+            "0x997618"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b31ec",
+          "stop": "0x3b3762",
+          "return_r0": 1,
+          "instructions": 13,
+          "trace_sha256": "e5df4490f05e023fa934e810ac314b57a3c6ae3526a21617208f5849dff06794",
+          "visited_points": [
+            "0x3b31ec"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b321e",
+          "stop": "0x3b324c",
+          "return_r0": 33591609,
+          "instructions": 149,
+          "trace_sha256": "eb6ce86fe5f842869aa3d3530c4fef078afdb4d0b11bf9b2b7198b12edf3a054",
+          "visited_points": [
+            "0x3b321e",
+            "0x585fb8",
+            "0x98f0f4",
+            "0x997618"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x394978",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 94,
+          "trace_sha256": "55e89c72d3c7e4c16601a81cc44a1e21a247ab70eb8392844b19a78831dc1505",
+          "visited_points": [
+            "0x394978",
+            "0x9579d0",
+            "0x9579fe"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info3D_request_filter_copy_speed",
+      "lens_id": "0xc530",
+      "config": 1,
+      "physical_capabilities_fixture": true,
+      "raw_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000902030000000000000000000000000003000000000000000000000000000",
+      "stored_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "stored_capabilities": "0x0",
+      "stored_speed_flags": "0x0",
+      "calibration_fixture": [
+        7000,
+        6000,
+        5000,
+        9000,
+        8000,
+        7000
+      ],
+      "selected_fixture_MaxFcSpeed": [
+        0,
+        0
+      ],
+      "cached_command3D": 1,
+      "cached_command5A": 0,
+      "body_mode_fixture": 4,
+      "frequency_fixture": [
+        96,
+        0
+      ],
+      "executions": [
+        {
+          "entry": "0x9975d6",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 12,
+          "trace_sha256": "bd26cdc3bfa363cfa4f2dcc2ac3ad08b48843fb7d172a70a7cf6e2e7fcc10658",
+          "visited_points": [
+            "0x9975d6"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3ad130",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 38,
+          "trace_sha256": "f34bb607491fe2d9163c249eb05b258fd8aeac05d7564cd2be0a9b17c0de51a4",
+          "visited_points": [
+            "0x3ad130",
+            "0x997618"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b31ec",
+          "stop": "0x3b3762",
+          "return_r0": 1,
+          "instructions": 13,
+          "trace_sha256": "e5df4490f05e023fa934e810ac314b57a3c6ae3526a21617208f5849dff06794",
+          "visited_points": [
+            "0x3b31ec"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b321e",
+          "stop": "0x3b324c",
+          "return_r0": 33591609,
+          "instructions": 214,
+          "trace_sha256": "d6e6c23b5feab3d793042da890c2f81bbccc5e7606770a520eec7712476fbad4",
+          "visited_points": [
+            "0x3b321e",
+            "0x585fb8",
+            "0x5866ac",
+            "0x98f0f4",
+            "0x997618",
+            "0x997940"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x394978",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 507,
+          "trace_sha256": "56f8f61eb5395505c032be54e5671238eee8c7f03aaa157d3c197dd09a5dce31",
+          "visited_points": [
+            "0x394978",
+            "0x9579d0"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "info3D_request_filter_copy_speed",
+      "lens_id": "0xc530",
+      "config": 0,
+      "physical_capabilities_fixture": false,
+      "raw_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "stored_packet_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "stored_capabilities": "0x0",
+      "stored_speed_flags": "0x0",
+      "calibration_fixture": [
+        7000,
+        6000,
+        5000,
+        9000,
+        8000,
+        7000
+      ],
+      "selected_fixture_MaxFcSpeed": [
+        0,
+        0
+      ],
+      "cached_command3D": 1,
+      "cached_command5A": 0,
+      "body_mode_fixture": 4,
+      "frequency_fixture": [
+        96,
+        0
+      ],
+      "executions": [
+        {
+          "entry": "0x9975d6",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 25,
+          "trace_sha256": "581609bab0991cce73cc1839c0a9672265e3090268a77a2a5f990a76bf609ec2",
+          "visited_points": [
+            "0x9975d6"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3ad130",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 38,
+          "trace_sha256": "f34bb607491fe2d9163c249eb05b258fd8aeac05d7564cd2be0a9b17c0de51a4",
+          "visited_points": [
+            "0x3ad130",
+            "0x997618"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b31ec",
+          "stop": "0x3b3762",
+          "return_r0": 1,
+          "instructions": 13,
+          "trace_sha256": "e5df4490f05e023fa934e810ac314b57a3c6ae3526a21617208f5849dff06794",
+          "visited_points": [
+            "0x3b31ec"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x3b321e",
+          "stop": "0x3b324c",
+          "return_r0": 33591609,
+          "instructions": 214,
+          "trace_sha256": "d6e6c23b5feab3d793042da890c2f81bbccc5e7606770a520eec7712476fbad4",
+          "visited_points": [
+            "0x3b321e",
+            "0x585fb8",
+            "0x5866ac",
+            "0x98f0f4",
+            "0x997618",
+            "0x997940"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x394978",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 507,
+          "trace_sha256": "56f8f61eb5395505c032be54e5671238eee8c7f03aaa157d3c197dd09a5dce31",
+          "visited_points": [
+            "0x394978",
+            "0x9579d0"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "descriptor_fallback_AF_range_consumer",
+      "lens_id": "0xc530",
+      "input_category_fixture": 1,
+      "input_descriptor_hex": "01000000000000000000000030c50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "prohibit_offset": null,
+      "output_flags_10_to_13": [
+        1,
+        0,
+        1,
+        1
+      ],
+      "AF_range_consumer_return": 1,
+      "callback_handoff": "Explicit +0x10/+0x12 arguments to original setter",
+      "executions": [
+        {
+          "entry": "0x47b9fc",
+          "stop": "0x2e00000",
+          "return_r0": 6,
+          "instructions": 201,
+          "trace_sha256": "54db71621dde662422527f4bdca6e5738c3e179266ff7c5cb503207fd39fa1eb",
+          "visited_points": [
+            "0x47b9fc",
+            "0x47e12c",
+            "0xa3ffbc",
+            "0xa40048"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x941dd6",
+          "stop": "0x2e00000",
+          "return_r0": 21959060,
+          "instructions": 25,
+          "trace_sha256": "e5705314f9eaabdf3f92dfdef52159981263871a82c06e0ede18abd03053818d",
+          "visited_points": [
+            "0x941dd6",
+            "0xa3d66a"
+          ],
+          "stubbed_calls": [
+            "0xa3d66a",
+            "0xa3d66a"
+          ]
+        },
+        {
+          "entry": "0x91d12a",
+          "stop": "0x2e00000",
+          "return_r0": 1,
+          "instructions": 20,
+          "trace_sha256": "8d6edcf6fa183f55fae7c6a91e98adb10a122c65d89286f5a00deac771421b35",
+          "visited_points": [
+            "0x91d12a"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "descriptor_fallback_AF_range_consumer",
+      "lens_id": "0xc530",
+      "input_category_fixture": 1,
+      "input_descriptor_hex": "01000000000000000000000030c50000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "prohibit_offset": "0x14",
+      "output_flags_10_to_13": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "AF_range_consumer_return": 0,
+      "callback_handoff": "Explicit +0x10/+0x12 arguments to original setter",
+      "executions": [
+        {
+          "entry": "0x47b9fc",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 33,
+          "trace_sha256": "bc58ce15b1bfaaa132c56638f4318cf8bee1b0a5c669d32cdd159ee391a75ab5",
+          "visited_points": [
+            "0x47b9fc",
+            "0xa3ffbc"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x941dd6",
+          "stop": "0x2e00000",
+          "return_r0": 21959060,
+          "instructions": 25,
+          "trace_sha256": "e5705314f9eaabdf3f92dfdef52159981263871a82c06e0ede18abd03053818d",
+          "visited_points": [
+            "0x941dd6",
+            "0xa3d66a"
+          ],
+          "stubbed_calls": [
+            "0xa3d66a",
+            "0xa3d66a"
+          ]
+        },
+        {
+          "entry": "0x91d12a",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 11,
+          "trace_sha256": "8019bcee6f73bb766b8c74710d6db016d727b68a04ecf5b412d6a5bf5e191885",
+          "visited_points": [
+            "0x91d12a"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "descriptor_fallback_AF_range_consumer",
+      "lens_id": "0xc530",
+      "input_category_fixture": 1,
+      "input_descriptor_hex": "01000000000000000000000030c50000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "prohibit_offset": "0x17",
+      "output_flags_10_to_13": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "AF_range_consumer_return": 0,
+      "callback_handoff": "Explicit +0x10/+0x12 arguments to original setter",
+      "executions": [
+        {
+          "entry": "0x47b9fc",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 35,
+          "trace_sha256": "59da2e0700351d79ee0d636bb1423c707dadb44daba61a424477d4e6a2e5b586",
+          "visited_points": [
+            "0x47b9fc",
+            "0xa3ffbc"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x941dd6",
+          "stop": "0x2e00000",
+          "return_r0": 21959060,
+          "instructions": 25,
+          "trace_sha256": "e5705314f9eaabdf3f92dfdef52159981263871a82c06e0ede18abd03053818d",
+          "visited_points": [
+            "0x941dd6",
+            "0xa3d66a"
+          ],
+          "stubbed_calls": [
+            "0xa3d66a",
+            "0xa3d66a"
+          ]
+        },
+        {
+          "entry": "0x91d12a",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 11,
+          "trace_sha256": "8019bcee6f73bb766b8c74710d6db016d727b68a04ecf5b412d6a5bf5e191885",
+          "visited_points": [
+            "0x91d12a"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "descriptor_fallback_AF_range_consumer",
+      "lens_id": "0x8010",
+      "input_category_fixture": 1,
+      "input_descriptor_hex": "01000000000000000000000010800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "prohibit_offset": null,
+      "output_flags_10_to_13": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "AF_range_consumer_return": 0,
+      "callback_handoff": "Explicit +0x10/+0x12 arguments to original setter",
+      "executions": [
+        {
+          "entry": "0x47b9fc",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 201,
+          "trace_sha256": "83899c366891193730c0b0c8638ff3cac26952f9ef7bb46be3c45b616e304f71",
+          "visited_points": [
+            "0x47b9fc",
+            "0x47e12c",
+            "0xa3ffbc"
+          ],
+          "stubbed_calls": []
+        },
+        {
+          "entry": "0x941dd6",
+          "stop": "0x2e00000",
+          "return_r0": 21959060,
+          "instructions": 25,
+          "trace_sha256": "e5705314f9eaabdf3f92dfdef52159981263871a82c06e0ede18abd03053818d",
+          "visited_points": [
+            "0x941dd6",
+            "0xa3d66a"
+          ],
+          "stubbed_calls": [
+            "0xa3d66a",
+            "0xa3d66a"
+          ]
+        },
+        {
+          "entry": "0x91d12a",
+          "stop": "0x2e00000",
+          "return_r0": 0,
+          "instructions": 11,
+          "trace_sha256": "8019bcee6f73bb766b8c74710d6db016d727b68a04ecf5b412d6a5bf5e191885",
+          "visited_points": [
+            "0x91d12a"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    },
+    {
+      "result": "PASS",
+      "stage": "ID_to_internal_profile_name",
+      "input_category_fixture": 1,
+      "lens_id": "0x8011",
+      "profile_name_pointer": "0xd46734",
+      "profile_name": "VX9101",
+      "name_source": "Stock CP table, not a hardware string read",
+      "executions": [
+        {
+          "entry": "0x47e12c",
+          "stop": "0x2e00000",
+          "return_r0": 13920052,
+          "instructions": 12,
+          "trace_sha256": "2dcb81fb4f4b701a9cf0f64e56979ddb491552b2bef22805f8099bfae63b5d00",
+          "visited_points": [
+            "0x47e12c"
+          ],
+          "stubbed_calls": []
+        }
+      ]
+    }
+  ],
+  "external_stubs": {
+    "0x98ed0e": "info7 response descriptor fixture, in info7 cases only",
+    "0xa3d66a": "logging no-op, in range setter cases only"
+  },
+  "limitations": [
+    "Synthetic protocol records, cached support, metadata, mode, frequency and calibration.",
+    "Wire-level handshake, serial framing and CRC checks before the selected windows are outside scope.",
+    "Range category 1 is supplied as a fixture; its upstream producer and brand meaning are unbound.",
+    "Range callback argument handoff is explicit, not a full callback registration/dispatch replay.",
+    "The profile-name case does not execute lensfile.bin lookup or transfer.",
+    "This replays stock CP only, not the patch helper or every supported patch baseline.",
+    "No camera or physical lens ID, AF speed, tracking accuracy or burst FPS was measured.",
+    "Values 7000/9000 are calibration fixtures; zero is no speed result at this interface, not total AF failure."
+  ]
+}
