@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "feature": "battery",
+  "target": "AP appFw.so",
+  "hardware_tested": false,
+  "scope": "Local NG-dependent percentage suppression and four accepted-caution reads only. No authentication source, charging, temperature or shutdown patch.",
+  "profiles": [
+    {
+      "baseline": "Official A7M4 6.02 AP",
+      "size": 98212632,
+      "source_sha256": "1e1b9202eaa69198f20df03dbfdab2f103b206cc4ebcd2e7bd817e6a710018a2",
+      "target_sha256": "6fb340604f6dc1a2abb8dbd208e3e380d3789f2756d7abde0f521fdeb49f6920",
+      "changed_bytes": 60,
+      "patches": [
+        {
+          "va": "0x241a238",
+          "offset": 37855800,
+          "old_hex": "75804639",
+          "new_hex": "15008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a2c8",
+          "offset": 37855944,
+          "old_hex": "95224139",
+          "new_hex": "15008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a488",
+          "offset": 37856392,
+          "old_hex": "75804639",
+          "new_hex": "15008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a4f4",
+          "offset": 37856500,
+          "old_hex": "75204139",
+          "new_hex": "15008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a758",
+          "offset": 37857112,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a760",
+          "offset": 37857120,
+          "old_hex": "80c24239",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a77c",
+          "offset": 37857148,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a784",
+          "offset": 37857156,
+          "old_hex": "81c24239",
+          "new_hex": "01008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a7e0",
+          "offset": 37857248,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a844",
+          "offset": 37857348,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a940",
+          "offset": 37857600,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a950",
+          "offset": 37857616,
+          "old_hex": "80c24239",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x1bae40c",
+          "offset": 29025292,
+          "old_hex": "00004039",
+          "new_hex": "20008052",
+          "purpose": "using battery caution"
+        },
+        {
+          "va": "0x1bae480",
+          "offset": 29025408,
+          "old_hex": "00004039",
+          "new_hex": "20008052",
+          "purpose": "secondary battery caution"
+        },
+        {
+          "va": "0x2108814",
+          "offset": 34637844,
+          "old_hex": "1c004039",
+          "new_hex": "3c008052",
+          "purpose": "startup caution path A"
+        },
+        {
+          "va": "0x2108cd0",
+          "offset": 34639056,
+          "old_hex": "1b004039",
+          "new_hex": "3b008052",
+          "purpose": "startup caution path B"
+        }
+      ]
+    },
+    {
+      "baseline": "Published FL2/FL3 AP on 6.02",
+      "size": 98212632,
+      "source_sha256": "d17e61fb4ba193d8e7d802196edff5f578d5691b3fcc4abcd1cbbb6e58bdd8ff",
+      "target_sha256": "6aad5c6400170365523c1737404053f53c05b89734a89e5fda734dde5eff7e2a",
+      "changed_bytes": 60,
+      "patches": [
+        {
+          "va": "0x241a238",
+          "offset": 37855800,
+          "old_hex": "75804639",
+          "new_hex": "15008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a2c8",
+          "offset": 37855944,
+          "old_hex": "95224139",
+          "new_hex": "15008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a488",
+          "offset": 37856392,
+          "old_hex": "75804639",
+          "new_hex": "15008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a4f4",
+          "offset": 37856500,
+          "old_hex": "75204139",
+          "new_hex": "15008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a758",
+          "offset": 37857112,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a760",
+          "offset": 37857120,
+          "old_hex": "80c24239",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a77c",
+          "offset": 37857148,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a784",
+          "offset": 37857156,
+          "old_hex": "81c24239",
+          "new_hex": "01008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a7e0",
+          "offset": 37857248,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a844",
+          "offset": 37857348,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a940",
+          "offset": 37857600,
+          "old_hex": "80224139",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x241a950",
+          "offset": 37857616,
+          "old_hex": "80c24239",
+          "new_hex": "00008052",
+          "purpose": "percentage_display"
+        },
+        {
+          "va": "0x1bae40c",
+          "offset": 29025292,
+          "old_hex": "00004039",
+          "new_hex": "20008052",
+          "purpose": "using battery caution"
+        },
+        {
+          "va": "0x1bae480",
+          "offset": 29025408,
+          "old_hex": "00004039",
+          "new_hex": "20008052",
+          "purpose": "secondary battery caution"
+        },
+        {
+          "va": "0x2108814",
+          "offset": 34637844,
+          "old_hex": "1c004039",
+          "new_hex": "3c008052",
+          "purpose": "startup caution path A"
+        },
+        {
+          "va": "0x2108cd0",
+          "offset": 34639056,
+          "old_hex": "1b004039",
+          "new_hex": "3b008052",
+          "purpose": "startup caution path B"
+        }
+      ]
+    }
+  ],
+  "historical_evidence": {
+    "percentage_display": "User reported working; running AP hash not read back.",
+    "new_caution_suppression": "No dedicated physical acceptance test."
+  }
+}

@@ -10,6 +10,7 @@
 | [DavidBuchanan314/fwtool.py — a7iv](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) | A7 IV firmware format / container extraction reference | Fork and branch identified separately from its ancestor; external tool, not vendored. |
 | [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | Sony UFU/firmware format and extraction foundation | Upstream MIT source; attribution retained by reference, not copied here. |
 | [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | Sony camera interfaces, protocol/service and firmware research background | MIT upstream; research reference, not a runtime requirement of this host. |
+| [ExifTool](https://exiftool.org/) / [Sony LensType2](https://exiftool.org/TagNames/Sony.html) | Lens ID category cross-checks for the third-party lens research | Reference table, not a runtime dependency or physical lens-test evidence. No source/data table is copied here. |
 | [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker) | Public firmware decryption/key derivation research; credits fwtool | Public reference, not a claim of MIT permission for all attached artifacts. No archive copied. |
 | [DavidBuchanan314/Sony-ILCE-7M4-Linux](https://github.com/DavidBuchanan314/Sony-ILCE-7M4-Linux) | Linux/platform source, hardware context | Kernel/reference source under its own per-file terms. Not decompiled firmware or an included payload. |
 

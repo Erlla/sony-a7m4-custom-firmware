@@ -2,7 +2,7 @@
 
 [English](README.en.md) · 中文
 
-针对 **Sony ILCE-7M4（A7 IV / A7M4）** 的社区研究。提供精简的 Windows fastboot 主机工具、可审查的源码和三份独立方法。与索尼公司无隶属关系。现有补丁基线为 **A7M4 官方 6.02**；FL2/FL3 供体为 **FX2 1.01**。实验固件版本号不代表索尼官方版本。
+针对 **Sony ILCE-7M4（A7 IV / A7M4）** 的社区研究。提供精简的 Windows fastboot 主机工具、可审查的源码和五份独立方法。与索尼公司无隶属关系。主要补丁源于 **A7M4 官方 6.02**；FL2/FL3 供体为 **FX2 1.01**。各方法按文件哈希严格识别支持基线；镜头方法另列历史实验6.13 CP。实验固件版本号不代表索尼官方版本。
 
 ## 先读风险与备份要求
 
@@ -14,15 +14,19 @@
 - **刷机需要一条自制刷机线**：相机 Multi 接口引出线 + RP2040-Zero 启动桥 + 共地与正确的电平接口；普通 USB 数据线不能代替。请先读 [接线说明](docs/wiring.md)。不要将 RP2040 的 3.3 V 推挽输出直接接入相机约 1.8 V 信号。
 - 不支持把本机固定地址补丁直接套用到其他机型或固件版本；版本号相近也不表示二进制兼容。
 
-## 三个独立方法
+## 五个独立方法
 
 | 方法 | 单独入口 | 本仓库提供的内容 |
 |---|---|---|
 | 1. 取代官方更新公钥，并修改公钥真实性验证 | [中文](methods/01-custom-signing/README.md) / [English](methods/01-custom-signing/README.en.md) | 从本机更新器镜像替换 PEM，校验四库原函数后修改 `verifyKey`，重建 SquashFS/校验和；发布维护者原有密钥对和 DAT 重新签名工具 |
 | 2. 自行设置报告的固件版本 | [中文](methods/02-firmware-version/README.md) / [English](methods/02-firmware-version/README.en.md) | 解析本机 FAT，修改 `updater/dat4` 的两字节 BCD，支持 `0.00`–`9.99`，保留其余内容 |
-| 3. FL2 / FL3 移植与刷入 | [中文](methods/03-fl2-fl3/README.md) / [English](methods/03-fl2-fl3/README.en.md) | AP/CP 精确补丁、FX2 数据提取/格式转换、机身配置副本处理，以及 eMMC / 独立 NOR 安装与验收方法 |
+| 3. FL2 / FL3 移植与刷入 | [中文](methods/03-fl2-fl3/README.md) / [English](methods/03-fl2-fl3/README.en.md) | AP/CP、供体数据转换、配置及 NOR 同步；**当前滤镜颜色与官方版本存在差异** |
+| 4. 副厂电池电量显示与提示限制 | [中文](methods/04-third-party-battery/README.md) / [English](methods/04-third-party-battery/README.en.md) | 16条 AP 指令恢复真实电量显示、跳过副厂提示，保留认证源状态与充电/温度保护；附精确配方、离线补丁与回滚 |
+| 5. 副厂镜头能力过滤与对焦速度限制 | [中文](methods/05-third-party-lens-af/README.md) / [English](methods/05-third-party-lens-af/README.en.md) | 六处 CP 局部修改，保留镜头已上报能力和速度 profile；**对焦速度改善未经实机测试** |
 
 方法 1 不会自动安装 FL2/FL3；方法 2 修改的是报告版本，不能自动使旧程序具备新功能。方法 3 的安装前提与完整流程在自己的文档中说明。
+
+**当前 FL2/FL3 移植滤镜的颜色与索尼官方版本存在差异，不能当作官方 FX2 原生 FL2/FL3 的色彩复刻。副厂镜头对焦速度限制修改尚未经过实机测试，效果未知。** 方法4、5独立提供原理、基线、补丁和验证边界；SD 构建只有显式传入 `--battery` / `--lens-af` 才合并对应功能。
 
 ## Fastboot 工具
 
@@ -61,6 +65,7 @@ py -3 -m venv .venv
 - [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE)：串行启动、RP2040 桥、相机 fastboot payload、eMMC 访问。
 - [DavidBuchanan314/fwtool.py，a7iv 分支](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) 与 [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py)：升级包格式、解包与研究。
 - [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE)：索尼相机协议与固件研究背景。
+- [ExifTool](https://exiftool.org/) 的 [Sony LensType2 表](https://exiftool.org/TagNames/Sony.html)：镜头 ID 类别的研究参考，不代替实际镜头采样。
 - [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker)：固件解密与密钥推导研究参考。
 - [DavidBuchanan314/Sony-ILCE-7M4-Linux](https://github.com/DavidBuchanan314/Sony-ILCE-7M4-Linux)：平台 Linux 参考源码。
 - [AOSP fastboot](https://android.googlesource.com/platform/system/core/+/refs/heads/main/fastboot/) 与 [squashfs-tools-ng](https://github.com/AgentD/squashfs-tools-ng)：主机 USB 工具与更新器文件系统重建。

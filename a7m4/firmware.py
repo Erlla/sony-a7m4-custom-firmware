@@ -226,6 +226,7 @@ def build(args):
     cr = json.loads((RECIPES / "cp-v7-recipe.json").read_text("utf-8"))
     ap, cp = (products / "appFw.so").read_bytes(), (products / "CPAPP-B.BIN").read_bytes()
     require(digest(ap) == ar["target_sha256"] and digest(cp) == cr["target_sha256"], "COMPONENT", "Components differ from the reviewed FL2/FL3 recipe")
+    ap, cp, feature_evidence = optional_features(ap, cp, battery=args.battery, lens_af=args.lens_af)
     changes, details = {}, {}
     with plain.open("r+b") as stream:
         def read(name):
@@ -289,11 +290,23 @@ def build(args):
     report = {"official_sha256": OFFICIAL_SHA256, "ap_sha256": digest(ap), "cp_sha256": digest(cp),
               "version": args.version, "changed_members": list(changes), "updater": details,
               "encoding": encoding, "signing": signing, "final_decoding": final_decoding,
-              "camera_io": False, "camera_tested": False,
+              "camera_io": False, "camera_tested": False, "optional_features": feature_evidence,
+              "fl23_color_matches_official": False,
               "personalization_embedded": False, "nor_updated": False,
               "prerequisites": ["Install/recheck this camera's nfa2/nfa6 color and slot changes separately", "Installed updater must already trust the signing public key", "Physical NOR synchronization occurs during matching official SD update scripts, not during this build", "Read back NOR/eMMC and check settings after installation"]}
     (args.output / "verification.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2))
+
+
+def optional_features(ap, cp, *, battery=False, lens_af=False):
+    """Explicit opt-in only; ordinary FL2/FL3 builds retain their original scope."""
+    from .features import apply_feature
+    evidence = {}
+    if battery:
+        ap, evidence["battery"] = apply_feature(ap, "battery")
+    if lens_af:
+        cp, evidence["lens-af"] = apply_feature(cp, "lens-af")
+    return ap, cp, evidence
 
 
 def main():
@@ -311,6 +324,8 @@ def main():
         package.add_argument("--" + name, type=Path, required=True)
     package.add_argument("--resources", type=Path)
     package.add_argument("--version", default="6.05")
+    package.add_argument("--battery", action="store_true", help="Opt into the independent battery display/caution patch")
+    package.add_argument("--lens-af", action="store_true", help="UNTESTED: opt into the independent scoped lens capability filter patch; no physical speed testing")
     args = parser.parse_args()
     if args.command == "decode":
         print(json.dumps(decode(args.source, output=args.output, compare=args.compare), indent=2))
@@ -332,6 +347,8 @@ def main():
         (args.output / "CPAPP-B.BIN").write_bytes(cp)
         print(json.dumps({"camera_io": False, "ap_sha256": digest(ap), "cp_sha256": digest(cp)}, indent=2))
     else:
+        if args.lens_af:
+            print("UNTESTED: lens focus-speed, AF-tracking and burst-performance improvements have not undergone physical testing.", flush=True)
         build(args)
 
 

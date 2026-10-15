@@ -223,6 +223,7 @@ def main():
         products["nflasha8.bin"] = (fs.bytes(), digest(original))
     args.output.mkdir(parents=True)
     report = {"baseline": "ILCE-7M4 official 6.02 / FX2 1.01", "camera_io": False,
+              "fl23_color_matches_official": False,
               "installable_dat": False, "nor_updated": False, "outputs": {}}
     for name, (data, source_hash) in products.items():
         evidence = {"source_sha256": source_hash, "method": "FL2/FL3 v7"}

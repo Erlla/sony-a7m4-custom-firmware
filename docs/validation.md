@@ -2,7 +2,9 @@
 
 日期 / Date: 2026-10-15. 机器可读结果：[validation-results.json](validation-results.json)。
 
-## 本次源码验证 / Current source validation
+本页保留首次发布的81项测试及FL2/FL3包验证。新增方法4/5的最新100项测试、分区/组合包检查与未测试状态见 [新增方法验证](features-validation.md)。当前FL2/FL3颜色与官方版本存在差异；镜头对焦速度修改未经实机测试。 / This page retains the initial81-test release evidence. See [feature validation](features-validation.md) for the latest 100-test extension, filesystem/package checks and untested status. Current FL2/FL3 colors differ from the official version; lens speed effects have not undergone physical testing.
+
+## 首次发布源码验证 / Initial source release validation
 
 - 在新的 Python 3.12 虚拟环境安装核心、测试和可选固件依赖；81 项自动测试通过。 / Installed in a fresh Python 3.12 environment; 81 automated tests passed.
 - 合成相机测试覆盖完整备份门控、取消/短读/校验失败、会话过期、同机绑定、写前源变化、精确确认、写后整分区哈希、恢复约束和真实 Windows BAT 的中文/空格路径。测试不会接触设备。 / Synthetic transport tests cover backup gates, failure/cancellation, session invalidation, content binding, stale sources, exact confirmation, full readback, restore restrictions and the actual Windows BAT with localized/spaced paths. No hardware is contacted.

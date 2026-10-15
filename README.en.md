@@ -2,7 +2,7 @@
 
 English · [中文](README.md)
 
-Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source and three separate methods. This project is not affiliated with Sony. Current binary recipes target **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Experimental version numbers are not official Sony releases.
+Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source and five separate methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method; the lens method also identifies historical experimental 6.13 CP. Experimental version numbers are not official Sony releases.
 
 ## Risk and mandatory backups
 
@@ -14,15 +14,19 @@ Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastb
 - **A custom flashing cable is required**: a camera Multi-port breakout, an RP2040-Zero boot bridge, common ground and an electrically correct interface. An ordinary USB cable alone is insufficient. Read [wiring](docs/wiring.en.md) first. Never drive the camera's approximately 1.8 V signals directly with 3.3 V push-pull GPIO.
 - Fixed binary offsets are specific to the documented model and source hashes. Similar version numbers do not imply compatibility.
 
-## Three independent methods
+## Five independent methods
 
 | Method | Separate guide | Included material |
 |---|---|---|
 | 1. Replace the official update key and modify public-key authenticity verification | [English](methods/01-custom-signing/README.en.md) / [中文](methods/01-custom-signing/README.md) | Per-camera PEM replacement, verified four-library `verifyKey` patch, SquashFS/checksum rebuild, maintainer's existing key pair, DAT re-signing utility |
 | 2. Set the reported firmware version | [English](methods/02-firmware-version/README.en.md) / [中文](methods/02-firmware-version/README.md) | Bounded FAT editing of the two BCD bytes in `updater/dat4`, accepting `0.00`–`9.99` while preserving other contents |
-| 3. Port and install FL2 / FL3 | [English](methods/03-fl2-fl3/README.en.md) / [中文](methods/03-fl2-fl3/README.md) | Exact AP/CP recipes, donor extraction/conversion, per-camera configuration copies, eMMC / separate NOR installation and acceptance procedure |
+| 3. Port and install FL2 / FL3 | [English](methods/03-fl2-fl3/README.en.md) / [中文](methods/03-fl2-fl3/README.md) | AP/CP, donor conversion, configuration and NOR synchronization; **current filter colors differ from the official version** |
+| 4. Third-party battery percentage/caution restrictions | [English](methods/04-third-party-battery/README.en.md) / [中文](methods/04-third-party-battery/README.md) | 16 AP instructions restoring reported percentage/suppressing caution, preserving authentication state and charging/temperature protection; exact recipes, offline patching and reversal |
+| 5. Third-party lens capability filtering / focus-speed restrictions | [English](methods/05-third-party-lens-af/README.en.md) / [中文](methods/05-third-party-lens-af/README.md) | Six scoped CP regions retaining reported capabilities and speed profiles; **focus-speed improvements are untested on hardware** |
 
 Method 1 does not install FL2/FL3 automatically. Method 2 changes the reported version and does not add new firmware features. Method 3 documents its own prerequisites and complete installation sequence.
+
+**Current FL2/FL3 port colors differ from Sony's official version; this is not a color-identical reproduction of native FX2 FL2/FL3. Third-party lens focus-speed restriction removal has not undergone physical testing; performance effects are unknown.** Methods 4/5 separately document mechanisms, identities, recipes and validation limits. SD builds include them only through explicit `--battery` / `--lens-af` options.
 
 ## Fastboot host
 
@@ -61,6 +65,7 @@ Projects directly used or referenced for this release are listed below. [The ful
 - [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE): serial boot, RP2040 bridge, camera fastboot payload and eMMC access.
 - [DavidBuchanan314/fwtool.py, a7iv branch](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) and [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py): firmware container formats and extraction.
 - [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE): Sony camera protocols and firmware research.
+- [ExifTool](https://exiftool.org/) and its [Sony LensType2 table](https://exiftool.org/TagNames/Sony.html): lens ID category research, not a substitute for actual lens telemetry.
 - [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker): firmware decryption and key derivation research.
 - [DavidBuchanan314/Sony-ILCE-7M4-Linux](https://github.com/DavidBuchanan314/Sony-ILCE-7M4-Linux): platform Linux reference source.
 - [AOSP fastboot](https://android.googlesource.com/platform/system/core/+/refs/heads/main/fastboot/) and [squashfs-tools-ng](https://github.com/AgentD/squashfs-tools-ng): USB host tooling and updater filesystem rebuilding.

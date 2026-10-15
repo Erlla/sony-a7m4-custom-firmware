@@ -1,6 +1,6 @@
 # Contributions / 贡献说明
 
-修改前阅读中英文 README、三份独立方法和验证范围。每个新固件基线应记录机型、原始文件 SHA-256、ELF/CP 地址映射、明确的改动范围、回滚方式及验证证据。原生函数回放、完整包校验和实机测试应分别说明。
+修改前阅读中英文 README、各独立方法和验证范围。每个新固件基线应记录机型、原始文件 SHA-256、ELF/CP 地址映射、明确的改动范围、回滚方式及验证证据。原生函数回放、完整包校验和实机测试应分别说明。镜头对焦速度功能必须保留未经实机测试状态；FL2/FL3 的当前颜色差异不得描述为官方色彩一致。
 
 Please identify each new firmware baseline with model, input hashes, address mappings, bounded changes, rollback and verification evidence. Keep native instruction replay, container validation and hardware acceptance distinct.
 

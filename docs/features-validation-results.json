@@ -1,0 +1,136 @@
+{
+  "date": "2026-10-15",
+  "automated_tests_passed": 100,
+  "camera_io": false,
+  "physical_lens_speed_tested": false,
+  "lens_release_status": "UNTESTED ON HARDWARE: no physical focus-speed, AF-tracking or burst-performance testing",
+  "fl23_color_matches_official": false,
+  "fl23_color_notice": "Current FL2/FL3 port colors differ from Sony official native FL2/FL3.",
+  "profiles": [
+    {
+      "profile": "battery-stock",
+      "feature": "battery",
+      "baseline": "Official A7M4 6.02 AP",
+      "undo": false,
+      "source_sha256": "1e1b9202eaa69198f20df03dbfdab2f103b206cc4ebcd2e7bd817e6a710018a2",
+      "output_sha256": "6fb340604f6dc1a2abb8dbd208e3e380d3789f2756d7abde0f521fdeb49f6920",
+      "changed_bytes": 60,
+      "patch_regions": 16,
+      "hardware_tested": false,
+      "camera_io": false,
+      "status": "Offline recipe; see documented hardware limits",
+      "scope": "Local NG-dependent percentage suppression and four accepted-caution reads only. No authentication source, charging, temperature or shutdown patch.",
+      "exact_roundtrip": true
+    },
+    {
+      "profile": "battery-fl23",
+      "feature": "battery",
+      "baseline": "Published FL2/FL3 AP on 6.02",
+      "undo": false,
+      "source_sha256": "d17e61fb4ba193d8e7d802196edff5f578d5691b3fcc4abcd1cbbb6e58bdd8ff",
+      "output_sha256": "6aad5c6400170365523c1737404053f53c05b89734a89e5fda734dde5eff7e2a",
+      "changed_bytes": 60,
+      "patch_regions": 16,
+      "hardware_tested": false,
+      "camera_io": false,
+      "status": "Offline recipe; see documented hardware limits",
+      "scope": "Local NG-dependent percentage suppression and four accepted-caution reads only. No authentication source, charging, temperature or shutdown patch.",
+      "exact_roundtrip": true
+    },
+    {
+      "profile": "lens-fl23",
+      "feature": "lens-af",
+      "baseline": "Published FL2/FL3 v7 CP on 6.02; newly bound experimental profile",
+      "undo": false,
+      "source_sha256": "4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479",
+      "output_sha256": "fdf131baa7c951ecf07e14ab47137fd00bbff71301995faf55f2e136b2e0a160",
+      "changed_bytes": 52,
+      "patch_regions": 6,
+      "hardware_tested": false,
+      "camera_io": false,
+      "status": "UNTESTED: no physical AF speed, tracking or burst-performance testing.",
+      "scope": "Five scoped capability/parameter consumers and a 34-byte helper; not a global classifier patch or hardcoded motor speed.",
+      "exact_roundtrip": true
+    },
+    {
+      "profile": "lens-historical",
+      "feature": "lens-af",
+      "baseline": "Historical experimental 6.13 CP; original 6.14/6.15 delta",
+      "undo": false,
+      "source_sha256": "290e1ccec739ddf9604dc928663c934cb2e04c5976fef32ca35ebe582042380d",
+      "output_sha256": "1c34764fe413d4c0d720d629e323996498305fc29e5c53d2c52d0cca0c0d1504",
+      "changed_bytes": 52,
+      "patch_regions": 6,
+      "hardware_tested": false,
+      "camera_io": false,
+      "status": "UNTESTED: no physical AF speed, tracking or burst-performance testing.",
+      "scope": "Five scoped capability/parameter consumers and a 34-byte helper; not a global classifier patch or hardcoded motor speed.",
+      "exact_roundtrip": true,
+      "exact_historical_artifact_match": true
+    }
+  ],
+  "helper_instruction_replay": {
+    "cases": 20,
+    "original_helper_bytes_executed": true,
+    "all_expected_results": true,
+    "r1_r12_sp_lr_preserved": true,
+    "source_state_unchanged": true,
+    "inputs": "synthetic compatibility flag and configuration bytes",
+    "whole_camera_emulated": false,
+    "physical_focus_speed_tested": false,
+    "camera_io": false
+  },
+  "partition_fixtures": {
+    "camera_io": false,
+    "fixtures": "DAT member images used only as offline filesystem fixtures, not represented as full physical partition backups",
+    "results": [
+      {
+        "feature": "battery",
+        "real_filesystem_fixture": true,
+        "same_partition_length": true,
+        "program_sha256": "6aad5c6400170365523c1737404053f53c05b89734a89e5fda734dde5eff7e2a",
+        "changed_bytes": 60,
+        "all_other_partition_bytes_preserved": true,
+        "exact_partition_roundtrip": true
+      },
+      {
+        "feature": "lens-af",
+        "real_filesystem_fixture": true,
+        "same_partition_length": true,
+        "program_sha256": "fdf131baa7c951ecf07e14ab47137fd00bbff71301995faf55f2e136b2e0a160",
+        "changed_bytes": 52,
+        "all_other_partition_bytes_preserved": true,
+        "exact_partition_roundtrip": true
+      }
+    ]
+  },
+  "independent_package_audit": {
+    "blocks_verified": 739727,
+    "plaintext_sha256": "35f5ef8d45c4d3ca6e183a151fe2d9d518626d12e9df092a8cf879228477424b",
+    "plaintext_size": 754521088,
+    "compared_byte_for_byte": true,
+    "rsa_signature_verified": true,
+    "dend_crc_verified": true,
+    "header_crc_verified": true,
+    "images_crc_verified": [
+      "0700_part_image/dev/nflasha5",
+      "0700_part_image/dev/nflasha15",
+      "0700_part_image/dev/nflasha8",
+      "0700_part_image/dev/nflasha7",
+      "0700_part_image/dev/nflasha3",
+      "0400_updater/dev/nflasha1"
+    ],
+    "warm_boot_marker": "WBI3",
+    "camera_io": false,
+    "hardware_acceptance": false
+  },
+  "embedded_feature_audit": {
+    "ap_sha256": "6aad5c6400170365523c1737404053f53c05b89734a89e5fda734dde5eff7e2a",
+    "cp_sha256": "fdf131baa7c951ecf07e14ab47137fd00bbff71301995faf55f2e136b2e0a160",
+    "embedded_programs_match_recipe_targets": true,
+    "lens_hardware_tested": false,
+    "fl23_color_matches_official": false,
+    "camera_io": false
+  },
+  "distribution": "Source, recipes and validation metadata only; all firmware, donor and partition images remain ignored locally."
+}

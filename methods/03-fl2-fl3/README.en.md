@@ -2,7 +2,9 @@
 
 [中文](README.md) · [Risks and backups](../../README.en.md)
 
-This guide covers FL2/FL3 Creative Looks independently. Enabling a menu or flashing only `nflasha8` is insufficient. The complete combination involves AP, CP, color data, settings copies and separate physical CP NOR. It preserves camera calibration and does not establish pixel-identical output to a physical FX2.
+This guide covers FL2/FL3 Creative Looks independently. **Current port colors differ from Sony's official version; this is not a color-identical reproduction of native FX2 FL2/FL3.** Camera calibration is retained and pixel equivalence is not claimed.
+
+Enabling a menu or flashing only `nflasha8` is insufficient. The complete combination involves AP, CP, color data, settings copies and separate physical CP NOR.
 
 ## Exact baseline and published artifacts
 
@@ -133,3 +135,5 @@ Omit `--swap16` if the dump is already normalized. This command compares local f
 Take new FL2 and FL3 ARW/JPEG photographs and verify shooting menus, colors, playback icons, movies, power-cycle persistence and old looks. Expected new-image MakerNote B020 is FL2/FL3; B029 is22/23. Old photographs do not gain new metadata. Test factory reset, special modes and migration separately.
 
 Historical feedback confirmed shooting/movie names and color changes, and explicitly confirmed **correct FL3 playback after the 2026-10-11 update**. Post-update FL2 playback, raw MakerNote values, NOR/eMMC hashes, persistence and all modes have not all been accepted. Current offline reproduction does not resolve those hardware unknowns; the newly constructed package has not been flashed. See [validation](../../docs/validation.md).
+
+Correct menu/playback names and matching donor records do not establish official color equivalence: **the current color differences remain**. Optional battery and lens changes are documented separately in [Method 4](../04-third-party-battery/README.en.md) and [Method 5 (untested on hardware)](../05-third-party-lens-af/README.en.md); neither is included in default FL2/FL3 builds.

@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "feature": "lens-af",
+  "target": "CPAPP-B.BIN",
+  "hardware_tested": false,
+  "status": "UNTESTED: no physical AF speed, tracking or burst-performance testing.",
+  "scope": "Five scoped capability/parameter consumers and a 34-byte helper; not a global classifier patch or hardcoded motor speed.",
+  "profiles": [
+    {
+      "baseline": "Published FL2/FL3 v7 CP on 6.02; newly bound experimental profile",
+      "size": 16236816,
+      "source_sha256": "4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479",
+      "target_sha256": "fdf131baa7c951ecf07e14ab47137fd00bbff71301995faf55f2e136b2e0a160",
+      "changed_bytes": 52,
+      "patches": [
+        {
+          "va": "0x3b3cb4",
+          "offset": 2800820,
+          "old_hex": "e3f1b0f4",
+          "new_hex": "f1f3a4f0",
+          "purpose": "info7 raw lens descriptor calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0x3b3006",
+          "offset": 2797574,
+          "old_hex": "e4f107f3",
+          "new_hex": "f1f3fbf6",
+          "purpose": "info8 raw focus-drive parameters calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0x3b321e",
+          "offset": 2798110,
+          "old_hex": "e4f1fbf1",
+          "new_hex": "f1f3eff5",
+          "purpose": "info3D extended AF capabilities and speed-profile flags calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0x990adc",
+          "offset": 8948444,
+          "old_hex": "06f09cfd",
+          "new_hex": "14f290f9",
+          "purpose": "physical capability publication bits12/15/21 calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0x990bac",
+          "offset": 8948652,
+          "old_hex": "06f034fd",
+          "new_hex": "14f228f9",
+          "purpose": "physical capability publication bits28/29 calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0xba4e00",
+          "offset": 11128320,
+          "old_hex": "00000000000000000000000000000000000000000000000000000000000000000000",
+          "new_hex": "06b443f27470c0f24f100078012806d14cf23071c0f20411c97d01b9002006bc7047",
+          "purpose": "34B scoped getter, preserve r1/r2, SP/LR and unknown/debug config; only original flag1 plus automatic config0 returns0"
+        }
+      ]
+    },
+    {
+      "baseline": "Historical experimental 6.13 CP; original 6.14/6.15 delta",
+      "size": 16236816,
+      "source_sha256": "290e1ccec739ddf9604dc928663c934cb2e04c5976fef32ca35ebe582042380d",
+      "target_sha256": "1c34764fe413d4c0d720d629e323996498305fc29e5c53d2c52d0cca0c0d1504",
+      "changed_bytes": 52,
+      "patches": [
+        {
+          "va": "0x3b3cb4",
+          "offset": 2800820,
+          "old_hex": "e3f1b0f4",
+          "new_hex": "f1f3a4f0",
+          "purpose": "info7 raw lens descriptor calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0x3b3006",
+          "offset": 2797574,
+          "old_hex": "e4f107f3",
+          "new_hex": "f1f3fbf6",
+          "purpose": "info8 raw focus-drive parameters calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0x3b321e",
+          "offset": 2798110,
+          "old_hex": "e4f1fbf1",
+          "new_hex": "f1f3eff5",
+          "purpose": "info3D extended AF capabilities and speed-profile flags calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0x990adc",
+          "offset": 8948444,
+          "old_hex": "06f09cfd",
+          "new_hex": "14f290f9",
+          "purpose": "physical capability publication bits12/15/21 calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0x990bac",
+          "offset": 8948652,
+          "old_hex": "06f034fd",
+          "new_hex": "14f228f9",
+          "purpose": "physical capability publication bits28/29 calls scoped auto-category getter; debug/unknown flags preserved"
+        },
+        {
+          "va": "0xba4e00",
+          "offset": 11128320,
+          "old_hex": "00000000000000000000000000000000000000000000000000000000000000000000",
+          "new_hex": "06b443f27470c0f24f100078012806d14cf23071c0f20411c97d01b9002006bc7047",
+          "purpose": "34B scoped getter, preserve r1/r2, SP/LR and unknown/debug config; only original flag1 plus automatic config0 returns0"
+        }
+      ]
+    }
+  ],
+  "binding_checks": [
+    {
+      "offset": 1260,
+      "old_hex": "0f30a0e3",
+      "purpose": "Existing rodata executable mapping parameter; do not apply to original XN mapping."
+    }
+  ],
+  "code_identity_to_historical_613": [
+    {
+      "va_start": "0x3b3000",
+      "va_end_exclusive": "0x3b4000",
+      "sha256": "add7924bb681207ebc2019ce132608340a986b06dde4947febd2a21826a44112",
+      "identical": true
+    },
+    {
+      "va_start": "0x390000",
+      "va_end_exclusive": "0x396000",
+      "sha256": "47380b5c45a84f102d4cd5b555957ec2b215ec4a108904da4d3d1bb666616583",
+      "identical": true
+    },
+    {
+      "va_start": "0x950000",
+      "va_end_exclusive": "0x960000",
+      "sha256": "be62e1d71ce3c35f59b01dae76b075f84e8abc21c346b500f644e63153dfff82",
+      "identical": true
+    },
+    {
+      "va_start": "0x990000",
+      "va_end_exclusive": "0x998000",
+      "sha256": "abbe8b6b66bb2e01aace064ef0c7d1d6b4030b84abdf17906084fdeee4dac2e8",
+      "identical": true
+    }
+  ],
+  "historical_evidence": {
+    "bounded_native_replay": 1216,
+    "reachability_cases": 52,
+    "unknown_flag_cases": 16,
+    "independent_native_cases": 98,
+    "physical_speed_improvement_tested": false
+  }
+}
