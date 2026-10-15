@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sony-a7m4-custom-firmware"
+version = "0.2.0"
+description = "Sony ILCE-7M4 fastboot maintenance and independent firmware research recipes"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = ["pyserial==3.5", "pyelftools==0.32", "cryptography==46.0.3"]
+
+[project.optional-dependencies]
+test = ["pytest==8.4.2"]
+firmware = ["numpy>=2,<3", "dissect.extfs==3.15", "dissect.util==3.24"]
+
+[project.scripts]
+a7m4 = "a7m4.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["a7m4*"]
+
+[tool.setuptools.package-data]
+a7m4 = ["profiles/*.json", "profiles/fl23/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

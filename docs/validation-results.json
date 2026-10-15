@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-15",
+  "camera_io": false,
+  "automated_tests_passed": 81,
+  "fresh_environment": true,
+  "python": "3.12",
+  "ap_sha256": "d17e61fb4ba193d8e7d802196edff5f578d5691b3fcc4abcd1cbbb6e58bdd8ff",
+  "cp_sha256": "4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479",
+  "ap_cp_match_reviewed_targets": true,
+  "personal_settings_exact_historical_v6": true,
+  "already_patched_color_partition_retained": true,
+  "published_key_pair_match": true,
+  "published_public_der_sha256": "eed3fd52e3adc60ef13b584bc0b50345ee96639be81efa02e0031a6eccc65e76",
+  "sd_build_version": "6.05",
+  "new_package_hardware_tested": false,
+  "independent_struct_codec_audit": {
+    "blocks_verified": 739727,
+    "plaintext_sha256": "724ade0f7a77c99e8599cea7cec77da9278847769b6c7f75c867722af2a36717",
+    "plaintext_size": 754521088,
+    "compared_byte_for_byte": true,
+    "rsa_signature_verified": true,
+    "dend_crc_verified": true,
+    "header_crc_verified": true,
+    "images_crc_verified": [
+      "0700_part_image/dev/nflasha5",
+      "0700_part_image/dev/nflasha15",
+      "0700_part_image/dev/nflasha8",
+      "0700_part_image/dev/nflasha7",
+      "0700_part_image/dev/nflasha3",
+      "0400_updater/dev/nflasha1"
+    ],
+    "warm_boot_marker": "WBI3",
+    "camera_io": false,
+    "hardware_acceptance": false
+  },
+  "versions": {
+    "pyserial": "3.5",
+    "pyelftools": "0.32",
+    "cryptography": "46.0.3",
+    "numpy": "2.5.4",
+    "dissect.extfs": "3.15",
+    "dissect.util": "3.24",
+    "pytest": "8.4.2"
+  },
+  "publication": "Source, recipes, documentation and the specifically authorized existing key pair only. Firmware, donor and personalized images stay local.",
+  "target_and_donor_extraction_cli_verified": true,
+  "boot_bridge_versions_tested": [
+    "uart_boot 1",
+    "uart_boot 2",
+    "unknown rejected"
+  ]
+}

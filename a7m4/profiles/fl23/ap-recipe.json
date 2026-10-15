@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "model": "ILCE-7M4",
+  "baseline": "Official 6.02",
+  "size": 98212632,
+  "source_sha256": "1e1b9202eaa69198f20df03dbfdab2f103b206cc4ebcd2e7bd817e6a710018a2",
+  "target_sha256": "d17e61fb4ba193d8e7d802196edff5f578d5691b3fcc4abcd1cbbb6e58bdd8ff",
+  "patches": [
+    {
+      "offset": 56517208,
+      "old_sha256": "9e9b062c5bba2d29af55316ef6e382769cce36ab25e6aba18c7126ddbb74eb34",
+      "new_hex": "3f2c007168030054a000001000486138faffff171f2003d51f2003d500030201100f1112050d1314",
+      "purpose": "look to CP color converter; look 10/11 -> color 19/20"
+    },
+    {
+      "offset": 66971060,
+      "old_sha256": "d27825425333bbf341025512230d1090972733067cfc4068c6ebc063294862e4",
+      "new_hex": "01000100010001000100010001000100010001000100010001000100010001000100010001000100",
+      "purpose": "FL2 row model profile flags: last 16 uint16 flags 0 -> 1"
+    },
+    {
+      "offset": 66971188,
+      "old_sha256": "d27825425333bbf341025512230d1090972733067cfc4068c6ebc063294862e4",
+      "new_hex": "01000100010001000100010001000100010001000100010001000100010001000100010001000100",
+      "purpose": "FL3 row model profile flags: last 16 uint16 flags 0 -> 1"
+    },
+    {
+      "offset": 78350666,
+      "old_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "new_hex": "0101",
+      "purpose": "look support mask index 10/11: 00 00 -> 01 01"
+    },
+    {
+      "offset": 78355233,
+      "old_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "new_hex": "0101",
+      "purpose": "main style support mask index 17/18: 00 00 -> 01 01"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "purpose": "Owner-authorized publication of an existing experimental signing identity. Private key is intentionally public.",
+  "algorithm": "RSA-2048, e=65537",
+  "public_der_sha256": "eed3fd52e3adc60ef13b584bc0b50345ee96639be81efa02e0031a6eccc65e76",
+  "files": {
+    "A7M4_updater_private.pem": "2f69f8feade5f651484a5ff44f9b3e8e2aa471f0c025507d82b55542894a82fe",
+    "A7M4_updater_public.pem": "c39f3d878e129bbac87ad346182df754d7dd99d80c35c38bbb6517e37ca8e449"
+  }
+}

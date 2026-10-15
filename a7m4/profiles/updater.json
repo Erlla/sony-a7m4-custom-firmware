@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "scope": "Existing workspace A7M4 updater; function-content match only. No claim of all-version support.",
+  "official_keys": [
+    "be79b3323d7d92dff52175fc6d12825d73cfc68c32e4fcbca5c7d36fc04bdf10"
+  ],
+  "functions": {
+    "libsdfileinputupdaterapi.so": [
+      "a927b7070797c5ad895059665422905df175674e557bdbd764ffa653aa6c3bb7"
+    ],
+    "libseninputupdaterapi.so": [
+      "bd6b29691948841658967af1d8199ad5bb72c1b4e3e40f536bf48389177a9ff1"
+    ],
+    "libupdaterapi.so": [
+      "12ee50c9459b3422eafab96bc83215e0e7cef1e7bc17d3c22bc498ab3d9c3515"
+    ],
+    "libuudfileinputupdaterapi.so": [
+      "d5b285358774ca5e81a50fbce8feeb2bd5a9494666c9dfef7c0716a98a95b044"
+    ]
+  },
+  "evidence": [
+    {
+      "library": "libsdfileinputupdaterapi.so",
+      "sha256": "257164d1cdf88757b8c0e2ba08ac47b06c46007410af308b7a8571b442b00cd2",
+      "function_sha256": "a927b7070797c5ad895059665422905df175674e557bdbd764ffa653aa6c3bb7",
+      "offset": 43432,
+      "size": 584,
+      "entry": "fd7bb2a9e00301aa"
+    },
+    {
+      "library": "libseninputupdaterapi.so",
+      "sha256": "3240c3c70aaa645de3af74101cd4fb85263ec478cff830993a5cd4ba0a6bd704",
+      "function_sha256": "bd6b29691948841658967af1d8199ad5bb72c1b4e3e40f536bf48389177a9ff1",
+      "offset": 21060,
+      "size": 584,
+      "entry": "fd7bb2a9e00301aa"
+    },
+    {
+      "library": "libupdaterapi.so",
+      "sha256": "1b334b9fb100601b1f8bc764cd9244bb32c2906101f4b2a8c0bd2e8d684df351",
+      "function_sha256": "12ee50c9459b3422eafab96bc83215e0e7cef1e7bc17d3c22bc498ab3d9c3515",
+      "offset": 78628,
+      "size": 584,
+      "entry": "fd7bb2a9e00301aa"
+    },
+    {
+      "library": "libuudfileinputupdaterapi.so",
+      "sha256": "f8a622fd2b038080cf682b22febe60e379b916f72d8890687b1a6b2109c5182e",
+      "function_sha256": "d5b285358774ca5e81a50fbce8feeb2bd5a9494666c9dfef7c0716a98a95b044",
+      "offset": 38316,
+      "size": 584,
+      "entry": "fd7bb2a9e00301aa"
+    }
+  ]
+}
