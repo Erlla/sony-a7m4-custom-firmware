@@ -1,8 +1,11 @@
 # 方法4/5与颜色说明：验证边界 / Methods 4/5 validation limits
 
+> 2026-10-17 更新：本文原日期和测试数为历史记录；FL2/FL3 固定 A1 的当前结果、残差及图片见[最新验证](../methods/03-fl2-fl3/color-validation-20261017.md)。旧版颜色差异提示不能覆盖该新证据。
+> Update: the dated checks below are historical. Current fixed-A1 evidence and remaining limits are in the linked report; the earlier color notice does not describe the new matrix mode.
+
 日期 / Date: 2026-10-15. 机器可读结果见 [features-validation-results.json](features-validation-results.json)。
 
-本次发布分别增加副厂电池和副厂镜头方法。**对焦速度限制修改未经过实机测试；当前 FL2/FL3 移植滤镜颜色与索尼官方版本存在差异。** 这两项说明同时出现在中英文 README、独立方法首页和构建报告中。 / This release adds separate battery and lens methods. **Focus-speed restriction removal is untested on hardware. Current FL2/FL3 port colors differ from Sony's official version.** These notices are retained in both READMEs, method guides and build reports.
+本次发布分别增加副厂电池和副厂镜头方法。**对焦速度限制修改未经过实机测试；当时的FL2/FL3采用动态矩阵，存在与软件重选的差异。** 这两项说明同时出现在中英文 README、独立方法首页和构建报告中。 / This release adds separate battery and lens methods. **Focus-speed restriction removal is untested on hardware. The earlier dynamic-matrix samples differed from software re-selection.** These notices are retained in both READMEs, method guides and build reports.
 
 ## 当前离线检查 / Current offline checks
 

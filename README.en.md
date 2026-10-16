@@ -20,13 +20,13 @@ Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastb
 |---|---|---|
 | 1. Replace the official update key and modify public-key authenticity verification | [English](methods/01-custom-signing/README.en.md) / [中文](methods/01-custom-signing/README.md) | Per-camera PEM replacement, verified four-library `verifyKey` patch, SquashFS/checksum rebuild, maintainer's existing key pair, DAT re-signing utility |
 | 2. Set the reported firmware version | [English](methods/02-firmware-version/README.en.md) / [中文](methods/02-firmware-version/README.md) | Bounded FAT editing of the two BCD bytes in `updater/dat4`, accepting `0.00`–`9.99` while preserving other contents |
-| 3. Port and install FL2 / FL3 | [English](methods/03-fl2-fl3/README.en.md) / [中文](methods/03-fl2-fl3/README.md) | AP/CP, donor conversion, configuration and NOR synchronization; **current filter colors differ from the official version** |
+| 3. Port and install FL2 / FL3 | [English](methods/03-fl2-fl3/README.en.md) / [中文](methods/03-fl2-fl3/README.md) | AP/CP, donor conversion, configuration and NOR synchronization; **fixed A1 is supported by sample comparisons to Imaging Edge re-selection** |
 | 4. Third-party battery percentage/caution restrictions | [English](methods/04-third-party-battery/README.en.md) / [中文](methods/04-third-party-battery/README.md) | 16 AP instructions restoring reported percentage/suppressing caution, preserving authentication state and charging/temperature protection; exact recipes, offline patching and reversal |
 | 5. Lens AF mechanisms and compatibility capability filtering | [English](methods/05-third-party-lens-af/README.en.md) / [中文](methods/05-third-party-lens-af/README.md) | Separate ID filtering and category/capability/profile range-gate analysis; six CP regions retain reported capabilities/speed profiles, leaving the range gate unchanged; **speed improvements remain untested on hardware** |
 
 Method 1 does not install FL2/FL3 automatically. Method 2 changes the reported version and does not add new firmware features. Method 3 documents its own prerequisites and complete installation sequence.
 
-**Current FL2/FL3 port colors differ from Sony's official version; this is not a color-identical reproduction of native FX2 FL2/FL3. Third-party lens focus-speed restriction removal has not undergone physical testing; performance effects are unknown.** Methods 4/5 separately document mechanisms, identities, recipes and validation limits. SD builds include them only through explicit `--battery` / `--lens-af` options.
+**FL2/FL3 look data matches the FX2 donor. Fixed A1 is now the default and tested samples closely match Imaging Edge re-selection; pixel identity and all-scene FX2 equivalence are not claimed. Third-party lens focus-speed restriction removal remains untested on hardware.** Methods 4/5 separately document mechanisms, identities, recipes and validation limits. SD builds include them only through explicit `--battery` / `--lens-af` options.
 
 ## Fastboot host
 

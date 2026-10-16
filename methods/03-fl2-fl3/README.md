@@ -2,7 +2,7 @@
 
 [English](README.en.md) · [总说明与刷机风险](../../README.md)
 
-此方法单独说明创意外观 FL2/FL3。**当前移植滤镜的颜色与索尼官方版本存在差异，不能当作官方 FX2 原生 FL2/FL3 的色彩复刻。** 本方案保留本机原有校准，不宣称逐像素一致。
+此方法单独说明创意外观 FL2/FL3。**移植的 FL2/FL3 外观系数、对应矩阵端点和曲线取自 FX2 原版；当前默认将四组矩阵固定为各自 A1，以匹配 Imaging Edge 重选外观的目标。** 固定 A1 已有本机回读和新拍照片支持，旧版显著偏色的主要原因已消除；本轮样片平均 ΔE76 约 1.0，仍不宣称 JPEG 逐像素相等或与实体 FX2 所有场景等效。[实拍和参数验证](color-validation-20261017.md)。
 
 **不能只改菜单，也不能只刷 `nflasha8` 就认为完成。** 完整组合涉及 AP、CP、颜色数据、配置副本与独立 CP NOR。
 
@@ -71,6 +71,8 @@ AP 与 CP 的编号空间不同，不能互换这些数字。
 - CC1 `0x1236..0x1239` 与 block13 `0x1CC..0x1CF` 写 `[22,24,23,25]`。
 - CC1 的 bank22–25 在 `0x1250 + bank × 64`；每项有效系数 24 个 int16 / 48 字节。FX2 `CC1+0xEFE=1` 表示绝对 B/A1/A2，M4 为 0，必须转换为 **B / (A1−B) / (A2−B)**，保留 M4 原格式标志和其他机身校准。
 - block13 `0x43E0..0x4FDF` 共 3,072 字节矩阵，从指定 FX2 供体读取。
+- 默认 `--matrix-mode fixed-a1`：对 bank22/23/24/25，`base=0x1E0+bank×0x300`，取供体 `[base+0xC0, base+0x180)` 的192字节 A1，写入该 bank 的 B、A1、A2 三段；不将一种外观的 A1 混用于另一种。四个 bank 同时覆盖照片和视频。bank 尾部保留供体导入值，不改变原有机身 WB/校准和其他外观。`--matrix-mode dynamic` 仅用于保留 B/A1/A2 动态端点的研究对照。
+- 固定 A1 必须同时存在于活动 nfa6、BACKUP.BIN、BACKUP.BAK；SD 迁移后重新回读，从最新状态局部恢复，不能把旧整区快照直接刷回。
 - BIN 与 BAK 各设置六条长度 1、属性 `0x60` 的记录：`02CF12C8=10`、`02CF12CA=11`、`02CF13B0=10`、`02CF13D0=11`、`02CF143E=10`、`02CF1440=11`，分别覆盖 current/still/movie 的槽16/17。
 - 对每个 BK4 段检查并更新校验：extent=`u32(+0x18)+u32(+0x1C)`；校验为 byte sum `[0,0x20)` + `[0x24,extent)`，排除四字节校验字段。保留其余记录、文件长度、FAT 分配及分区大小。
 
@@ -93,7 +95,7 @@ python -m a7m4.fl23 extract-donor --backup local/fx2/profile.bin --output local/
 输入 `profile.bin` 是解出的实际 BK4 文件的示例名，需替换为你的路径。工具拒绝非指定 FX2 1.01 颜色记录。随后使用**自己相机刚备份**的 nfa2/nfa6：
 
 ```powershell
-python -m a7m4.fl23 build --ap local/stock/appFw.so --cp local/stock/CPAPP-B.BIN --fx2-cp local/fx2/CPAPP-B.BIN --fx2-cc1 local/fx2-color/cc1.bin --fx2-block13 local/fx2-color/block13.bin --nflasha2 local/my-backup/nflasha2.bin --nflasha6 local/my-backup/nflasha6.bin --output output/fl23-components
+python -m a7m4.fl23 build --ap local/stock/appFw.so --cp local/stock/CPAPP-B.BIN --fx2-cp local/fx2/CPAPP-B.BIN --fx2-cc1 local/fx2-color/cc1.bin --fx2-block13 local/fx2-color/block13.bin --nflasha2 local/my-backup/nflasha2.bin --nflasha6 local/my-backup/nflasha6.bin --matrix-mode fixed-a1 --output output/fl23-components
 ```
 
 输出 AP、CP、本机 nfa2/nfa6 和哈希清单。可选 `--nflasha8 <本机原厂分区备份>` 同时生成该 FAT 分区镜像。脚本严格校验原程序和供体，拒绝新路径覆盖；不会自行降级你当前的程序。
@@ -134,6 +136,6 @@ python -m a7m4.fl23 verify-nor --nor local/post-update-nor.bin --cp output/fl23-
 
 分别新拍 FL2、FL3 的 ARW/JPEG，验证拍摄菜单、色彩、回放图标、视频、断电保存及旧外观；新照片 MakerNote 预期 B020 为 FL2/FL3，B029 为 22/23。旧照片的元数据不会自动改变。单独检查恢复出厂、特殊模式和配置迁移。
 
-历史用户反馈确认拍照/视频名称和颜色变化，2026-10-11 明确确认更新后 **FL3 回放正确**。更新后 FL2 回放、新照片原始 MakerNote、NOR/eMMC 哈希、持久化及全部模式未全部完成验收。当前公开代码的离线复现不补足这些实机未知项；本次新构建包没有刷机测试。详见 [验证说明](../../docs/validation.md)。
+当前本机6.24的固定 A1 已完成 fastboot 写后及正常开机后完整配置回读；新拍两外观均记录正确名称和编号。FL3 的 RAW 主矩阵105项精确匹配 A1，FL2 为104项，剩余7800右下项1615/1614已定位到WB定点序列化往返。新的无损RAW写出候选通过有界原指令验证，尚待安装及新照片验证，未合入本仓库旧6.02 CP配方。这里公开的默认配置算法已更新，不能把本机6.24安装反馈当成本仓库新构建包的实机验收。详见[当前结果](color-validation-20261017.md)。
 
-菜单/回放名称正确和供体数据相符，不代表滤镜颜色与官方一致；**当前颜色差异仍然存在**。若要额外合并电池或镜头方法，分别阅读[方法4](../04-third-party-battery/README.md)、[方法5（未经实机测试）](../05-third-party-lens-af/README.md)；它们不是默认 FL2/FL3 构建的一部分。
+**当前结论：FL2/FL3 供体外观数据一致；固定 A1 样片与 Imaging Edge 重选颜色接近，已无此前主要矩阵选择造成的偏色。** 这不等同于 JPEG 零差异，也不等同于复刻 FX2 全部动态插值。若要额外合并电池或镜头方法，分别阅读[方法4](../04-third-party-battery/README.md)、[方法5（未经实机测试）](../05-third-party-lens-af/README.md)；它们不是默认 FL2/FL3 构建的一部分。

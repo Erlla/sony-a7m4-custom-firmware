@@ -65,6 +65,33 @@ def test_coefficient_delta_overflow_rejected():
         delta_coefficients(raw, 0)
 
 
+@pytest.mark.parametrize("bank", [22, 23, 24, 25])
+def test_fixed_a1_uses_own_endpoint_not_other_bank_or_padding(bank):
+    cc, matrix = sample_color(0)
+    donor, _ = sample_color(1)
+    dm = bytearray([0x5b] * 0x7000)
+    for index in (22, 23, 24, 25):
+        base = 0x1e0 + index * 0x300
+        for group in range(4):
+            dm[base + group * 0xc0:base + (group + 1) * 0xc0] = bytes([index * 4 + group]) * 0xc0
+    _, fixed = color_records(cc, matrix, donor, dm)
+    _, dynamic = color_records(cc, matrix, donor, dm, "dynamic")
+    base = 0x1e0 + bank * 0x300
+    expected = bytes([bank * 4 + 1]) * 0xc0
+    assert fixed[base:base + 0x240] == expected * 3
+    assert fixed[base + 0x240:base + 0x300] == dm[base + 0x240:base + 0x300]
+    assert dynamic[base:base + 0x300] == dm[base:base + 0x300]
+    assert fixed[:0x1cc] == matrix[:0x1cc] and fixed[0x1d0:0x43e0] == matrix[0x1d0:0x43e0]
+    assert fixed[0x4fe0:] == matrix[0x4fe0:]
+
+
+def test_unknown_matrix_mode_refused():
+    cc, matrix = sample_color(0)
+    donor, dm = sample_color(1)
+    with pytest.raises(ToolError, match="matrix mode"):
+        color_records(cc, matrix, donor, dm, "unknown")
+
+
 def synthetic_bk4():
     """Independent serializer for groups/index records, including long records."""
     cc, matrix = sample_color(0)

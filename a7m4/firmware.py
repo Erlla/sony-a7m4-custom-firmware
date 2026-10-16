@@ -291,7 +291,8 @@ def build(args):
               "version": args.version, "changed_members": list(changes), "updater": details,
               "encoding": encoding, "signing": signing, "final_decoding": final_decoding,
               "camera_io": False, "camera_tested": False, "optional_features": feature_evidence,
-              "fl23_color_matches_official": False,
+              "fl23_color_matches_official": None,
+              "color_validation": "Install and re-read fixed-A1 personal settings separately; sampled JPEGs are close to Imaging Edge, not pixel-identical",
               "personalization_embedded": False, "nor_updated": False,
               "prerequisites": ["Install/recheck this camera's nfa2/nfa6 color and slot changes separately", "Installed updater must already trust the signing public key", "Physical NOR synchronization occurs during matching official SD update scripts, not during this build", "Read back NOR/eMMC and check settings after installation"]}
     (args.output / "verification.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

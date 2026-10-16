@@ -94,10 +94,11 @@ def bk4_rows(data):
     return rows
 
 
-def color_records(cc1, matrix, donor_cc1, donor_matrix):
+def color_records(cc1, matrix, donor_cc1, donor_matrix, matrix_mode="fixed-a1"):
     require(len(cc1) == 0x2000 and len(matrix) == 0x7000, "COLOR", "Unexpected target color record size")
     require(len(donor_cc1) == 0x2000 and len(donor_matrix) == 0x7000, "COLOR", "Unexpected donor size")
     require(cc1[0xefe] == 0 and donor_cc1[0xefe] == 1, "COLOR", "Expected M4 delta / FX2 absolute encoding")
+    require(matrix_mode in ("fixed-a1", "dynamic"), "COLOR", "Unknown matrix mode")
     new_cc, new_matrix = bytearray(cc1), bytearray(matrix)
     new_cc[0x1236:0x123a] = bytes([22, 24, 23, 25])
     for bank in (22, 23, 24, 25):
@@ -105,10 +106,16 @@ def color_records(cc1, matrix, donor_cc1, donor_matrix):
         new_cc[offset:offset + 48] = delta_coefficients(donor_cc1, offset)
     new_matrix[0x1cc:0x1d0] = bytes([22, 24, 23, 25])
     new_matrix[0x43e0:0x4fe0] = donor_matrix[0x43e0:0x4fe0]
+    if matrix_mode == "fixed-a1":
+        for bank in (22, 23, 24, 25):
+            base = 0x1e0 + bank * 0x300
+            a1 = donor_matrix[base + 0xc0:base + 0x180]
+            # Three 192-byte endpoints, followed by the unchanged bank tail.
+            new_matrix[base:base + 0x240] = a1 * 3
     return bytes(new_cc), bytes(new_matrix)
 
 
-def patch_backup(payload, donor_cc1, donor_matrix):
+def patch_backup(payload, donor_cc1, donor_matrix, matrix_mode="fixed-a1"):
     rows = bk4_rows(payload)
     result = bytearray(payload)
     all_records = {}
@@ -129,7 +136,7 @@ def patch_backup(payload, donor_cc1, donor_matrix):
         start = rec["offset"]
         result[start:start + len(value)] = value
         allowed.update(range(start, start + len(value)))
-    cc, matrix = color_records(read(0x02a40001), read(0x02a4000d), donor_cc1, donor_matrix)
+    cc, matrix = color_records(read(0x02a40001), read(0x02a4000d), donor_cc1, donor_matrix, matrix_mode)
     write(0x02a40001, cc)
     write(0x02a4000d, matrix)
     for key, value in SLOTS.items():
@@ -146,13 +153,13 @@ def patch_backup(payload, donor_cc1, donor_matrix):
     return bytes(result)
 
 
-def personal_images(nfa2, nfa6, donor_cc1, donor_matrix):
+def personal_images(nfa2, nfa6, donor_cc1, donor_matrix, matrix_mode="fixed-a1"):
     require(len(nfa2) == 20971520, "BASELINE", "Expected 20 MiB settings partition")
     require(len(nfa6) >= 0x1a7c00, "BASELINE", "Truncated color partition")
     fs = Fat(nfa2)
     for filename in ("BACKUP.BIN", "BACKUP.BAK"):
-        fs.replace(filename, patch_backup(fs.read(filename), donor_cc1, donor_matrix))
-    cc, matrix = color_records(nfa6[0x19cc00:0x19ec00], nfa6[0x1a0c00:0x1a7c00], donor_cc1, donor_matrix)
+        fs.replace(filename, patch_backup(fs.read(filename), donor_cc1, donor_matrix, matrix_mode))
+    cc, matrix = color_records(nfa6[0x19cc00:0x19ec00], nfa6[0x1a0c00:0x1a7c00], donor_cc1, donor_matrix, matrix_mode)
     result = bytearray(nfa6)
     result[0x19cc00:0x19ec00] = cc
     result[0x1a0c00:0x1a7c00] = matrix
@@ -167,6 +174,8 @@ def main():
         build.add_argument("--" + name, type=Path, required=True)
     build.add_argument("--nflasha8", type=Path, help="Optionally replace CPAPP-B.BIN inside your FAT partition")
     build.add_argument("--output", type=Path, required=True)
+    build.add_argument("--matrix-mode", choices=("fixed-a1", "dynamic"), default="fixed-a1",
+                       help="fixed-a1 targets Imaging Edge re-selection; dynamic retains donor endpoints")
     extract = sub.add_parser("extract-donor", help="Extract and hash-check FX2 CC1/block13 from an unpacked BK4 defaults file")
     extract.add_argument("--backup", type=Path, required=True)
     extract.add_argument("--output", type=Path, required=True)
@@ -212,7 +221,7 @@ def main():
     ap = patch_program(args.ap.read_bytes(), ar)
     cp = patch_program(args.cp.read_bytes(), cr, donors)
     source2, source6 = args.nflasha2.read_bytes(), args.nflasha6.read_bytes()
-    nfa2, nfa6 = personal_images(source2, source6, donors["fx2_cc1"], donors["fx2_block13"])
+    nfa2, nfa6 = personal_images(source2, source6, donors["fx2_cc1"], donors["fx2_block13"], args.matrix_mode)
     products = {"appFw.so": (ap, ar["source_sha256"]), "CPAPP-B.BIN": (cp, cr["source_sha256"]),
                 "nflasha2.bin": (nfa2, digest(source2)), "nflasha6.bin": (nfa6, digest(source6))}
     if args.nflasha8:
@@ -223,7 +232,9 @@ def main():
         products["nflasha8.bin"] = (fs.bytes(), digest(original))
     args.output.mkdir(parents=True)
     report = {"baseline": "ILCE-7M4 official 6.02 / FX2 1.01", "camera_io": False,
-              "fl23_color_matches_official": False,
+              "matrix_mode": args.matrix_mode,
+              "fl23_color_matches_official": None,
+              "color_validation": "Fixed A1 samples are close to Imaging Edge re-selection; not pixel-identical or an all-scene FX2 equivalence claim",
               "installable_dat": False, "nor_updated": False, "outputs": {}}
     for name, (data, source_hash) in products.items():
         evidence = {"source_sha256": source_hash, "method": "FL2/FL3 v7"}

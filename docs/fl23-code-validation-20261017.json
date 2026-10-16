@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-17",
+  "result": "PASS",
+  "automated_tests": {
+    "passed": 105,
+    "skipped": 0,
+    "environment": "Python3.12, pytest; UTF-8 subprocess environment, optional numpy available"
+  },
+  "same_camera_configuration_replay": {
+    "result": "PASS",
+    "public_code_mode": "fixed-a1",
+    "active_block13_matches_installed": true,
+    "active_CC1_matches_installed": true,
+    "new_nfa2_changed_bytes": 0,
+    "new_nfa6_changed_bytes": 0,
+    "device_io": false
+  },
+  "publication_scan": "PASS; no firmware/RAW or new private credentials added",
+  "limits": [
+    "No new public6.02 package hardware acceptance",
+    "The 6.24 RAW serializer candidate is not included in the public6.02 recipe"
+  ]
+}

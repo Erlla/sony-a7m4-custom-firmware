@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-17",
+  "hardware_baseline": "6.24 fixed-A1 configuration; before RAW serializer candidate installation",
+  "reference": "Imaging Edge Desktop 4.1.01.06121 look re-selection on the corresponding RAW",
+  "scope": "One same-shot RAW/JPEG pair per look, no physical FX2 same-scene comparison",
+  "pixel_identity": false,
+  "all_scene_FX2_equivalence_established": false,
+  "matrix_mode": "fixed-a1",
+  "matrix_raw_matches": {
+    "FL2": {
+      "matched": 104,
+      "total": 105,
+      "mismatch": {
+        "tag": "7800",
+        "index": 8,
+        "actual": 1615,
+        "A1": 1614
+      }
+    },
+    "FL3": {
+      "matched": 105,
+      "total": 105
+    }
+  },
+  "color_metrics": {
+    "FL2": {
+      "smooth_mean_DeltaE76": 1.0236,
+      "median": 0.9205,
+      "p95": 2.2208,
+      "RGB_histogram_overlap_percent": [
+        97.28,
+        97.48,
+        97.46
+      ]
+    },
+    "FL3": {
+      "smooth_mean_DeltaE76": 1.0041,
+      "median": 0.9222,
+      "p95": 2.0776,
+      "RGB_histogram_overlap_percent": [
+        97.54,
+        97.49,
+        97.79
+      ]
+    }
+  },
+  "method": {
+    "size": [
+      1752,
+      1168
+    ],
+    "registration": "SIFT/RANSAC",
+    "colorspace": "ICC-aware sRGB -> Lab D65",
+    "metric": "Euclidean DeltaE76, not DeltaE2000",
+    "mask": "same camera-derived smooth-area mask per pair",
+    "color_fitting": false,
+    "histogram_overlap": "sum of per-bin minima of normalized histograms; not identical pixel percentage"
+  },
+  "images": {
+    "FL2_FL3_contact_sheet.jpg": {
+      "sha256": "fac1cdb6a711a6855c165707e0d8334bb84d9b27b847fcd39bfc25be867b70a8",
+      "bytes": 432497
+    },
+    "RGB_histogram_comparison.png": {
+      "sha256": "ce57c448c782467bad926ff2a14b5343942825aba038c7f2d604b92d20b7da5b",
+      "bytes": 43091
+    }
+  },
+  "inputs": [
+    {
+      "name": "DSC02786_FL2.ARW",
+      "bytes": 68050944,
+      "sha256": "c50973e2e80aa7886e2f1bd3724aff07d21fa87312c8a0dcf0de7b02f9c2aee9"
+    },
+    {
+      "name": "DSC02786_FL2.JPG",
+      "bytes": 17367664,
+      "sha256": "e1f54a96185b6c103b3358636fda137eb58cd0a6a6422815013c98109ea11f42"
+    },
+    {
+      "name": "DSC02786_FL2_使用edit处理.JPG",
+      "bytes": 15340486,
+      "sha256": "5fbb217cd1cfe0bae33ce31f943999ca2cf3d4f4858ebd1dc161f042f3138a34"
+    },
+    {
+      "name": "DSC02786_FL2_处理.ARW",
+      "bytes": 68092616,
+      "sha256": "71d35446ff6de7371e741d8445fabca8cfd5867d427cd67e3ca5c1add57fd44d"
+    },
+    {
+      "name": "DSC02787_FL3.ARW",
+      "bytes": 68030464,
+      "sha256": "0cc41af63dc82d301a770b182a29b648435528a247fc6801bb2a04f708efc3f5"
+    },
+    {
+      "name": "DSC02787_FL3.JPG",
+      "bytes": 17503159,
+      "sha256": "e17944a1739d5c61294df55f7528630c96945e55d046dc03c7a35ce7087fcfc3"
+    },
+    {
+      "name": "DSC02787_FL3_使用edit处理.JPG",
+      "bytes": 15070114,
+      "sha256": "8d6319ec9174a7f884a94fd3c07804261f5a80221b896b66d30d89b618ec22a5"
+    },
+    {
+      "name": "DSC02787_FL3_处理.ARW",
+      "bytes": 68072136,
+      "sha256": "68ab8163d93a795dffd071086476b3eace0687385fbe09d4b7aa1a978d63332d"
+    }
+  ]
+}

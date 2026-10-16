@@ -36,7 +36,8 @@ def crc_region(stream, start, count):
     return crc
 
 
-def verify(dat, plain, public_pem):
+def verify(dat, plain, public_pem, warm_boot_marker=b"WBI3"):
+    need(warm_boot_marker in (b"WBI3", b"WBI4"), "Unsupported expected warm-boot marker")
     public = serialization.load_pem_public_key(public_pem)
     need(public.key_size == 2048, "RSA-2048 required")
     with Path(dat).open("rb") as source, Path(plain).open("rb") as reference:
@@ -120,11 +121,11 @@ def verify(dat, plain, public_pem):
                 checked.append(name)
         position, _ = members["0700_part_image/dev/nflasha5"]
         reference.seek(position)
-        need(exact(reference, 4) == b"WBI3", "Warm-boot marker")
+        need(exact(reference, 4) == warm_boot_marker, "Warm-boot marker")
     return {"blocks_verified": block_count, "plaintext_sha256": plain_hash.hexdigest(),
             "plaintext_size": plain_size, "compared_byte_for_byte": True, "rsa_signature_verified": True,
             "dend_crc_verified": True, "header_crc_verified": True, "images_crc_verified": checked,
-            "warm_boot_marker": "WBI3", "camera_io": False, "hardware_acceptance": False}
+            "warm_boot_marker": warm_boot_marker.decode("ascii"), "camera_io": False, "hardware_acceptance": False}
 
 
 def main():
@@ -133,8 +134,10 @@ def main():
     parser.add_argument("--plain", type=Path, required=True)
     parser.add_argument("--public-key", type=Path, required=True)
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--warm-boot-marker", choices=("WBI3", "WBI4"), default="WBI3",
+                        help="Explicit expected cold-boot marker; default remains WBI3 for the public 6.05 recipe")
     args = parser.parse_args()
-    result = verify(args.dat, args.plain, args.public_key.read_bytes())
+    result = verify(args.dat, args.plain, args.public_key.read_bytes(), args.warm_boot_marker.encode("ascii"))
     if args.report:
         args.report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2))

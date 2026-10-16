@@ -2,7 +2,7 @@
 
 [中文](README.md) · [Risks and backups](../../README.en.md)
 
-This guide covers FL2/FL3 Creative Looks independently. **Current port colors differ from Sony's official version; this is not a color-identical reproduction of native FX2 FL2/FL3.** Camera calibration is retained and pixel equivalence is not claimed.
+This guide covers FL2/FL3 independently. **Look coefficients, matrix endpoints and curves come from stock FX2 data. The current default fixes all four matrix banks to their own A1 endpoint, targeting Imaging Edge look re-selection.** Camera readback and new photographs support this selection. The major earlier color shift has been addressed; measured JPEG mean DeltaE76 remains about 1.0. This is not pixel identity or all-scene equivalence to a physical FX2. See [current color evidence](color-validation-20261017.md).
 
 Enabling a menu or flashing only `nflasha8` is insufficient. The complete combination involves AP, CP, color data, settings copies and separate physical CP NOR.
 
@@ -74,6 +74,10 @@ On the reviewed baseline, nfa6 CC1 is at `0x19CC00`, size `0x2000`; block13 at `
 - In both BIN and BAK set six one-byte, attribute`0x60` records: `02CF12C8=10`, `02CF12CA=11`, `02CF13B0=10`, `02CF13D0=11`, `02CF143E=10`, `02CF1440=11`, covering current/still/movie slots16/17.
 - Validate every BK4 checksum and recompute affected sums: extent=`u32(+0x18)+u32(+0x1C)`; checksum=sum of bytes `[0,0x20)` and `[0x24,extent)`, excluding the four-byte checksum. Preserve other records, file lengths, FAT allocation and partition sizes.
 
+### Fixed A1 matrix selection
+
+The default `--matrix-mode fixed-a1` takes each bank’s own 192-byte A1 from `base+0xC0..base+0x180`, where `base=0x1E0+bank*0x300`, and repeats it across B/A1/A2 for banks22/23/24/25. Both photo and movie banks are covered. Imported bank tails, original looks and body WB/calibration remain outside this additional matrix change. `--matrix-mode dynamic` retains donor endpoints for controlled research. Apply/check all three copies: active nfa6 plus BACKUP.BIN and BACKUP.BAK. Re-read after SD migration before rebuilding a local delta.
+
 ## Offline reproduction
 
 First back up your own eMMC **and separate NOR**, and verify the actual camera AP/CP against the stock hashes above. The following commands build files only:
@@ -93,7 +97,7 @@ python -m a7m4.fl23 extract-donor --backup local/fx2/profile.bin --output local/
 `profile.bin` is an example path for the actual extracted BK4 file. The command refuses records that do not match the specified FX2 1.01 donor. Build using **fresh backups from your camera**:
 
 ```powershell
-python -m a7m4.fl23 build --ap local/stock/appFw.so --cp local/stock/CPAPP-B.BIN --fx2-cp local/fx2/CPAPP-B.BIN --fx2-cc1 local/fx2-color/cc1.bin --fx2-block13 local/fx2-color/block13.bin --nflasha2 local/my-backup/nflasha2.bin --nflasha6 local/my-backup/nflasha6.bin --output output/fl23-components
+python -m a7m4.fl23 build --ap local/stock/appFw.so --cp local/stock/CPAPP-B.BIN --fx2-cp local/fx2/CPAPP-B.BIN --fx2-cc1 local/fx2-color/cc1.bin --fx2-block13 local/fx2-color/block13.bin --nflasha2 local/my-backup/nflasha2.bin --nflasha6 local/my-backup/nflasha6.bin --matrix-mode fixed-a1 --output output/fl23-components
 ```
 
 Outputs are AP, CP, your modified nfa2/nfa6 and hash manifests. Optionally supply `--nflasha8 <your-stock-partition>` to build that FAT image too. Inputs are hash-checked and existing output paths are refused. The builder does not downgrade your camera automatically.
@@ -134,6 +138,6 @@ Omit `--swap16` if the dump is already normalized. This command compares local f
 
 Take new FL2 and FL3 ARW/JPEG photographs and verify shooting menus, colors, playback icons, movies, power-cycle persistence and old looks. Expected new-image MakerNote B020 is FL2/FL3; B029 is22/23. Old photographs do not gain new metadata. Test factory reset, special modes and migration separately.
 
-Historical feedback confirmed shooting/movie names and color changes, and explicitly confirmed **correct FL3 playback after the 2026-10-11 update**. Post-update FL2 playback, raw MakerNote values, NOR/eMMC hashes, persistence and all modes have not all been accepted. Current offline reproduction does not resolve those hardware unknowns; the newly constructed package has not been flashed. See [validation](../../docs/validation.md).
+Current 6.24 fixed-A1 configuration passed full write readback and post-boot persistence checks. New RAW files have FL2/22 and FL3/23 metadata; FL3 matches all105 main-matrix values and FL2 matches104, with a single1615/1614 serialization difference. The guarded RAW-only candidate has bounded native-instruction validation but still requires installation and fresh photographs; it is not part of the public6.02 CP recipe. The updated public configuration algorithm does not make a newly rebuilt SD package hardware-tested. See [current evidence](color-validation-20261017.md).
 
-Correct menu/playback names and matching donor records do not establish official color equivalence: **the current color differences remain**. Optional battery and lens changes are documented separately in [Method 4](../04-third-party-battery/README.en.md) and [Method 5 (untested on hardware)](../05-third-party-lens-af/README.en.md); neither is included in default FL2/FL3 builds.
+Correct menu/playback names and matching donor records do not establish official color equivalence: **the current fixed-A1 samples closely match Imaging Edge re-selection, with measured residuals**. Optional battery and lens changes are documented separately in [Method 4](../04-third-party-battery/README.en.md) and [Method 5 (untested on hardware)](../05-third-party-lens-af/README.en.md); neither is included in default FL2/FL3 builds.

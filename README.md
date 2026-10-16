@@ -20,13 +20,13 @@
 |---|---|---|
 | 1. 取代官方更新公钥，并修改公钥真实性验证 | [中文](methods/01-custom-signing/README.md) / [English](methods/01-custom-signing/README.en.md) | 从本机更新器镜像替换 PEM，校验四库原函数后修改 `verifyKey`，重建 SquashFS/校验和；发布维护者原有密钥对和 DAT 重新签名工具 |
 | 2. 自行设置报告的固件版本 | [中文](methods/02-firmware-version/README.md) / [English](methods/02-firmware-version/README.en.md) | 解析本机 FAT，修改 `updater/dat4` 的两字节 BCD，支持 `0.00`–`9.99`，保留其余内容 |
-| 3. FL2 / FL3 移植与刷入 | [中文](methods/03-fl2-fl3/README.md) / [English](methods/03-fl2-fl3/README.en.md) | AP/CP、供体数据转换、配置及 NOR 同步；**当前滤镜颜色与官方版本存在差异** |
+| 3. FL2 / FL3 移植与刷入 | [中文](methods/03-fl2-fl3/README.md) / [English](methods/03-fl2-fl3/README.en.md) | AP/CP、供体数据转换、配置及 NOR 同步；**固定 A1 已有实拍对照，颜色接近软件重选目标** |
 | 4. 副厂电池电量显示与提示限制 | [中文](methods/04-third-party-battery/README.md) / [English](methods/04-third-party-battery/README.en.md) | 16条 AP 指令恢复真实电量显示、跳过副厂提示，保留认证源状态与充电/温度保护；附精确配方、离线补丁与回滚 |
 | 5. 镜头 AF 机制与兼容能力过滤 | [中文](methods/05-third-party-lens-af/README.md) / [English](methods/05-third-party-lens-af/README.en.md) | 分别分析 ID 能力过滤与类别/能力/档案范围门控；六处 CP 补丁仅保留上报能力和速度 profile，范围门控未修改；**速度改善未经实机测试** |
 
 方法 1 不会自动安装 FL2/FL3；方法 2 修改的是报告版本，不能自动使旧程序具备新功能。方法 3 的安装前提与完整流程在自己的文档中说明。
 
-**当前 FL2/FL3 移植滤镜的颜色与索尼官方版本存在差异，不能当作官方 FX2 原生 FL2/FL3 的色彩复刻。副厂镜头对焦速度限制修改尚未经过实机测试，效果未知。** 方法4、5独立提供原理、基线、补丁和验证边界；SD 构建只有显式传入 `--battery` / `--lens-af` 才合并对应功能。
+**FL2/FL3 外观数据与 FX2 供体一致，默认固定 A1，实拍与 Imaging Edge 重选颜色接近；不宣称像素完全相同或 FX2 全场景等效。副厂镜头对焦速度限制修改尚未经过实机测试，效果未知。** 方法4、5独立提供原理、基线、补丁和验证边界；SD 构建只有显式传入 `--battery` / `--lens-af` 才合并对应功能。
 
 ## Fastboot 工具
 

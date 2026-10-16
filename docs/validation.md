@@ -1,8 +1,11 @@
 # 验证记录 / Validation
 
+> 2026-10-17 更新：本文原日期和测试数为历史记录；FL2/FL3 固定 A1 的当前结果、残差及图片见[最新验证](../methods/03-fl2-fl3/color-validation-20261017.md)。旧版颜色差异提示不能覆盖该新证据。
+> Update: the dated checks below are historical. Current fixed-A1 evidence and remaining limits are in the linked report; the earlier color notice does not describe the new matrix mode.
+
 日期 / Date: 2026-10-15. 机器可读结果：[validation-results.json](validation-results.json)。
 
-本页保留首次发布的81项测试及FL2/FL3包验证。新增方法4/5的最新100项测试、分区/组合包检查与未测试状态见 [新增方法验证](features-validation.md)。当前FL2/FL3颜色与官方版本存在差异；镜头对焦速度修改未经实机测试。 / This page retains the initial81-test release evidence. See [feature validation](features-validation.md) for the latest 100-test extension, filesystem/package checks and untested status. Current FL2/FL3 colors differ from the official version; lens speed effects have not undergone physical testing.
+本页保留首次发布的81项测试及FL2/FL3包验证。新增方法4/5的最新100项测试、分区/组合包检查与未测试状态见 [新增方法验证](features-validation.md)。当时的动态矩阵样片与软件重选有差异；镜头对焦速度修改未经实机测试。 / This page retains the initial81-test release evidence. See [feature validation](features-validation.md) for the latest 100-test extension, filesystem/package checks and untested status. The earlier dynamic-matrix samples differed from software re-selection; lens speed effects have not undergone physical testing.
 
 2026-10-15 新增镜头原版流程研究：[中文](../methods/05-third-party-lens-af/README.md) / [English](../methods/05-third-party-lens-af/README.en.md)、[回放脚本](../tools/replay_lens_af_flow.py)和[16组原生回放结果](../methods/05-third-party-lens-af/native-flow-results.json)。分别验证 ID 兼容过滤、请求/缓存/速度选择及描述符范围回退；范围类别和协议输入为合成数据，setter 参数传递显式桥接。它不修改现有补丁配方，不新增范围解锁，也不验证实机速度。 / Additional stock-flow research separates ID filtering from descriptor-based range fallback. The 16 original-instruction cases use synthetic inputs and an explicit setter-argument bridge. This does not change the patch recipe, unlock the range gate or validate physical performance.
 
