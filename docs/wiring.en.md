@@ -13,7 +13,7 @@ You need an RP2040-Zero, a correctly wired Sony Multi-port breakout, conductors,
 
 **GPIO numbers are not camera connector pin numbers.** Verify physical pin locations, orientation and viewing side using the upstream [Multi pinout](https://github.com/DavidBuchanan314/ILCE-7M4-RE/blob/main/images/multi_pinout.png) and [breakout photograph](https://github.com/DavidBuchanan314/ILCE-7M4-RE/blob/main/images/multi_breakout.jpg). Do not infer pin numbers from wire colors.
 
-The camera interface is approximately 1.8 V; RP2040 is a 3.3 V device. The upstream bridge defaults to `OPEN_DRAIN`, which pulls low or releases the line to the target pull-up. This does not automatically prove voltage compatibility in both directions. Check pull-ups, actual voltages, receiver thresholds, RESET wiring and the bridge board; use suitable level translation where necessary. Never connect 3.3 V/5 V push-pull outputs directly to camera signals or inject power based on this signal table.
+The camera's Multi-port serial signal level is approximately **3.15 V**; RP2040 is a 3.3 V device. Here, 3.15 V describes the communication signal level, not a camera power input. The upstream bridge defaults to `OPEN_DRAIN`, which pulls low or releases the line to the target pull-up. Check pull-ups, actual voltages, receiver thresholds, RESET wiring and the bridge board; whether level translation is needed depends on the specific circuit. Never connect 5 V push-pull outputs to camera signals or inject power based on this signal table.
 
 With the camera disconnected, check continuity, shorts, ground and orientation first. Verify the bridge electrical behavior before attachment. A connector fitting mechanically says nothing about its pinout.
 
