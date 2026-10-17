@@ -8,7 +8,7 @@ Enabling a menu or flashing only `nflasha8` is insufficient. The complete combin
 
 ## Current6.26 RAW acceptance and bounded recipe
 
-The maintainer’s6.26 installation has matching complete eMMC/NOR CP readbacks and post-boot A1 persistence after a scoped nfa2 settings repair. New **original** DSC02788_FL2 and DSC02789_FL3 RAW files each match all105 root-SR2 matrix values to their own FX2 A1. FL2 now writes1614, correcting the previous unit. See [6.26 evidence](../../docs/fl23-626-validation-results-20261017.json). The JPEG figures remain the6.24 experiment, not a new6.26 zero-difference result.
+The maintainer’s6.26 installation has matching complete eMMC/NOR CP readbacks and post-boot A1 persistence after a scoped nfa2 settings repair. New **original** DSC02788_FL2 and DSC02789_FL3 RAW files each match all105 root-SR2 matrix values to their own FX2 A1. FL2 now writes1614, correcting the previous unit. See [6.26 evidence](../../docs/fl23-626-validation-results-20261017.json). New6.26 re-selection exports now give mean smooth-area DeltaE76 of1.0007/0.9754: small residual differences remain. See the separately labelled [6.26 figures and metrics](color-validation-20261017.md#626两组jpeg对照结果); original6.24 figures are retained.
 
 The [RAW lossless recipe](../../a7m4/profiles/fl23/cp624-to626-raw-lossless-recipe.json) requires the exact experimental6.24 CP `acecf071…505b2`, producing `9e312f58…611b` with212 actual changed bytes. It does **not** accept the public stock6.02/v7 output and is not implicitly merged by `firmware build-fl23`. `patch_program(source, recipe)` performs whole-source, local preimage and whole-target validation; the Python example in the Chinese guide writes a new local CP file only.
 

@@ -63,8 +63,8 @@
   },
   "limits": [
     "One photo per look, AutoWB, 1/160 F1.4 ISO100; not exhaustive",
-    "No new Imaging Edge re-selection JPEG exports in this capture set",
-    "Figures and JPEG DeltaE metrics in the method remain the6.24 fixed-A1 experiment",
-    "RAW105 exact matches do not establish JPEG pixel identity or all-scene FX2 equivalence"
-  ]
+    "RAW105 exact matches do not establish JPEG pixel identity or all-scene FX2 equivalence",
+    "New6.26 JPEG exports were added later; separate comparison records residual differences, while6.24 figures remain labelled as historical evidence"
+  ],
+  "jpeg_comparison_followup": "docs/fl23-626-jpeg-comparison-20261017.json"
 }
