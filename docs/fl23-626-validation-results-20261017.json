@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-17",
+  "version": "6.26",
+  "CP_sha256": "9e312f58ceade78ab049ec317d5c4f6cf94165d13a8bb2b2fcad2bdbefe7611b",
+  "hardware_installation": {
+    "emmc_and_normalized_NOR_CP_equal": true,
+    "CP_bytes": 16236816,
+    "fastboot_config_write_partition": "nflasha2",
+    "config_changed_bytes": 3760,
+    "config_changed_sectors": 24,
+    "post_normal_boot_fixed_A1_persisted": true
+  },
+  "photos": {
+    "FL2": {
+      "name": "DSC02788_FL2.ARW",
+      "source_sha256": "cb5ac9d15424c8aa0af89819306580fbe31e22a6cbd799c24e9ab2106ab9e352",
+      "software": "ILCE-7M4 v6.26",
+      "root_directory": "SR2",
+      "main9": [
+        960,
+        17,
+        47,
+        46,
+        1091,
+        -113,
+        -406,
+        -184,
+        1614
+      ],
+      "main96_sha256": "ab4fc8c3c5a1888fe87467bd4b116d286de99b671077c8f9d1f385fdd2079fef",
+      "main9_matches": 9,
+      "main96_matches": 96,
+      "all_105_exact_A1": true
+    },
+    "FL3": {
+      "name": "DSC02789_FL3.ARW",
+      "source_sha256": "2153f79c2dfbfb4189448d456f17c16e8fddbee14fbf69fc7f3b8ff2e9033444",
+      "software": "ILCE-7M4 v6.26",
+      "root_directory": "SR2",
+      "main9": [
+        941,
+        -138,
+        221,
+        42,
+        854,
+        128,
+        -253,
+        17,
+        1260
+      ],
+      "main96_sha256": "83d066f2176d5a4913096484f96fc5d46a9c0d63e4f859ed9dbc3a57ce04567f",
+      "main9_matches": 9,
+      "main96_matches": 96,
+      "all_105_exact_A1": true
+    }
+  },
+  "public_raw_recipe": {
+    "path": "a7m4/profiles/fl23/cp624-to626-raw-lossless-recipe.json",
+    "exact_source_sha256": "acecf0719e1b824723f8f232d5dd399e5814834bbffe907eaa025ecf48c505b2",
+    "actual_changes": 212,
+    "real_source_reproduces_entire_installed_CP": true,
+    "not_for_public_stock602_v7_target": true
+  },
+  "limits": [
+    "One photo per look, AutoWB, 1/160 F1.4 ISO100; not exhaustive",
+    "No new Imaging Edge re-selection JPEG exports in this capture set",
+    "Figures and JPEG DeltaE metrics in the method remain the6.24 fixed-A1 experiment",
+    "RAW105 exact matches do not establish JPEG pixel identity or all-scene FX2 equivalence"
+  ]
+}

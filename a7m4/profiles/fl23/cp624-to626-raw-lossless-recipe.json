@@ -1,0 +1,22 @@
+{
+  "baseline": "Exact experimental6.24 CP acecf071; NOT public official6.02/v7 output",
+  "size": 16236816,
+  "source_sha256": "acecf0719e1b824723f8f232d5dd399e5814834bbffe907eaa025ecf48c505b2",
+  "target_sha256": "9e312f58ceade78ab049ec317d5c4f6cf94165d13a8bb2b2fcad2bdbefe7611b",
+  "donors": {},
+  "patches": [
+    {
+      "offset": 5935314,
+      "old_sha256": "0e677a155df7283b6138b5be17b07ecee5b9c56b48ef6e6f5b810d0e542db007",
+      "new_hex": "f3f065b6"
+    },
+    {
+      "offset": 11128224,
+      "old_sha256": "a5645e7a3fa0866cde8842c4dab96567507c3d1a3c028b816bc63f6966367b70",
+      "new_hex": "d9f8040000f18001414540f06180d9f8001091f82e2090f82530132a08d0142a40f05680372b08d0392b40f0518004e0362b02d0382b40f04b80b0f8ec14b1f5806f40f24580b0f8ee14b1f5806f40f23f80b0f8f014b1f5806f40f23980b0f8f214b1f5806f40f2338049f21820c0f22210c17811f0100f40f02a80c17a11f0020f40f02580b0f8001d002904d04ff6ff7c614540f01c800df12a004df24811c0f2b901092230f8023b31f802cb634540f00e80013af6d10df160004146092231f9023b40f8043b013af9d10cf7bab1d9f804000cf72fb1"
+    }
+  ],
+  "scope": "Neutral FL23 root RAW direct serialization; guarded fallback; no JPEG/ISP change",
+  "expected_actual_changed_bytes": 212,
+  "deployment": "SD sync eMMC and physical NOR; fresh per-camera fixed-A1 config restoration after migration"
+}

@@ -15,7 +15,13 @@
 
 SD包不嵌入个人颜色/设置。SD更新后，用最新本机回读修复 nfa6、BACKUP.BIN、BACKUP.BAK 并重算BK4校验；核对六条槽值、eMMC和NOR CP，再正常重启回读。不能用旧整分区覆盖新版本/用户配置。本仓库仍只接受列出的原版6.02程序哈希，不会把6.24新代码误当原版处理。
 
-## 两组新拍结果
+## 当前6.26新RAW结果
+
+6.26安装和启动持久化检查后，用户新拍的DSC02788_FL2.ARW、DSC02789_FL3.ARW均为**105/105项**主矩阵与相应FX2 A1精确相同；FL2的7800右下项现在为1614。见[新证据](../../docs/fl23-626-validation-results-20261017.json)。本节是未经解锁原始主SR2的真实新照片验证，不用备选外观矩阵代替主拍摄参数。新配方只绑定实验6.24完整源，见[方法中的精确源限制](README.md)。
+
+下面图片和残差继续保留原6.24测量，不改成6.26新JPEG零差异结论；当前新增的6.26目录只有机内JPEG，没有新的软件重选导出。
+
+## 6.24两组JPEG对照结果
 
 图来自6.24固定 A1 安装后的新照片，**不是6.26 RAW写出候选安装后的照片，也不是两台相机对拍**。软件图由同一次 RAW 解锁后重新选择相同外观导出。曝光、镜头和图像载荷相配；当前EXIF为Auto WB，不能沿用早期4200K描述。新拍名称/编号为 FL2/22、FL3/23。
 
@@ -43,6 +49,6 @@ SD包不嵌入个人颜色/设置。SD更新后，用最新本机回读修复 nf
 
 The imported FL2/FL3 look data matches its stock FX2 donor. The current default fixes each of the four matrix banks to its own A1. The earlier mismatch mainly compared the camera's interpolated main matrix with an A1 alternate matrix injected by the RAW unlock script and selected by Imaging Edge. An unmodified stock FL control reproduced this distinction too. Configuration migration and independent CP NOR also require readback.
 
-The photographs above are 6.24 fixed-A1 results, before installation of the RAW serialization candidate. Each pair compares an in-camera JPEG against Imaging Edge re-selection from the corresponding RAW, not against a physical FX2. Mean smooth-area DeltaE76 is1.0236/1.0041; neither pixel identity nor all-scene equivalence is established. FL3 matches all105 main-matrix values; FL2 matches104, with1615 vs1614 in7800. Original-instruction replay traces that unit to WB fixed-point serialization. A guarded RAW-only candidate exists but is not included in this public6.02 recipe and has not passed fresh-photo acceptance. The figures are published with source digests and without original RAW files.
+The photographs above are 6.24 fixed-A1 results, before installation of the RAW serialization candidate. Each pair compares an in-camera JPEG against Imaging Edge re-selection from the corresponding RAW, not against a physical FX2. Mean smooth-area DeltaE76 is1.0236/1.0041; neither pixel identity nor all-scene equivalence is established. FL3 matches all105 main-matrix values; FL2 matches104, with1615 vs1614 in7800. Original-instruction replay traces that unit to WB fixed-point serialization. A guarded RAW-only candidate exists but is not included in this public6.02 recipe and now has the separate6.26 fresh-RAW105 acceptance recorded above. The figures are published with source digests and without original RAW files.
 
 代码检查：105项测试全部通过，无跳过；真实最新本机nfa2/nfa6离线重放零字节变化。见[代码验证](../../docs/fl23-code-validation-20261017.json)。测试不访问设备，也不是新DAT或新RAW的实机验收。

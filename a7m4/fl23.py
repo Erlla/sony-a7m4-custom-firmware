@@ -23,7 +23,7 @@ def delta_coefficients(cc1, offset):
 
 def patch_program(source, recipe, donors=None):
     require(len(source) == recipe["size"] and digest(source) == recipe["source_sha256"],
-            "BASELINE", "Unsupported source. This recipe requires the exact official 6.02 file")
+            "BASELINE", "Unsupported source. Exact recipe source hash and size are required")
     output = bytearray(source)
     donors = donors or {}
     for name, data in donors.items():

@@ -6,6 +6,29 @@
 
 **不能只改菜单，也不能只刷 `nflasha8` 就认为完成。** 完整组合涉及 AP、CP、颜色数据、配置副本与独立 CP NOR。
 
+## 当前6.26 RAW验收与限定补丁
+
+维护者本机6.26已经过eMMC/NOR完整CP比对、SD后仅nfa2的缺失配置恢复及正常开机后持久化检查。新拍的**原始**DSC02788_FL2、DSC02789_FL3均为主SR2的105/105项精确等于各自FX2 A1，FL2右下项现在为1614。[6.26证据](../../docs/fl23-626-validation-results-20261017.json)。此前两幅JPEG对比图仍是6.24样片，不作为6.26新JPEG零差异的证据。
+
+[RAW无损写出配方](../../a7m4/profiles/fl23/cp624-to626-raw-lossless-recipe.json)只接受完整CP SHA `acecf071…505b2`，生成`9e312f58…611b`，两段新代码/跳板共212个实际变化字节。源为保留其他修改的实验6.24，**不是**下表公开原版6.02/v7构建输出；不接受其他源，也不自动合入`firmware build-fl23`。
+
+该分支只对FL2/FL3主RAW、对应selector、四WB增益>1024、identity辅助矩阵及中性校准/增益上限状态直接复制内部矩阵，保留额外矩阵/mode9/饱和尾部；其他状态回旧路径。它不改JPEG，不是硬编码把1615改1614。离线32组目标、33组回退和完整主链联调已覆盖，现又有两张新照片确认。
+
+持有该精确源的用户可离线构建新CP：
+
+```python
+from pathlib import Path
+import json
+from a7m4.fl23 import patch_program
+recipe = json.loads(Path("a7m4/profiles/fl23/cp624-to626-raw-lossless-recipe.json").read_text("utf-8"))
+source = Path("local/CPAPP-B.experimental624.BIN").read_bytes()
+patched = patch_program(source, recipe)
+with Path("output/CPAPP-B.lossless626.BIN").open("xb") as output:
+    output.write(patched)
+```
+
+这只生成CP文件。安装仍须保留同机现有修改、构建匹配自签SD包并同步独立NOR，更新后从新回读修复三份A1配置；不能只刷nfa8。完整固件和相机原始照片不随配方发布。
+
 ## 固定基线与公开产物
 
 目标为 A7M4 **官方 6.02**，颜色供体为 FX2 **1.01**。程序按哈希识别，不能依赖可改写的菜单版本号。
@@ -136,6 +159,6 @@ python -m a7m4.fl23 verify-nor --nor local/post-update-nor.bin --cp output/fl23-
 
 分别新拍 FL2、FL3 的 ARW/JPEG，验证拍摄菜单、色彩、回放图标、视频、断电保存及旧外观；新照片 MakerNote 预期 B020 为 FL2/FL3，B029 为 22/23。旧照片的元数据不会自动改变。单独检查恢复出厂、特殊模式和配置迁移。
 
-当前本机6.24的固定 A1 已完成 fastboot 写后及正常开机后完整配置回读；新拍两外观均记录正确名称和编号。FL3 的 RAW 主矩阵105项精确匹配 A1，FL2 为104项，剩余7800右下项1615/1614已定位到WB定点序列化往返。新的无损RAW写出候选通过有界原指令验证，尚待安装及新照片验证，未合入本仓库旧6.02 CP配方。这里公开的默认配置算法已更新，不能把本机6.24安装反馈当成本仓库新构建包的实机验收。详见[当前结果](color-validation-20261017.md)。
+当前本机6.24的固定 A1 已完成 fastboot 写后及正常开机后完整配置回读；新拍两外观均记录正确名称和编号。FL3 的 RAW 主矩阵105项精确匹配 A1，FL2 为104项，剩余7800右下项1615/1614已定位到WB定点序列化往返。新的无损RAW写出候选通过有界原指令验证，现已在本机6.26安装并以新拍两张原始RAW确认各105项，另提供仅限精确6.24源的配方；未自动合入旧6.02构建。这里公开的默认配置算法已更新，不能把本机6.24安装反馈当成本仓库新构建包的实机验收。详见[当前结果](color-validation-20261017.md)。
 
 **当前结论：FL2/FL3 供体外观数据一致；固定 A1 样片与 Imaging Edge 重选颜色接近，已无此前主要矩阵选择造成的偏色。** 这不等同于 JPEG 零差异，也不等同于复刻 FX2 全部动态插值。若要额外合并电池或镜头方法，分别阅读[方法4](../04-third-party-battery/README.md)、[方法5（未经实机测试）](../05-third-party-lens-af/README.md)；它们不是默认 FL2/FL3 构建的一部分。

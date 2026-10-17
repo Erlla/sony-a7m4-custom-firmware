@@ -6,6 +6,14 @@ This guide covers FL2/FL3 independently. **Look coefficients, matrix endpoints a
 
 Enabling a menu or flashing only `nflasha8` is insufficient. The complete combination involves AP, CP, color data, settings copies and separate physical CP NOR.
 
+## Current6.26 RAW acceptance and bounded recipe
+
+The maintainer’s6.26 installation has matching complete eMMC/NOR CP readbacks and post-boot A1 persistence after a scoped nfa2 settings repair. New **original** DSC02788_FL2 and DSC02789_FL3 RAW files each match all105 root-SR2 matrix values to their own FX2 A1. FL2 now writes1614, correcting the previous unit. See [6.26 evidence](../../docs/fl23-626-validation-results-20261017.json). The JPEG figures remain the6.24 experiment, not a new6.26 zero-difference result.
+
+The [RAW lossless recipe](../../a7m4/profiles/fl23/cp624-to626-raw-lossless-recipe.json) requires the exact experimental6.24 CP `acecf071…505b2`, producing `9e312f58…611b` with212 actual changed bytes. It does **not** accept the public stock6.02/v7 output and is not implicitly merged by `firmware build-fl23`. `patch_program(source, recipe)` performs whole-source, local preimage and whole-target validation; the Python example in the Chinese guide writes a new local CP file only.
+
+The guarded path applies only to FL23 root RAW with matching selector, all four WB gains>1024, identity auxiliary matrix and neutral calibration/gain-cap conditions. It copies the internal matrix, preserves additional-transform/mode9/saturation handling, and falls back otherwise. It does not change JPEG processing or hardcode1615 into1614. Installation still requires an appropriate same-camera signed SD package, physical NOR synchronization, and fresh post-update color/settings restoration. Full firmware and original photographs are not distributed.
+
 ## Exact baseline and published artifacts
 
 Target: **official A7M4 6.02**. Color donor: **FX2 1.01**. Identify actual programs by hashes, not an editable menu version.
@@ -138,6 +146,6 @@ Omit `--swap16` if the dump is already normalized. This command compares local f
 
 Take new FL2 and FL3 ARW/JPEG photographs and verify shooting menus, colors, playback icons, movies, power-cycle persistence and old looks. Expected new-image MakerNote B020 is FL2/FL3; B029 is22/23. Old photographs do not gain new metadata. Test factory reset, special modes and migration separately.
 
-Current 6.24 fixed-A1 configuration passed full write readback and post-boot persistence checks. New RAW files have FL2/22 and FL3/23 metadata; FL3 matches all105 main-matrix values and FL2 matches104, with a single1615/1614 serialization difference. The guarded RAW-only candidate has bounded native-instruction validation but still requires installation and fresh photographs; it is not part of the public6.02 CP recipe. The updated public configuration algorithm does not make a newly rebuilt SD package hardware-tested. See [current evidence](color-validation-20261017.md).
+Current 6.24 fixed-A1 configuration passed full write readback and post-boot persistence checks. New RAW files have FL2/22 and FL3/23 metadata; FL3 matches all105 main-matrix values and FL2 matches104, with a single1615/1614 serialization difference. The guarded RAW-only candidate has bounded native-instruction validation but now has6.26 installation and two fresh105-value photograph checks; its exact6.24 source recipe remains separate from the public6.02 build. The updated public configuration algorithm does not make a newly rebuilt SD package hardware-tested. See [current evidence](color-validation-20261017.md).
 
 Correct menu/playback names and matching donor records do not establish official color equivalence: **the current fixed-A1 samples closely match Imaging Edge re-selection, with measured residuals**. Optional battery and lens changes are documented separately in [Method 4](../04-third-party-battery/README.en.md) and [Method 5 (untested on hardware)](../05-third-party-lens-af/README.en.md); neither is included in default FL2/FL3 builds.

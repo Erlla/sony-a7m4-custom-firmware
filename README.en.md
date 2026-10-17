@@ -28,6 +28,8 @@ Method 1 does not install FL2/FL3 automatically. Method 2 changes the reported v
 
 **FL2/FL3 look data matches the FX2 donor. Fixed A1 is now the default and tested samples closely match Imaging Edge re-selection; pixel identity and all-scene FX2 equivalence are not claimed. Third-party lens focus-speed restriction removal remains untested on hardware.** Methods 4/5 separately document mechanisms, identities, recipes and validation limits. SD builds include them only through explicit `--battery` / `--lens-af` options.
 
+The maintainer’s new6.26 original RAWs match all105 root-matrix values for each look; FL2’s unit error is corrected. See [acceptance and exact-source recipe](methods/03-fl2-fl3/README.en.md). Public6.02 builds default to fixed A1; the separate RAW recipe requires the documented experimental6.24 CP and is not implicitly merged.
+
 ## Fastboot host
 
 Includes full backup, version inspection/editing, custom updater preparation, same-camera backup restoration and restoration of official verification. Chinese BAT entry points are in `advanced/`. **There is no interactive UART console, serial shell, arbitrary UART command interface or serial update-mode switch.** RP2040 serial boot transport remains necessary to enter fastboot; it is not an interactive camera console.
