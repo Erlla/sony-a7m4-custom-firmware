@@ -67,4 +67,4 @@ Re-signing does not repair internal firmware. Modified plaintext needs updated i
 
 Use `python -m a7m4 maintain --action restore_official` with a **complete pre-modification backup from the same camera and firmware base**. The host verifies content binding and logical files/metadata beyond the permitted PEM/entry changes, refusing unrelated firmware versions.
 
-Historical custom 6.04/6.05 installations and user feedback support the underlying trust modification on the maintainer's camera. The extracted host has only offline validation so far. Other baselines, all update channels and whether later official updates overwrite trust configuration require fresh checks.
+Historical custom-signed test package installations and user feedback support the underlying trust modification on the maintainer's camera. The extracted host has only offline validation so far. Other baselines, all update channels and whether later official updates overwrite trust configuration require fresh checks.

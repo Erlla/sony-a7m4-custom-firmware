@@ -17,7 +17,7 @@
 - 模拟桥覆盖 uart_boot 1/2 与未知版本拒绝；断言只使用命令 1–5，未提供交互 UART 发送命令 6。 / Mock bridge checks cover both supported handshakes, refusal of unknown versions and use of commands1–5 only, without interactive UART transmit command6.
 - 独立构造的 BK4/UFU fixture 验证索引、长记录、颜色差分转换、其他段保留、校验错误拒绝、无修改重编码逐字节一致、改写后完整重解码及 RSA 签名范围。 / Independently constructed fixtures exercise BK4 indexing/long records, coefficient conversion, unrelated segments, invalid checksums, exact no-op re-encoding, modified roundtrip and signing ranges.
 - 使用本地自有样本重建，AP 与 CP 的完整 SHA-256 分别匹配已核验目标 `d17e61…bdd8ff` 与 `4551c7…3b3479`；机身配置编辑结果与历史 v6 核验产物逐字节一致，nfa6 原有已部署颜色数据保持不变。个人镜像和个人数据哈希未公开。 / Local owned inputs reproduce the exact reviewed AP/CP targets and historical v6 settings result. Already-deployed nfa6 color data remains identical. Personal images and their hashes are not published.
-- 从官方 6.02 重新构建实验 6.05 SD 包，修改四个镜像成员及两个清单，保留其余 TAR 成员；更新器四函数原始白名单、PEM 指纹、SquashFS 元数据回读通过。 / Rebuilt an experimental 6.05 package from official 6.02; changed four images and two manifests, preserving other TAR members. Updater original-function allowlists, PEM identity and SquashFS metadata roundtrip passed.
+- 从官方 6.02 重新构建自签SD验收包，修改四个镜像成员及两个清单，保留其余 TAR 成员；更新器四函数原始白名单、PEM 指纹、SquashFS 元数据回读通过。 / Rebuilt a custom-signed SD acceptance package from official 6.02; changed four images and two manifests, preserving other TAR members. Updater original-function allowlists, PEM identity and SquashFS metadata roundtrip passed.
 - 额外使用 [verify_sd_package.py](../tools/verify_sd_package.py) 的独立 `struct` 解码路径，不导入构建器的 NumPy codec：739,727 块全部校验并与 754,521,088 字节明文逐字节比较；验证 RSA、DEND、头 CRC、全部五项 part_image 与一项 updater 镜像 CRC 和 WBI3 标志。 / An independent struct-based decoder, not the builder codec, verified all blocks, byte-compared the full plaintext, checked RSA/DEND/header CRC, all five part-image CRCs, the updater image CRC and WBI3.
 
 可对本地构建重复独立检查： / Repeat the independent audit on a local build:
@@ -30,7 +30,7 @@ python tools/verify_sd_package.py output/fl23-sd/BODYDATA.DAT --plain output/fl2
 
 ## 历史实机与未知项 / Historical hardware evidence and limits
 
-维护者历史机身安装过自签 6.04/6.05。用户反馈确认 FL2/FL3 拍照/视频名称与颜色变化，2026-10-11 明确确认 FL3 更新后回放名称正确。 / Historical feedback confirms custom 6.04/6.05 installation, shooting/movie names and color changes, and correct FL3 playback after the 2026-10-11 update.
+维护者历史机身安装过自签测试包。用户反馈确认 FL2/FL3 拍照/视频名称与颜色变化，2026-10-11 明确确认 FL3 更新后回放名称正确。 / Historical feedback confirms custom-signed test package installation, shooting/movie names and color changes, and correct FL3 playback after the 2026-10-11 update.
 
 这次新主机工具和本次重新构建包**没有连接或刷写相机**。以下未自动转记为通过：更新后 FL2 回放、原始 MakerNote 值、物理 NOR/eMMC CP 哈希、全部持久化与特殊模式、恢复出厂后的默认槽、实体 FX2 像素对照、新上游 UF2/payload 的硬件兼容性。 / This extracted host and newly rebuilt package have not been flashed. Post-update FL2 playback, raw MakerNote fields, physical NOR/eMMC hashes, all persistence/special modes, factory-reset slot defaults, pixel comparison to FX2 and newly built upstream payload compatibility remain unresolved hardware checks.
 

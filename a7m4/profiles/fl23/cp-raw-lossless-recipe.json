@@ -1,5 +1,5 @@
 {
-  "baseline": "Exact experimental6.24 CP acecf071; NOT public official6.02/v7 output",
+  "baseline": "Exact fixed-A1 custom source CP acecf071; NOT public official 6.02 baseline output",
   "size": 16236816,
   "source_sha256": "acecf0719e1b824723f8f232d5dd399e5814834bbffe907eaa025ecf48c505b2",
   "target_sha256": "9e312f58ceade78ab049ec317d5c4f6cf94165d13a8bb2b2fcad2bdbefe7611b",

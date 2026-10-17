@@ -1,6 +1,6 @@
 {
   "date": "2026-10-17",
-  "hardware_baseline": "6.24 fixed-A1 configuration; before RAW serializer candidate installation",
+  "hardware_baseline": "First fixed-A1 acceptance; before lossless RAW serialization repair",
   "reference": "Imaging Edge Desktop 4.1.01.06121 look re-selection on the corresponding RAW",
   "scope": "One same-shot RAW/JPEG pair per look, no physical FX2 same-scene comparison",
   "pixel_identity": false,

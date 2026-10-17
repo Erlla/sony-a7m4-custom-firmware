@@ -135,7 +135,7 @@ def main():
     parser.add_argument("--public-key", type=Path, required=True)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--warm-boot-marker", choices=("WBI3", "WBI4"), default="WBI3",
-                        help="Explicit expected cold-boot marker; default remains WBI3 for the public 6.05 recipe")
+                        help="Explicit expected cold-boot marker; default remains WBI3 for the documented SD package recipe")
     args = parser.parse_args()
     result = verify(args.dat, args.plain, args.public_key.read_bytes(), args.warm_boot_marker.encode("ascii"))
     if args.report:

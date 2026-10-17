@@ -6,11 +6,11 @@
 
 **不能只改菜单，也不能只刷 `nflasha8` 就认为完成。** 完整组合涉及 AP、CP、颜色数据、配置副本与独立 CP NOR。
 
-## 当前6.26 RAW验收与限定补丁
+## RAW无损写出验收与限定补丁
 
-维护者本机6.26已经过eMMC/NOR完整CP比对、SD后仅nfa2的缺失配置恢复及正常开机后持久化检查。新拍的**原始**DSC02788_FL2、DSC02789_FL3均为主SR2的105/105项精确等于各自FX2 A1，FL2右下项现在为1614。[6.26证据](../../docs/fl23-626-validation-results-20261017.json)。新补齐的6.26软件重选JPEG平均ΔE76为FL2 1.0007、FL3 0.9754，仍有小幅残差；[6.26新图与完整指标](color-validation-20261017.md#626两组jpeg对照结果)。原6.24图和测量保留，不重标版本。
+RAW无损写出修复已完成eMMC/NOR完整CP比对、SD后仅nfa2的缺失配置恢复及正常开机后的持久化检查。新拍的**原始**DSC02788_FL2、DSC02789_FL3均为主SR2的105/105项精确等于各自FX2 A1，FL2右下项为1614。[RAW验收证据](../../docs/fl23-raw-lossless-validation-20261017.json)。对应软件重选JPEG平均ΔE76为FL2 1.0007、FL3 0.9754，仍有小幅残差；[最新实拍图与完整指标](color-validation-20261017.md#raw无损写出修复后的jpeg对照)。初次固定A1验收另列，保留两批独立测量。
 
-[RAW无损写出配方](../../a7m4/profiles/fl23/cp624-to626-raw-lossless-recipe.json)只接受完整CP SHA `acecf071…505b2`，生成`9e312f58…611b`，两段新代码/跳板共212个实际变化字节。源为保留其他修改的实验6.24，**不是**下表公开原版6.02/v7构建输出；不接受其他源，也不自动合入`firmware build-fl23`。
+[RAW无损写出配方](../../a7m4/profiles/fl23/cp-raw-lossless-recipe.json)只接受完整CP SHA `acecf071…505b2`，生成`9e312f58…611b`，两段新代码/跳板共212个实际变化字节。源为保留其他修改的固定A1定制CP，**不是**下表公开官方6.02基线构建输出；不接受其他源，也不自动合入`firmware build-fl23`。
 
 该分支只对FL2/FL3主RAW、对应selector、四WB增益>1024、identity辅助矩阵及中性校准/增益上限状态直接复制内部矩阵，保留额外矩阵/mode9/饱和尾部；其他状态回旧路径。它不改JPEG，不是硬编码把1615改1614。离线32组目标、33组回退和完整主链联调已覆盖，现又有两张新照片确认。
 
@@ -20,10 +20,10 @@
 from pathlib import Path
 import json
 from a7m4.fl23 import patch_program
-recipe = json.loads(Path("a7m4/profiles/fl23/cp624-to626-raw-lossless-recipe.json").read_text("utf-8"))
-source = Path("local/CPAPP-B.experimental624.BIN").read_bytes()
+recipe = json.loads(Path("a7m4/profiles/fl23/cp-raw-lossless-recipe.json").read_text("utf-8"))
+source = Path("local/CPAPP-B.fixed-a1-source.BIN").read_bytes()
 patched = patch_program(source, recipe)
-with Path("output/CPAPP-B.lossless626.BIN").open("xb") as output:
+with Path("output/CPAPP-B.raw-lossless.BIN").open("xb") as output:
     output.write(patched)
 ```
 
@@ -123,10 +123,10 @@ python -m a7m4.fl23 build --ap local/stock/appFw.so --cp local/stock/CPAPP-B.BIN
 
 输出 AP、CP、本机 nfa2/nfa6 和哈希清单。可选 `--nflasha8 <本机原厂分区备份>` 同时生成该 FAT 分区镜像。脚本严格校验原程序和供体，拒绝新路径覆盖；不会自行降级你当前的程序。
 
-构建完整 SD 包，指定与你机内更新器相同的密钥。此例明确使用已公开的实验身份，亦可换成自己私有的匹配密钥：
+最终发布版本由统一打包时确定；先将PowerShell变量`$ReleaseVersion`设为计划发布的`X.YY`版本，构建器不预填内部测试编号。构建完整 SD 包，指定与你机内更新器相同的密钥。此例明确使用已公开的实验身份，亦可换成自己私有的匹配密钥：
 
 ```powershell
-python -m a7m4.firmware build-fl23 --official local/M4-Ver.6.02.DAT --components output/fl23-components --public-key keys/published/A7M4_updater_public.pem --private-key keys/published/A7M4_updater_private.pem --version 6.05 --output output/fl23-sd
+python -m a7m4.firmware build-fl23 --official local/M4-Ver.6.02.DAT --components output/fl23-components --public-key keys/published/A7M4_updater_public.pem --private-key keys/published/A7M4_updater_private.pem --version "$ReleaseVersion" --output output/fl23-sd
 ```
 
 输出 `BODYDATA.DAT` 与 `verification.json`。构建器更新 AP/CP、暖启动标志、更新器信任配置、分区 CRC 清单及头版本/CRC；保留 TAR 布局和其他成员，重算全部 739,727 块校验/重加密/签名/DEND，完整重解码逐字节核对。`work/UNSIGNED_DO_NOT_INSTALL.DAT` 是未签名中间包，禁止安装。SquashFS 重建的时间戳等可能使最终 DAT 哈希随构建变化；AP/CP 的目标哈希固定，不能用历史 DAT 哈希替代当前包自己的核验。
@@ -159,6 +159,6 @@ python -m a7m4.fl23 verify-nor --nor local/post-update-nor.bin --cp output/fl23-
 
 分别新拍 FL2、FL3 的 ARW/JPEG，验证拍摄菜单、色彩、回放图标、视频、断电保存及旧外观；新照片 MakerNote 预期 B020 为 FL2/FL3，B029 为 22/23。旧照片的元数据不会自动改变。单独检查恢复出厂、特殊模式和配置迁移。
 
-当前本机6.24的固定 A1 已完成 fastboot 写后及正常开机后完整配置回读；新拍两外观均记录正确名称和编号。FL3 的 RAW 主矩阵105项精确匹配 A1，FL2 为104项，剩余7800右下项1615/1614已定位到WB定点序列化往返。新的无损RAW写出候选通过有界原指令验证，现已在本机6.26安装并以新拍两张原始RAW确认各105项，另提供仅限精确6.24源的配方；未自动合入旧6.02构建。这里公开的默认配置算法已更新，不能把本机6.24安装反馈当成本仓库新构建包的实机验收。详见[当前结果](color-validation-20261017.md)。
+固定A1配置已完成fastboot写后及正常开机后的完整回读；新拍两外观均记录正确名称和编号。RAW无损写出修复后的两张原始RAW各105项精确匹配A1，FL2右下项为1614。独立配方仅接受文档列出的精确源哈希，未自动合入官方6.02基线构建。现有本机验收也不能替代未来统一打包产物的独立检查。详见[当前结果](color-validation-20261017.md)。
 
 **当前结论：FL2/FL3 供体外观数据一致；固定 A1 样片与 Imaging Edge 重选颜色接近，已无此前主要矩阵选择造成的偏色。** 这不等同于 JPEG 零差异，也不等同于复刻 FX2 全部动态插值。若要额外合并电池或镜头方法，分别阅读[方法4](../04-third-party-battery/README.md)、[方法5（未经实机测试）](../05-third-party-lens-af/README.md)；它们不是默认 FL2/FL3 构建的一部分。

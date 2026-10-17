@@ -2,7 +2,7 @@
 
 English · [中文](README.md)
 
-Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source and five separate methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method; the lens method also identifies historical experimental 6.13 CP. Experimental version numbers are not official Sony releases.
+Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source and five separate methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
 
 ## Risk and mandatory backups
 
@@ -28,7 +28,7 @@ Method 1 does not install FL2/FL3 automatically. Method 2 changes the reported v
 
 **FL2/FL3 look data matches the FX2 donor. Fixed A1 is now the default and tested samples closely match Imaging Edge re-selection; pixel identity and all-scene FX2 equivalence are not claimed. Third-party lens focus-speed restriction removal remains untested on hardware.** Methods 4/5 separately document mechanisms, identities, recipes and validation limits. SD builds include them only through explicit `--battery` / `--lens-af` options.
 
-The maintainer’s new6.26 original RAWs match all105 root-matrix values for each look; FL2’s unit error is corrected. See [acceptance and exact-source recipe](methods/03-fl2-fl3/README.en.md). Public6.02 builds default to fixed A1; the separate RAW recipe requires the documented experimental6.24 CP and is not implicitly merged.
+Fresh original RAWs after the lossless-serialization repair match all 105 main-matrix values for each look; FL2’s unit error is corrected. See [acceptance and exact-source recipe](methods/03-fl2-fl3/README.en.md). The public official 6.02 baseline build defaults to fixed A1; the separate RAW recipe accepts only its documented complete source CP hash and is not implicitly merged.
 
 ## Fastboot host
 

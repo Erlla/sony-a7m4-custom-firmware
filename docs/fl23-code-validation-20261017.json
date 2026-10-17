@@ -2,9 +2,11 @@
   "date": "2026-10-17",
   "result": "PASS",
   "automated_tests": {
-    "passed": 105,
+    "passed": 107,
     "skipped": 0,
-    "environment": "Python3.12, pytest; UTF-8 subprocess environment, optional numpy available"
+    "environment": "Python3.12, pytest; UTF-8 subprocess environment, optional numpy available",
+    "previous_functional_suite_passed": 105,
+    "release_version_checks": "Omitted release version refuses packaging; explicit release value passes unchanged to builder. No firmware build or device I/O."
   },
   "same_camera_configuration_replay": {
     "result": "PASS",
@@ -17,10 +19,10 @@
   },
   "publication_scan": "PASS; no firmware/RAW or new private credentials added",
   "limits": [
-    "Public official6.02 build does not implicitly include the separate exact-source6.24 RAW recipe",
-    "Current6.26 RAW acceptance covers two photographs; JPEG pixel identity and all-scene equivalence are not established"
+    "Public official6.02 build does not implicitly include the separate exact-source custom CP RAW recipe",
+    "Post-repair RAW acceptance covers two photographs; JPEG pixel identity and all-scene equivalence are not established"
   ],
-  "exact_624_RAW_recipe": {
+  "exact_source_RAW_recipe": {
     "verified": true,
     "source_sha256": "acecf0719e1b824723f8f232d5dd399e5814834bbffe907eaa025ecf48c505b2",
     "target_sha256": "9e312f58ceade78ab049ec317d5c4f6cf94165d13a8bb2b2fcad2bdbefe7611b",

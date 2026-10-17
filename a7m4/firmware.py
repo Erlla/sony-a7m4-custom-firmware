@@ -324,7 +324,7 @@ def main():
     for name in ("official", "components", "public-key", "private-key", "output"):
         package.add_argument("--" + name, type=Path, required=True)
     package.add_argument("--resources", type=Path)
-    package.add_argument("--version", default="6.05")
+    package.add_argument("--version", required=True, help="Final X.YY release version assigned during unified packaging")
     package.add_argument("--battery", action="store_true", help="Opt into the independent battery display/caution patch")
     package.add_argument("--lens-af", action="store_true", help="UNTESTED: opt into the independent scoped lens capability filter patch; no physical speed testing")
     args = parser.parse_args()

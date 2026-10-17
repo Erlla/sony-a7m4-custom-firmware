@@ -1,6 +1,5 @@
 {
   "date": "2026-10-17",
-  "firmware": "6.26",
   "metric": "CIE Lab D65 Euclidean DeltaE76, not DeltaE2000",
   "method": {
     "size": [
@@ -766,9 +765,9 @@
           4672
         ],
         "export_software": "Edit 4.1.01.06121",
-        "camera_software": "ILCE-7M4 v6.26",
         "all_editor_settings_proven_by_exif": false,
-        "user_confirmed_reselection": true
+        "user_confirmed_reselection": true,
+        "internal_build_label_omitted": true
       },
       "matrices": {
         "DSC02788_FL2.ARW": {
@@ -1517,9 +1516,9 @@
           4672
         ],
         "export_software": "Edit 4.1.01.06121",
-        "camera_software": "ILCE-7M4 v6.26",
         "all_editor_settings_proven_by_exif": false,
-        "user_confirmed_reselection": true
+        "user_confirmed_reselection": true,
+        "internal_build_label_omitted": true
       },
       "matrices": {
         "DSC02789_FL3.ARW": {
@@ -1562,8 +1561,10 @@
   "limits": [
     "One capture per look; not a native FX2 comparison or all-scene equivalence",
     "Residual JPEG differences exist and their unique processing cause has not been isolated",
-    "The6.26 patch changes RAW matrix serialization, not the JPEG pipeline",
-    "The6.24 and6.26 captures use different exposure; do not attribute metric changes to firmware causally",
+    "The lossless RAW patch changes RAW matrix serialization, not the JPEG pipeline",
+    "The first fixed-A1 and post-repair captures use different exposure; do not attribute metric changes to firmware causally",
     "JPEG EXIF preserves capture settings and cannot independently verify all editor settings"
-  ]
+  ],
+  "validation_stage": "raw-lossless",
+  "internal_build_label_omitted": true
 }

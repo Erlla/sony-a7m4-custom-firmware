@@ -11,7 +11,7 @@
   "already_patched_color_partition_retained": true,
   "published_key_pair_match": true,
   "published_public_der_sha256": "eed3fd52e3adc60ef13b584bc0b50345ee96639be81efa02e0031a6eccc65e76",
-  "sd_build_version": "6.05",
+  "sd_build_version": null,
   "new_package_hardware_tested": false,
   "independent_struct_codec_audit": {
     "blocks_verified": 739727,
@@ -48,5 +48,6 @@
     "uart_boot 1",
     "uart_boot 2",
     "unknown rejected"
-  ]
+  ],
+  "internal_build_label_omitted": true
 }

@@ -13,15 +13,15 @@
 
 `python -m a7m4.fl23 build` 默认 `--matrix-mode fixed-a1`。四个 bank22/23/24/25 分别对应 FL2照片、FL2视频、FL3照片、FL3视频；每个都将 B/A1/A2 设为本 bank 的原版 A1。CC1差分编码、Gamma、菜单及元数据补丁仍按[主方法](README.md)；保留本机白平衡和传感器校准。`--matrix-mode dynamic` 只保留原动态端点用于研究，不用于本次软件颜色匹配结论。
 
-SD包不嵌入个人颜色/设置。SD更新后，用最新本机回读修复 nfa6、BACKUP.BIN、BACKUP.BAK 并重算BK4校验；核对六条槽值、eMMC和NOR CP，再正常重启回读。不能用旧整分区覆盖新版本/用户配置。本仓库仍只接受列出的原版6.02程序哈希，不会把6.24新代码误当原版处理。
+SD包不嵌入个人颜色/设置。SD更新后，用最新本机回读修复 nfa6、BACKUP.BIN、BACKUP.BAK 并重算BK4校验；核对六条槽值、eMMC和NOR CP，再正常重启回读。不能用旧整分区覆盖新版本/用户配置。本仓库仍只接受列出的原版6.02程序哈希，不会把定制程序误当原版处理。
 
-## 当前6.26新RAW结果
+## RAW无损写出验收
 
-6.26安装和启动持久化检查后，用户新拍的DSC02788_FL2.ARW、DSC02789_FL3.ARW均为**105/105项**主矩阵与相应FX2 A1精确相同；FL2的7800右下项现在为1614。见[新证据](../../docs/fl23-626-validation-results-20261017.json)。本节是未经解锁原始主SR2的真实新照片验证，不用备选外观矩阵代替主拍摄参数。新配方只绑定实验6.24完整源，见[方法中的精确源限制](README.md)。
+完成修复安装和启动持久化检查后，新拍DSC02788_FL2.ARW、DSC02789_FL3.ARW均为**105/105项**主矩阵与相应FX2 A1精确相同；FL2的7800右下项为1614。见[RAW验收证据](../../docs/fl23-raw-lossless-validation-20261017.json)。读取未经解锁原始RAW的主SR2，不用备选外观矩阵代替主拍摄参数。补丁只绑定文档列出的精确源CP哈希，见[主方法](README.md)。
 
-6.26软件导出已补齐，见下一节。更下方仍保留原6.24图区和测量，不将旧图重标成6.26。
+以下按“RAW无损写出修复后”和“初次固定A1”区分两批独立样片。最终固件发布版本由统一打包确定，内部测试编号不作为公开发布号或兼容性依据。
 
-## 6.26两组JPEG对照结果
+## RAW无损写出修复后的JPEG对照
 
 用户随后补齐了DSC02788_FL2、DSC02789_FL3对应的Imaging Edge重选外观导出。配对曝光/时间/焦距一致，软件为Edit 4.1.01.06121；RAW解锁前后图像strip完全一致，主SR2仅0x74C0备选目录指针改变。原始和处理后RAW的105项主矩阵均精确匹配各自A1，FL2第九项均为1614。
 
@@ -35,19 +35,19 @@ SD包不嵌入个人颜色/设置。SD更新后，用最新本机回读修复 nf
 | 平均绝对R/G/B差（8位值） | 0.985/0.844/1.034 | 0.997/0.810/0.980 |
 | R/G/B直方图重合 | 97.63/97.89/97.45% | 97.98/97.86/97.66% |
 
-左机内、右软件，上FL2、下FL3；这是6.26新图，与下面保留的6.24图区分：
+左机内、右软件，上FL2、下FL3；这是RAW无损写出修复后的样片，与下面初次固定A1验收图区分：
 
-![6.26 FL2 FL3机内与软件重选](images/626/FL2_FL3_contact_sheet.jpg)
+![RAW无损写出修复后 FL2 FL3机内与软件重选](images/raw-lossless/FL2_FL3_contact_sheet.jpg)
 
-![6.26 RGB直方图，橙机内蓝软件](images/626/RGB_histogram_comparison.png)
+![RAW无损写出修复后 RGB直方图，橙机内蓝软件](images/raw-lossless/RGB_histogram_comparison.png)
 
 沿用1752×1168、ICC感知sRGB、SIFT/RANSAC配准、同一有效掩膜与相机生成的平滑区域、Lab D65 ΔE76方法；没有颜色/白平衡/曝光拟合。软件图在本组平均略偏品红/蓝，亮度略低；剩余差异尚未隔离至唯一环节。JPEG处理链可能涉及解码、DRO、明暗、细节和量化，不能凭残差认定移植系数有误。矩阵105项相等也不等于其他元数据完全相同。
 
-6.24与6.26是不同拍摄、不同曝光，不能将两轮数值之差归因于RAW序列化补丁；该补丁没有改JPEG管线。完整新文件摘要/指标见[6.26 JPEG证据](../../docs/fl23-626-jpeg-comparison-20261017.json)，保留原始照片在本地。
+两批样片是不同拍摄、不同曝光，不能将两轮数值之差归因于RAW序列化补丁；该补丁没有改JPEG管线。完整新文件摘要/指标见[RAW无损写出修复后JPEG证据](../../docs/fl23-raw-lossless-jpeg-comparison-20261017.json)，保留原始照片在本地。
 
-## 6.24两组JPEG对照结果
+## 初次固定A1的JPEG对照
 
-图来自6.24固定 A1 安装后的新照片，**不是6.26 RAW写出候选安装后的照片，也不是两台相机对拍**。软件图由同一次 RAW 解锁后重新选择相同外观导出。曝光、镜头和图像载荷相配；当前EXIF为Auto WB，不能沿用早期4200K描述。新拍名称/编号为 FL2/22、FL3/23。
+图来自初次固定A1验收，**拍摄于RAW无损写出修复之前，也不是两台相机对拍**。软件图由同一次 RAW 解锁后重新选择相同外观导出。曝光、镜头和图像载荷相配；当前EXIF为Auto WB，不能沿用早期4200K描述。新拍名称/编号为 FL2/22、FL3/23。
 
 | 项目 | FL2 | FL3 |
 |---|---:|---:|
@@ -73,6 +73,6 @@ SD包不嵌入个人颜色/设置。SD更新后，用最新本机回读修复 nf
 
 The imported FL2/FL3 look data matches its stock FX2 donor. The current default fixes each of the four matrix banks to its own A1. The earlier mismatch mainly compared the camera's interpolated main matrix with an A1 alternate matrix injected by the RAW unlock script and selected by Imaging Edge. An unmodified stock FL control reproduced this distinction too. Configuration migration and independent CP NOR also require readback.
 
-The first figure pair above is new6.26 evidence: mean smooth-area DeltaE76 is1.0007/0.9754, with small residual JPEG differences. All105 main-matrix values match A1 in both original and unlocked RAW files; underlying RAW strips are unchanged. The later figure pair remains6.24 fixed-A1 evidence, before installation of the RAW serialization candidate. Each pair compares an in-camera JPEG against Imaging Edge re-selection from the corresponding RAW, not against a physical FX2. Mean smooth-area DeltaE76 is1.0236/1.0041; neither pixel identity nor all-scene equivalence is established. FL3 matches all105 main-matrix values; FL2 matches104, with1615 vs1614 in7800. Original-instruction replay traces that unit to WB fixed-point serialization. A guarded RAW-only candidate exists but is not included in this public6.02 recipe and now has the separate6.26 fresh-RAW105 acceptance recorded above. The figures are published with source digests and without original RAW files.
+The first figure pair above is post-repair lossless RAW evidence: mean smooth-area DeltaE76 is1.0007/0.9754, with small residual JPEG differences. All105 main-matrix values match A1 in both original and unlocked RAW files; underlying RAW strips are unchanged. The later figure pair remains the first fixed-A1 acceptance set, before installation of the RAW serialization candidate. Each pair compares an in-camera JPEG against Imaging Edge re-selection from the corresponding RAW, not against a physical FX2. Mean smooth-area DeltaE76 is1.0236/1.0041; neither pixel identity nor all-scene equivalence is established. FL3 matches all105 main-matrix values; FL2 matches104, with1615 vs1614 in7800. Original-instruction replay traces that unit to WB fixed-point serialization. A guarded RAW-only candidate exists but is not included in this public6.02 recipe and now has the separate post-repair fresh-RAW acceptance recorded above. The figures are published with source digests and without original RAW files.
 
-代码检查：105项测试全部通过，无跳过；真实最新本机nfa2/nfa6离线重放零字节变化。见[代码验证](../../docs/fl23-code-validation-20261017.json)。测试不访问设备，也不是新DAT或新RAW的实机验收。
+代码检查：107项测试全部通过，无跳过（包括统一打包时显式指定发布版本的检查）；真实最新本机nfa2/nfa6离线重放零字节变化。见[代码验证](../../docs/fl23-code-validation-20261017.json)。测试不访问设备，也不是新DAT或新RAW的实机验收。
