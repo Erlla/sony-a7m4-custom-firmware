@@ -1,0 +1,272 @@
+{
+  "result": "PASS_JOINT_FL_FL2_FL3_COMPARISON",
+  "date": "2026-10-19",
+  "rows": [
+    {
+      "scheme": "FX2 原厂",
+      "look": "FL",
+      "capture": "DSC02839",
+      "RGB_overlap_pct": 85.98192798413034,
+      "RGB_W1_code_values": 1.8328701375694243,
+      "mean24_deltaE00": 1.4443901692441452,
+      "max_deltaE00": 3.8986025180509496,
+      "mean_signed_delta_Lab": [
+        -0.14322225796560273,
+        0.8050157341340519,
+        0.32833323120608154
+      ],
+      "worst_patches": [
+        {
+          "id": 13,
+          "deltaE00": 3.8986025180509496
+        },
+        {
+          "id": 8,
+          "deltaE00": 3.5211890230078673
+        },
+        {
+          "id": 4,
+          "deltaE00": 3.1398747027204257
+        }
+      ]
+    },
+    {
+      "scheme": "当前配方",
+      "look": "FL",
+      "capture": "DSC02836",
+      "RGB_overlap_pct": 85.94713612525021,
+      "RGB_W1_code_values": 1.8599833332193256,
+      "mean24_deltaE00": 1.4439243870371596,
+      "max_deltaE00": 3.933296745530874,
+      "mean_signed_delta_Lab": [
+        -0.15064386831117216,
+        0.8185444389758082,
+        0.33455718015832353
+      ],
+      "worst_patches": [
+        {
+          "id": 13,
+          "deltaE00": 3.933296745530874
+        },
+        {
+          "id": 8,
+          "deltaE00": 3.502805946572242
+        },
+        {
+          "id": 4,
+          "deltaE00": 3.21277303578592
+        }
+      ]
+    },
+    {
+      "scheme": "原 A7C II 项目 0.1.0",
+      "look": "FL",
+      "capture": "DSC02835",
+      "RGB_overlap_pct": 86.28500219416559,
+      "RGB_W1_code_values": 1.8316687525085584,
+      "mean24_deltaE00": 1.4438024200482698,
+      "max_deltaE00": 3.9175270928234345,
+      "mean_signed_delta_Lab": [
+        -0.1383706189256861,
+        0.797069414232741,
+        0.3618172143287485
+      ],
+      "worst_patches": [
+        {
+          "id": 13,
+          "deltaE00": 3.9175270928234345
+        },
+        {
+          "id": 8,
+          "deltaE00": 3.586727321890515
+        },
+        {
+          "id": 4,
+          "deltaE00": 3.1499058162378795
+        }
+      ]
+    },
+    {
+      "scheme": "FX2 原厂",
+      "look": "FL2",
+      "capture": "DSC02840",
+      "RGB_overlap_pct": 86.23616388836763,
+      "RGB_W1_code_values": 2.424692495106723,
+      "mean24_deltaE00": 1.5645165118367552,
+      "max_deltaE00": 6.63305365835148,
+      "mean_signed_delta_Lab": [
+        0.47723988623308045,
+        0.3974883426183909,
+        -2.3092656225065293
+      ],
+      "worst_patches": [
+        {
+          "id": 12,
+          "deltaE00": 6.63305365835148
+        },
+        {
+          "id": 16,
+          "deltaE00": 5.7363101658251585
+        },
+        {
+          "id": 7,
+          "deltaE00": 5.435995965212374
+        }
+      ]
+    },
+    {
+      "scheme": "当前配方",
+      "look": "FL2",
+      "capture": "DSC02837",
+      "RGB_overlap_pct": 87.67204123206876,
+      "RGB_W1_code_values": 2.075613132447461,
+      "mean24_deltaE00": 1.2334297136927068,
+      "max_deltaE00": 5.015788514352634,
+      "mean_signed_delta_Lab": [
+        0.5454567056079619,
+        -0.34129107544075915,
+        -1.5824939060432268
+      ],
+      "worst_patches": [
+        {
+          "id": 12,
+          "deltaE00": 5.015788514352634
+        },
+        {
+          "id": 16,
+          "deltaE00": 4.211996593906854
+        },
+        {
+          "id": 7,
+          "deltaE00": 4.096899342102737
+        }
+      ]
+    },
+    {
+      "scheme": "原 A7C II 项目 0.1.0",
+      "look": "FL2",
+      "capture": "DSC02836",
+      "RGB_overlap_pct": 73.91710822823491,
+      "RGB_W1_code_values": 8.470595768485774,
+      "mean24_deltaE00": 4.3356901281621125,
+      "max_deltaE00": 9.15544146830736,
+      "mean_signed_delta_Lab": [
+        3.8230437819388836,
+        0.09635549894722743,
+        -4.529337640825724
+      ],
+      "worst_patches": [
+        {
+          "id": 12,
+          "deltaE00": 9.15544146830736
+        },
+        {
+          "id": 7,
+          "deltaE00": 8.242015602950215
+        },
+        {
+          "id": 15,
+          "deltaE00": 7.859299349471725
+        }
+      ]
+    },
+    {
+      "scheme": "FX2 原厂",
+      "look": "FL3",
+      "capture": "DSC02841",
+      "RGB_overlap_pct": 88.15610661364182,
+      "RGB_W1_code_values": 1.4763026045902077,
+      "mean24_deltaE00": 0.9506086557250054,
+      "max_deltaE00": 2.2106428646846554,
+      "mean_signed_delta_Lab": [
+        -0.15056154516042897,
+        0.5078304932774499,
+        0.4540038916607885
+      ],
+      "worst_patches": [
+        {
+          "id": 15,
+          "deltaE00": 2.2106428646846554
+        },
+        {
+          "id": 13,
+          "deltaE00": 1.4734304879834654
+        },
+        {
+          "id": 23,
+          "deltaE00": 1.4130022598863152
+        }
+      ]
+    },
+    {
+      "scheme": "当前配方",
+      "look": "FL3",
+      "capture": "DSC02838",
+      "RGB_overlap_pct": 90.06921802349825,
+      "RGB_W1_code_values": 1.1322312578840192,
+      "mean24_deltaE00": 0.6782120867881595,
+      "max_deltaE00": 1.4538426427598192,
+      "mean_signed_delta_Lab": [
+        0.2042053543898242,
+        0.01157604032816853,
+        0.08493473023371993
+      ],
+      "worst_patches": [
+        {
+          "id": 15,
+          "deltaE00": 1.4538426427598192
+        },
+        {
+          "id": 2,
+          "deltaE00": 1.3764682572918443
+        },
+        {
+          "id": 9,
+          "deltaE00": 1.3433537707781715
+        }
+      ]
+    },
+    {
+      "scheme": "原 A7C II 项目 0.1.0",
+      "look": "FL3",
+      "capture": "DSC02837",
+      "RGB_overlap_pct": 75.06831417225715,
+      "RGB_W1_code_values": 6.561756964643184,
+      "mean24_deltaE00": 4.07010602917449,
+      "max_deltaE00": 10.253394365989122,
+      "mean_signed_delta_Lab": [
+        3.4113637015811484,
+        1.250709041133385,
+        2.8214049274824506
+      ],
+      "worst_patches": [
+        {
+          "id": 9,
+          "deltaE00": 10.253394365989122
+        },
+        {
+          "id": 17,
+          "deltaE00": 6.764165276997658
+        },
+        {
+          "id": 18,
+          "deltaE00": 5.858075251786825
+        }
+      ]
+    }
+  ],
+  "source_text_newlines": "LF (Git publication)",
+  "source_metrics_sha256": "e86a68c0674d334e08aaee4afd5ec05f7aceca592c312e03edae43b04fa65a23",
+  "source_native_patch_review_sha256": "07da88be7d9b1bfd6e7e92db63681c2923bf715d930e0cbcb7143d00be3a4528",
+  "patch_colour_scale": [
+    0,
+    12
+  ],
+  "mean_Lab_axis": [
+    -5,
+    5
+  ],
+  "camera_io": false,
+  "new_shots": false,
+  "photo_metrics_changed": false
+}

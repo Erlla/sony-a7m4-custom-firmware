@@ -1,7 +1,6 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>三配方直出与Edit色彩差异报告</title><style>body{margin:0;background:#f1f5f8;color:#26364a;font:16px/1.85 "Microsoft YaHei",sans-serif}main{max-width:1180px;margin:36px auto;background:white;padding:42px 52px;border-radius:18px;box-shadow:0 12px 48px #2342}h1{font-size:32px;line-height:1.4;color:#183b50}h2{margin-top:48px;border-bottom:2px solid #e4ecef;padding-bottom:10px}h3{margin-top:30px}p,li{max-width:1080px}a{color:#17688a}table{width:100%;border-collapse:collapse;font-size:13px;margin:22px 0;display:block;overflow:auto}th,td{padding:10px 12px;border-bottom:1px solid #e3eaee;text-align:left;white-space:nowrap}th{background:#eaf2f5}tr:nth-child(even){background:#f8fafb}img{display:block;max-width:100%;height:auto;margin:20px auto;border-radius:6px}blockquote{padding:12px 20px;border-left:4px solid #308d7c;background:#edf7f3}details{margin:16px 0;border:1px solid #dce5ea;border-radius:8px;padding:12px 18px}summary{cursor:pointer;font-weight:bold;line-height:1.6}code{background:#f1f5f8;padding:2px 5px;border-radius:3px}.toolbar{position:sticky;top:0;z-index:3;padding:12px;background:#183b50eF;color:white;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toolbar button,.toolbar select{padding:7px 12px;border:0;border-radius:5px;background:white;color:#183b50}.toolbar span{margin-right:auto}main>p:first-of-type{color:#66808c}.tip{padding:15px;border:1px solid #c2dcd2;background:#f1f8f5}.caption{font-size:13px;color:#70818b}@media(max-width:800px){main{margin:0;padding:22px 16px;border-radius:0}h1{font-size:25px}}@media print{body{background:white;font-size:11px}.toolbar{display:none}main{box-shadow:none;margin:0;padding:0;max-width:none}h1{font-size:23px}h2{page-break-after:avoid}table{font-size:10px}img{max-height:85vh;object-fit:contain}details{break-inside:avoid}}</style></head><body><div class="toolbar"><span>三配方色彩对比 · 2026-10-18</span><select aria-label="逐对图片方案筛选" onchange="filterPairs(this.value)"><option value="all">逐对图片：全部方案</option><option value="fx2">FX2 原厂</option><option value="current">当前配方</option><option value="a7cii">原 A7C II 项目 0.1.0</option></select><button onclick="document.querySelectorAll('details').forEach(x=>x.open=true)">展开全部配对图</button><button onclick="document.querySelectorAll('details').forEach(x=>x.open=false)">收起配对图</button><button onclick="document.querySelectorAll('details').forEach(x=>{x.hidden=false;x.open=true});window.print()">打印 / 保存PDF</button></div><main><h1 id="edit">三种配方的机内直出与 Edit 后期色彩差异报告</h1>
-<p>2026-10-18拍摄测试 · 2026-10-19补充FL分析 · Sony A7M4 · 固定曝光、白平衡和镜头</p>
-<p><strong>本批次的结论：FL2、FL3中，“当前配方”与用户提供的对应Edit后期图最接近，“FX2 原厂”其次，“原 A7C II 项目 0.1.0”差异最大。</strong> 全图直方图与原尺寸色块均色两类指标给出相同顺序，中心测区尺寸变化也未改变该顺序。当前配方的FL3更接近后期参考；FL2仍有黄、橙色块残差，不能称为完全相同。</p>
-<p><strong>FL方面，三组平均色差均约1.444，且共享相近局部残差；本批数据不支持FL方案优劣排名。</strong></p>
+<p>2026-10-18拍摄测试 · 2026-10-19更新FL / FL2 / FL3联合对比 · Sony A7M4 · 固定曝光、白平衡和镜头</p>
+<p><strong>本批次将FL、FL2、FL3放在同一组指标与图表中比较：FL的三种方案平均色差都约1.444、局部残差相近；FL2和FL3中，当前配方最接近对应Edit参考，FX2 原厂其次，原 A7C II 项目 0.1.0差异最大。</strong> FL不据此排配方优劣；当前配方的FL2仍有黄/橙色局部残差，FL3更接近参考，均不宣称完全相同。</p>
 <p>本报告只分析这次固定条件新批次的24张JPG、12对照片，未混用此前已暂停批次。<strong>“更接近”指直出与本次Edit参考的一致程度，不是相对真实场景的色彩准确率，也不是所有光源的通用结论。</strong> 全部机内图均来自ILCE-7M4；“FX2 原厂”是按用户要求使用的参数方案名称。</p>
 <h2 id="fl-fl2-fl3">一、FL / FL2 / FL3核心结果</h2>
 <table>
@@ -48,107 +47,82 @@
 </table>
 <p>RGB直方图交集取R/G/B三个256档归一化直方图交集的等权均值。均色ΔE00为每块原尺寸JPEG像素的平均Lab之间的CIEDE2000距离，再对24块等权平均。<strong>交集越高、色差越低，表示更接近这份Edit参考；交集不是相同像素比例或还原准确率。</strong></p>
 <p><img alt="三配方指标总览" src="assets/summary.png" /></p>
-<!-- FL_COMPARISON_START -->
-
-<h3 id="flfl">FL专项对比：三种配方下原有FL的直出/后期差异</h3>
-<p><strong>三组FL的24色块平均ΔE00均约1.444，表现非常接近；但直出与Edit仍有共同的局部差异。</strong> 这三对FL照片此前已包含在12对总数据中，本次将它们提升为独立正文分析，没有增加拍摄样本或重新显影。</p>
+<h3 id="_1">三种外观的局部残差并列对比</h3>
 <table>
 <thead>
 <tr>
+<th>外观</th>
 <th>方案</th>
-<th>照片编号</th>
-<th>RGB交集 % ↑</th>
-<th>RGB W1 ↓</th>
 <th>24块均色ΔE00 ↓</th>
-<th>最差色块ΔE00 ↓</th>
+<th>最差的三个色块：编号 / ΔE00</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>FL</td>
 <td>FX2 原厂</td>
-<td>DSC02839</td>
-<td>85.98</td>
-<td>1.833</td>
-<td>1.444390</td>
-<td>3.899</td>
+<td>1.444</td>
+<td>13 / 3.899；8 / 3.521；4 / 3.140</td>
 </tr>
 <tr>
+<td>FL</td>
 <td>当前配方</td>
-<td>DSC02836</td>
-<td>85.95</td>
-<td>1.860</td>
-<td>1.443924</td>
-<td>3.933</td>
+<td>1.444</td>
+<td>13 / 3.933；8 / 3.503；4 / 3.213</td>
 </tr>
 <tr>
+<td>FL</td>
 <td>原 A7C II 项目 0.1.0</td>
-<td>DSC02835</td>
-<td>86.29</td>
-<td>1.832</td>
-<td>1.443802</td>
-<td>3.918</td>
+<td>1.444</td>
+<td>13 / 3.918；8 / 3.587；4 / 3.150</td>
+</tr>
+<tr>
+<td>FL2</td>
+<td>FX2 原厂</td>
+<td>1.565</td>
+<td>12 / 6.633；16 / 5.736；7 / 5.436</td>
+</tr>
+<tr>
+<td>FL2</td>
+<td>当前配方</td>
+<td>1.233</td>
+<td>12 / 5.016；16 / 4.212；7 / 4.097</td>
+</tr>
+<tr>
+<td>FL2</td>
+<td>原 A7C II 项目 0.1.0</td>
+<td>4.336</td>
+<td>12 / 9.155；7 / 8.242；15 / 7.859</td>
+</tr>
+<tr>
+<td>FL3</td>
+<td>FX2 原厂</td>
+<td>0.951</td>
+<td>15 / 2.211；13 / 1.473；23 / 1.413</td>
+</tr>
+<tr>
+<td>FL3</td>
+<td>当前配方</td>
+<td>0.678</td>
+<td>15 / 1.454；2 / 1.376；9 / 1.343</td>
+</tr>
+<tr>
+<td>FL3</td>
+<td>原 A7C II 项目 0.1.0</td>
+<td>4.070</td>
+<td>9 / 10.253；17 / 6.764；18 / 5.858</td>
 </tr>
 </tbody>
 </table>
-<p>三组均值最大差仅 <strong>0.000588</strong>，保留六位小数只是展示其接近程度，不代表实验具有该精度或统计显著性。RGB直方图交集约85.95%—86.29%，W1约1.832—1.860，均处于相近水平。每组只有一张独立拍摄，不能据此排出FL配方优劣，也不能把1.444直接当作可从FL2/FL3中扣除的固定系统误差。</p>
-<p><img alt="FL三配方色块均色差" src="assets/FL_patch_heatmaps.png" /></p>
-<p>图中编号为1—24，第4行为灰阶。三面板统一使用0—12的色差范围，与下方FL2/FL3色块图相同；比较依据是原尺寸色块均色，不是色卡标准Lab准确度。</p>
-<table>
-<thead>
-<tr>
-<th>方案</th>
-<th>13号块ΔE00</th>
-<th>8号块ΔE00</th>
-<th>4号块ΔE00</th>
-<th>平均ΔL*</th>
-<th>平均Δa*</th>
-<th>平均Δb*</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>FX2 原厂</td>
-<td>3.899</td>
-<td>3.521</td>
-<td>3.140</td>
-<td>-0.143</td>
-<td>+0.805</td>
-<td>+0.328</td>
-</tr>
-<tr>
-<td>当前配方</td>
-<td>3.933</td>
-<td>3.503</td>
-<td>3.213</td>
-<td>-0.151</td>
-<td>+0.819</td>
-<td>+0.335</td>
-</tr>
-<tr>
-<td>原 A7C II 项目 0.1.0</td>
-<td>3.918</td>
-<td>3.587</td>
-<td>3.150</td>
-<td>-0.138</td>
-<td>+0.797</td>
-<td>+0.362</td>
-</tr>
-</tbody>
-</table>
-<p>三组最差的前三块均为 <strong>13、8、4号</strong>。以当前配方为例：13号块Edit相对直出为ΔL<em>=+3.394、Δa</em>=−4.128、Δb<em>=+2.372；8号块为+2.988、−3.306、+1.863；4号块为−1.698、+4.513、+0.679。前两块后期更亮、a</em>更低，4号块则更暗、a*更高，说明差异并非统一亮度偏移。方向统一为“Edit − 直出”，不把这些Lab变化直接解释成某个固件系数的因果作用。</p>
-<p><img alt="FL高误差色块的Lab偏移" src="assets/FL_signed_Lab.png" /></p>
-<p>三幅方向图共用−6至+6横轴，只展示共同高误差的三个色块；较小的24色块平均偏移不能掩盖这些局部残差。</p>
-<p>FL原图派生对照与直方图：<a href="#fl-fx2-pair">FX2 原厂</a> · <a href="#fl-current-pair">当前配方</a> · <a href="#fl-a7cii-pair">原 A7C II 项目 0.1.0</a>。点开对应配对项即可查看现有直出/后期图、原尺寸直方图和测区。</p>
-<p>FL结果支持“本批三方案的原有FL输出差异水平稳定”这一观察，不单独证明三份固件的FL程序/参数完全相同，也不证明所有光源下的机内/软件渲染等价。</p>
-<p><a href="data/FL_comparison.json">FL汇总与局部数据</a>由原始metrics/native_patch_review及CSV复核生成；完整12对数据仍在第四节，实测与静态配方核对分开表述。</p>
-<!-- FL_COMPARISON_END -->
-
-<h3 id="_1">当前配方的剩余差异</h3>
-<p>当前配方FL2的24块均色ΔE00平均值为 <strong>1.233</strong>，但最差的几个色块是 <strong>12号块 5.016、16号块 4.212、7号块 4.097</strong>。这些区域在色卡中为黄/橙色区域；本对比中，Edit相对直出更亮，b*更低，即更少黄。平均值较低不表示这些局部已经吻合。</p>
-<p>当前配方FL3的24块平均值为 <strong>0.678</strong>，最差色块为 <strong>1.454</strong>。在本次条件下，它比另外两种方案的FL3更接近Edit参考。</p>
-<p>原 A7C II 项目 0.1.0的FL2、FL3色块均色ΔE00分别为 <strong>4.336 / 4.070</strong>，18个彩色块与6个灰阶块都有差异。其Edit参考相对机内图的平均L<em>分别高约 </em><em>3.82 / 3.41</em><em>，同时伴随不同颜色区域的a</em>/b*变化，不能仅用统一曝光偏移概括。</p>
-<p><img alt="FL2/FL3各色块误差" src="assets/FL23_patch_heatmaps.png" /></p>
-<p>图中编号从左到右、从上到下为1—24，第4行是灰阶区域。六个面板共用0—12的色差刻度。数值为<strong>原尺寸JPEG的色块均色差</strong>，不是与色卡厂家标准Lab的偏差。</p>
+<p><img alt="FL、FL2、FL3三种外观的色块误差并列对比" src="assets/FL_FL2_FL3_patch_heatmaps.png" /></p>
+<p>九个面板按行依次为FL、FL2、FL3，按列为三种配方；统一使用0—12色差刻度。每格为原尺寸JPEG色块均色ΔE00，编号1—24，第4行为灰阶，不是与色卡厂商标准Lab的误差。</p>
+<ul>
+<li><strong>FL</strong>：三组均值约1.444，最大组间均值差0.000588；六位小数只用于说明接近程度，不代表该实验具备如此精度。共同最差块是13、8、4号，最差块约3.9；不能只看均值就认为直出与后期完全吻合，也不能据此进行配方排名。</li>
+<li><strong>FL2</strong>：当前配方均值1.233，仍有12、16、7号黄/橙色块残差，最差块约5.016；FX2 原厂均值1.565，原 A7C II 项目 0.1.0均值4.336。</li>
+<li><strong>FL3</strong>：当前配方均值0.678、最差块1.454，比另外两种方案更接近本次Edit参考；FX2 原厂均值0.951，原 A7C II 项目 0.1.0均值4.070。</li>
+</ul>
+<p>三种外观均比较“该外观直出与其对应Edit参考的吻合程度”，不能解释为三种艺术外观的审美或真实色彩准确率排名。每组每外观仅一张独立拍摄；不能把FL均值直接从FL2/FL3误差中相减。原 A7C II 方案在新增外观上的差异也不能单凭本次测试归结为某一个矩阵或Gamma参数。</p>
+<p><a href="data/appearance_comparison.json">FL / FL2 / FL3联合汇总数据</a>沿用原12对照片、288块数据；本次仅统一呈现，不新增拍摄或重新显影。</p>
 <!-- FL23_RECIPE_COMPARISON_START -->
 <h2 id="fl2-fl3v20">二、FL2 / FL3具体配方差异与上游v2.0核对</h2>
 <p><strong>参数层面的区别：FX2 原厂与当前配方的照片色度和Gamma相同，主要区别是三光源矩阵；原 A7C II 项目 0.1.0与它们同时存在色度、矩阵和照片槽6 Gamma差异。上游v2.0的FL2/FL3配方未改变。</strong> 本节为新增的静态配方核验；此前12对照片的测量数值与排序保持不变，没有新增v2.0实拍组。</p>
@@ -587,8 +561,8 @@
 </table>
 <p>零位移诊断不证明亚像素、畸变和所有边缘处理完全相同。分析未进行曝光/白平衡补偿、直方图匹配或几何配准。三组拍摄分布在不同时间，本次仍只有每组每外观一张独立拍摄，没有重复拍摄方差或置信区间。</p>
 <p>各方案名称按用户指定测试流程映射；内部固件数字版本只保存在机器溯源记录中。公开名称不等同于用EXIF版本独立证明机内参数已加载。原 A7C II 项目 0.1.0与另外两种配方可能同时涉及色度、Gamma、矩阵及RAW元数据处理差异，本报告比较整体输出，不把全部差异归结为单一矩阵。</p>
-<h3 id="stfl">ST与FL控制结果</h3>
-<p>下表也是24块原尺寸均色ΔE00的平均值：</p>
+<h3 id="st">ST参照结果</h3>
+<p>FL、FL2、FL3已在第一节同表、同图比较，ST仅作为额外参照。下表为24色块均色ΔE00平均值：</p>
 <table>
 <thead>
 <tr>
@@ -605,15 +579,9 @@
 <td>0.702</td>
 <td>0.709</td>
 </tr>
-<tr>
-<td>FL</td>
-<td>1.444</td>
-<td>1.444</td>
-<td>1.444</td>
-</tr>
 </tbody>
 </table>
-<p>三组的ST均约0.70—0.71，FL均约1.44；控制外观的差异水平接近。相比之下，原 A7C II 项目 0.1.0的FL2/FL3差异明显增加，支持其新增外观输出与本次Edit参考的吻合程度较低。<strong>控制结果不作为可直接相减的“系统误差”，也不证明色差的唯一根因。</strong></p>
+<p>三组ST约0.70—0.71，处于接近水平。ST参照不能作为可直接扣除的固定系统误差，也不证明其他外观差异的唯一根因。</p>
 <h2 id="12">四、全部12对测量结果</h2>
 <table>
 <thead>
@@ -988,7 +956,8 @@
 </tbody>
 </table>
 <p>符号统一为 <strong>Edit后期 − 机内直出</strong>：ΔL<em>&gt;0表示后期更亮；Δa</em>&gt;0表示更偏红、&lt;0更偏绿；Δb*&gt;0表示更偏黄、&lt;0更偏蓝。表内是各测区均色的方向性摘要，正负抵消后可能很小，不能替代每块ΔE00。18彩色块、6灰阶块分别等权平均。</p>
-<p><img alt="最差色块的Lab偏移方向" src="assets/FL23_signed_Lab.png" /></p>
+<p><img alt="FL、FL2、FL3的24色块平均Lab偏移并列对比" src="assets/FL_FL2_FL3_signed_Lab.png" /></p>
+<p>三幅面板分别为FL、FL2、FL3，均使用−5至+5的横轴；每条为24块平均的Edit − 直出Lab分量，展示整体方向，不替代上一节逐块ΔE00，也不能用分量正负抵消后的均值判断局部已经吻合。</p>
 <h2 id="_5">六、测量方法与复核</h2>
 <ol>
 <li><strong>输入固定</strong>：为原JPG、原始ARW和处理ARW记录SHA-256及大小；只用24张JPG计算直方图和像素差，分析前后核对输入未变化。原始照片均未改写或重新显影；本次公开仅包含报告派生图，不上传原始照片。</li>
@@ -1207,7 +1176,6 @@
 <p><img alt="FX2 原厂 ST 全分辨率直方图" src="assets/fx2_ST_hist.png" /></p>
 <p><img alt="FX2 原厂 ST 固定色块中心区域" src="assets/fx2_ST_ROI.jpg" /></p>
 </details>
-<p><a id="fl-fx2-pair"></a></p>
 <details data-group="fx2">
 <summary>FX2 原厂 · FL · DSC02839 ｜RGB交集 85.98% ｜24块均色ΔE00 1.444</summary>
 <p><img alt="FX2 原厂 FL 机内直出与Edit" src="assets/fx2_FL_pair.jpg" /></p>
@@ -1234,7 +1202,6 @@
 <p><img alt="当前配方 ST 全分辨率直方图" src="assets/current_ST_hist.png" /></p>
 <p><img alt="当前配方 ST 固定色块中心区域" src="assets/current_ST_ROI.jpg" /></p>
 </details>
-<p><a id="fl-current-pair"></a></p>
 <details data-group="current">
 <summary>当前配方 · FL · DSC02836 ｜RGB交集 85.95% ｜24块均色ΔE00 1.444</summary>
 <p><img alt="当前配方 FL 机内直出与Edit" src="assets/current_FL_pair.jpg" /></p>
@@ -1261,7 +1228,6 @@
 <p><img alt="原 A7C II 项目 0.1.0 ST 全分辨率直方图" src="assets/a7cii_ST_hist.png" /></p>
 <p><img alt="原 A7C II 项目 0.1.0 ST 固定色块中心区域" src="assets/a7cii_ST_ROI.jpg" /></p>
 </details>
-<p><a id="fl-a7cii-pair"></a></p>
 <details data-group="a7cii">
 <summary>原 A7C II 项目 0.1.0 · FL · DSC02835 ｜RGB交集 86.29% ｜24块均色ΔE00 1.444</summary>
 <p><img alt="原 A7C II 项目 0.1.0 FL 机内直出与Edit" src="assets/a7cii_FL_pair.jpg" /></p>

@@ -39,13 +39,9 @@ Fixed aperture, shutter, ISO, white balance and lens;12 camera/Edit pairs. Lower
 
 ![Three-recipe comparison](docs/fl23-colour-comparison-20261018/assets/summary.png)
 
-The current recipe is closest in this scene/light. FL2 still differs in yellow/orange patches. All captures are from A7M4; these are not physical FX2/A7C II comparisons or general colour-accuracy rankings.
+FL, FL2 and FL3 are compared together. The three FL means are all about1.444; the current recipe is closest for FL2/FL3 in this scene/light, with FL2 yellow/orange residuals. All captures are from A7M4; these are not physical FX2/A7C II comparisons or general colour-accuracy rankings.
 
 <!-- FL23_V2_RECIPE_NOTE -->The report now includes exact chroma differences, matrix examples and Gamma comparisons. The upstream v2.0 FL2/FL3 assets are byte-identical to the historical0.1.0 package; v2.0 is not an additional measured photo group.
-
-<!-- FL_REPORT_NOTE -->
-
-FL is also compared explicitly: all three mean ΔE00 values are about1.444, with similar local residuals and no supported FL recipe ranking.
 
 ## Fastboot host
 
