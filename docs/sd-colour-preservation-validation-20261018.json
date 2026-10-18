@@ -1,0 +1,319 @@
+{
+  "result": "PASS_PUBLIC_32_REAL_OFFICIAL_TEMPLATES_MATCH_RESEARCH_REPAIR",
+  "official_DAT": {
+    "file": "M4-Ver.6.02.DAT",
+    "bytes": 757480856,
+    "sha256": "ad6df47a0a93a46336b9920a0d8891d0c766f8c96fa68ebda8685f6c21621188"
+  },
+  "official_plaintext": {
+    "file": "official-6.02-plain.bin",
+    "bytes": 754521088,
+    "sha256": "4fd810b8d20ea239e0df01aded90687baef1ca2c8df208a7f58c4989f85799c3"
+  },
+  "donor_records": [
+    {
+      "file": "cc_02a40001.bin",
+      "bytes": 8192,
+      "sha256": "c87f4dad18225b0b6a5a273bd27211fd93ad0ca0ab8ac2f1b65f680daec4d996"
+    },
+    {
+      "file": "cc_02a4000d.bin",
+      "bytes": 28672,
+      "sha256": "d783cf223304e67d6d671642c8b1102a0c663bc114a64c7f76a1d160d8a3feee"
+    }
+  ],
+  "generic_templates": {
+    "count": 32,
+    "fields_each": 10,
+    "field_bytes_each": 2504,
+    "matrix_mode": "fixed-a1",
+    "LOOK_defaults_changed": false,
+    "reset_attributes_calibration_preserved": true,
+    "personalized_partition_embedded": false,
+    "templates": [
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89100_ALLLANG.bin",
+        "bytes": 2369436,
+        "source_sha256": "e88c80c55885823cadb728a5ac85af44350b02cddabb93e89018dc40c2d0afad",
+        "target_sha256": "66dd47fae1e0cf87b307ee18bde497520212a80fd307d0a241235a16fe8d9713",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89100_E38.bin",
+        "bytes": 2369436,
+        "source_sha256": "4a8045dfac54284e29023c4c17a65bb495b0fae68f974f098cbec66f6e6186be",
+        "target_sha256": "7571930c53532d1ce022e61bceb3c78a1edb04b5888b2f802da36c78b45242e1",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89100_J1.bin",
+        "bytes": 2369436,
+        "source_sha256": "793443f62cc729d6f892d8139f1652c96294f71c393ffed4008e44522fbe9e22",
+        "target_sha256": "265e117e56d7f3ee5e1087a639208a49f2bb5cf33aac0f7114be3366d1e17b38",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89100_KR2.bin",
+        "bytes": 2369436,
+        "source_sha256": "e912226f46900fbf349d9afb2263b17ccf9c99969a965b7f9485667025b37916",
+        "target_sha256": "228629191ad32c463bd59c4174c2fbc7112e39526ebdc20481dcad05e075aab4",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89100_KRY.bin",
+        "bytes": 2369436,
+        "source_sha256": "3fc71e2b623a71cf68b1cb3ee18d1913697c9e1e65d8e26d8ccd08b1f8b18deb",
+        "target_sha256": "512dcad79f9035eb1610794e06d6c92ff5960e2dcb2b3b1756a16849047abee9",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89100_UC2.bin",
+        "bytes": 2369436,
+        "source_sha256": "298dda092a4e948c1a1235f6db83c69ef51b4b703dfd7e2ef41a5197e86418dd",
+        "target_sha256": "a35e0e6df583630a153d419fd41eb6c827851e6d02ab7a2469077b9f2cf540d7",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_AF1.bin",
+        "bytes": 2369436,
+        "source_sha256": "1bb26ba9230bf4e81e56859e05302fb483d1f44caaa3ae39532c6d5621d4d738",
+        "target_sha256": "c9b8ba6af44491ef15df52d744af9766f79e5173d16f5188dab1e7008ecb4d67",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_ALLLANG.bin",
+        "bytes": 2369436,
+        "source_sha256": "7cec8dd0e7a5bae6088d2066df9f14a628cc38e74e439b27a8692861dde0421e",
+        "target_sha256": "507eb49b1a0ee13c5fcfccdda99432d26c5741d814daa50c36c4910ab5f7d24f",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_AP2.bin",
+        "bytes": 2369436,
+        "source_sha256": "1a5d94ec708c63594ebec6b128d641e10576e9b568bf69dd97095ae4a03b1e4e",
+        "target_sha256": "fd69770fdcd41f0afa95456d42870f43021bf46fd47091e23ba2b963f3fb95c3",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_APY.bin",
+        "bytes": 2369436,
+        "source_sha256": "dd1519e98f5398ceacfa13c94363a47da396c3b88e5f108d3f6db4cf7e93fc23",
+        "target_sha256": "3fac999d9789c3b81d592a8b2bfaf0fb01fd22ddbe0aeaa939fc4fa96a4401c3",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_CEC.bin",
+        "bytes": 2369436,
+        "source_sha256": "29f52fc2aeeef4725ce4bb19ae2d743b80ed388dc060b5b4e4a7fb8106d6ca0d",
+        "target_sha256": "0ab1c60242092efd4d251b42fa2e2edfdadcb1a1bfcc508ab0a0f4c33d01d08f",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_CN1.bin",
+        "bytes": 2369436,
+        "source_sha256": "d14a8d0c523d6b545e6e85b746004e23829fb6cf59d60df648863f81331156e8",
+        "target_sha256": "5c23d297a16d7fc9514db572781f53b251c58f832aa226073dc9505c10b246a5",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_CN2.bin",
+        "bytes": 2369436,
+        "source_sha256": "49284ee3402452d8ed35cba2e3aee10195639bae6d55c33b78ec0046bc7cffae",
+        "target_sha256": "ec72cf95f25fc4adc4318f15f878f160cea289fcd4aee93ecb4e1172d8a9d757",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_IN5.bin",
+        "bytes": 2369436,
+        "source_sha256": "0d2dcceb882e2a1f91fadff21652c6a19d339dec4d78b370f09798e4e6629f91",
+        "target_sha256": "b20394ff290e580c97e3808c8627909558465dd9e70e6bee93d7a6f0b3d0e628",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_INY.bin",
+        "bytes": 2369436,
+        "source_sha256": "4d3b2c50192eb132dc39e1f064d00aac1fd5c67d8d6f5011676e71d2088a5175",
+        "target_sha256": "7c5d570bdcfc6490b4ae3f8c55fb91e50fdbef558bafb1f08817ec85c349d69b",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS/CH89101_JE3.bin",
+        "bytes": 2369436,
+        "source_sha256": "5785564af02338b5b5eb4df5793dcd5ab8ab0068ff3463a266734aad2b133faa",
+        "target_sha256": "9381f3cd7963ec27c42b8459ffd72e844f010f417c8acf548b8650ed06a00df8",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89100_ALLLANG.bin",
+        "bytes": 2369436,
+        "source_sha256": "d6dfd87fc2b5e981b1eab41f3cbef5a37895f3f167485ee3a43407e784cc88cb",
+        "target_sha256": "25fa9876f011338ee054fc47cb8721555f4dad6d6685b5dff5c144fd6e0d406a",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89100_E38.bin",
+        "bytes": 2369436,
+        "source_sha256": "8f000ed2c63002ee6aa1d9f4e2fcbaeb33b7d24558e47b31b639d264ebedf27f",
+        "target_sha256": "4628d440be8e460e94f835b4560e79069d466eeb30318a72c5df02a3ad8edeca",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89100_J1.bin",
+        "bytes": 2369436,
+        "source_sha256": "8f7eb83bad1afa3ec5b5e7e648ce3e6d7198aebc7d03607fd5f35b76d3c260f0",
+        "target_sha256": "3d5e6c5c3b0ce2c33d700a1b3f32b71d578fce0f824fe7e5fd1d54e689d8fb57",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89100_KR2.bin",
+        "bytes": 2369436,
+        "source_sha256": "8ecd923599c3cd7bfdd9f04fa602f16c8664cfe42287d52752fdc6e2b72dd732",
+        "target_sha256": "98384f55c9eb28dc58676d2f407b6762a5e1d050e9706aa0c42f4328ccf1bc28",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89100_KRY.bin",
+        "bytes": 2369436,
+        "source_sha256": "11665c75531c814bd1a17577831f82026fef7cb8bb56a35df1198a98e66e51ed",
+        "target_sha256": "2b60fab32d0128ee8ee57709bddb59fc0c210c6d335f83d76f86a67125ed3d91",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89100_UC2.bin",
+        "bytes": 2369436,
+        "source_sha256": "37588b6955736f72a0f79045c3a4648736702f376d586df459ba23d69124911d",
+        "target_sha256": "aae9cc73ac5baa30f3059460d6bca85f68c705e5b23d166cc9a3fbdc00bd651f",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_AF1.bin",
+        "bytes": 2369436,
+        "source_sha256": "2b92d7d264ef4a60fba1fc5239dcaeee95dbd8a828027e59703f5004ae3efc9b",
+        "target_sha256": "6b0fab24f5e5e3f74561baf99911d3ad5b9620302799f90d313667a21b2e97d2",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_ALLLANG.bin",
+        "bytes": 2369436,
+        "source_sha256": "8ba64964f8f604bc5a66afcf352430358751b1c093d0ee53fe0e84c6eedaaefb",
+        "target_sha256": "b5cd00890ded5799e8d583635c491545432fc36169a51993f535e3545b5cb60c",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_AP2.bin",
+        "bytes": 2369436,
+        "source_sha256": "4834dd27037a11225d919d496637742163d900a12ad9194621cace0b558750be",
+        "target_sha256": "8b71be73ecf97918abcac220eefff7c3f778b71185b1503f6a933e57eea0c573",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_APY.bin",
+        "bytes": 2369436,
+        "source_sha256": "f09d7d370d0871264a95afe159ba0f151f9f6d09c5f1f701ad8d07a8dc474446",
+        "target_sha256": "be870cb0d269e40b7fa018c568dd6dc60439fcfa4f14b2cfc9274bf0e9feda28",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_CEC.bin",
+        "bytes": 2369436,
+        "source_sha256": "75e54cb6c2170491477b9fd3f0735716b7561e8f83c30ce7ca7262cf9f76f7c4",
+        "target_sha256": "87298b142d53cc1d73b6aa073e3ba12879701d23da5ae2f596289697403f18fa",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_CN1.bin",
+        "bytes": 2369436,
+        "source_sha256": "854b94f2179bc1351004df405ef9e7fd6c173d483d143a7d9fe5c027d48bd093",
+        "target_sha256": "96c49fe27a823d06447d2fdda0d1e0c98d6f89e28de384cc85ac3012d5ee4bae",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_CN2.bin",
+        "bytes": 2369436,
+        "source_sha256": "33b13e26ba57411b3f0a5eb2edcd2b851b3d9be5654852ee2652b9bcaeeca8ba",
+        "target_sha256": "ea11b26876b9e5b548fdf5e9ddf3fe8b07dd082943d1dbad07bd2a26abe1a527",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_IN5.bin",
+        "bytes": 2369436,
+        "source_sha256": "d966ebb22fe39e5feea385811728391f96f89fcca14fdb880850c0f575e64c3a",
+        "target_sha256": "605101d8a8bb6b8661c6ec0318f92e572fa4ca2729fa3df79f2a5109ed129b73",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_INY.bin",
+        "bytes": 2369436,
+        "source_sha256": "3701ae81a50e053d73a70446b878065c136fe27611592711c10ea21c40fedc28",
+        "target_sha256": "72a5580fe5d7eaafe00c178c9cce389b16a477aa14fb2eec5d893fc475efd34c",
+        "changed_bytes": 1880
+      },
+      {
+        "member": "0110_backup/SYSIPSX-DSLR/LS_GLEE/CX89101_JE3.bin",
+        "bytes": 2369436,
+        "source_sha256": "3b02675f3e762488ff421627c6591f9a4fc6b2dc42b24d5d78c7e82940ea1fab",
+        "target_sha256": "38d194d730f3a4a4911aafabc2d34b8db45b0fd4490ea758a76d29c64c109820",
+        "changed_bytes": 1880
+      }
+    ]
+  },
+  "backup_sum_source_sha256": "328cf10d341f67ecd0b6ada8a7234a42c3406a4e84d01485f51be013beb509e0",
+  "backup_sum_target_sha256": "475ea0626435da6e471740515520a20c1fc618178ac87b8106f568bdaf470a21",
+  "backup_sum_CRC_entries_verified": 32,
+  "all_outputs_equal_research_repair": true,
+  "prior_native_evidence": {
+    "handoff": {
+      "file": "handoff.json",
+      "bytes": 6778,
+      "sha256": "52e6f8a269b6cfb9689acb1a4d1a2b5adadf40869f83380a9ca881a820b7ef4b"
+    },
+    "verification_domain": "original migration/save helpers with modeled OS boundaries",
+    "both_backup_files_model_verified": true,
+    "non_colour_migration_matches_original": true,
+    "reviewed_state_selects_mode5": true,
+    "module_identity": {
+      "bytes": 209328,
+      "sha256": "2a3974af47d5f4377b00511d54b0ac6179920f0a657c1685ee6507562ee99226"
+    },
+    "evidence": {
+      "native_merge": {
+        "bytes": 71969,
+        "sha256": "108bc4004c600df5ab8d3cba7767e7237140084c5eccc516f6ba6508ce7b564b"
+      },
+      "native_save": {
+        "bytes": 471352,
+        "sha256": "8ee77601e3c724a26694be912a2de4530f1722b2d6c81fe7b999b884798d69f9"
+      },
+      "option_dispatch": {
+        "bytes": 1412,
+        "sha256": "0bc91bad81c0bbf3ed756ebff744d1d4fcaf518d54cb2002f934d53c8414de22"
+      },
+      "protected_records": {
+        "bytes": 2651,
+        "sha256": "60f0fbafeac1ee095fa03dc04fedc2441fee266e401632d25a40cfabb137bc7c"
+      },
+      "current_state_route": {
+        "bytes": 33136,
+        "sha256": "0eb958ecd6722335c64a40d0c4d38bb389ed8d17401ccb0f2eb8c2b6d11c9fc3"
+      },
+      "normal_loader_and_selection": {
+        "bytes": 12138,
+        "sha256": "1a495fd1334569980b149c7e8d1fac89f8ed303d332e472839e407acb9a2af75"
+      },
+      "source_contract": {
+        "bytes": 4293,
+        "sha256": "0e75dfb20ade2c98e9b7be0d51af9a0f2aed6172a47f74e7afbb109a4966cd77"
+      },
+      "extraction_replay": {
+        "bytes": 698,
+        "sha256": "2609979513e50f34ad3ea084a15b869b06f641b2b0cceff424635f1c1cae4f35"
+      }
+    }
+  },
+  "new_installable_DAT_built": false,
+  "camera_io": false,
+  "limits": [
+    "Read-only exact official template reproduction; not a new full-package hardware acceptance.",
+    "Prior native migration evidence models OS/VFS/lock boundaries; not universal UUD or factory-reset activation."
+  ]
+}

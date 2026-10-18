@@ -106,8 +106,10 @@ def verify(dat, plain, public_pem, warm_boot_marker=b"WBI3"):
                 if item.isfile():
                     need(item.offset_data + item.size <= size, "TAR bounds")
                     members[name] = (offset + item.offset_data, item.size)
-        checked = []
-        for manifest, prefix in (("0701_part_image_sum/part_image.sum", "0700_part_image/"), ("0401_updater_sum/updater.sum", "0400_updater/")):
+        checked, backup_checked = [], []
+        for manifest, prefix in (("0701_part_image_sum/part_image.sum", "0700_part_image/"),
+                                 ("0401_updater_sum/updater.sum", "0400_updater/"),
+                                 ("0111_backup_sum/backup.sum", "0110_backup/")):
             position, size = members[manifest]
             reference.seek(position)
             lines = exact(reference, size).decode("ascii").splitlines()
@@ -118,13 +120,18 @@ def verify(dat, plain, public_pem, warm_boot_marker=b"WBI3"):
                 name = prefix + fields[10]
                 position, size = members[name]
                 need(size == int(fields[2], 16) and crc_region(reference, position, size) == int(fields[1], 16), "Image CRC: " + name)
-                checked.append(name)
+                destination = backup_checked if prefix == "0110_backup/" else checked
+                need(name not in destination, "Duplicate checksum row: " + name)
+                destination.append(name)
+        templates = {name for name in members if name.startswith("0110_backup/") and name.endswith(".bin")}
+        need(len(templates) == 32 and set(backup_checked) == templates, "Incomplete backup template CRC manifest")
         position, _ = members["0700_part_image/dev/nflasha5"]
         reference.seek(position)
         need(exact(reference, 4) == warm_boot_marker, "Warm-boot marker")
     return {"blocks_verified": block_count, "plaintext_sha256": plain_hash.hexdigest(),
             "plaintext_size": plain_size, "compared_byte_for_byte": True, "rsa_signature_verified": True,
             "dend_crc_verified": True, "header_crc_verified": True, "images_crc_verified": checked,
+            "backup_templates_crc_verified": backup_checked,
             "warm_boot_marker": warm_boot_marker.decode("ascii"), "camera_io": False, "hardware_acceptance": False}
 
 

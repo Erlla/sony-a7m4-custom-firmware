@@ -19,6 +19,7 @@ from .fat import Fat
 from .fl23 import RECIPES, patch_program
 from .offline import prefix_crc, resign, ufu_layout
 from .patching import Updater
+from .sd_templates import template_changes
 
 OFFICIAL_SHA256 = "ad6df47a0a93a46336b9920a0d8891d0c766f8c96fa68ebda8685f6c21621188"
 PLAIN_SHA256 = "4fd810b8d20ea239e0df01aded90687baef1ca2c8df208a7f58c4989f85799c3"
@@ -239,6 +240,19 @@ def build(args):
             stream.seek(offset)
             stream.write(after)
             changes[name] = (before, after)
+        component_manifest = json.loads((products / "manifest.json").read_text("utf-8"))
+        require(component_manifest.get("matrix_mode") == args.matrix_mode,
+                "COLOR", "Component and SD-template matrix modes must match")
+        defaults, colour_evidence = template_changes(index, read, args.fx2_cc1.read_bytes(),
+                                                     args.fx2_block13.read_bytes(), args.matrix_mode)
+        # Validate the complete template set and checksum manifest before writing it.
+        sum_name = "0111_backup_sum/backup.sum"
+        original_sum = read(sum_name)
+        updated_sum = update_sum(original_sum, {name.removeprefix("0110_backup/"): pair
+                                                for name, pair in defaults.items()})
+        for name, (before, after) in defaults.items():
+            write(name, before, after)
+        write(sum_name, original_sum, updated_sum)
         name = "0700_part_image/dev/nflasha15"
         old = read(name)
         new = ext_replace(old, "lib/appFw.so", ap, ar["source_sha256"])
@@ -291,10 +305,11 @@ def build(args):
               "version": args.version, "changed_members": list(changes), "updater": details,
               "encoding": encoding, "signing": signing, "final_decoding": final_decoding,
               "camera_io": False, "camera_tested": False, "optional_features": feature_evidence,
+              "sd_colour_templates": colour_evidence,
               "fl23_color_matches_official": None,
-              "color_validation": "Install and re-read fixed-A1 personal settings separately; sampled JPEGs are close to Imaging Edge, not pixel-identical",
+              "color_validation": "32 generic colour templates repaired; re-read all colour/LOOK copies after SD migration. Fixed A1 samples are close to Imaging Edge, not pixel-identical",
               "personalization_embedded": False, "nor_updated": False,
-              "prerequisites": ["Install/recheck this camera's nfa2/nfa6 color and slot changes separately", "Installed updater must already trust the signing public key", "Physical NOR synchronization occurs during matching official SD update scripts, not during this build", "Read back NOR/eMMC and check settings after installation"]}
+              "prerequisites": ["Use an original Sony battery for the update", "Install/recheck this camera's nfa2/nfa6 color and slot changes separately; template repair preserves existing LOOK slots, not factory-reset activation", "Installed updater must already trust the signing public key", "Physical NOR synchronization occurs during matching official SD update scripts, not during this build", "Read back NOR/eMMC and check settings after installation"]}
     (args.output / "verification.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2))
 
@@ -321,10 +336,12 @@ def main():
     extract.add_argument("plain", type=Path)
     extract.add_argument("--output", type=Path, required=True)
     package = sub.add_parser("build-fl23")
-    for name in ("official", "components", "public-key", "private-key", "output"):
+    for name in ("official", "components", "public-key", "private-key", "output", "fx2-cc1", "fx2-block13"):
         package.add_argument("--" + name, type=Path, required=True)
     package.add_argument("--resources", type=Path)
     package.add_argument("--version", required=True, help="Final X.YY release version assigned during unified packaging")
+    package.add_argument("--matrix-mode", choices=("fixed-a1", "dynamic"), default="fixed-a1",
+                         help="Must match the components manifest; fixed-a1 is the validated default")
     package.add_argument("--battery", action="store_true", help="Opt into the independent battery display/caution patch")
     package.add_argument("--lens-af", action="store_true", help="UNTESTED: opt into the independent scoped lens capability filter patch; no physical speed testing")
     args = parser.parse_args()

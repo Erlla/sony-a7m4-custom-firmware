@@ -1,6 +1,6 @@
 # Reference register / 参考项目清单
 
-整理日期 / Release review: 2026-10-15. 记录此次公开方法和工具实际用到的研究来源、运行依赖与分析工具。历史搜索结果不自动等于使用过的项目；平台参考源码不称为相机固件反编译。 / This register distinguishes research references, runtime components and offline analysis tools. Search hits alone are not attributed as dependencies, and platform source is not represented as decompiled camera firmware.
+整理日期 / Release review: 2026-10-18. 记录此次公开方法和工具实际用到的研究来源、运行依赖与分析工具。历史搜索结果不自动等于使用过的项目；平台参考源码不称为相机固件反编译。 / This register distinguishes research references, runtime components and offline analysis tools. Search hits alone are not attributed as dependencies, and platform source is not represented as decompiled camera firmware.
 
 ## 相机研究 / Camera research
 
@@ -9,6 +9,7 @@
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | BootROM serial boot, RP2040 bridge, fastboot payload/protocol, eMMC crypto/access, wiring | Reviewed local checkout `2328d18ce640e6c8cd9341efcf0043ce9042a135`; local changes/builds are separate evidence. No explicit license found in that tree. Payload/UF2/source are linked and externally obtained, not copied into this MIT repository. |
 | [DavidBuchanan314/fwtool.py — a7iv](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) | A7 IV firmware format / container extraction reference | Fork and branch identified separately from its ancestor; external tool, not vendored. |
 | [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | Sony UFU/firmware format and extraction foundation | Upstream MIT source; attribution retained by reference, not copied here. |
+| [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | A7C II FL2/FL3 parameters, installation research and historical0.1.0 comparison recipe / 参数、安装研究及历史0.1.0对照 | Upstream newly authored code is MIT; no code/payload vendored. A7C II offsets and USB installation are not directly applied to A7M4. Sony firmware/colour data retain their own rights. Current upstream has evolved beyond0.1.0. |
 | [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | Sony camera interfaces, protocol/service and firmware research background | MIT upstream; research reference, not a runtime requirement of this host. |
 | [ExifTool](https://exiftool.org/) / [Sony LensType2](https://exiftool.org/TagNames/Sony.html) | Lens ID category cross-checks for the third-party lens research | Reference table, not a runtime dependency or physical lens-test evidence. No source/data table is copied here. |
 | [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker) | Public firmware decryption/key derivation research; credits fwtool | Public reference, not a claim of MIT permission for all attached artifacts. No archive copied. |
@@ -46,3 +47,10 @@
 | [Keystone](https://github.com/keystone-engine/keystone) | ARM/Thumb/AArch64 patch assembly during research. Final recipes contain the reviewed output bytes and do not require Keystone. |
 
 不复制第三方完整源码、构建环境或大体积二进制。源码许可与工具输出/固件版权分别处理，见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。 / No full third-party trees or binary bundles are included. Source licenses and rights in firmware/tool outputs are separate; see the notices.
+
+## 实拍报告工具 / Photo-report tools
+
+| Project | Role |
+|---|---|
+| [Pillow](https://github.com/python-pillow/Pillow), [Matplotlib](https://github.com/matplotlib/matplotlib) | Offline decoding, independent RGB count/error checks, report plots. Respective upstream licenses; no packages or fonts bundled. |
+| [Sharma / Wu / Dalal CIEDE2000](https://hajim.rochester.edu/ece/sites/gsharma/ciede2000/) | Reference validation with34 published test pairs. Website/paper/data cited, not relicensed or bundled. |

@@ -1,0 +1,757 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>三配方直出与Edit色彩差异报告</title><style>body{margin:0;background:#f1f5f8;color:#26364a;font:16px/1.85 "Microsoft YaHei",sans-serif}main{max-width:1180px;margin:36px auto;background:white;padding:42px 52px;border-radius:18px;box-shadow:0 12px 48px #2342}h1{font-size:32px;line-height:1.4;color:#183b50}h2{margin-top:48px;border-bottom:2px solid #e4ecef;padding-bottom:10px}h3{margin-top:30px}p,li{max-width:1080px}a{color:#17688a}table{width:100%;border-collapse:collapse;font-size:13px;margin:22px 0;display:block;overflow:auto}th,td{padding:10px 12px;border-bottom:1px solid #e3eaee;text-align:left;white-space:nowrap}th{background:#eaf2f5}tr:nth-child(even){background:#f8fafb}img{display:block;max-width:100%;height:auto;margin:20px auto;border-radius:6px}blockquote{padding:12px 20px;border-left:4px solid #308d7c;background:#edf7f3}details{margin:16px 0;border:1px solid #dce5ea;border-radius:8px;padding:12px 18px}summary{cursor:pointer;font-weight:bold;line-height:1.6}code{background:#f1f5f8;padding:2px 5px;border-radius:3px}.toolbar{position:sticky;top:0;z-index:3;padding:12px;background:#183b50eF;color:white;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toolbar button,.toolbar select{padding:7px 12px;border:0;border-radius:5px;background:white;color:#183b50}.toolbar span{margin-right:auto}main>p:first-of-type{color:#66808c}.tip{padding:15px;border:1px solid #c2dcd2;background:#f1f8f5}.caption{font-size:13px;color:#70818b}@media(max-width:800px){main{margin:0;padding:22px 16px;border-radius:0}h1{font-size:25px}}@media print{body{background:white;font-size:11px}.toolbar{display:none}main{box-shadow:none;margin:0;padding:0;max-width:none}h1{font-size:23px}h2{page-break-after:avoid}table{font-size:10px}img{max-height:85vh;object-fit:contain}details{break-inside:avoid}}</style></head><body><div class="toolbar"><span>三配方色彩对比 · 2026-10-18</span><select aria-label="逐对图片方案筛选" onchange="filterPairs(this.value)"><option value="all">逐对图片：全部方案</option><option value="fx2">FX2 原厂</option><option value="current">当前配方</option><option value="a7cii">原 A7C II 项目 0.1.0</option></select><button onclick="document.querySelectorAll('details').forEach(x=>x.open=true)">展开全部配对图</button><button onclick="document.querySelectorAll('details').forEach(x=>x.open=false)">收起配对图</button><button onclick="document.querySelectorAll('details').forEach(x=>{x.hidden=false;x.open=true});window.print()">打印 / 保存PDF</button></div><main><h1 id="edit">三种配方的机内直出与 Edit 后期色彩差异报告</h1>
+<p>2026-10-18 · Sony A7M4 · 固定曝光、白平衡和镜头的新批次测试</p>
+<p><strong>本批次的结论：FL2、FL3中，“当前配方”与用户提供的对应Edit后期图最接近，“FX2 原厂”其次，“原 A7C II 项目 0.1.0”差异最大。</strong> 全图直方图与原尺寸色块均色两类指标给出相同顺序，中心测区尺寸变化也未改变该顺序。当前配方的FL3更接近后期参考；FL2仍有黄、橙色块残差，不能称为完全相同。</p>
+<p>本报告只分析这次固定条件新批次的24张JPG、12对照片，未混用此前已暂停批次。<strong>“更接近”指直出与本次Edit参考的一致程度，不是相对真实场景的色彩准确率，也不是所有光源的通用结论。</strong> 全部机内图均来自ILCE-7M4；“FX2 原厂”是按用户要求使用的参数方案名称。</p>
+<h2 id="fl2-fl3">一、FL2 / FL3核心结果</h2>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>FL2：交集 % ↑</th>
+<th>FL2：均色ΔE00 ↓</th>
+<th>FL3：交集 % ↑</th>
+<th>FL3：均色ΔE00 ↓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FX2 原厂</td>
+<td>86.24</td>
+<td>1.565</td>
+<td>88.16</td>
+<td>0.951</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>87.67</td>
+<td>1.233</td>
+<td>90.07</td>
+<td>0.678</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>73.92</td>
+<td>4.336</td>
+<td>75.07</td>
+<td>4.070</td>
+</tr>
+</tbody>
+</table>
+<p>RGB直方图交集取R/G/B三个256档归一化直方图交集的等权均值。均色ΔE00为每块原尺寸JPEG像素的平均Lab之间的CIEDE2000距离，再对24块等权平均。<strong>交集越高、色差越低，表示更接近这份Edit参考；交集不是相同像素比例或还原准确率。</strong></p>
+<p><img alt="三配方指标总览" src="assets/summary.png" /></p>
+<h3 id="_1">当前配方的剩余差异</h3>
+<p>当前配方FL2的24块均色ΔE00平均值为 <strong>1.233</strong>，但最差的几个色块是 <strong>12号块 5.016、16号块 4.212、7号块 4.097</strong>。这些区域在色卡中为黄/橙色区域；本对比中，Edit相对直出更亮，b*更低，即更少黄。平均值较低不表示这些局部已经吻合。</p>
+<p>当前配方FL3的24块平均值为 <strong>0.678</strong>，最差色块为 <strong>1.454</strong>。在本次条件下，它比另外两种方案的FL3更接近Edit参考。</p>
+<p>原 A7C II 项目 0.1.0的FL2、FL3色块均色ΔE00分别为 <strong>4.336 / 4.070</strong>，18个彩色块与6个灰阶块都有差异。其Edit参考相对机内图的平均L<em>分别高约 </em><em>3.82 / 3.41</em><em>，同时伴随不同颜色区域的a</em>/b*变化，不能仅用统一曝光偏移概括。</p>
+<p><img alt="FL2/FL3各色块误差" src="assets/FL23_patch_heatmaps.png" /></p>
+<p>图中编号从左到右、从上到下为1—24，第4行是灰阶区域。六个面板共用0—12的色差刻度。数值为<strong>原尺寸JPEG的色块均色差</strong>，不是与色卡厂家标准Lab的偏差。</p>
+<h2 id="_2">二、测试条件与配对核验</h2>
+<p>用户声明全程固定光圈、快门、ISO、白平衡和镜头。24张JPG的标准EXIF独立核对结果一致：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>核对结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>机身</td>
+<td>Sony ILCE-7M4</td>
+</tr>
+<tr>
+<td>光圈 / 快门 / ISO</td>
+<td>F6.3 / 1/160秒 / ISO 800</td>
+</tr>
+<tr>
+<td>镜头 / 焦距</td>
+<td>20-200mm F3.5-6.3 DG Contemporary 025 / 96 mm</td>
+</tr>
+<tr>
+<td>白平衡</td>
+<td>EXIF均为手动白平衡；固定具体数值依据用户测试说明</td>
+</tr>
+<tr>
+<td>图像尺寸 / 编码</td>
+<td>7008×4672，RGB，EXIF声明sRGB，无内嵌ICC</td>
+</tr>
+<tr>
+<td>后期软件</td>
+<td>Edit 4.1.01.06121</td>
+</tr>
+<tr>
+<td>配对</td>
+<td>同组、同拍摄编号、同外观；拍摄时间及上述参数一致</td>
+</tr>
+<tr>
+<td>几何诊断</td>
+<td>12对在876×584缩图的±3像素边缘平移搜索中，均以零位移最佳</td>
+</tr>
+</tbody>
+</table>
+<p>零位移诊断不证明亚像素、畸变和所有边缘处理完全相同。分析未进行曝光/白平衡补偿、直方图匹配或几何配准。三组拍摄分布在不同时间，本次仍只有每组每外观一张独立拍摄，没有重复拍摄方差或置信区间。</p>
+<p>各方案名称按用户指定测试流程映射；内部固件数字版本只保存在机器溯源记录中。公开名称不等同于用EXIF版本独立证明机内参数已加载。原 A7C II 项目 0.1.0与另外两种配方可能同时涉及色度、Gamma、矩阵及RAW元数据处理差异，本报告比较整体输出，不把全部差异归结为单一矩阵。</p>
+<h3 id="stfl">ST与FL控制结果</h3>
+<p>下表也是24块原尺寸均色ΔE00的平均值：</p>
+<table>
+<thead>
+<tr>
+<th>外观</th>
+<th>FX2 原厂</th>
+<th>当前配方</th>
+<th>原 A7C II 项目 0.1.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ST</td>
+<td>0.711</td>
+<td>0.702</td>
+<td>0.709</td>
+</tr>
+<tr>
+<td>FL</td>
+<td>1.444</td>
+<td>1.444</td>
+<td>1.444</td>
+</tr>
+</tbody>
+</table>
+<p>三组的ST均约0.70—0.71，FL均约1.44；控制外观的差异水平接近。相比之下，原 A7C II 项目 0.1.0的FL2/FL3差异明显增加，支持其新增外观输出与本次Edit参考的吻合程度较低。<strong>控制结果不作为可直接相减的“系统误差”，也不证明色差的唯一根因。</strong></p>
+<h2 id="12">三、全部12对测量结果</h2>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>外观</th>
+<th>照片编号</th>
+<th>RGB直方图交集 % ↑</th>
+<th>RGB W1 ↓</th>
+<th>24块均色ΔE00均值 ↓</th>
+<th>最差色块ΔE00 ↓</th>
+<th>缩图逐像素ΔE00均值 ↓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FX2 原厂</td>
+<td>ST</td>
+<td>DSC02838</td>
+<td>87.44</td>
+<td>1.246</td>
+<td>0.711</td>
+<td>1.526</td>
+<td>1.555</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL</td>
+<td>DSC02839</td>
+<td>85.98</td>
+<td>1.833</td>
+<td>1.444</td>
+<td>3.899</td>
+<td>2.172</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL2</td>
+<td>DSC02840</td>
+<td>86.24</td>
+<td>2.425</td>
+<td>1.565</td>
+<td>6.633</td>
+<td>2.112</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL3</td>
+<td>DSC02841</td>
+<td>88.16</td>
+<td>1.476</td>
+<td>0.951</td>
+<td>2.211</td>
+<td>1.711</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>ST</td>
+<td>DSC02835</td>
+<td>87.78</td>
+<td>1.226</td>
+<td>0.702</td>
+<td>1.527</td>
+<td>1.552</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL</td>
+<td>DSC02836</td>
+<td>85.95</td>
+<td>1.860</td>
+<td>1.444</td>
+<td>3.933</td>
+<td>2.222</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL2</td>
+<td>DSC02837</td>
+<td>87.67</td>
+<td>2.076</td>
+<td>1.233</td>
+<td>5.016</td>
+<td>1.871</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL3</td>
+<td>DSC02838</td>
+<td>90.07</td>
+<td>1.132</td>
+<td>0.678</td>
+<td>1.454</td>
+<td>1.576</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>ST</td>
+<td>DSC02834</td>
+<td>87.58</td>
+<td>1.245</td>
+<td>0.709</td>
+<td>1.502</td>
+<td>1.558</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL</td>
+<td>DSC02835</td>
+<td>86.29</td>
+<td>1.832</td>
+<td>1.444</td>
+<td>3.918</td>
+<td>2.197</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL2</td>
+<td>DSC02836</td>
+<td>73.92</td>
+<td>8.471</td>
+<td>4.336</td>
+<td>9.155</td>
+<td>3.657</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL3</td>
+<td>DSC02837</td>
+<td>75.07</td>
+<td>6.562</td>
+<td>4.070</td>
+<td>10.253</td>
+<td>3.710</td>
+</tr>
+</tbody>
+</table>
+<p>“RGB W1”以8位码值为单位，是R/G/B各自累计直方图差的面积均值；它反映分布需要移动多远。“缩图逐像素ΔE00”在1752×1168、同位置比较，用相同LANCZOS缩图，包含色彩、噪声、锐化及局部几何残差。主色块均色结果直接使用原尺寸像素，未缩图。</p>
+<h3 id="_3">各通道直方图与全分辨率像素误差</h3>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>外观</th>
+<th>R交集 %</th>
+<th>G交集 %</th>
+<th>B交集 %</th>
+<th>Y′交集 %</th>
+<th>RGB MAE / 码值</th>
+<th>RGB PSNR / dB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FX2 原厂</td>
+<td>ST</td>
+<td>90.65</td>
+<td>85.30</td>
+<td>86.36</td>
+<td>86.95</td>
+<td>4.229</td>
+<td>31.462</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL</td>
+<td>90.10</td>
+<td>82.40</td>
+<td>85.45</td>
+<td>84.78</td>
+<td>4.998</td>
+<td>29.569</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL2</td>
+<td>89.49</td>
+<td>85.47</td>
+<td>83.74</td>
+<td>85.69</td>
+<td>5.453</td>
+<td>28.115</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL3</td>
+<td>92.29</td>
+<td>87.76</td>
+<td>84.43</td>
+<td>88.63</td>
+<td>4.565</td>
+<td>30.426</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>ST</td>
+<td>90.82</td>
+<td>86.39</td>
+<td>86.13</td>
+<td>88.12</td>
+<td>4.261</td>
+<td>31.399</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL</td>
+<td>90.27</td>
+<td>82.19</td>
+<td>85.38</td>
+<td>85.33</td>
+<td>5.017</td>
+<td>29.529</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL2</td>
+<td>92.28</td>
+<td>85.92</td>
+<td>84.82</td>
+<td>87.65</td>
+<td>5.169</td>
+<td>28.843</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL3</td>
+<td>93.14</td>
+<td>89.88</td>
+<td>87.19</td>
+<td>91.06</td>
+<td>4.326</td>
+<td>30.629</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>ST</td>
+<td>90.69</td>
+<td>85.72</td>
+<td>86.32</td>
+<td>87.31</td>
+<td>4.250</td>
+<td>31.434</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL</td>
+<td>90.17</td>
+<td>83.08</td>
+<td>85.60</td>
+<td>85.32</td>
+<td>5.131</td>
+<td>29.376</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL2</td>
+<td>79.23</td>
+<td>71.87</td>
+<td>70.66</td>
+<td>74.56</td>
+<td>10.093</td>
+<td>24.480</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL3</td>
+<td>74.05</td>
+<td>77.90</td>
+<td>73.26</td>
+<td>78.92</td>
+<td>8.757</td>
+<td>26.205</td>
+</tr>
+</tbody>
+</table>
+<p>MAE与PSNR由原尺寸逐位置RGB差得到，不能单独解释为颜色参数误差；JPEG压缩、降噪、锐化和亚像素处理也会影响它们。Y′使用<code>round(0.2126R′+0.7152G′+0.0722B′)</code>，是编码亮度指标，不是线性光亮度或相机曝光计读数。</p>
+<h2 id="_4">四、色块偏移方向</h2>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>外观</th>
+<th>18彩色块均色ΔE00</th>
+<th>6灰阶块均色ΔE00</th>
+<th>平均ΔL*</th>
+<th>平均Δa*</th>
+<th>平均Δb*</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FX2 原厂</td>
+<td>FL2</td>
+<td>1.872</td>
+<td>0.643</td>
+<td>+0.477</td>
+<td>+0.397</td>
+<td>-2.309</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL3</td>
+<td>0.982</td>
+<td>0.857</td>
+<td>-0.151</td>
+<td>+0.508</td>
+<td>+0.454</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL2</td>
+<td>1.464</td>
+<td>0.540</td>
+<td>+0.545</td>
+<td>-0.341</td>
+<td>-1.582</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL3</td>
+<td>0.706</td>
+<td>0.596</td>
+<td>+0.204</td>
+<td>+0.012</td>
+<td>+0.085</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL2</td>
+<td>4.858</td>
+<td>2.767</td>
+<td>+3.823</td>
+<td>+0.096</td>
+<td>-4.529</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL3</td>
+<td>4.514</td>
+<td>2.738</td>
+<td>+3.411</td>
+<td>+1.251</td>
+<td>+2.821</td>
+</tr>
+</tbody>
+</table>
+<p>符号统一为 <strong>Edit后期 − 机内直出</strong>：ΔL<em>&gt;0表示后期更亮；Δa</em>&gt;0表示更偏红、&lt;0更偏绿；Δb*&gt;0表示更偏黄、&lt;0更偏蓝。表内是各测区均色的方向性摘要，正负抵消后可能很小，不能替代每块ΔE00。18彩色块、6灰阶块分别等权平均。</p>
+<p><img alt="最差色块的Lab偏移方向" src="assets/FL23_signed_Lab.png" /></p>
+<h2 id="_5">五、测量方法与复核</h2>
+<ol>
+<li><strong>输入固定</strong>：为原JPG、原始ARW和处理ARW记录SHA-256及大小；只用24张JPG计算直方图和像素差，分析前后核对输入未变化。原始照片均未改写或重新显影；本次公开仅包含报告派生图，不上传原始照片。</li>
+<li><strong>原尺寸直方图</strong>：每张图用全部32,741,376个像素，对R/G/B及Y′计算256档计数、归一化概率。交集<code>Σmin(p,q)</code>，总变差<code>0.5Σ|p−q|</code>；W1为离散CDF差的绝对面积。另保存BC、JS和16档粗分箱结果，不以单一指标代替全部判断。</li>
+<li><strong>固定色块测区</strong>：在查看数值差异之前，从机内图选择共同6×4网格；采样每格中心30%宽、30%高，避开边框与明显边缘。三种方案与每对后期图共用同一规则，不按误差大小挑选区域。主结果先将原尺寸sRGB像素转换为Lab D65，逐块求平均Lab，计算两均色之间ΔE00，再等权汇总24块。色卡没有被当作已校准的准确度标准。</li>
+<li><strong>色差算法验证</strong>：CIEDE2000取kL=kC=kH=1；通过<a href="https://hajim.rochester.edu/ece/sites/gsharma/ciede2000/">Sharma、Wu、Dalal公开的34组参考数据</a>，最大绝对误差 <strong>0.00004950</strong>。另有恒等、对称性、sRGB红/中灰以及直方图端点测试。</li>
+<li><strong>不同实现复核</strong>：使用Pillow原生histogram和ImageChops差图，分别重算24图RGB计数及12对MAE/PSNR，与主NumPy分块实现一致。这是同任务另一种计算实现，不声称独立人员审查。</li>
+<li><strong>缩放与测区敏感性</strong>：主色块结果使用原图。原图与1752×1168缩图的24块平均色差最大差为 <strong>0.002321</strong>。下面将中心区域改为20%/30%/40%进行补充检查；这些敏感性值在同一缩图网格计算，FL2/FL3顺序均不变。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>外观</th>
+<th>20%中心区域</th>
+<th>30%中心区域</th>
+<th>40%中心区域</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FX2 原厂</td>
+<td>FL2</td>
+<td>1.560</td>
+<td>1.566</td>
+<td>1.566</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL3</td>
+<td>0.953</td>
+<td>0.949</td>
+<td>0.950</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL2</td>
+<td>1.236</td>
+<td>1.233</td>
+<td>1.230</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL3</td>
+<td>0.678</td>
+<td>0.679</td>
+<td>0.676</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL2</td>
+<td>4.338</td>
+<td>4.337</td>
+<td>4.334</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL3</td>
+<td>4.072</td>
+<td>4.072</td>
+<td>4.074</td>
+</tr>
+</tbody>
+</table>
+<p>24个色块属于同一次拍摄，不是24次独立固件实验；测区敏感性也不是物理重拍重复性。当前结果不提供跨光源通用排名、统计显著性或真实色彩准确度判断。</p>
+<h2 id="_6">六、结论与后续用途</h2>
+<ul>
+<li>以<strong>匹配本次Edit参考</strong>为目标，本批FL2/FL3均优先保留<strong>当前配方</strong>；FX2 原厂居中；原 A7C II 项目 0.1.0在本次M4测试的偏差较大。该判断同时得到直方图交集、W1和原尺寸色块均色差支持。</li>
+<li>当前配方的<strong>FL3已较接近参考</strong>；<strong>FL2黄/橙色块仍需要单独关注</strong>。下一步可围绕7、12、16号块定位差异，不应仅凭均值宣布全部颜色一致。</li>
+<li>这份结果不能独立证明A7C II原项目本身存在错误，也不能区分矩阵、色度、Gamma、RAW参考和机内/软件渲染各自贡献。涉及参数修正时，应先核对相关输入与实际加载状态，再做一次只改变一个变量的对照。</li>
+<li>若要推广到其他光源，需在不同色温/光谱下重复同样的配对测试并做重复拍摄；本报告不触发新的相机操作或固件修改。</li>
+</ul>
+<h2 id="_7">七、样本与证据索引</h2>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>外观</th>
+<th>直出文件</th>
+<th>后期文件</th>
+<th>拍摄时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FX2 原厂</td>
+<td>ST</td>
+<td>DSC02838_ST.JPG</td>
+<td>DSC02838_ST_后期.JPG</td>
+<td>20:29:09</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL</td>
+<td>DSC02839_FL.JPG</td>
+<td>DSC02839_FL_后期.JPG</td>
+<td>20:29:12</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL2</td>
+<td>DSC02840_FL2.JPG</td>
+<td>DSC02840_FL2_后期.JPG</td>
+<td>20:29:18</td>
+</tr>
+<tr>
+<td>FX2 原厂</td>
+<td>FL3</td>
+<td>DSC02841_FL3.JPG</td>
+<td>DSC02841_FL3_后期.JPG</td>
+<td>20:29:20</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>ST</td>
+<td>DSC02835_ST.JPG</td>
+<td>DSC02835_ST_后期.JPG</td>
+<td>20:15:47</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL</td>
+<td>DSC02836_FL.JPG</td>
+<td>DSC02836_FL_后期.JPG</td>
+<td>20:15:52</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL2</td>
+<td>DSC02837_FL2.JPG</td>
+<td>DSC02837_FL2_后期.JPG</td>
+<td>20:15:55</td>
+</tr>
+<tr>
+<td>当前配方</td>
+<td>FL3</td>
+<td>DSC02838_FL3.JPG</td>
+<td>DSC02838_FL3_后期.JPG</td>
+<td>20:15:59</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>ST</td>
+<td>DSC02834_ST.JPG</td>
+<td>DSC02834_ST_后期.JPG</td>
+<td>20:23:29</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL</td>
+<td>DSC02835_FL.JPG</td>
+<td>DSC02835_FL_后期.JPG</td>
+<td>20:23:34</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL2</td>
+<td>DSC02836_FL2.JPG</td>
+<td>DSC02836_FL2_后期.JPG</td>
+<td>20:23:38</td>
+</tr>
+<tr>
+<td>原 A7C II 项目 0.1.0</td>
+<td>FL3</td>
+<td>DSC02837_Fl3.JPG</td>
+<td>DSC02837_FL3_后期.JPG</td>
+<td>20:23:43</td>
+</tr>
+</tbody>
+</table>
+<p>同一DSC编号可能出现在不同方案或不同外观中；所有计算使用“方案＋外观＋编号＋文件哈希”定位，没有按编号跨文件夹误配。</p>
+<table>
+<thead>
+<tr>
+<th>证据</th>
+<th>文件</th>
+<th>验证范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E-001</td>
+<td><a href="data/source_manifest.json">源文件身份清单</a></td>
+<td>方案内相对文件名/大小/SHA-256；原照片留本地</td>
+</tr>
+<tr>
+<td>E-002</td>
+<td><a href="data/capture_validation.json">拍摄条件核验</a>、<a href="data/metadata.json">完整元数据</a></td>
+<td>EXIF一致性；公开导出移除内部固件软件版本字段</td>
+</tr>
+<tr>
+<td>E-003</td>
+<td><a href="data/metrics.json">原始测量</a></td>
+<td>每对全尺寸直方图、像素差和补充缩图测量</td>
+</tr>
+<tr>
+<td>E-004</td>
+<td><a href="data/independent_review.json">独立实现及测区敏感性</a></td>
+<td>Pillow RGB直方图/ImageChops，以及20%/30%/40%测区</td>
+</tr>
+<tr>
+<td>E-005</td>
+<td><a href="data/native_patch_review.json">原尺寸色块均色</a></td>
+<td>主色块数据及逐块方向，不经过缩图</td>
+</tr>
+</tbody>
+</table>
+<p>E-001/E-002固定输入；E-003/E-004/E-005支持三方案在本批输出一致程度的比较；固定条件、配对→全图与色块计算→独立复核→有限范围结论构成完整证据链。<a href="METHODS.md">公开范围与复核方法</a>说明本轮没有相机I/O，也没有恢复此前暂停批次的结论。</p>
+<p><a href="指标汇总.csv">指标CSV</a> · <a href="逐色块数据.csv">逐色块CSV</a>。数字采用未四舍五入的机器数据计算，表格仅作显示取舍。</p>
+<h2 id="_8">八、逐对照片、直方图与测区</h2>
+<p>下面每一组都可展开查看。直方图对同一通道采用统一坐标尺度；热图只作为补充，来自1752×1168同位置ΔE00，显示刻度0—10，超过10按上限显示。它不替代原尺寸色块均色表。</p>
+<details data-group="fx2">
+<summary>FX2 原厂 · ST · DSC02838 ｜RGB交集 87.44% ｜24块均色ΔE00 0.711</summary>
+<p><img alt="FX2 原厂 ST 机内直出与Edit" src="assets/fx2_ST_pair.jpg" /></p>
+<p><img alt="FX2 原厂 ST 全分辨率直方图" src="assets/fx2_ST_hist.png" /></p>
+<p><img alt="FX2 原厂 ST 固定色块中心区域" src="assets/fx2_ST_ROI.jpg" /></p>
+</details>
+<details data-group="fx2">
+<summary>FX2 原厂 · FL · DSC02839 ｜RGB交集 85.98% ｜24块均色ΔE00 1.444</summary>
+<p><img alt="FX2 原厂 FL 机内直出与Edit" src="assets/fx2_FL_pair.jpg" /></p>
+<p><img alt="FX2 原厂 FL 全分辨率直方图" src="assets/fx2_FL_hist.png" /></p>
+<p><img alt="FX2 原厂 FL 固定色块中心区域" src="assets/fx2_FL_ROI.jpg" /></p>
+</details>
+<details data-group="fx2">
+<summary>FX2 原厂 · FL2 · DSC02840 ｜RGB交集 86.24% ｜24块均色ΔE00 1.565</summary>
+<p><img alt="FX2 原厂 FL2 机内直出与Edit" src="assets/fx2_FL2_pair.jpg" /></p>
+<p><img alt="FX2 原厂 FL2 全分辨率直方图" src="assets/fx2_FL2_hist.png" /></p>
+<p><img alt="FX2 原厂 FL2 固定色块中心区域" src="assets/fx2_FL2_ROI.jpg" /></p>
+<p><img alt="FX2 原厂 FL2 逐像素色差" src="assets/fx2_FL2_pixel_heat.png" /></p>
+</details>
+<details data-group="fx2">
+<summary>FX2 原厂 · FL3 · DSC02841 ｜RGB交集 88.16% ｜24块均色ΔE00 0.951</summary>
+<p><img alt="FX2 原厂 FL3 机内直出与Edit" src="assets/fx2_FL3_pair.jpg" /></p>
+<p><img alt="FX2 原厂 FL3 全分辨率直方图" src="assets/fx2_FL3_hist.png" /></p>
+<p><img alt="FX2 原厂 FL3 固定色块中心区域" src="assets/fx2_FL3_ROI.jpg" /></p>
+<p><img alt="FX2 原厂 FL3 逐像素色差" src="assets/fx2_FL3_pixel_heat.png" /></p>
+</details>
+<details data-group="current">
+<summary>当前配方 · ST · DSC02835 ｜RGB交集 87.78% ｜24块均色ΔE00 0.702</summary>
+<p><img alt="当前配方 ST 机内直出与Edit" src="assets/current_ST_pair.jpg" /></p>
+<p><img alt="当前配方 ST 全分辨率直方图" src="assets/current_ST_hist.png" /></p>
+<p><img alt="当前配方 ST 固定色块中心区域" src="assets/current_ST_ROI.jpg" /></p>
+</details>
+<details data-group="current">
+<summary>当前配方 · FL · DSC02836 ｜RGB交集 85.95% ｜24块均色ΔE00 1.444</summary>
+<p><img alt="当前配方 FL 机内直出与Edit" src="assets/current_FL_pair.jpg" /></p>
+<p><img alt="当前配方 FL 全分辨率直方图" src="assets/current_FL_hist.png" /></p>
+<p><img alt="当前配方 FL 固定色块中心区域" src="assets/current_FL_ROI.jpg" /></p>
+</details>
+<details data-group="current">
+<summary>当前配方 · FL2 · DSC02837 ｜RGB交集 87.67% ｜24块均色ΔE00 1.233</summary>
+<p><img alt="当前配方 FL2 机内直出与Edit" src="assets/current_FL2_pair.jpg" /></p>
+<p><img alt="当前配方 FL2 全分辨率直方图" src="assets/current_FL2_hist.png" /></p>
+<p><img alt="当前配方 FL2 固定色块中心区域" src="assets/current_FL2_ROI.jpg" /></p>
+<p><img alt="当前配方 FL2 逐像素色差" src="assets/current_FL2_pixel_heat.png" /></p>
+</details>
+<details data-group="current">
+<summary>当前配方 · FL3 · DSC02838 ｜RGB交集 90.07% ｜24块均色ΔE00 0.678</summary>
+<p><img alt="当前配方 FL3 机内直出与Edit" src="assets/current_FL3_pair.jpg" /></p>
+<p><img alt="当前配方 FL3 全分辨率直方图" src="assets/current_FL3_hist.png" /></p>
+<p><img alt="当前配方 FL3 固定色块中心区域" src="assets/current_FL3_ROI.jpg" /></p>
+<p><img alt="当前配方 FL3 逐像素色差" src="assets/current_FL3_pixel_heat.png" /></p>
+</details>
+<details data-group="a7cii">
+<summary>原 A7C II 项目 0.1.0 · ST · DSC02834 ｜RGB交集 87.58% ｜24块均色ΔE00 0.709</summary>
+<p><img alt="原 A7C II 项目 0.1.0 ST 机内直出与Edit" src="assets/a7cii_ST_pair.jpg" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 ST 全分辨率直方图" src="assets/a7cii_ST_hist.png" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 ST 固定色块中心区域" src="assets/a7cii_ST_ROI.jpg" /></p>
+</details>
+<details data-group="a7cii">
+<summary>原 A7C II 项目 0.1.0 · FL · DSC02835 ｜RGB交集 86.29% ｜24块均色ΔE00 1.444</summary>
+<p><img alt="原 A7C II 项目 0.1.0 FL 机内直出与Edit" src="assets/a7cii_FL_pair.jpg" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 FL 全分辨率直方图" src="assets/a7cii_FL_hist.png" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 FL 固定色块中心区域" src="assets/a7cii_FL_ROI.jpg" /></p>
+</details>
+<details data-group="a7cii">
+<summary>原 A7C II 项目 0.1.0 · FL2 · DSC02836 ｜RGB交集 73.92% ｜24块均色ΔE00 4.336</summary>
+<p><img alt="原 A7C II 项目 0.1.0 FL2 机内直出与Edit" src="assets/a7cii_FL2_pair.jpg" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 FL2 全分辨率直方图" src="assets/a7cii_FL2_hist.png" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 FL2 固定色块中心区域" src="assets/a7cii_FL2_ROI.jpg" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 FL2 逐像素色差" src="assets/a7cii_FL2_pixel_heat.png" /></p>
+</details>
+<details data-group="a7cii">
+<summary>原 A7C II 项目 0.1.0 · FL3 · DSC02837 ｜RGB交集 75.07% ｜24块均色ΔE00 4.070</summary>
+<p><img alt="原 A7C II 项目 0.1.0 FL3 机内直出与Edit" src="assets/a7cii_FL3_pair.jpg" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 FL3 全分辨率直方图" src="assets/a7cii_FL3_hist.png" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 FL3 固定色块中心区域" src="assets/a7cii_FL3_ROI.jpg" /></p>
+<p><img alt="原 A7C II 项目 0.1.0 FL3 逐像素色差" src="assets/a7cii_FL3_pixel_heat.png" /></p>
+</details></main><script>function filterPairs(v){document.querySelectorAll('details[data-group]').forEach(x=>x.hidden=v!=='all'&&x.dataset.group!==v)}</script></body></html>

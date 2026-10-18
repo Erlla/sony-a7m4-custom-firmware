@@ -1,0 +1,11 @@
+{
+  "CIEDE2000_reference_pairs": 34,
+  "max_absolute_reference_error": 4.9498977271467126e-05,
+  "reference": {
+    "path": "ciede2000testdata.txt",
+    "bytes": 1830,
+    "sha256": "44aebb39107128328add54fbef5ac8ee89909e50508f448a1580adea2058a4b8"
+  },
+  "identity_symmetry_histogram_endpoints": true,
+  "sRGB_red_neutral_reference": true
+}

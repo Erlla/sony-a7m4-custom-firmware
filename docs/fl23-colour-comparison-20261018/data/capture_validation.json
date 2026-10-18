@@ -1,0 +1,35 @@
+{
+  "fixed_EXIF": {
+    "Model": "ILCE-7M4",
+    "ExposureTime": 0.00625,
+    "FNumber": 6.3,
+    "ISOSpeedRatings": 800,
+    "FocalLength": 96.0,
+    "FocalLengthIn35mmFilm": 96,
+    "LensModel": "20-200mm F3.5-6.3 DG | Contemporary 025",
+    "WhiteBalance": 1,
+    "ColorSpace": 1,
+    "Orientation": 1
+  },
+  "size": [
+    7008,
+    4672
+  ],
+  "matched_JPEG_pairs": 12,
+  "matched_capture_fields": [
+    "Model",
+    "DateTimeOriginal",
+    "ExposureTime",
+    "FNumber",
+    "ISOSpeedRatings",
+    "FocalLength",
+    "FocalLengthIn35mmFilm",
+    "LensModel",
+    "WhiteBalance",
+    "ColorSpace",
+    "Orientation"
+  ],
+  "user_reports_same_manual_WB_value": true,
+  "EXIF_confirms_manual_WB_mode_only": true,
+  "software_versions_are_internal_provenance_only": true
+}

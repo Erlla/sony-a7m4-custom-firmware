@@ -12,6 +12,8 @@ The MIT grant does not relicense Sony firmware, extracted libraries, donor color
 - squashfs-tools-ng 1.3.2: CLI tools GPL-3.0-or-later, libsquashfs LGPL-3.0-or-later. External local binaries must retain their license material. If you distribute such binaries, satisfy corresponding-source and dependency-notice requirements; a link alone may be insufficient. Compression/library dependencies keep their own licenses.
 - RP2040 toolchain: arduino-pico has mixed core/library notices; Pico SDK is BSD-3-Clause with bundled notices. GCC/Binutils and Arduino CLI retain their own terms. The local historical UF2/payload have not been demonstrated reproducibly identical to a clean upstream checkout.
 
+- [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research): A7C II research reference and historical0.1.0 recipe comparison. Its newly authored code is MIT; no source/payload is copied here. Its Sony firmware, colour data and separately supplied profiles are not covered by this repository's MIT license.
+
 ## Python distributions
 
 The core runtime uses pySerial 3.5 (BSD-3-Clause), pyelftools 0.32 (public-domain/license dedication details upstream), and cryptography 46.0.3 (Apache-2.0 or BSD-3-Clause). CPython uses the PSF license and included notices. cryptography's wheel/build dependencies, including OpenSSL, Rust components, cffi and pycparser, have their own notices.

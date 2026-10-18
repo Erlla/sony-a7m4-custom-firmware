@@ -126,18 +126,18 @@ python -m a7m4.fl23 build --ap local/stock/appFw.so --cp local/stock/CPAPP-B.BIN
 最终发布版本由统一打包时确定；先将PowerShell变量`$ReleaseVersion`设为计划发布的`X.YY`版本，构建器不预填内部测试编号。构建完整 SD 包，指定与你机内更新器相同的密钥。此例明确使用已公开的实验身份，亦可换成自己私有的匹配密钥：
 
 ```powershell
-python -m a7m4.firmware build-fl23 --official local/M4-Ver.6.02.DAT --components output/fl23-components --public-key keys/published/A7M4_updater_public.pem --private-key keys/published/A7M4_updater_private.pem --version "$ReleaseVersion" --output output/fl23-sd
+python -m a7m4.firmware build-fl23 --official local/M4-Ver.6.02.DAT --components output/fl23-components --fx2-cc1 local/fx2-color/cc1.bin --fx2-block13 local/fx2-color/block13.bin --public-key keys/published/A7M4_updater_public.pem --private-key keys/published/A7M4_updater_private.pem --version "$ReleaseVersion" --output output/fl23-sd
 ```
 
 输出 `BODYDATA.DAT` 与 `verification.json`。构建器更新 AP/CP、暖启动标志、更新器信任配置、分区 CRC 清单及头版本/CRC；保留 TAR 布局和其他成员，重算全部 739,727 块校验/重加密/签名/DEND，完整重解码逐字节核对。`work/UNSIGNED_DO_NOT_INSTALL.DAT` 是未签名中间包，禁止安装。SquashFS 重建的时间戳等可能使最终 DAT 哈希随构建变化；AP/CP 的目标哈希固定，不能用历史 DAT 哈希替代当前包自己的核验。
 
 SD 包内部镜像长度可能小于相机完整分区长度，不可直接把解出的 DAT 成员当作 fastboot 整分区镜像。最终包可按 [独立校验命令](../../docs/validation.md) 再核对所有块、签名和六项镜像 CRC。
 
-**这个 SD 包不把你的个人 nfa2/nfa6 写进通用出厂模板，也不自动建立出厂复位后的 FL2/FL3 默认槽。** 其构建完成不表示颜色副本已部署或 NOR 已同步。
+**SD 构建现在自动修复全部32份通用 BK4 模板中的十处 FL2/FL3 颜色字段，并更新 backup.sum，避免已启用外观在 SD 配置迁移后丢失颜色数据。** 不嵌入个人 nfa2/nfa6，不修改 LOOK 默认槽或复位数据，不承诺恢复出厂后一键启用；构建成功也不代表 NOR 已同步。[修复原理、验证与边界](sd-colour-preservation.md)。
 
 ## 实机安装顺序
 
-1. 核实基线、可恢复的本机完整 eMMC/boot0/boot1 备份、独立物理 NOR 备份、供电、线序和所有源/目标哈希。确认没有另一台机身连接。
+1. **安装索尼原厂电池，SD 更新/恢复更新不得使用副厂电池**；核实基线、可恢复的本机完整 eMMC/boot0/boot1 备份、独立物理 NOR 备份、供电、线序和所有源/目标哈希。确认没有另一台机身连接。
 2. 按独立方法 1 建立与最终 DAT 签名公钥匹配的机内更新器。不能依靠包内的新公钥来引导尚不信任它的原厂更新器。
 3. 只将刚才基于本机备份生成的 nfa2/nfa6 写回对应分区，完成完整读回核对。熟悉上游 payload 的用户可在已备份的 fastboot 会话使用 `fastboot flash nflasha2 <本机生成镜像>`、`fastboot flash nflasha6 <本机生成镜像>`；这是**外部 fastboot 的直接写入**，不经过主机菜单的备份/确认保护，必须自行先完成备份和核对。不要刷别人的整分区。
 4. 重新完整备份到新目录，用新备份的 nfa2/nfa6 与构建输出进行完整 SHA-256 比较；错误时保留 fastboot，使用匹配回滚镜像处理。不要在未核对状态继续 SD 更新。
@@ -162,3 +162,5 @@ python -m a7m4.fl23 verify-nor --nor local/post-update-nor.bin --cp output/fl23-
 固定A1配置已完成fastboot写后及正常开机后的完整回读；新拍两外观均记录正确名称和编号。RAW无损写出修复后的两张原始RAW各105项精确匹配A1，FL2右下项为1614。独立配方仅接受文档列出的精确源哈希，未自动合入官方6.02基线构建。现有本机验收也不能替代未来统一打包产物的独立检查。详见[当前结果](color-validation-20261017.md)。
 
 **当前结论：FL2/FL3 供体外观数据一致；固定 A1 样片与 Imaging Edge 重选颜色接近，已无此前主要矩阵选择造成的偏色。** 这不等同于 JPEG 零差异，也不等同于复刻 FX2 全部动态插值。若要额外合并电池或镜头方法，分别阅读[方法4](../04-third-party-battery/README.md)、[方法5（未经实机测试）](../05-third-party-lens-af/README.md)；它们不是默认 FL2/FL3 构建的一部分。
+
+[2026-10-18 固定条件三配方实拍报告](../../docs/fl23-colour-comparison-20261018/README.md)：当前配方、FX2 原厂、原 A7C II 项目 0.1.0；保留全部12对直方图、原尺寸色块指标与残差。

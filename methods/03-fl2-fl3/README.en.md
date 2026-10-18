@@ -115,14 +115,14 @@ Build a complete SD package with the same key trusted by your installed updater.
 Set the PowerShell variable `$ReleaseVersion` to the planned `X.YY` release assigned during unified packaging. The builder requires it explicitly and does not assign an internal test number.
 
 ```powershell
-python -m a7m4.firmware build-fl23 --official local/M4-Ver.6.02.DAT --components output/fl23-components --public-key keys/published/A7M4_updater_public.pem --private-key keys/published/A7M4_updater_private.pem --version "$ReleaseVersion" --output output/fl23-sd
+python -m a7m4.firmware build-fl23 --official local/M4-Ver.6.02.DAT --components output/fl23-components --fx2-cc1 local/fx2-color/cc1.bin --fx2-block13 local/fx2-color/block13.bin --public-key keys/published/A7M4_updater_public.pem --private-key keys/published/A7M4_updater_private.pem --version "$ReleaseVersion" --output output/fl23-sd
 ```
 
 The builder emits `BODYDATA.DAT` and `verification.json`. It updates AP/CP, the warm-boot marker, updater trust, partition checksum manifests and header version/CRC; preserves TAR layout and other members; recalculates/re-encrypts all 739,727 blocks; signs and updates DEND; then decodes the entire package for byte-for-byte comparison. Never install `work/UNSIGNED_DO_NOT_INSTALL.DAT`. SquashFS build timestamps can change the final package hash between builds; AP/CP hashes remain fixed. Historical package hashes cannot replace validation of a newly built package.
 
 SD member images can be shorter than physical partitions; do not treat extracted DAT members as complete fastboot partition images. Run the [independent audit](../../docs/validation.md) to recheck all blocks, signatures and six image CRCs.
 
-**The SD package does not put your personal nfa2/nfa6 into shared factory defaults or seed FL2/FL3 after factory reset.** Successful construction does not deploy personal color records or synchronize physical NOR.
+**SD builds now repair ten FL2/FL3 colour fields in all32 generic BK4 templates and update backup.sum.** This addresses colour data lost during SD settings migration for already-enabled looks. No personalized nfa2/nfa6, LOOK defaults or reset data are embedded/changed; factory-reset activation and physical NOR synchronization are not implied. See [repair and validation boundaries](sd-colour-preservation.md).
 
 ## Physical installation sequence
 
@@ -151,3 +151,5 @@ Take new FL2 and FL3 ARW/JPEG photographs and verify shooting menus, colors, pla
 Fixed-A1 configuration passed full write readback and post-boot persistence checks. Fresh photos record FL2/22 and FL3/23. After the lossless RAW repair, both original RAWs match all 105 A1 values; FL2 writes 1614. The separate recipe accepts only its documented exact source hash and is not implicitly merged into the official 6.02 baseline build. Existing camera acceptance does not validate a future unified package. See [current evidence](color-validation-20261017.md).
 
 Correct menu/playback names and matching donor records do not establish official color equivalence: **the current fixed-A1 samples closely match Imaging Edge re-selection, with measured residuals**. Optional battery and lens changes are documented separately in [Method 4](../04-third-party-battery/README.en.md) and [Method 5 (untested on hardware)](../05-third-party-lens-af/README.en.md); neither is included in default FL2/FL3 builds.
+
+**Use an original Sony battery for every SD update or recovery update, even when the third-party battery patch is installed.** [Fixed-condition three-recipe photo report](../../docs/fl23-colour-comparison-20261018/README.md).

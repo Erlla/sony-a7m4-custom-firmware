@@ -1,0 +1,338 @@
+[
+  {
+    "path": "原 A7C II 项目 0.1.0/原始/DSC02834_ST.ARW",
+    "bytes": 68984832,
+    "sha256": "90a56b9c9e20d04ccddd217152aff8748561970ab96e569e0709fc0bd6f0ae55",
+    "relative_path": "原 A7C II 项目 0.1.0/原始/DSC02834_ST.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/原始/DSC02835_FL.ARW",
+    "bytes": 69255168,
+    "sha256": "4989f93e6ab450b616d69534961b776e0d20600a7288795dba0282318a968ce9",
+    "relative_path": "原 A7C II 项目 0.1.0/原始/DSC02835_FL.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/原始/DSC02836_FL2.ARW",
+    "bytes": 68919296,
+    "sha256": "4f089773d7a02a097ae842100a839ac6f1d835325dc3ac006921a98e6a1208a4",
+    "relative_path": "原 A7C II 项目 0.1.0/原始/DSC02836_FL2.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/原始/DSC02837_FL3.ARW",
+    "bytes": 69042176,
+    "sha256": "c543b46375676c3079f6ca2c32270e21f085a1283f1ae660f6ba4baa333d7d4b",
+    "relative_path": "原 A7C II 项目 0.1.0/原始/DSC02837_FL3.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/对比/DSC02834_ST.JPG",
+    "bytes": 20855978,
+    "sha256": "5541674953588b1a6dffdf3d82e538fa36016402f50916fba2cf4232f6f9b5fe",
+    "relative_path": "原 A7C II 项目 0.1.0/对比/DSC02834_ST.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/对比/DSC02834_ST_后期.JPG",
+    "bytes": 22108612,
+    "sha256": "8772590ea8929b22e1797f38003946ef5948d69cdf5952c7a5dd932eba0296d6",
+    "relative_path": "原 A7C II 项目 0.1.0/对比/DSC02834_ST_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/对比/DSC02835_FL.JPG",
+    "bytes": 20899291,
+    "sha256": "83a833c9b99683fa02dd8ab83d7fc516068e1737abad6a9f0668315e756abc61",
+    "relative_path": "原 A7C II 项目 0.1.0/对比/DSC02835_FL.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/对比/DSC02835_FL_后期.JPG",
+    "bytes": 22614912,
+    "sha256": "a6f02f6a50b900699208f823505b3dad7c46870abe053b0ea7b4b09391f3b62f",
+    "relative_path": "原 A7C II 项目 0.1.0/对比/DSC02835_FL_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/对比/DSC02836_FL2.JPG",
+    "bytes": 20227974,
+    "sha256": "f5c949706753593eee7daa0370c3ae52229bc2928885106e1c18e8f5ec6670aa",
+    "relative_path": "原 A7C II 项目 0.1.0/对比/DSC02836_FL2.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/对比/DSC02836_FL2_后期.JPG",
+    "bytes": 20193133,
+    "sha256": "90312d5af2b8356a20b40eafc7f89226df1b02057438306f0818dbfdcedff9b8",
+    "relative_path": "原 A7C II 项目 0.1.0/对比/DSC02836_FL2_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/对比/DSC02837_Fl3.JPG",
+    "bytes": 20643266,
+    "sha256": "e3d6600acbd0d2bea9dd91c9427cbc49cec4e0aef5f7053a421b5e03d7a07a19",
+    "relative_path": "原 A7C II 项目 0.1.0/对比/DSC02837_Fl3.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/对比/DSC02837_FL3_后期.JPG",
+    "bytes": 21390318,
+    "sha256": "7b329bcde04948459366d35e0310b42770ad0b2f712b8db81472bea58c4f6161",
+    "relative_path": "原 A7C II 项目 0.1.0/对比/DSC02837_FL3_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/破解raw/DSC02834_ST.ARW",
+    "bytes": 69026504,
+    "sha256": "1b82363c39cbfa984723d26c5d206e1564c48499295720a7d6fa7ae671ee9054",
+    "relative_path": "原 A7C II 项目 0.1.0/破解raw/DSC02834_ST.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/破解raw/DSC02835_FL.ARW",
+    "bytes": 69296840,
+    "sha256": "cf7eb232e5e667301cd8b9e2f2ffb19d2da07086894be53af962f37ace95e604",
+    "relative_path": "原 A7C II 项目 0.1.0/破解raw/DSC02835_FL.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/破解raw/DSC02836_FL2.ARW",
+    "bytes": 68960968,
+    "sha256": "185d2ea4837bef206948cdabcf3e502a6fbceeb5cb8d4a47876dc59ba3cca4bb",
+    "relative_path": "原 A7C II 项目 0.1.0/破解raw/DSC02836_FL2.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "原 A7C II 项目 0.1.0/破解raw/DSC02837_FL3.ARW",
+    "bytes": 69083848,
+    "sha256": "655610a8c1df0c6f440ba400144ac02dffcbd64a06a123db55e3177ad8727160",
+    "relative_path": "原 A7C II 项目 0.1.0/破解raw/DSC02837_FL3.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "FX2 原厂/原始/DSC02838_ST.ARW",
+    "bytes": 68964352,
+    "sha256": "a1c6bbb1dfc7a52fbce03eb7d3e80de89f9ebc22740b68a1f75bae4bf3167886",
+    "relative_path": "FX2 原厂/原始/DSC02838_ST.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "FX2 原厂/原始/DSC02839_FL.ARW",
+    "bytes": 69095424,
+    "sha256": "421b87aec7262da5187ac250562376ae9f1f6ec282d4b0f3d367b4eb7bedd42b",
+    "relative_path": "FX2 原厂/原始/DSC02839_FL.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "FX2 原厂/原始/DSC02840_FL2.ARW",
+    "bytes": 69054464,
+    "sha256": "d35b93137262cd45e4b74a0bc4f89dea2df4c3d3f1dc1160e3429974a0dfaca3",
+    "relative_path": "FX2 原厂/原始/DSC02840_FL2.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "FX2 原厂/原始/DSC02841_FL3.ARW",
+    "bytes": 69255168,
+    "sha256": "9f1e8e2423910e23f15811a91e3e8d126d4a5ddbabe034239b0e26d9cd330059",
+    "relative_path": "FX2 原厂/原始/DSC02841_FL3.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "FX2 原厂/对比/DSC02838_ST.JPG",
+    "bytes": 20818436,
+    "sha256": "cd9d357141228a0cbcf6df99b5be84a264224ff02e0280e9c85bd5ead55bec78",
+    "relative_path": "FX2 原厂/对比/DSC02838_ST.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "FX2 原厂/对比/DSC02838_ST_后期.JPG",
+    "bytes": 22070508,
+    "sha256": "d4a211b930a9c9f10ed520639316b8e3b8a6e5049f30a0801e101a7f6e1d67e4",
+    "relative_path": "FX2 原厂/对比/DSC02838_ST_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "FX2 原厂/对比/DSC02839_FL.JPG",
+    "bytes": 20479242,
+    "sha256": "d8358a0e4a6b8cf20e9091d0f567beeae35c02f05ecc7b85d1381d162ab60ffe",
+    "relative_path": "FX2 原厂/对比/DSC02839_FL.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "FX2 原厂/对比/DSC02839_FL_后期.JPG",
+    "bytes": 22297006,
+    "sha256": "a071680c01376f0e00a69d71f21ad6cadf101d2e654f72ee8360d51e9bba8c10",
+    "relative_path": "FX2 原厂/对比/DSC02839_FL_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "FX2 原厂/对比/DSC02840_FL2.JPG",
+    "bytes": 20333050,
+    "sha256": "dd81a2b36eebdd17a1bf1c17e7b8ed3b59b7ee72a14b094bc817f61e623235d3",
+    "relative_path": "FX2 原厂/对比/DSC02840_FL2.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "FX2 原厂/对比/DSC02840_FL2_后期.JPG",
+    "bytes": 20323776,
+    "sha256": "88b7e3840299111730f9dee11a24a260d48ad00d28ea566e8b343a5be26fc0d1",
+    "relative_path": "FX2 原厂/对比/DSC02840_FL2_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "FX2 原厂/对比/DSC02841_FL3.JPG",
+    "bytes": 21253707,
+    "sha256": "905f818c81fda1b9f1221511f2645d3726050e888f9cf795717241b9a69acaba",
+    "relative_path": "FX2 原厂/对比/DSC02841_FL3.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "FX2 原厂/对比/DSC02841_FL3_后期.JPG",
+    "bytes": 21404124,
+    "sha256": "4ff27f2af97b843e5ceae68ac9630057567196cda5a5c704516717f916a25153",
+    "relative_path": "FX2 原厂/对比/DSC02841_FL3_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "FX2 原厂/破解raw/DSC02838_ST.ARW",
+    "bytes": 69006024,
+    "sha256": "e85f65a40d7a3ce86dca413b546f051c0761005c3dea7e60af0b11ee2909fc98",
+    "relative_path": "FX2 原厂/破解raw/DSC02838_ST.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "FX2 原厂/破解raw/DSC02839_FL.ARW",
+    "bytes": 69137096,
+    "sha256": "1543910c4cc2d7f9a4c695f8c446bdd7f2427d59d91c1fcebddefac564af2783",
+    "relative_path": "FX2 原厂/破解raw/DSC02839_FL.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "FX2 原厂/破解raw/DSC02840_FL2.ARW",
+    "bytes": 69096136,
+    "sha256": "3b2fd3d2a75674c1baa536f1d064b6a50d6a6aa012335186167ef33c6f391127",
+    "relative_path": "FX2 原厂/破解raw/DSC02840_FL2.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "FX2 原厂/破解raw/DSC02841_FL3.ARW",
+    "bytes": 69296840,
+    "sha256": "1c6dfd1e368ee552b3e1f0a658e28b54aef87155b2a2441863d4c4194046d285",
+    "relative_path": "FX2 原厂/破解raw/DSC02841_FL3.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "当前配方/原始/DSC02835_ST.ARW",
+    "bytes": 69017600,
+    "sha256": "e2cf3ed2717ab9c8e95b1f17ae28a265359ec245330965a90c72605b0e59da93",
+    "relative_path": "当前配方/原始/DSC02835_ST.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "当前配方/原始/DSC02836_FL.ARW",
+    "bytes": 69103616,
+    "sha256": "064a8ee952cb838ca73071433809f8136d1f77a8da22a7f16d64e4d9386f04b5",
+    "relative_path": "当前配方/原始/DSC02836_FL.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "当前配方/原始/DSC02837_FL2.ARW",
+    "bytes": 69128192,
+    "sha256": "9d53911e599145c96b80ef0c03531471e1517f5b6ad7e90f3086a4c8cc7a7b9d",
+    "relative_path": "当前配方/原始/DSC02837_FL2.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "当前配方/原始/DSC02838_FL3.ARW",
+    "bytes": 69279744,
+    "sha256": "ab694e691059309e7d7ec2b581b1c6c78b83c2fe510ab7d54819664f6a42fe6f",
+    "relative_path": "当前配方/原始/DSC02838_FL3.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "当前配方/对比/DSC02835_ST.JPG",
+    "bytes": 20913911,
+    "sha256": "6ed056af40cf961f48bcae90f5fb2139447b4eef291eaa52756747e3425415b7",
+    "relative_path": "当前配方/对比/DSC02835_ST.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "当前配方/对比/DSC02835_ST_后期.JPG",
+    "bytes": 22079952,
+    "sha256": "5fdb977bb39374b3fb5c2934c32f6ac3757c587ee4ecd77681acbfc16bba1ea5",
+    "relative_path": "当前配方/对比/DSC02835_ST_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "当前配方/对比/DSC02836_FL.JPG",
+    "bytes": 20492899,
+    "sha256": "559c10018351ab8565c2225d00bc57cdcd43b1c2d84a61529ae3a5269539d15e",
+    "relative_path": "当前配方/对比/DSC02836_FL.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "当前配方/对比/DSC02836_FL_后期.JPG",
+    "bytes": 22273132,
+    "sha256": "1bb9e0f85247b2de7535bdba59cf6171bdd436615ace73c6101b7ecf04b63245",
+    "relative_path": "当前配方/对比/DSC02836_FL_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "当前配方/对比/DSC02837_FL2.JPG",
+    "bytes": 20491267,
+    "sha256": "2cbed48aa1397e9467ed928d01152401787f2a4f814fe6e611d09213c7295ac5",
+    "relative_path": "当前配方/对比/DSC02837_FL2.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "当前配方/对比/DSC02837_FL2_后期.JPG",
+    "bytes": 20320207,
+    "sha256": "d6a8ac76e3d1b786bc986d47365277bdbc3a51a0a9806bb6a692c17482d93757",
+    "relative_path": "当前配方/对比/DSC02837_FL2_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "当前配方/对比/DSC02838_FL3.JPG",
+    "bytes": 21352929,
+    "sha256": "afaf053853e6f77d879bc397a5fe51a57a1ca65e3000f7d4392c4cdeaa41c37d",
+    "relative_path": "当前配方/对比/DSC02838_FL3.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "当前配方/对比/DSC02838_FL3_后期.JPG",
+    "bytes": 21424758,
+    "sha256": "c6b70ff67468219cb8625a8693612ea122a5fb6bc8050cd62b6212e1f9e29457",
+    "relative_path": "当前配方/对比/DSC02838_FL3_后期.JPG",
+    "used_for_JPEG_measurement": true
+  },
+  {
+    "path": "当前配方/破解raw/DSC02835_ST.ARW",
+    "bytes": 69059272,
+    "sha256": "96a2fddc62090b874df2be05606e39ee35b76028fff9dbedbe804b71ccf86029",
+    "relative_path": "当前配方/破解raw/DSC02835_ST.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "当前配方/破解raw/DSC02836_FL.ARW",
+    "bytes": 69145288,
+    "sha256": "d317e20a70dd471bd146b2b9065af523a5b22bd7e71a9a39343b951ab9e5d204",
+    "relative_path": "当前配方/破解raw/DSC02836_FL.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "当前配方/破解raw/DSC02837_FL2.ARW",
+    "bytes": 69169864,
+    "sha256": "a31ca08feb9de6c657d68def8964d65f8e6897b3fa4b143e92794b00df809843",
+    "relative_path": "当前配方/破解raw/DSC02837_FL2.ARW",
+    "used_for_JPEG_measurement": false
+  },
+  {
+    "path": "当前配方/破解raw/DSC02838_FL3.ARW",
+    "bytes": 69321416,
+    "sha256": "a322e8e36d6383d41664ed267e575b4147075697c2be4250063d360e9a256b4f",
+    "relative_path": "当前配方/破解raw/DSC02838_FL3.ARW",
+    "used_for_JPEG_measurement": false
+  }
+]
