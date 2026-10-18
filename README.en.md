@@ -41,6 +41,8 @@ Fixed aperture, shutter, ISO, white balance and lens;12 camera/Edit pairs. Lower
 
 The current recipe is closest in this scene/light. FL2 still differs in yellow/orange patches. All captures are from A7M4; these are not physical FX2/A7C II comparisons or general colour-accuracy rankings.
 
+<!-- FL23_V2_RECIPE_NOTE -->The report now includes exact chroma differences, matrix examples and Gamma comparisons. The upstream v2.0 FL2/FL3 assets are byte-identical to the historical0.1.0 package; v2.0 is not an additional measured photo group.
+
 ## Fastboot host
 
 Includes full backup, version inspection/editing, custom updater preparation, same-camera backup restoration and restoration of official verification. Chinese BAT entry points are in `advanced/`. **There is no interactive UART console, serial shell, arbitrary UART command interface or serial update-mode switch.** RP2040 serial boot transport remains necessary to enter fastboot; it is not an interactive camera console.

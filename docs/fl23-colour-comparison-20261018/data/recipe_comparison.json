@@ -1,0 +1,1274 @@
+{
+  "result": "PASS_3_ACTUAL_PACKAGE_RECIPES_AND_V2_UNCHANGED",
+  "scope": "Photo FL2/FL3 static recipe comparison, not new installed-state readback or v2 physical testing.",
+  "sources": [
+    {
+      "bytes": 754521088,
+      "sha256": "89234fb1bffb8ce8ad2ac3a9f6c80e25defe4ff720a43b3e967d26a326b8fcbc",
+      "label": "FX2 原厂",
+      "CP_sha256": "080c5671fc04a00b4b49a5cacf616e2c5db6eaa1ba53bdae913eb25edae1a261",
+      "all32_templates_same_photo_recipe": true,
+      "CP_static_chroma_matches_templates": true
+    },
+    {
+      "bytes": 754521088,
+      "sha256": "3df1e96ffc1cc98d3cd512a0aaba881fa9819ac2b9ef298f476a1374c66deb71",
+      "label": "当前配方",
+      "CP_sha256": "080c5671fc04a00b4b49a5cacf616e2c5db6eaa1ba53bdae913eb25edae1a261",
+      "all32_templates_same_photo_recipe": true,
+      "CP_static_chroma_matches_templates": true
+    },
+    {
+      "bytes": 754521088,
+      "sha256": "ea22e308e5cc63d1e2169ccfc64df31de43b04c8927f403ab174d4e658edf850",
+      "label": "原 A7C II 项目 0.1.0",
+      "CP_sha256": "939b4be6e0790b1b72a7bf417e62977d94f44f9ce235c012ff8c6e4b8a638347",
+      "all32_templates_same_photo_recipe": true,
+      "CP_static_chroma_matches_templates": true
+    }
+  ],
+  "details": [
+    {
+      "scheme": "FX2 原厂",
+      "look": "FL2",
+      "chroma_base_delta": [
+        [
+          -184,
+          -263,
+          -384,
+          -269,
+          356,
+          260,
+          563,
+          253
+        ],
+        [
+          -492,
+          151,
+          305,
+          123,
+          98,
+          -121,
+          0,
+          -42
+        ],
+        [
+          -14,
+          118,
+          1,
+          0,
+          138,
+          -76,
+          0,
+          -45
+        ]
+      ],
+      "matrix_first9_by_endpoint": {
+        "B": [
+          [
+            996,
+            -113,
+            141
+          ],
+          [
+            68,
+            1044,
+            -88
+          ],
+          [
+            -128,
+            -103,
+            1255
+          ]
+        ],
+        "A1": [
+          [
+            960,
+            17,
+            47
+          ],
+          [
+            46,
+            1091,
+            -113
+          ],
+          [
+            -406,
+            -184,
+            1614
+          ]
+        ],
+        "A2": [
+          [
+            1007,
+            -225,
+            242
+          ],
+          [
+            80,
+            1021,
+            -77
+          ],
+          [
+            -371,
+            5,
+            1390
+          ]
+        ]
+      },
+      "matrix_endpoint_sha256": {
+        "B": "bc7d5df032dd7714116c2fc3d91ed57d643393cdfc317080f7f0d1300ab9bee0",
+        "A1": "c07771a202bac786c696dd39edf91fdf6790e573a4f362d6b8d3dbdad16dcc0a",
+        "A2": "86374c472321996143ef87c699a66f4009faa74550a7234aa92456605be579af"
+      },
+      "chroma_sha256": "6f0aff42a2407f8090681bfd32ba235b5e60d8f5b73d1b4ef187f1615defddca",
+      "matrix_sha256": "753e57f9c4edaf26dd957987a2f8f23c33504ee50dab9eb65fa413cd2c25ead4",
+      "gamma_572_sha256": [
+        "f28fe572c6fb73564b3466bd29a087226164076f2909bf80d49f1c0b7b5f3e5b",
+        "8cb914f31e4354754f3ee5565812d0b23b65b0ebbea9c06088bf62ee68c3eb37",
+        "ae1343995ba604c6054520bed9878eaa51e44b68fee6fab1d4cd0f18eb43d1c6"
+      ],
+      "gamma_sample_points_0_16_32_64_96_127": [
+        [
+          0,
+          9259,
+          18537,
+          37052,
+          106350,
+          130944
+        ],
+        [
+          0,
+          18526,
+          37053,
+          68457,
+          118863,
+          130944
+        ],
+        [
+          0,
+          17367,
+          34735,
+          64096,
+          111511,
+          122844
+        ]
+      ],
+      "RAW_serializer_instruction": "f4f0b5b2"
+    },
+    {
+      "scheme": "当前配方",
+      "look": "FL2",
+      "chroma_base_delta": [
+        [
+          -184,
+          -263,
+          -384,
+          -269,
+          356,
+          260,
+          563,
+          253
+        ],
+        [
+          -492,
+          151,
+          305,
+          123,
+          98,
+          -121,
+          0,
+          -42
+        ],
+        [
+          -14,
+          118,
+          1,
+          0,
+          138,
+          -76,
+          0,
+          -45
+        ]
+      ],
+      "matrix_first9_by_endpoint": {
+        "B": [
+          [
+            960,
+            17,
+            47
+          ],
+          [
+            46,
+            1091,
+            -113
+          ],
+          [
+            -406,
+            -184,
+            1614
+          ]
+        ],
+        "A1": [
+          [
+            960,
+            17,
+            47
+          ],
+          [
+            46,
+            1091,
+            -113
+          ],
+          [
+            -406,
+            -184,
+            1614
+          ]
+        ],
+        "A2": [
+          [
+            960,
+            17,
+            47
+          ],
+          [
+            46,
+            1091,
+            -113
+          ],
+          [
+            -406,
+            -184,
+            1614
+          ]
+        ]
+      },
+      "matrix_endpoint_sha256": {
+        "B": "c07771a202bac786c696dd39edf91fdf6790e573a4f362d6b8d3dbdad16dcc0a",
+        "A1": "c07771a202bac786c696dd39edf91fdf6790e573a4f362d6b8d3dbdad16dcc0a",
+        "A2": "c07771a202bac786c696dd39edf91fdf6790e573a4f362d6b8d3dbdad16dcc0a"
+      },
+      "chroma_sha256": "6f0aff42a2407f8090681bfd32ba235b5e60d8f5b73d1b4ef187f1615defddca",
+      "matrix_sha256": "a8bc213fcdac2e55407cf24df468f88ccdc6102de416cca6577652e8172d78ba",
+      "gamma_572_sha256": [
+        "f28fe572c6fb73564b3466bd29a087226164076f2909bf80d49f1c0b7b5f3e5b",
+        "8cb914f31e4354754f3ee5565812d0b23b65b0ebbea9c06088bf62ee68c3eb37",
+        "ae1343995ba604c6054520bed9878eaa51e44b68fee6fab1d4cd0f18eb43d1c6"
+      ],
+      "gamma_sample_points_0_16_32_64_96_127": [
+        [
+          0,
+          9259,
+          18537,
+          37052,
+          106350,
+          130944
+        ],
+        [
+          0,
+          18526,
+          37053,
+          68457,
+          118863,
+          130944
+        ],
+        [
+          0,
+          17367,
+          34735,
+          64096,
+          111511,
+          122844
+        ]
+      ],
+      "RAW_serializer_instruction": "f4f0b5b2"
+    },
+    {
+      "scheme": "原 A7C II 项目 0.1.0",
+      "look": "FL2",
+      "chroma_base_delta": [
+        [
+          -208,
+          -215,
+          -184,
+          -268,
+          353,
+          263,
+          563,
+          261
+        ],
+        [
+          -38,
+          32,
+          -92,
+          -1,
+          37,
+          -34,
+          0,
+          -21
+        ],
+        [
+          -134,
+          123,
+          0,
+          201,
+          61,
+          -55,
+          0,
+          -38
+        ]
+      ],
+      "matrix_first9_by_endpoint": {
+        "B": [
+          [
+            856,
+            -140,
+            308
+          ],
+          [
+            28,
+            1099,
+            -103
+          ],
+          [
+            -190,
+            -225,
+            1439
+          ]
+        ],
+        "A1": [
+          [
+            820,
+            -154,
+            358
+          ],
+          [
+            121,
+            964,
+            -61
+          ],
+          [
+            -203,
+            -205,
+            1432
+          ]
+        ],
+        "A2": [
+          [
+            1200,
+            -184,
+            8
+          ],
+          [
+            -49,
+            1154,
+            -81
+          ],
+          [
+            -243,
+            -119,
+            1386
+          ]
+        ]
+      },
+      "matrix_endpoint_sha256": {
+        "B": "bb6d97428ad72cea65b24cbeb8582573a65cd59cff0f57a89ea34f285ad34de3",
+        "A1": "b09586897e3d2605150e56ebb5e43f358470b0f2bbf0b7989822aac12327b132",
+        "A2": "bb12cf3174c1397e1c1d5083c7361035a43bd06e0584a93c9da6dac27b56a870"
+      },
+      "chroma_sha256": "26cd9bb8debb064f8e0c2c7142f23bea978948ca2911c6626d4f9395337b0ea0",
+      "matrix_sha256": "fdd799d63ae8aba2574bc04bd64b2f8a9739cb39e107eb22145560c8211cd7f9",
+      "gamma_572_sha256": [
+        "bcdee141b8835b4c9990b40a9204d993eaf0009eaf7b0cc6c763374168c98e13",
+        "d87a1db7a7b6d729aa964b07ca5b7b0ece0e23bbae4d82bf6dcc9189e3f7a05c",
+        "ae1343995ba604c6054520bed9878eaa51e44b68fee6fab1d4cd0f18eb43d1c6"
+      ],
+      "gamma_sample_points_0_16_32_64_96_127": [
+        [
+          0,
+          9259,
+          18537,
+          37052,
+          106350,
+          130944
+        ],
+        [
+          0,
+          17367,
+          34735,
+          64096,
+          111511,
+          122844
+        ],
+        [
+          0,
+          17367,
+          34735,
+          64096,
+          111511,
+          122844
+        ]
+      ],
+      "RAW_serializer_instruction": "d9f80400"
+    },
+    {
+      "scheme": "FX2 原厂",
+      "look": "FL3",
+      "chroma_base_delta": [
+        [
+          -189,
+          -51,
+          -448,
+          -269,
+          389,
+          283,
+          563,
+          285
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          34,
+          -4,
+          0,
+          5
+        ],
+        [
+          -207,
+          0,
+          8,
+          0,
+          98,
+          47,
+          0,
+          -7
+        ]
+      ],
+      "matrix_first9_by_endpoint": {
+        "B": [
+          [
+            850,
+            -57,
+            231
+          ],
+          [
+            -81,
+            850,
+            255
+          ],
+          [
+            -200,
+            -214,
+            1438
+          ]
+        ],
+        "A1": [
+          [
+            941,
+            -138,
+            221
+          ],
+          [
+            42,
+            854,
+            128
+          ],
+          [
+            -253,
+            17,
+            1260
+          ]
+        ],
+        "A2": [
+          [
+            984,
+            -225,
+            265
+          ],
+          [
+            -104,
+            890,
+            238
+          ],
+          [
+            -366,
+            47,
+            1343
+          ]
+        ]
+      },
+      "matrix_endpoint_sha256": {
+        "B": "db2a17db68cc238fc83ffef1784256a373e14ac47eb4aa8171bd515e5770715b",
+        "A1": "9f91f3449c4ea3f634a50ded0cc03b79efe6c158075a63c39079df3028fb01d2",
+        "A2": "10e16fc432bee04a4dc69c9cea3a283d9f8372a3d21796eb59fc27d8dfd4c7a6"
+      },
+      "chroma_sha256": "83d306b09823b144009d5473af5eb6cf03a0059a448dbcdbddc37c71efa20358",
+      "matrix_sha256": "a5b7d763d95fc0061124f18765337d1e4683e83f11a25bd5c186afa75f271cc3",
+      "gamma_572_sha256": [
+        "81f034502d32d0a1ff07221d254a63b87c669a4f08e2e423e1a7cb2bca6de1c8",
+        "2c424f305ae32e99d90f9bedf6df7b25ccfddb43169eaa522aece176671966c9",
+        "bbbdd262332e79ea9d290df26eaa0a340f180bdf76e484d179b2915c75f720d8"
+      ],
+      "gamma_sample_points_0_16_32_64_96_127": [
+        [
+          0,
+          10269,
+          20487,
+          40659,
+          107366,
+          130945
+        ],
+        [
+          0,
+          20509,
+          40624,
+          67361,
+          122075,
+          130945
+        ],
+        [
+          0,
+          19226,
+          38083,
+          63147,
+          114438,
+          122753
+        ]
+      ],
+      "RAW_serializer_instruction": "f4f0b5b2"
+    },
+    {
+      "scheme": "当前配方",
+      "look": "FL3",
+      "chroma_base_delta": [
+        [
+          -189,
+          -51,
+          -448,
+          -269,
+          389,
+          283,
+          563,
+          285
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          34,
+          -4,
+          0,
+          5
+        ],
+        [
+          -207,
+          0,
+          8,
+          0,
+          98,
+          47,
+          0,
+          -7
+        ]
+      ],
+      "matrix_first9_by_endpoint": {
+        "B": [
+          [
+            941,
+            -138,
+            221
+          ],
+          [
+            42,
+            854,
+            128
+          ],
+          [
+            -253,
+            17,
+            1260
+          ]
+        ],
+        "A1": [
+          [
+            941,
+            -138,
+            221
+          ],
+          [
+            42,
+            854,
+            128
+          ],
+          [
+            -253,
+            17,
+            1260
+          ]
+        ],
+        "A2": [
+          [
+            941,
+            -138,
+            221
+          ],
+          [
+            42,
+            854,
+            128
+          ],
+          [
+            -253,
+            17,
+            1260
+          ]
+        ]
+      },
+      "matrix_endpoint_sha256": {
+        "B": "9f91f3449c4ea3f634a50ded0cc03b79efe6c158075a63c39079df3028fb01d2",
+        "A1": "9f91f3449c4ea3f634a50ded0cc03b79efe6c158075a63c39079df3028fb01d2",
+        "A2": "9f91f3449c4ea3f634a50ded0cc03b79efe6c158075a63c39079df3028fb01d2"
+      },
+      "chroma_sha256": "83d306b09823b144009d5473af5eb6cf03a0059a448dbcdbddc37c71efa20358",
+      "matrix_sha256": "ed3f7dec0e21fc82197bca03e9b36f42320e35f79dc42f96e54df33dce616408",
+      "gamma_572_sha256": [
+        "81f034502d32d0a1ff07221d254a63b87c669a4f08e2e423e1a7cb2bca6de1c8",
+        "2c424f305ae32e99d90f9bedf6df7b25ccfddb43169eaa522aece176671966c9",
+        "bbbdd262332e79ea9d290df26eaa0a340f180bdf76e484d179b2915c75f720d8"
+      ],
+      "gamma_sample_points_0_16_32_64_96_127": [
+        [
+          0,
+          10269,
+          20487,
+          40659,
+          107366,
+          130945
+        ],
+        [
+          0,
+          20509,
+          40624,
+          67361,
+          122075,
+          130945
+        ],
+        [
+          0,
+          19226,
+          38083,
+          63147,
+          114438,
+          122753
+        ]
+      ],
+      "RAW_serializer_instruction": "f4f0b5b2"
+    },
+    {
+      "scheme": "原 A7C II 项目 0.1.0",
+      "look": "FL3",
+      "chroma_base_delta": [
+        [
+          -184,
+          -51,
+          -220,
+          -269,
+          365,
+          563,
+          563,
+          455
+        ],
+        [
+          0,
+          0,
+          -68,
+          0,
+          31,
+          -144,
+          0,
+          -107
+        ],
+        [
+          -50,
+          0,
+          -4,
+          0,
+          29,
+          -145,
+          0,
+          -84
+        ]
+      ],
+      "matrix_first9_by_endpoint": {
+        "B": [
+          [
+            819,
+            -74,
+            279
+          ],
+          [
+            -268,
+            921,
+            371
+          ],
+          [
+            -85,
+            162,
+            947
+          ]
+        ],
+        "A1": [
+          [
+            917,
+            -76,
+            183
+          ],
+          [
+            -208,
+            1050,
+            182
+          ],
+          [
+            -87,
+            119,
+            992
+          ]
+        ],
+        "A2": [
+          [
+            1006,
+            -235,
+            253
+          ],
+          [
+            -360,
+            1044,
+            340
+          ],
+          [
+            -284,
+            231,
+            1077
+          ]
+        ]
+      },
+      "matrix_endpoint_sha256": {
+        "B": "2ee502372ac75b1c8e0eb5339b096ae88c6ab2feb9e5c4a7ec6cf9a7189ef359",
+        "A1": "b9f98949b3a92a5a1a63d1ae8902e496dc815a9e2528e937318b2d19e04f512b",
+        "A2": "a54bec6be3a5036f93a311d44b517f4aa1ab2a2cfce60173be16f43c00645c81"
+      },
+      "chroma_sha256": "5b5591d5cb17e6ee597a57f8b216ffac90d0a2f1b72837ff1d0a58e7651383bd",
+      "matrix_sha256": "b7321db784a94cfeb59b83b43dd680c02e629bfdaa77d291f274049cf5a056ef",
+      "gamma_572_sha256": [
+        "ca5b168a42e100b88eccce7e7d0842e8ff90bf71ea752ddfaa0c9aefc9485d98",
+        "0a688c6c40475e7e1d7bdd080c4052ac384245954336872a3e8aefc7dab756a6",
+        "bbbdd262332e79ea9d290df26eaa0a340f180bdf76e484d179b2915c75f720d8"
+      ],
+      "gamma_sample_points_0_16_32_64_96_127": [
+        [
+          0,
+          10269,
+          20487,
+          40659,
+          107366,
+          130945
+        ],
+        [
+          0,
+          19226,
+          38083,
+          63147,
+          114438,
+          122753
+        ],
+        [
+          0,
+          19226,
+          38083,
+          63147,
+          114438,
+          122753
+        ]
+      ],
+      "RAW_serializer_instruction": "d9f80400"
+    }
+  ],
+  "differences": [
+    {
+      "look": "FL2",
+      "current_vs_upstream_chroma_int16_changed": 21,
+      "current_vs_upstream_matrix_int16_changed": 287,
+      "current_vs_upstream_matrix_bytes_changed": 426,
+      "fx2_vs_current_chroma_int16_changed": 0,
+      "fx2_vs_current_matrix_int16_changed": 189,
+      "fx2_vs_current_matrix_bytes_changed": 271,
+      "fx2_vs_upstream_matrix_int16_changed": 284,
+      "fx2_vs_upstream_matrix_bytes_changed": 378,
+      "photo_slots0to5_gamma_changed_points": 0,
+      "photo_slot6_gamma_changed_points": 127,
+      "upstream_photo_slot6_equals_FX2_movie_slot6_points": true,
+      "gamma_metadata_bytes_differ": [
+        1,
+        4
+      ]
+    },
+    {
+      "look": "FL3",
+      "current_vs_upstream_chroma_int16_changed": 15,
+      "current_vs_upstream_matrix_int16_changed": 288,
+      "current_vs_upstream_matrix_bytes_changed": 385,
+      "fx2_vs_current_chroma_int16_changed": 0,
+      "fx2_vs_current_matrix_int16_changed": 190,
+      "fx2_vs_current_matrix_bytes_changed": 250,
+      "fx2_vs_upstream_matrix_int16_changed": 285,
+      "fx2_vs_upstream_matrix_bytes_changed": 380,
+      "photo_slots0to5_gamma_changed_points": 0,
+      "photo_slot6_gamma_changed_points": 127,
+      "upstream_photo_slot6_equals_FX2_movie_slot6_points": true,
+      "gamma_metadata_bytes_differ": [
+        1,
+        2
+      ]
+    }
+  ],
+  "upstream_version_audit": {
+    "v2_commit": "c0930d5b0ccd49c0a092dc883054cd6dce199649",
+    "release_url": "https://github.com/QAQLeonard/a7c2-fl23-research/releases/tag/v2.0",
+    "old_archive": {
+      "bytes": 119301,
+      "sha256": "2bbbf3942f2e1b8439242ec7fae703009645a4533473bafa7b41f542e13c6c75"
+    },
+    "v2_archive": {
+      "bytes": 268179,
+      "sha256": "7887b52c8fd249cc2a2e6061d75179c1e5982808cd063486446204060a09796e"
+    },
+    "historical_public_label": "v1.0",
+    "historical_internal_label": "0.1.0-preview",
+    "FL23_assets_all7_byte_equal": true,
+    "same_path_files_compared": 42,
+    "same_path_files_changed": [
+      "licenses/Sony-PMCA-RE-MIT.txt",
+      "Start.cmd",
+      "Start.ps1",
+      "transport.py",
+      "vendor/pmca/backup/__init__.py",
+      "vendor/pmca/io/__init__.py",
+      "vendor/pmca/usb/__init__.py",
+      "vendor/pmca/usb/constants.py",
+      "vendor/pmca/usb/crypto.py",
+      "vendor/pmca/usb/driver/__init__.py",
+      "vendor/pmca/usb/driver/generic/__init__.py",
+      "vendor/pmca/usb/driver/generic/libusb.py",
+      "vendor/pmca/usb/driver/generic/qemu.py",
+      "vendor/pmca/usb/driver/osx.py",
+      "vendor/pmca/usb/driver/windows/__init__.py",
+      "vendor/pmca/usb/driver/windows/driverless.py",
+      "vendor/pmca/usb/driver/windows/msc.py",
+      "vendor/pmca/usb/driver/windows/setupapi.py",
+      "vendor/pmca/usb/driver/windows/wpd.py",
+      "vendor/pmca/usb/sony.py",
+      "vendor/pmca/util/__init__.py",
+      "vendor/pmca/util/http.py"
+    ],
+    "changed_after_text_line_endings": [
+      "Start.cmd",
+      "Start.ps1",
+      "transport.py"
+    ],
+    "v2_archive_source_matches_pinned_tag": true,
+    "pinned_tag_files_checked": 42,
+    "files": [
+      {
+        "path": "app.py",
+        "old_bytes": 15575,
+        "v2_bytes": 15575,
+        "old_sha256": "5662b6ef9d79993895d2cfa2a7653363dd16ac3bb5a1db9d19fe4abda2549893",
+        "v2_sha256": "5662b6ef9d79993895d2cfa2a7653363dd16ac3bb5a1db9d19fe4abda2549893",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "assets/colors.json",
+        "old_bytes": 2737,
+        "v2_bytes": 2737,
+        "old_sha256": "1259a47bca2b4fc29882121a647746fceafd16c8de3b6df85324cd84f083871e",
+        "v2_sha256": "1259a47bca2b4fc29882121a647746fceafd16c8de3b6df85324cd84f083871e",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "assets/installer.so",
+        "old_bytes": 56864,
+        "v2_bytes": 56864,
+        "old_sha256": "64ec3db50ab31a6492eb068d40c9a0ed32488ccb0faeebd02a625e469227e5b6",
+        "v2_sha256": "64ec3db50ab31a6492eb068d40c9a0ed32488ccb0faeebd02a625e469227e5b6",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "assets/manifest.json",
+        "old_bytes": 848,
+        "v2_bytes": 848,
+        "old_sha256": "a1238386c79f504e29504d45ef165c9c8c1903a393cfe0feca87f06297e894d6",
+        "v2_sha256": "a1238386c79f504e29504d45ef165c9c8c1903a393cfe0feca87f06297e894d6",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "assets/patches.json",
+        "old_bytes": 25075,
+        "v2_bytes": 25075,
+        "old_sha256": "a297bdd1df6088adca4fe8de2323470354b4497ddc03fa4a5e2e48ee42272bb8",
+        "v2_sha256": "a297bdd1df6088adca4fe8de2323470354b4497ddc03fa4a5e2e48ee42272bb8",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "assets/probe.so",
+        "old_bytes": 20968,
+        "v2_bytes": 20968,
+        "old_sha256": "fea02971a2d7ad2e1661fef924de99624fd4182ed6283e8037499f60bbc8de30",
+        "v2_sha256": "fea02971a2d7ad2e1661fef924de99624fd4182ed6283e8037499f60bbc8de30",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "assets/runtime.so",
+        "old_bytes": 26552,
+        "v2_bytes": 26552,
+        "old_sha256": "e8a5efa72a6c6f3126247e838a65001ea2c6987f97cf4fb25d896e8de79b7700",
+        "v2_sha256": "e8a5efa72a6c6f3126247e838a65001ea2c6987f97cf4fb25d896e8de79b7700",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "assets/wbi.so",
+        "old_bytes": 17608,
+        "v2_bytes": 17608,
+        "old_sha256": "8d73d55bf89a8400b1c00130b514405d850553536f222fca0eb3959eb0a0be25",
+        "v2_sha256": "8d73d55bf89a8400b1c00130b514405d850553536f222fca0eb3959eb0a0be25",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "core.py",
+        "old_bytes": 8774,
+        "v2_bytes": 8774,
+        "old_sha256": "efa0896f0fd18c62d165d64f0cb4ffb4852ae1d2ca4b7c24e6d53331e7eb7b52",
+        "v2_sha256": "efa0896f0fd18c62d165d64f0cb4ffb4852ae1d2ca4b7c24e6d53331e7eb7b52",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "gui.py",
+        "old_bytes": 5108,
+        "v2_bytes": 5108,
+        "old_sha256": "9f48b18fe5747c289c6bc6fef32adb9ea96b368ac8d90f3a7e1bc83001c958e8",
+        "v2_sha256": "9f48b18fe5747c289c6bc6fef32adb9ea96b368ac8d90f3a7e1bc83001c958e8",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "LICENSE",
+        "old_bytes": 1234,
+        "v2_bytes": 1234,
+        "old_sha256": "c592870a8504689cbe03449c2ae582ba6517716c9e0cd2f880cea50c187d16e9",
+        "v2_sha256": "c592870a8504689cbe03449c2ae582ba6517716c9e0cd2f880cea50c187d16e9",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "licenses/Sony-PMCA-RE-MIT.txt",
+        "old_bytes": 1093,
+        "v2_bytes": 1072,
+        "old_sha256": "f40fa84ebd3c1329fc6f4b75c11af9df6b19ae9a0485a02e85a5eeb476fcd94e",
+        "v2_sha256": "a485f27d0b22eb7fd9b9419795695d0a1750ea32c961d11c1dd8ddade564dedf",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "native/installer.c",
+        "old_bytes": 7645,
+        "v2_bytes": 7645,
+        "old_sha256": "62925a0461b896eb25ad6c7abbff908a7bfe27593526a9ace01cfb1f0770f945",
+        "v2_sha256": "62925a0461b896eb25ad6c7abbff908a7bfe27593526a9ace01cfb1f0770f945",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "native/patch_manifest.h",
+        "old_bytes": 25293,
+        "v2_bytes": 25293,
+        "old_sha256": "436c2d28cd4420e3c23536431988abbbfe1472d1ef166252fd69d60c80357386",
+        "v2_sha256": "436c2d28cd4420e3c23536431988abbbfe1472d1ef166252fd69d60c80357386",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "native/probe.c",
+        "old_bytes": 4915,
+        "v2_bytes": 4915,
+        "old_sha256": "ce7ec941bdd622b706873f08f499968af65750fe82354967167059df1c5d3232",
+        "v2_sha256": "ce7ec941bdd622b706873f08f499968af65750fe82354967167059df1c5d3232",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "native/runtime.c",
+        "old_bytes": 1969,
+        "v2_bytes": 1969,
+        "old_sha256": "f976ac7190ea25bdce571811adcdc59c69325a0364cb33d1d95b14cc5c190f49",
+        "v2_sha256": "f976ac7190ea25bdce571811adcdc59c69325a0364cb33d1d95b14cc5c190f49",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "native/sha256.h",
+        "old_bytes": 2514,
+        "v2_bytes": 2514,
+        "old_sha256": "85dc96693857e6f4b9f9035e5c5b02b80a49ab44082f0c19dc46cd5c0400238e",
+        "v2_sha256": "85dc96693857e6f4b9f9035e5c5b02b80a49ab44082f0c19dc46cd5c0400238e",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "native/wbi.c",
+        "old_bytes": 4035,
+        "v2_bytes": 4035,
+        "old_sha256": "f35ce9b4d22d86534664ebc3d0492e6e3bd0ee7234d58bdfad2488192e090585",
+        "v2_sha256": "f35ce9b4d22d86534664ebc3d0492e6e3bd0ee7234d58bdfad2488192e090585",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "requirements.txt",
+        "old_bytes": 74,
+        "v2_bytes": 74,
+        "old_sha256": "e4df8f4ca1ce06d8e324ea90b54a7cd68e2dd35ea482539d7a9fd205c7dbd4e3",
+        "v2_sha256": "e4df8f4ca1ce06d8e324ea90b54a7cd68e2dd35ea482539d7a9fd205c7dbd4e3",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "Start.cmd",
+        "old_bytes": 105,
+        "v2_bytes": 64,
+        "old_sha256": "33702d471928452b5f0515ba9607ccdcee4351cc3ea862293ae78b74c895d654",
+        "v2_sha256": "85f1d5d3ccdc163ec96f7def48080e56a496dd6360ec8ba70e62c82851f72a54",
+        "byte_equal": false,
+        "equal_after_text_line_endings": false
+      },
+      {
+        "path": "Start.ps1",
+        "old_bytes": 1159,
+        "v2_bytes": 122,
+        "old_sha256": "63d05762642928ffa047d0521d442f7c156db6b840ae54c3f25831da7bac9456",
+        "v2_sha256": "006c3d0ffb0c97efe3e06e6d95717a964993c3e70d6ed5747181db0425f0cc61",
+        "byte_equal": false,
+        "equal_after_text_line_endings": false
+      },
+      {
+        "path": "tests/test_offline.py",
+        "old_bytes": 4895,
+        "v2_bytes": 4895,
+        "old_sha256": "1274edc2a78e475d407a6c74c6626f80a434ba0d9f3534644381e79608dfd697",
+        "v2_sha256": "1274edc2a78e475d407a6c74c6626f80a434ba0d9f3534644381e79608dfd697",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "transport.py",
+        "old_bytes": 5830,
+        "v2_bytes": 10864,
+        "old_sha256": "1c10d080dd5b67bb0f78eaefec2328deefc51a1b0673ed141eaa64a9ec74add4",
+        "v2_sha256": "a578ebfd0cffa0f715ec025ef7e661d239652ae8573cea3982a27c8c08f06ccb",
+        "byte_equal": false,
+        "equal_after_text_line_endings": false
+      },
+      {
+        "path": "vendor/pmca/__init__.py",
+        "old_bytes": 0,
+        "v2_bytes": 0,
+        "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "v2_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "byte_equal": true,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/backup/__init__.py",
+        "old_bytes": 5945,
+        "v2_bytes": 5756,
+        "old_sha256": "b53359bc42b51af0ed42f2e4879554cf104df587e82730af0b4f8ebe925a6c6e",
+        "v2_sha256": "ea09b9650ecd306e5dd4a6c7f1b57dd4b5763c0aa2e5d8509a364bdf7deeba61",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/io/__init__.py",
+        "old_bytes": 779,
+        "v2_bytes": 742,
+        "old_sha256": "0149f50ffb20fc59e366881d4c6c8472c148ed6bbdf210680c23707c0a9b662f",
+        "v2_sha256": "d694377d860d05544550965635ac440da70ad7b0d9ac8a43361896c58c631e93",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/__init__.py",
+        "old_bytes": 4235,
+        "v2_bytes": 4101,
+        "old_sha256": "f4c856b505a6c62bf841bb6f662990ba1ea12b46e7984430463bea4dca60eae6",
+        "v2_sha256": "db2fd3d0dfa2e6f315a14291be8951a5092875e8e5858183cabf2cec46a0fcda",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/constants.py",
+        "old_bytes": 12380,
+        "v2_bytes": 12369,
+        "old_sha256": "345f0184fe0127b61cd8ef6f861c513e43468b6f8f926304eda960450870a912",
+        "v2_sha256": "94bf081d3c1a51a60cf8fc214dce25a491413d4d786716460fde3fba832eb692",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/crypto.py",
+        "old_bytes": 1468,
+        "v2_bytes": 1420,
+        "old_sha256": "4cae5195d85d20142f674c7073c7c5ae34c10b39fb834a6851f0b77fc55236b5",
+        "v2_sha256": "74660a42235f7efac6f47f38e2151049647bd0bc61ed6eb0763538815b2b6886",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/__init__.py",
+        "old_bytes": 1395,
+        "v2_bytes": 1325,
+        "old_sha256": "bd855bc35a812e56e2ce9810390e75d5444890a47825d11ae6a51090b97bdbec",
+        "v2_sha256": "dd7d53720a5a12bf87954e687f939fc71d9b1f30428faea4ba7eb217a0e788a4",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/generic/__init__.py",
+        "old_bytes": 7019,
+        "v2_bytes": 6767,
+        "old_sha256": "4a521b34a320e2dc062977e81811b5f277faf87f5f4a928532ecc370a1ba167a",
+        "v2_sha256": "24cda5b97dcd7e5ff4c6af0e0a8d66900688ef2ba09dc0fb53c42ab6b8c69123",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/generic/libusb.py",
+        "old_bytes": 3126,
+        "v2_bytes": 3027,
+        "old_sha256": "ed9dc95d5ae76e579f74e44d3ee29c77f822a890a21dfff4533dd47545a88ea3",
+        "v2_sha256": "1c80cfaa0692cf308bd086edc9a9bad3691804b50182993c1dd960c932daa1df",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/generic/qemu.py",
+        "old_bytes": 5748,
+        "v2_bytes": 5532,
+        "old_sha256": "d92c06961e3548877004f2394787beecf454bb1efabe1f8c465b3075a19c9ed6",
+        "v2_sha256": "5fc54074687e1d4cf036f23d622d139226bb2ddcdf2066be4ec19905091d72c4",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/osx.py",
+        "old_bytes": 6854,
+        "v2_bytes": 6643,
+        "old_sha256": "d970eb9ab76f0af64078d068376f06f6fc5d95be9391330dab347acd0966a5c2",
+        "v2_sha256": "796efcbb46ca6a8690f127e7fbfb243165dafd7a5658256ff1eb4a3ee9594b91",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/windows/__init__.py",
+        "old_bytes": 203,
+        "v2_bytes": 198,
+        "old_sha256": "6b1a46f814c2c8ede7d79217781e6a1c25ac311191038ff4ef4bc21cf1ca43c7",
+        "v2_sha256": "72203fbedbb4b858f47b1da976ed096775d372f1352ca7b5e8c21dfaaad81eea",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/windows/driverless.py",
+        "old_bytes": 655,
+        "v2_bytes": 634,
+        "old_sha256": "5021554f430019bb2073fd7c335fc25f46c4b67031839373a1c7e49cc92ffdfc",
+        "v2_sha256": "f73806bac9bdce55e2c1aa76ba6d63926e409b50eced9b1d808ee200e56f5d62",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/windows/msc.py",
+        "old_bytes": 4684,
+        "v2_bytes": 4552,
+        "old_sha256": "5d4f114eff7fd87d8017f001a15dffb136414f0ee29493be66cc6ce134735b98",
+        "v2_sha256": "ab35dbe0f216116060ddadb8477f10fa6bf5b1b43eb67caaad6b2fa3b8860ed2",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/windows/setupapi.py",
+        "old_bytes": 4577,
+        "v2_bytes": 4462,
+        "old_sha256": "553e0a9694cdaff6fa3e94ee82931e1ecf32bc39c7fb6e469619e293bff906e4",
+        "v2_sha256": "044a682e1842c5876424b9dedaf882c1a633fa24acdc2b29640fd2fd51afe4f4",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/driver/windows/wpd.py",
+        "old_bytes": 7048,
+        "v2_bytes": 6866,
+        "old_sha256": "c94aaf7aed158729581c2365052ab15d1c5855ce815ad1955a22e0dce36ee801",
+        "v2_sha256": "16335ea608d43bb50bc27721e55d7c154fe4b5fbd80ffebcc001a55675195720",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/usb/sony.py",
+        "old_bytes": 37090,
+        "v2_bytes": 36033,
+        "old_sha256": "4ac3abcd796f5ca6bcf18179065bddef1cc0e2d7201fc6a458fc6c53bdaf541c",
+        "v2_sha256": "53ffb4d9d49cb5146623fda2b66ecb137681a6fc9ab0c98d23a51e75128af97e",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/util/__init__.py",
+        "old_bytes": 1548,
+        "v2_bytes": 1485,
+        "old_sha256": "26b5d9bfb2155197edb949ec25f39fc62a87c6318f6a0057ad159331480ca493",
+        "v2_sha256": "1bf318b75faf450011123ce430becc87aec8a7a161765afe38c498cdd20cbacf",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      },
+      {
+        "path": "vendor/pmca/util/http.py",
+        "old_bytes": 1331,
+        "v2_bytes": 1296,
+        "old_sha256": "e4a2ea7f6b2aba30213f9b80292a65c99a0c9558a48a86923a60d9bfea7bc6da",
+        "v2_sha256": "61b66c4d0d3c8da6da30876e6b36af6a8a98dfbe1f8872b1ea1e32aaa7e4e5c2",
+        "byte_equal": false,
+        "equal_after_text_line_endings": true
+      }
+    ],
+    "upstream_colours_and_gamma_unchanged": true
+  },
+  "camera_io": false,
+  "original_photos_remeasured": false,
+  "matrix_example_scope": "First of16 six-coefficient groups per192-byte endpoint, expanded into3x3 with row sum1024; not the entire adaptive matrix bank.",
+  "limits": [
+    "Scheme mapping follows the user test batches; firmware packages do not by themselves prove installed active settings.",
+    "No new eight-control values readback; original project recommends0,0,0,1,0,4,3,1, while M4 adaptation preserves body/AP defaults.",
+    "v2 byte equality does not constitute a v2 physical colour measurement."
+  ]
+}
