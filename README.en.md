@@ -31,17 +31,21 @@ Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastb
 
 Fixed aperture, shutter, ISO, white balance and lens;12 camera/Edit pairs. Lower native24-patch mean ΔE00 indicates closer agreement with the supplied Edit rendering.
 
-| Recipe | FL2 mean ΔE00 ↓ | FL3 mean ΔE00 ↓ |
-|---|---:|---:|
-| FX2 原厂 | 1.565 | 0.951 |
-| 当前配方 | **1.233** | **0.678** |
-| 原 A7C II 项目 0.1.0 | 4.336 | 4.070 |
+| Recipe | FL mean ΔE00 ↓ | FL2 mean ΔE00 ↓ | FL3 mean ΔE00 ↓ |
+| --- | --- | --- | --- |
+| FX2 原厂 | 1.444 | 1.565 | 0.951 |
+| 当前配方 | 1.444 | 1.233 | 0.678 |
+| 原 A7C II 项目 0.1.0 | 1.444 | 4.336 | 4.070 |
 
 ![Three-recipe comparison](docs/fl23-colour-comparison-20261018/assets/summary.png)
 
 The current recipe is closest in this scene/light. FL2 still differs in yellow/orange patches. All captures are from A7M4; these are not physical FX2/A7C II comparisons or general colour-accuracy rankings.
 
 <!-- FL23_V2_RECIPE_NOTE -->The report now includes exact chroma differences, matrix examples and Gamma comparisons. The upstream v2.0 FL2/FL3 assets are byte-identical to the historical0.1.0 package; v2.0 is not an additional measured photo group.
+
+<!-- FL_REPORT_NOTE -->
+
+FL is also compared explicitly: all three mean ΔE00 values are about1.444, with similar local residuals and no supported FL recipe ranking.
 
 ## Fastboot host
 
