@@ -1,8 +1,8 @@
 # 公开范围、测量规则与复核
 
-这份报告比较同一台 A7M4 在三种配方下的机内 JPEG 与对应 Imaging Edge Edit 后期 JPEG。三种方案名称为 FX2 原厂、当前配方、原 A7C II 项目 0.1.0；后者是本次 M4 移植对照，不是对 A7C II 实体相机或上游当前版本的直接测评。
+这份报告比较同一台A7M4在当前配方与FX2 原厂两种方案下的机内JPEG和对应Imaging Edge Edit后期JPEG。FL、FL2、FL3同表同图，ST作为额外参照。FX2 原厂是移植参数方案名称，全部照片均由A7M4拍摄。
 
-公开报告保留原测量数值、45幅派生图（2026-10-19将FL/FL2/FL3色块与偏移图统一为并列比较）、12对指标CSV、288个色块CSV，以及去除本机绝对路径和内部固件软件版本的证据JSON。原始JPG/ARW、固件、机身校准与设备接口均不包含在此次发布中。原始输入的大小和SHA-256保留在[data/source_manifest.json](data/source_manifest.json)。派生图是浏览视图，不能作为原尺寸重新测量输入。
+公开报告保留两种方案的原测量数值、31幅派生图、8对指标CSV、192个色块CSV，以及去除本机绝对路径和内部固件软件版本的证据JSON。色块图和最差5色块Lab图均为3行外观×2列配方。原始JPG/ARW、固件、机身校准与设备接口均不包含在此次发布中。原始输入的大小和SHA-256保留在[data/source_manifest.json](data/source_manifest.json)。派生图是浏览视图，不能作为原尺寸重新测量输入。
 
 ## 计算顺序
 
@@ -17,7 +17,7 @@ python -m pip install numpy==2.3.5
 python docs/fl23-colour-comparison-20261018/recheck_results.py
 ```
 
-命令从公开的256档计数和原尺寸色块平均Lab重算12对交集、W1和全部288块ΔE00，检查两份CSV。此步骤不需要原照片，但也不等于重新解码原照片。原始计算另用Pillow histogram/ImageChops复核RGB计数与MAE/PSNR；CIEDE2000对照[Sharma、Wu、Dalal的34组公开参考值](https://hajim.rochester.edu/ece/sites/gsharma/ciede2000/)，最大绝对误差0.00004950。参考数据不在本次发布中复制。
+命令从公开的256档计数和原尺寸色块平均Lab重算8对交集、W1和全部192块ΔE00，检查两份CSV。此步骤不需要原照片，但也不等于重新解码原照片。原始计算另用Pillow histogram/ImageChops复核RGB计数与MAE/PSNR；CIEDE2000对照[Sharma、Wu、Dalal的34组公开参考值](https://hajim.rochester.edu/ece/sites/gsharma/ciede2000/)，最大绝对误差0.00004950。参考数据不在本次发布中复制。
 
 ## 浏览与结论边界
 

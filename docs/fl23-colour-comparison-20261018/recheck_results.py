@@ -24,7 +24,7 @@ def main():
         summary = list(csv.DictReader(stream))
     with (HERE / "逐色块数据.csv").open(encoding="utf-8-sig", newline="") as stream:
         patch_csv = list(csv.DictReader(stream))
-    assert len(metrics) == len(native) == len(summary) == 12 and len(patch_csv) == 288
+    assert len(metrics) == len(native) == len(summary) == 8 and len(patch_csv) == 192
     for pair, row in zip(metrics, summary):
         assert (pair["label"], pair["look"], pair["capture"]) == (row["方案"], row["外观"], row["照片编号"])
         hist = pair["full"]["histograms"]
@@ -41,7 +41,7 @@ def main():
             assert abs(value - float(other["均色DE00"])) < 1e-10
         assert abs(np.mean(values) - float(row["原尺寸24块均色DE00均值"])) < 1e-10
         assert abs(max(values) - float(row["原尺寸最差色块DE00"])) < 1e-10
-    print("PASS: 12 pairs, 288 patch DeltaE00 values, RGB histogram intersection/W1 and both CSVs")
+    print("PASS: 8 pairs, 192 patch DeltaE00 values, RGB histogram intersection/W1 and both CSVs")
 
 
 if __name__ == "__main__":

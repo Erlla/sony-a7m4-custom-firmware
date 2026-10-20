@@ -1,6 +1,6 @@
 {
-  "result": "PASS12_INDEPENDENT_RGB_PIXEL_AND_ROI_SENSITIVITY",
-  "compared_pairs": 12,
+  "result": "PASS8_INDEPENDENT_RGB_PIXEL_AND_ROI_SENSITIVITY",
+  "compared_pairs": 8,
   "rows": [
     {
       "id": "fx2_ST",
@@ -203,110 +203,6 @@
           "dx": 0,
           "dy": 0,
           "edge_NCC": 0.9605400810940388
-        },
-        "correction_applied": false,
-        "scope": "Finite integer translations; no subpixel/lens-distortion equivalence claim"
-      },
-      "camera_input_unchanged": true,
-      "edit_input_unchanged": true
-    },
-    {
-      "id": "a7cii_ST",
-      "native_RGB_histograms_exact": true,
-      "MAE_and_PSNR_independent_ImageChops_exact": true,
-      "geometry": {
-        "size": [
-          876,
-          584
-        ],
-        "radius": 3,
-        "best": {
-          "dx": 0,
-          "dy": 0,
-          "edge_NCC": 0.9624975202122347
-        },
-        "zero": {
-          "dx": 0,
-          "dy": 0,
-          "edge_NCC": 0.9624975202122347
-        },
-        "correction_applied": false,
-        "scope": "Finite integer translations; no subpixel/lens-distortion equivalence claim"
-      },
-      "camera_input_unchanged": true,
-      "edit_input_unchanged": true
-    },
-    {
-      "id": "a7cii_FL",
-      "native_RGB_histograms_exact": true,
-      "MAE_and_PSNR_independent_ImageChops_exact": true,
-      "geometry": {
-        "size": [
-          876,
-          584
-        ],
-        "radius": 3,
-        "best": {
-          "dx": 0,
-          "dy": 0,
-          "edge_NCC": 0.9615939413241676
-        },
-        "zero": {
-          "dx": 0,
-          "dy": 0,
-          "edge_NCC": 0.9615939413241676
-        },
-        "correction_applied": false,
-        "scope": "Finite integer translations; no subpixel/lens-distortion equivalence claim"
-      },
-      "camera_input_unchanged": true,
-      "edit_input_unchanged": true
-    },
-    {
-      "id": "a7cii_FL2",
-      "native_RGB_histograms_exact": true,
-      "MAE_and_PSNR_independent_ImageChops_exact": true,
-      "geometry": {
-        "size": [
-          876,
-          584
-        ],
-        "radius": 3,
-        "best": {
-          "dx": 0,
-          "dy": 0,
-          "edge_NCC": 0.959760771110763
-        },
-        "zero": {
-          "dx": 0,
-          "dy": 0,
-          "edge_NCC": 0.959760771110763
-        },
-        "correction_applied": false,
-        "scope": "Finite integer translations; no subpixel/lens-distortion equivalence claim"
-      },
-      "camera_input_unchanged": true,
-      "edit_input_unchanged": true
-    },
-    {
-      "id": "a7cii_FL3",
-      "native_RGB_histograms_exact": true,
-      "MAE_and_PSNR_independent_ImageChops_exact": true,
-      "geometry": {
-        "size": [
-          876,
-          584
-        ],
-        "radius": 3,
-        "best": {
-          "dx": 0,
-          "dy": 0,
-          "edge_NCC": 0.9614491335835021
-        },
-        "zero": {
-          "dx": 0,
-          "dy": 0,
-          "edge_NCC": 0.9614491335835021
         },
         "correction_applied": false,
         "scope": "Finite integer translations; no subpixel/lens-distortion equivalence claim"
@@ -579,138 +475,6 @@
       "mean18_deltaE00": 0.703944751755638,
       "mean6gray_deltaE00": 0.5938452291743377,
       "max_deltaE00": 1.41366323912704
-    },
-    {
-      "id": "a7cii_ST",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "ST",
-      "fraction": 0.2,
-      "mean24_deltaE00": 0.709106110668195,
-      "mean18_deltaE00": 0.7060261971583616,
-      "mean6gray_deltaE00": 0.7183458511976957,
-      "max_deltaE00": 1.485287110286303
-    },
-    {
-      "id": "a7cii_ST",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "ST",
-      "fraction": 0.3,
-      "mean24_deltaE00": 0.7088294193086181,
-      "mean18_deltaE00": 0.7028729267462145,
-      "mean6gray_deltaE00": 0.726698896995829,
-      "max_deltaE00": 1.489449709306611
-    },
-    {
-      "id": "a7cii_ST",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "ST",
-      "fraction": 0.4,
-      "mean24_deltaE00": 0.7082341731925522,
-      "mean18_deltaE00": 0.7021355668425046,
-      "mean6gray_deltaE00": 0.7265299922426957,
-      "max_deltaE00": 1.4887347102227688
-    },
-    {
-      "id": "a7cii_FL",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL",
-      "fraction": 0.2,
-      "mean24_deltaE00": 1.4424418085377122,
-      "mean18_deltaE00": 1.4565327385527762,
-      "mean6gray_deltaE00": 1.4001690184925202,
-      "max_deltaE00": 3.9476159546117118
-    },
-    {
-      "id": "a7cii_FL",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL",
-      "fraction": 0.3,
-      "mean24_deltaE00": 1.4447391824130682,
-      "mean18_deltaE00": 1.4533752963817277,
-      "mean6gray_deltaE00": 1.4188308405070902,
-      "max_deltaE00": 3.940651231933984
-    },
-    {
-      "id": "a7cii_FL",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL",
-      "fraction": 0.4,
-      "mean24_deltaE00": 1.445643571452085,
-      "mean18_deltaE00": 1.4559072870097547,
-      "mean6gray_deltaE00": 1.4148524247790757,
-      "max_deltaE00": 3.942593088111603
-    },
-    {
-      "id": "a7cii_FL2",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL2",
-      "fraction": 0.2,
-      "mean24_deltaE00": 4.338132255336935,
-      "mean18_deltaE00": 4.863818559314416,
-      "mean6gray_deltaE00": 2.761073343404487,
-      "max_deltaE00": 9.161138198235077
-    },
-    {
-      "id": "a7cii_FL2",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL2",
-      "fraction": 0.3,
-      "mean24_deltaE00": 4.337351033516768,
-      "mean18_deltaE00": 4.861501185209098,
-      "mean6gray_deltaE00": 2.764900578439778,
-      "max_deltaE00": 9.160811038632309
-    },
-    {
-      "id": "a7cii_FL2",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL2",
-      "fraction": 0.4,
-      "mean24_deltaE00": 4.334008721168403,
-      "mean18_deltaE00": 4.855935686174323,
-      "mean6gray_deltaE00": 2.7682278261506457,
-      "max_deltaE00": 9.151553884418245
-    },
-    {
-      "id": "a7cii_FL3",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL3",
-      "fraction": 0.2,
-      "mean24_deltaE00": 4.07221170976332,
-      "mean18_deltaE00": 4.513453822225349,
-      "mean6gray_deltaE00": 2.7484853723772322,
-      "max_deltaE00": 10.264069046837326
-    },
-    {
-      "id": "a7cii_FL3",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL3",
-      "fraction": 0.3,
-      "mean24_deltaE00": 4.072427222713592,
-      "mean18_deltaE00": 4.517165424701968,
-      "mean6gray_deltaE00": 2.7382126167484633,
-      "max_deltaE00": 10.315914622088833
-    },
-    {
-      "id": "a7cii_FL3",
-      "group": "a7cii",
-      "label": "原 A7C II 项目 0.1.0",
-      "look": "FL3",
-      "fraction": 0.4,
-      "mean24_deltaE00": 4.0737543245752015,
-      "mean18_deltaE00": 4.516716078892031,
-      "mean6gray_deltaE00": 2.7448690616247124,
-      "max_deltaE00": 10.343972783969788
     }
   ],
   "ROI_rankings": [
@@ -719,12 +483,10 @@
       "fraction": 0.2,
       "order": [
         "current",
-        "a7cii",
         "fx2"
       ],
       "values": [
         0.7000804853923334,
-        0.709106110668195,
         0.7133379811169873
       ]
     },
@@ -733,12 +495,10 @@
       "fraction": 0.3,
       "order": [
         "current",
-        "a7cii",
         "fx2"
       ],
       "values": [
         0.7001289668496132,
-        0.7088294193086181,
         0.7117827426699413
       ]
     },
@@ -747,12 +507,10 @@
       "fraction": 0.4,
       "order": [
         "current",
-        "a7cii",
         "fx2"
       ],
       "values": [
         0.6996083168117672,
-        0.7082341731925522,
         0.7118398405308194
       ]
     },
@@ -760,12 +518,10 @@
       "look": "FL",
       "fraction": 0.2,
       "order": [
-        "a7cii",
         "fx2",
         "current"
       ],
       "values": [
-        1.4424418085377122,
         1.4435061623590488,
         1.4479844787611353
       ]
@@ -775,12 +531,10 @@
       "fraction": 0.3,
       "order": [
         "fx2",
-        "a7cii",
         "current"
       ],
       "values": [
         1.4447180759408955,
-        1.4447391824130682,
         1.4461560073954043
       ]
     },
@@ -788,12 +542,10 @@
       "look": "FL",
       "fraction": 0.4,
       "order": [
-        "a7cii",
         "current",
         "fx2"
       ],
       "values": [
-        1.445643571452085,
         1.4460463910893209,
         1.4470302089441283
       ]
@@ -803,13 +555,11 @@
       "fraction": 0.2,
       "order": [
         "current",
-        "fx2",
-        "a7cii"
+        "fx2"
       ],
       "values": [
         1.2357546288334251,
-        1.559631655068482,
-        4.338132255336935
+        1.559631655068482
       ]
     },
     {
@@ -817,13 +567,11 @@
       "fraction": 0.3,
       "order": [
         "current",
-        "fx2",
-        "a7cii"
+        "fx2"
       ],
       "values": [
         1.2334716272143644,
-        1.5660849222178097,
-        4.337351033516768
+        1.5660849222178097
       ]
     },
     {
@@ -831,13 +579,11 @@
       "fraction": 0.4,
       "order": [
         "current",
-        "fx2",
-        "a7cii"
+        "fx2"
       ],
       "values": [
         1.2297334075017263,
-        1.5657256065798906,
-        4.334008721168403
+        1.5657256065798906
       ]
     },
     {
@@ -845,13 +591,11 @@
       "fraction": 0.2,
       "order": [
         "current",
-        "fx2",
-        "a7cii"
+        "fx2"
       ],
       "values": [
         0.678040344984085,
-        0.9529361421418624,
-        4.07221170976332
+        0.9529361421418624
       ]
     },
     {
@@ -859,13 +603,11 @@
       "fraction": 0.3,
       "order": [
         "current",
-        "fx2",
-        "a7cii"
+        "fx2"
       ],
       "values": [
         0.6789963934920763,
-        0.9489144333727925,
-        4.072427222713592
+        0.9489144333727925
       ]
     },
     {
@@ -873,13 +615,11 @@
       "fraction": 0.4,
       "order": [
         "current",
-        "fx2",
-        "a7cii"
+        "fx2"
       ],
       "values": [
         0.6764198711103129,
-        0.9496287108586511,
-        4.0737543245752015
+        0.9496287108586511
       ]
     }
   ],

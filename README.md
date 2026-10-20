@@ -27,21 +27,18 @@
 
 ## 固定条件实拍色彩对比
 
-[完整报告：FX2 原厂 / 当前配方 / 原 A7C II 项目 0.1.0](docs/fl23-colour-comparison-20261018/README.md) · [指标 CSV](docs/fl23-colour-comparison-20261018/指标汇总.csv) · [测量方法与离线 HTML](docs/fl23-colour-comparison-20261018/METHODS.md)
+[完整报告：FX2 原厂 / 当前配方](docs/fl23-colour-comparison-20261018/README.md) · [指标 CSV](docs/fl23-colour-comparison-20261018/指标汇总.csv) · [测量方法与离线 HTML](docs/fl23-colour-comparison-20261018/METHODS.md)
 
-固定光圈、快门、ISO、白平衡与镜头，共12对机内直出/Edit后期图。原尺寸24块平均色差 ΔE00 越低，表示越接近本次 Edit 参考。
+固定光圈、快门、ISO、白平衡与镜头，共8对机内直出/Edit后期图。原尺寸24块平均色差 ΔE00 越低，表示越接近本次 Edit 参考。
 
 | 方案 | FL 均色 ΔE00 ↓ | FL2 均色 ΔE00 ↓ | FL3 均色 ΔE00 ↓ |
 | --- | --- | --- | --- |
 | FX2 原厂 | 1.444 | 1.565 | 0.951 |
 | 当前配方 | 1.444 | 1.233 | 0.678 |
-| 原 A7C II 项目 0.1.0 | 1.444 | 4.336 | 4.070 |
 
-![三配方实拍指标总览](docs/fl23-colour-comparison-20261018/assets/summary.png)
+![双配方实拍指标总览](docs/fl23-colour-comparison-20261018/assets/summary.png)
 
-FL、FL2、FL3在同一组表格和图中并列：FL三方案均值均约1.444；本场景、光源下当前配方的FL2/FL3最接近参考，FL2黄/橙色块仍有残差。全部照片来自 A7M4，不是实体 FX2/A7C II 对拍，也不代表跨光源通用排名或真实色彩准确度。
-
-<!-- FL23_V2_RECIPE_NOTE -->报告已补充色度系数、三光源矩阵示例及 Gamma 差异；核对上游 v2.0 后确认 FL2/FL3 配方资产与历史0.1.0包逐字节相同。v2.0没有新增实拍组。
+FL、FL2、FL3在同一组表格和图中并列：FL两种方案均值均约1.444；本场景、光源下当前配方的FL2/FL3最接近参考，FL2黄/橙色块仍有残差。全部照片来自 A7M4，不是实体FX2机身对拍，也不代表跨光源通用排名或真实色彩准确度。
 
 ## Fastboot 工具
 
