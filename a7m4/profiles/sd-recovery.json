@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "approved_initrd_hashes": {
+    "bd81714ed85b175ad6da41947adcb80b7b3deb965c23aab04c84901c99e52d98": "Previously verified modified SD updater; exact initrd identity required"
+  },
+  "product": "ILCE-7M4",
+  "scope": "Exact reviewed modified updater initrd only; not a generic stock-firmware profile"
+}

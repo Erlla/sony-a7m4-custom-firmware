@@ -49,6 +49,10 @@ Alternatively import an existing local tool with `tools/import_local_resources.p
 
 If driver installation is necessary, the host requests Windows elevation only for `pnputil`. It does not disable signature enforcement or create persistent elevated tasks. Hold BOOTSEL while plugging in the RP2040 for initial setup. Follow [wiring](wiring.en.md) before connecting camera signals.
 
+## SD recovery from existing fastboot
+
+[Method 0](../methods/00-sd-recovery/README.en.md) adds BAT entries and `python -m a7m4.recover_sd`. It reuses local assets without installing drivers or entering fastboot. Recovery-only users can register fastboot and matching DLLs with `tools/register_resources.py local/recovery-resources --recovery-only`; general `doctor` will still report missing boot/driver/SquashFS resources. The exact updater allowlist and an acceptable slot 1 DAT remain mandatory.
+
 ## Optional complete firmware builds
 
 ```powershell

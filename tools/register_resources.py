@@ -10,10 +10,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path, help="Directory with bin/, driver/, squashfs/")
     parser.add_argument("--destination", type=Path, default=Path(__file__).resolve().parents[1] / "vendor")
+    parser.add_argument('--recovery-only', action='store_true', help='Register only bin/fastboot.exe and adjacent DLLs/notices; camera must already be in fastboot')
     args = parser.parse_args()
     source, destination = args.directory.resolve(), args.destination.resolve()
     required = ("bin/fastboot.exe", "bin/fastboot.bin", "bin/uart_boot.ino.uf2",
                 "driver/android_winusb.inf", "squashfs/sqfs2tar.exe", "squashfs/tar2sqfs.exe")
+    if args.recovery_only:
+        required = ('bin/fastboot.exe',)
     if any(not (source / name).is_file() for name in required):
         raise SystemExit("Incomplete resource tree. See docs/setup.md")
     if (destination / "manifest.local.json").exists():
@@ -28,6 +31,10 @@ def main():
                 if not path.resolve().is_relative_to(source):
                     raise SystemExit("Linked resource escapes input directory")
                 selected.append((path, relative))
+    if args.recovery_only:
+        selected = [(path, rel) for path, rel in selected
+                    if rel.parts[0] == 'bin' and path.suffix.lower() in ('.exe', '.dll', '.txt', '.md')
+                    and (path.suffix.lower() != '.exe' or path.name == 'fastboot.exe')]
     files = {}
     for path, relative in selected:
         target = destination / "local" / relative

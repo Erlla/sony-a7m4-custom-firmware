@@ -2,7 +2,7 @@
 
 English · [中文](README.md)
 
-Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source and five separate methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
+Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry and five separate modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
 
 ## Risk and mandatory backups
 
@@ -10,20 +10,23 @@ Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastb
 
 - **Use an original Sony battery for firmware updates, including SD updates and recovery updates. Do not use a third-party battery.** The battery display/caution patch does not waive this requirement. Meet the updater's charge requirement and maintain stable power.
 - **Back up your own camera before any write**: every eMMC partition, boot0/boot1, the partition layout and SHA-256 hashes. Keep an additional offline copy. For FL2/FL3, independently back up the physical CP NOR as well. Preserve the original update package, tool revisions, change manifest and rollback images.
-- The host requires verified complete backups of the eMMC partitions exposed by the payload from the current connection before maintenance writes, then verifies the entire written partition by readback SHA-256. This is not a raw copy of every chip address. **It excludes separate CP NOR, other MCUs and some hardware state.** It does not guarantee recovery from every failure.
+- The normal maintenance host requires verified complete backups of the eMMC partitions exposed by the payload from the current connection before maintenance writes, then verifies the entire written partition by readback SHA-256. This is not a raw copy of every chip address. **It excludes separate CP NOR, other MCUs and some hardware state.** It does not guarantee recovery from every failure.
 - Maintain reliable power and USB connections. Do not disconnect, power off or force-quit during writes. Never restore another camera's complete settings, calibration or eMMC dump onto your body.
 - **A custom flashing cable is required**: a camera Multi-port breakout, an RP2040-Zero boot bridge, common ground and an electrically correct interface. An ordinary USB cable alone is insufficient. Read [wiring](docs/wiring.en.md) first. The camera's Multi-port serial signal level is approximately **3.15 V**; RP2040 is a 3.3 V device. Follow the wiring guide's open-drain configuration and verify signal pull-ups and RESET wiring.
 - Fixed binary offsets are specific to the documented model and source hashes. Similar version numbers do not imply compatibility.
 
-## Five independent methods
+## Independent methods (recovery first)
 
 | Method | Separate guide | Included material | Notes and validation limits |
 |---|---|---|---|
+| 0. One-click recovery through the SD updater | [English](methods/00-sd-recovery/README.en.md) / [中文](methods/00-sd-recovery/README.md) | Six-partition backup, same-body settings preservation, MODE5 trigger, full readback then reboot; camera installs slot1 `BODYDATA.DAT`; read-only connection check and USB failure classification | **Already-fastboot and exact updater allowlist required**. Host cannot read card DAT or confirm installation. [Mechanism and use](methods/00-sd-recovery/README.en.md). |
 | 1. Replace the official update key and modify public-key authenticity verification | [English](methods/01-custom-signing/README.en.md) / [中文](methods/01-custom-signing/README.md) | Per-camera PEM replacement, verified four-library `verifyKey` patch, SquashFS/checksum rebuild, maintainer's existing key pair, DAT re-signing utility | Does not install FL2/FL3 automatically. |
 | 2. Set the reported firmware version | [English](methods/02-firmware-version/README.en.md) / [中文](methods/02-firmware-version/README.md) | Bounded FAT editing of the two BCD bytes in `updater/dat4`, accepting `0.00`–`9.99` while preserving other contents | Changes the reported version only; does not add newer firmware features. |
 | 3. Port and install FL2 / FL3 | [English](methods/03-fl2-fl3/README.en.md) / [中文](methods/03-fl2-fl3/README.md) | AP/CP, donor conversion, configuration and NOR synchronization; **fixed A1 is supported by sample comparisons to Imaging Edge re-selection** | **Default fixed A1**; donor look data comes from FX2. Sample colours approach Edit re-selection, without pixel identity or all-scene FX2 equivalence. [Installation and SD migration repair](methods/03-fl2-fl3/sd-colour-preservation.md). Fresh lossless-RAW samples match all105 main-matrix entries per look; the exact-source RAW recipe is separate from the official6.02 baseline build. |
 | 4. Third-party battery percentage/caution restrictions | [English](methods/04-third-party-battery/README.en.md) / [中文](methods/04-third-party-battery/README.md) | 16 AP instructions restoring reported percentage/suppressing caution, preserving authentication state and charging/temperature protection; exact recipes, offline patching and reversal | Independent mechanism, baseline, recipe and validation. Included in SD builds only with `--battery`. **Updates still require an original Sony battery.** |
 | 5. Lens AF mechanisms and compatibility capability filtering | [English](methods/05-third-party-lens-af/README.en.md) / [中文](methods/05-third-party-lens-af/README.md) | Separate ID filtering and category/capability/profile range-gate analysis; six CP regions retain reported capabilities/speed profiles, leaving the range gate unchanged; **speed improvements remain untested on hardware** | **No physical focus-speed testing; performance effect unknown.** Independent baseline and validation; SD inclusion requires `--lens-af`. |
+
+Recovery is separate from the five original firmware modifications. Normal maintenance retains its full-eMMC-backup and plan-confirmation requirements. Recovery automatically backs up six relevant partitions and permits only its prepared settings candidate; **this is not a complete eMMC/NOR backup**. This publication was checked offline without operating a camera.
 
 ## Fixed-condition colour comparison
 

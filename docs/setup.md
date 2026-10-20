@@ -54,6 +54,10 @@ python -m a7m4 doctor
 
 进入 fastboot 时，如确实需要安装驱动，工具只请求 Windows 以管理员运行 `pnputil`，不关闭驱动签名检查、不建立常驻提权任务。第一次 RP2040 安装需要按住 BOOTSEL 插入板子的 USB。先按 [接线说明](wiring.md) 确认硬件。
 
+## 已在 fastboot 的 SD 救砖
+
+[方法 0](../methods/00-sd-recovery/README.md)提供独立 BAT 与 `python -m a7m4.recover_sd` 入口；复用现有资源清单，不安装驱动或进入 fastboot。只做救砖时可用 `tools/register_resources.py local/recovery-resources --recovery-only` 登记 fastboot 及配套 DLL；这不会满足通用 `doctor` 对启动、驱动和 SquashFS 的全部要求。恢复仍要求精确更新器白名单与卡槽1可接受的 DAT，详见该方法。
+
 ## 离线固件构建（可选）
 
 只有需要完整 DAT 解码/重封装时才安装额外依赖：

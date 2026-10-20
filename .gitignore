@@ -11,6 +11,7 @@ local/
 runtime/
 backups/
 output/
+sessions/
 *.log
 *.bin
 *.img

@@ -1,5 +1,7 @@
 # 验证记录 / Validation
 
+2026-10-21：新增[SD 更新救砖验证记录](../methods/00-sd-recovery/validation.md)。公开适配复用原有 FAT/fastboot 模块，离线核对恢复流程、连接错误、资源登记及 BAT 启动；没有操作相机，其他五项补丁配方未改变。 / Added public SD-recovery validation. The adaptation reuses existing FAT/fastboot modules, checks synthetic workflows/resources/launchers offline, and does not operate a camera or change the five patch recipes.
+
 > 2026-10-17 更新：本文原日期和测试数为历史记录；FL2/FL3 固定 A1 的当前结果、残差及图片见[最新验证](../methods/03-fl2-fl3/color-validation-20261017.md)。旧版颜色差异提示不能覆盖该新证据。
 > Update: the dated checks below are historical. Current fixed-A1 evidence and remaining limits are in the linked report; the earlier color notice does not describe the new matrix mode.
 

@@ -23,7 +23,7 @@ def check():
         data = path.read_bytes()
         if path.is_symlink() or getattr(path, "is_junction", lambda: False)():
             errors.append(f"Linked publication file: {relative}")
-        if path.suffix.lower() in BLOCKED or relative.startswith(("vendor/local/", "local/", "runtime/", "backups/", "output/")):
+        if path.suffix.lower() in BLOCKED or "sessions" in path.parts or relative.startswith(("vendor/local/", "local/", "runtime/", "backups/", "output/")):
             errors.append(f"Local/proprietary artifact in publication: {relative}")
         if relative in PUBLIC_KEYS:
             expected = manifest["files"][path.name]
