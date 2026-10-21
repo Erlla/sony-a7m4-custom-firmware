@@ -25,7 +25,7 @@
 | 3. FL2 / FL3 移植与刷入 | [中文](methods/03-fl2-fl3/README.md) / [English](methods/03-fl2-fl3/README.en.md) | AP/CP、供体数据转换、配置及 NOR 同步；**固定 A1 已有实拍对照，颜色接近软件重选目标** | **默认固定 A1**；外观数据取自 FX2，实拍接近 Edit 重选目标，不宣称像素完全相同或 FX2 全场景等效。[安装前提与 SD 迁移修复](methods/03-fl2-fl3/sd-colour-preservation.md)。RAW 无损写出修复后新拍两外观各105项主矩阵匹配 A1；独立 RAW 配方只接受列明完整源 CP 哈希，不自动合入公开官方6.02基线构建。 |
 | 4. 副厂电池电量显示与提示限制 | [中文](methods/04-third-party-battery/README.md) / [English](methods/04-third-party-battery/README.en.md) | 16条 AP 指令恢复真实电量显示、跳过副厂提示，保留认证源状态与充电/温度保护；附精确配方、离线补丁与回滚 | 独立提供原理、基线、补丁与验证；SD 构建显式传入 `--battery` 才合并。**更新仍必须使用原厂电池。** |
 | 5. 镜头 AF 机制与兼容能力过滤 | [中文](methods/05-third-party-lens-af/README.md) / [English](methods/05-third-party-lens-af/README.en.md) | 分别分析 ID 能力过滤与类别/能力/档案范围门控；六处 CP 补丁仅保留上报能力和速度 profile，范围门控未修改；**速度改善未经实机测试** | **对焦速度改善未经实机测试，效果未知。** 独立基线与验证边界；SD 构建显式传入 `--lens-af` 才合并。 |
-| 6. 自定义电子快门声与对焦声 | [中文](methods/06-custom-sounds/README.md) / [English](methods/06-custom-sounds/README.en.md) | 完整原生源码、菜单/WAV 导入与持久化、双槽播放、音量、重启恢复及关闭自动日志；附精确布局的离线配方 | 以文件 SHA-256 识别兼容性，**不改固件版本号**；参考 AP 须有共享菜单框架，输出组件文件，不直接生成 DAT。已有单机功能反馈，公开源码/文件重建验证见方法说明。 |
+| 6. 自定义电子快门声与对焦声 | [中文](methods/06-custom-sounds/README.md) / [English](methods/06-custom-sounds/README.en.md) | 完整原生源码、菜单/WAV 导入与持久化、双槽播放、音量、重启恢复；附精确布局的离线配方 | 以文件 SHA-256 识别兼容性，**不改固件版本号**；参考 AP 须有共享菜单框架，输出组件文件，不直接生成 DAT。已有单机功能反馈，公开源码/文件重建验证见方法说明。 |
 
 救砖入口独立于六项固件修改。常规维护仍要求完整 eMMC 备份与计划确认；救砖入口每次自动备份六个相关分区，只允许本次设置候选写入，**不等于完整 eMMC 或 NOR 备份**。本次发布只做离线验证，没有操作相机。
 

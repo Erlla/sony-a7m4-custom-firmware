@@ -17,7 +17,6 @@ The public reference recipe requires an AP that already contains the shared menu
 - Independent 10%–100% levels in 10% steps. 50% is the feature's reference gain; 100% doubles that digital amplitude. The two playback paths receive a matching private CP scalar. This is not a promise of equal perceived loudness for different recordings.
 - Silent mode suppresses both sounds. Mechanical/EFCS modes suppress and durably disable the electronic sound. Stock focus-signal settings remain authoritative; AF-C is not customized and MF produces no focus confirmation.
 - Focus default/fallback remains available. Exposure and focus have separate slots and event identities. Test them separately using AF-S half-press and MF exposure.
-- Automatic SD diagnostic BIN export is disabled; normal WAV reads and internal settings persistence remain enabled.
 
 ## Offline component reconstruction
 
@@ -32,12 +31,12 @@ All inputs and output hashes are checked before creating a new output directory.
 
 ## Source and integration
 
-The [implementation map](IMPLEMENTATION.md) documents the exact menu registrations, ELF relocation changes, controller completion refresh, filesystem transactions, PCM-to-24-kHz f0 conversion, AP/CP leases, restart recovery, gain correction and disabled exporter. The [native build](../../native/custom-sounds/README.md) reproduces six modules and their installed sections; post-link corrections are explicit.
+The [implementation map](IMPLEMENTATION.md) documents the exact menu registrations, ELF relocation changes, controller completion refresh, filesystem transactions, PCM-to-24-kHz f0 conversion, AP/CP leases, restart recovery and gain correction. The [native build](../../native/custom-sounds/README.md) reproduces six modules and their installed sections; post-link corrections are explicit.
 
 A complete firmware build must integrate AP/MPR/all language resources and CP together, preserve unrelated changes and calibration, verify all container checksums/signatures, and synchronize the independent CP NOR through the supported SD update path. Flashing an eMMC CP image alone does not update NOR. The component `cpapp-b.bin` is not a whole partition image. This sound method never chooses a firmware release number; complete-package publication manages that separately.
 
 ## Validation
 
-The maintainer's existing single-camera implementation received successful custom-sound, matching-level and repeated-restart feedback, followed by user acceptance of the requested functionality. Automatic diagnostic-export removal was subsequently checked offline; it has no separate new hardware acceptance claim.
+The maintainer's existing single-camera implementation received successful custom-sound, matching-level and repeated-restart feedback, followed by user acceptance of the requested functionality. The published reference files were checked offline; they have no separate new hardware acceptance claim.
 
 This publication rechecks 71 complete reconstructed file hashes, six source-built modules and their installed sections, 32 C core checks, and Python input/output guard tests. See [validation evidence](../../docs/custom-sounds-validation.json). No camera operation or new installable package was performed. Other baselines and combinations still require native replay, full-package audit and hardware testing, including immediate startup, repeated OFF/ON, silent/mechanical policies, real bursts, photo writes and clean shutdown.

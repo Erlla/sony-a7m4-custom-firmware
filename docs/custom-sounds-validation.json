@@ -641,19 +641,13 @@
     "failed": 0,
     "windows_utf8_mode": true
   },
-  "automatic_SD_export": false,
   "firmware_metadata_changed": false,
   "firmware_version_required": false,
   "new_camera_operations": false,
   "new_installable_package": false,
-  "hardware_evidence": "Maintainer single-camera feature baseline accepted by user; later no-export adjustment checked offline only. No new hardware or cross-layout acceptance claimed.",
+  "hardware_evidence": "Maintainer single-camera feature baseline accepted by user; published reference files checked offline only. No new hardware or cross-layout acceptance claimed.",
   "source_AP_contains_shared_menu_framework": true,
   "stock_AP_supported_by_reference_recipe": false,
-  "no_export_entry": {
-    "va": "0x8fab12c",
-    "instruction_hex": "c0035fd6",
-    "verified_in_reconstructed_AP": true
-  },
   "inputs_unchanged_after_reconstruction": true,
   "source_inputs_verified_against_research_git": true
 }
