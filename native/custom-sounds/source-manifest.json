@@ -1,0 +1,331 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "native/custom-sounds/runtime/src/ap_runtime.c",
+      "sha256": "8ec53212f62a5bb3365cef2975b6e46ce526fd264d69c5cdef6d1b4e37b1e60f",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/ap_sd_backend.c",
+      "sha256": "a801d6236e0a29d2f8b99e8105da0172e35fa0c28485a00878fa65d3fa8e8c2f",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/ap_native_policy.c",
+      "sha256": "8185be346b2ed001c3db5526fae9c7f7db19c7c9b4833af8816b47ee61b38bcd",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/private_worker.c",
+      "sha256": "8e12d9c375432fea6c0d8deb110e91eb4dab151e1a74cc2c9a136ffa72560407",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/private_selector.c",
+      "sha256": "3ec0c3ed87b6cfcb6b3707f623c43c7066fd1c39f75d06214919147671d798a1",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/csnd_sound_path_probe.c",
+      "sha256": "eba3602dcbcdb111da4188fd2258f618f2b12dbb404c4109f975e71a70780892",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/controller_wiring.c",
+      "sha256": "60511c995c7c0fc099d109fd4c6746073a3f125e5e3a635104c97a02a77dae07",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/maintenance_scheduler.c",
+      "sha256": "e0b691cd6db01466f2c7007937c3516e4c93a148e1f9e9b4060a47fb72288600",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/menu_callbacks.c",
+      "sha256": "0d62b2f9a54aece9fcc2f90164623d8abe42aa381793f9ce4ed920aec91fd00d",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/sound_core.c",
+      "sha256": "3cd7ba39ad04760e05e5ab594acefdd79c9f72e3eedb593bf74ca8e25dd49a88",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/src/freestanding.c",
+      "sha256": "f9bf93133d718e9f1f77a4fe7746d809498a9188ca7e38cdbde2b25a4681c232",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/layout.ld",
+      "sha256": "beb1797a56e7800a9bd7b67af6de53b0cbdb9019fbd6902dcd6595379d52d631",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/ap_native_policy.h",
+      "sha256": "c652f5156cc88fba86128c82c6f9730e90ae4574ac2302604d25060002371189",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/ap_runtime.h",
+      "sha256": "9bdb98fe0584c5a5508da53fdd56d32a25e8a08965c2c2a2a7b4ba53cc76170f",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/ap_sd_backend.h",
+      "sha256": "3335ba63c6a90ac75a4bd8f551627a48d24e17fc2ac2f213af016be6fee70273",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/controller_wiring.h",
+      "sha256": "baba0d9e5ddbe3017fa10de0a839e527584c2a1a5106797b35a157a7a92fdb20",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/csnd_sound_path_probe.h",
+      "sha256": "6891f821533d51b4ff6736c78519caf479aa7f25f0e92f51c504f88536f19f25",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/maintenance_scheduler.h",
+      "sha256": "7d8ae7636c07d09139f12da2ec6b26f34c1b390890ff34ba95416cb7ee7ab826",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/menu_callbacks.h",
+      "sha256": "8963a14ce347df94580c9d6d5249cd3bfdc230e9d49285f0f4051eb4ca5d6cab",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/private_selector.h",
+      "sha256": "1df12d7262049c7daf6c0a3f069d8ebe4c348a4bcf850f2a3f58d55503b63ba9",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/private_worker.h",
+      "sha256": "459719318ce8634d7550e7a180834d875a54c1b375e49a623ef1fb39f0f2df55",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/sound_core.h",
+      "sha256": "ecec5a4eaa3842777ffe543831d453188bdac13d0f04d6410029b42033aa535b",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/runtime/include/string.h",
+      "sha256": "06d34b66042c03049d0f2dde3c4092c9a48a4a33e4ab8f6994a09caac69f6915",
+      "module": "runtime"
+    },
+    {
+      "path": "native/custom-sounds/worker/src/event_runtime.c",
+      "sha256": "3827a802ad094f40cba526275b03e0f4b57a76bf1fd58430d85a60347cb1be19",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/src/resource.c",
+      "sha256": "b049f2881bd3366d56583c6414726b4016ae9ea8292635b9cafd8e4ca4289ccb",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/src/native_transport.c",
+      "sha256": "4fcb7ce2455fb893b886ee261b5e1de12921328654be9dee8570bfc983c0db73",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/src/convert.c",
+      "sha256": "e7628fe2f2686ba71c661599dc25cceba12c852b9fede19a8ad18d979d352de0",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/src/diagnostic.c",
+      "sha256": "29527c80a4d11d6fd3493cf782c0be18c85f30bd593c2b4c313d45e868eea297",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/src/memory.c",
+      "sha256": "c31aa767c1f86c43c08f9846d68e2600e08d8510a537b05292095bee12e73d98",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/src/stop_async_request.c",
+      "sha256": "fc4ad35aaf0c638c81f72dfdc0a6612365aee1c6f315ea270a40d0b2853657fb",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/src/async_once.S",
+      "sha256": "8606be9d24ee994caa4f1eff7cff1c3e479f3098db31a67a7bfdff50d61edfa2",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/layout.ld",
+      "sha256": "c1879b2b92c4870e203dd824025e2049127413c78451560ae9791a8e2f55eca4",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/convert.h",
+      "sha256": "c8c08bf16e9cda5eea363dd72b840162be4fc4b7982277c59ece9ad9a963db05",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/event_runtime.h",
+      "sha256": "e9b34615fe2d829f6011e807b55156abe504b47bd633313bc3d9625cec99f202",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/native_transport.h",
+      "sha256": "2e2ef01babc5ee07a47f5b78e218b5dd501b6f5c4a50cdd072b047686b37b7af",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/map_staging.h",
+      "sha256": "beaf005a79939debb85544aa2e9af8ac6ebd6339316d9ab09f332f36f3365eb0",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/resource.h",
+      "sha256": "3b7b38a505d0978e76e5b1f1468ff48ef886b3f96816215f6f6efd89dc8650da",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/ap_native_policy.h",
+      "sha256": "c652f5156cc88fba86128c82c6f9730e90ae4574ac2302604d25060002371189",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/ap_runtime.h",
+      "sha256": "9bdb98fe0584c5a5508da53fdd56d32a25e8a08965c2c2a2a7b4ba53cc76170f",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/ap_sd_backend.h",
+      "sha256": "3335ba63c6a90ac75a4bd8f551627a48d24e17fc2ac2f213af016be6fee70273",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/controller_wiring.h",
+      "sha256": "baba0d9e5ddbe3017fa10de0a839e527584c2a1a5106797b35a157a7a92fdb20",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/csnd_sound_path_probe.h",
+      "sha256": "6891f821533d51b4ff6736c78519caf479aa7f25f0e92f51c504f88536f19f25",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/maintenance_scheduler.h",
+      "sha256": "7d8ae7636c07d09139f12da2ec6b26f34c1b390890ff34ba95416cb7ee7ab826",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/menu_callbacks.h",
+      "sha256": "8963a14ce347df94580c9d6d5249cd3bfdc230e9d49285f0f4051eb4ca5d6cab",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/private_selector.h",
+      "sha256": "1df12d7262049c7daf6c0a3f069d8ebe4c348a4bcf850f2a3f58d55503b63ba9",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/private_worker.h",
+      "sha256": "459719318ce8634d7550e7a180834d875a54c1b375e49a623ef1fb39f0f2df55",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/sound_core.h",
+      "sha256": "ecec5a4eaa3842777ffe543831d453188bdac13d0f04d6410029b42033aa535b",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/worker/include/kernel_q24.h",
+      "sha256": "6013c6ed3e9fd71446986c460abea2a6cacfd55bb13b52822f9ec691f9c8c01d",
+      "module": "worker"
+    },
+    {
+      "path": "native/custom-sounds/ui/src/ui_completion.c",
+      "sha256": "e6a89dd0b922926d38a8244de545ba4b70b1e90b9c816083db0fe50d0363acd1",
+      "module": "ui"
+    },
+    {
+      "path": "native/custom-sounds/ui/src/original_event.S",
+      "sha256": "6dffec3864ae36ef48610bbd7dc4e34907c0ce0f8f0ce011fe582aa0efa30460",
+      "module": "ui"
+    },
+    {
+      "path": "native/custom-sounds/ui/layout.ld",
+      "sha256": "d905971b788f163d15b0f9a2a3ecac3dc5ae7d2b8fe75b6058c60c39498b42ae",
+      "module": "ui"
+    },
+    {
+      "path": "native/custom-sounds/volume/src/sidecar_baseline50.c",
+      "sha256": "80f320269ef22416e53564e35ea6fec3bf01add54160f25aaed4a162ff59576b",
+      "module": "volume"
+    },
+    {
+      "path": "native/custom-sounds/volume/src/menu_callbacks.c",
+      "sha256": "5ad9631fae6b01884dcb76f3cccc23862817b2661c89e4233c4ba85ff89a9881",
+      "module": "volume"
+    },
+    {
+      "path": "native/custom-sounds/volume/layout.ld",
+      "sha256": "556cf1dcc4e0e497d879c7087324ab4a89ebbdf5ec25c383e685d79501b848a2",
+      "module": "volume"
+    },
+    {
+      "path": "native/custom-sounds/owner/src/cp_owner.c",
+      "sha256": "fe4ddfb9ff7a2ac1173d644116f46c7b429bf0d51fa4680ecc68197f5f0ed5f7",
+      "module": "owner"
+    },
+    {
+      "path": "native/custom-sounds/owner/src/cp_owner_hooks.S",
+      "sha256": "a566197d2019e38ff45fbb8d7215e65b86057bff2e59353477e5243cfa7326c3",
+      "module": "owner"
+    },
+    {
+      "path": "native/custom-sounds/owner/layout.ld",
+      "sha256": "7a9b0e8474c32e45f7102eb2b89e3dedc8fe305e950c5bfdbec04ac6e2174d5f",
+      "module": "owner"
+    },
+    {
+      "path": "native/custom-sounds/owner/include/cp_owner.h",
+      "sha256": "16f8a337302d1a8ae98f2166657d9a7a56f8b74dcfbc401590876368c6cebe62",
+      "module": "owner"
+    },
+    {
+      "path": "native/custom-sounds/cp-gain/src/driver_capture.c",
+      "sha256": "0919120c5e9189ba58bda54e467c2658bb308ffc339291977a0471681fb0c2e3",
+      "module": "cp-gain"
+    },
+    {
+      "path": "native/custom-sounds/cp-gain/src/driver_capture_hooks.S",
+      "sha256": "a2e4be142df49d443ea2bbabe4391255ef19b913b936e536d4b0852c19f52d03",
+      "module": "cp-gain"
+    },
+    {
+      "path": "native/custom-sounds/cp-gain/src/gain_observation.c",
+      "sha256": "be783206fe351b2b8cc87fc10f3ada1e0c4362b56052d36e2d7bcb778aea48f5",
+      "module": "cp-gain"
+    },
+    {
+      "path": "native/custom-sounds/cp-gain/src/gain_scalar.S",
+      "sha256": "949c0cccab505855938dab34eeb67e545fbf35961cdcce60735accb37f39ee78",
+      "module": "cp-gain"
+    },
+    {
+      "path": "native/custom-sounds/cp-gain/src/bind_diag.c",
+      "sha256": "042d6f81fd3c1aa65e96da3a50c2ccd733df5c85c5a99b82d1de469978d230b9",
+      "module": "cp-gain"
+    },
+    {
+      "path": "native/custom-sounds/cp-gain/layout.ld",
+      "sha256": "fa3b272fdac7c713aa0f9dc648eb625769bc3d19fce0a7de67690bb9e62c8a11",
+      "module": "cp-gain"
+    },
+    {
+      "path": "native/custom-sounds/cp-gain/include/driver_capture.h",
+      "sha256": "5ab3dec4b7056687e76c87833807e0722f2d406b24157b0b403421f1ee724ac7",
+      "module": "cp-gain"
+    }
+  ],
+  "firmware_version_required": false
+}

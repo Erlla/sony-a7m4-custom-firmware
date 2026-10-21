@@ -54,3 +54,9 @@
 |---|---|
 | [Pillow](https://github.com/python-pillow/Pillow), [Matplotlib](https://github.com/matplotlib/matplotlib) | Offline decoding, independent RGB count/error checks, report plots. Respective upstream licenses; no packages or fonts bundled. |
 | [Sharma / Wu / Dalal CIEDE2000](https://hajim.rochester.edu/ece/sites/gsharma/ciede2000/) | Reference validation with34 published test pairs. Website/paper/data cited, not relicensed or bundled. |
+
+## 自定义声音构建 / Custom-sound build
+
+- [Zig](https://github.com/ziglang/zig),0.15.2: external AArch64 freestanding compiler using its Clang/LLVM toolchain; used to reproduce the project's native adapters. Compiler/toolchain files are not bundled. Zig and bundled LLVM/Clang components retain their respective upstream licenses.
+- ARM GNU GCC16.1.0 / Binutils: external ARMv7-A Thumb soft-float compilation for the project's CP owner and gain adapters. No compiler binaries or Sony native programs are redistributed.
+- Sound C/assembly adapters, SHA-bound file recipes and the PCM/Q24/F0 converter are project-authored code under the root MIT license. Fixed source addresses, wire layouts and validation results are research facts, not original Sony source. Existing references above remain applicable to firmware extraction and offline ELF/native verification.

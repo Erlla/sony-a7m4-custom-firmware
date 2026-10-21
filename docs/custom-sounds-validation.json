@@ -1,0 +1,659 @@
+{
+  "schema": 1,
+  "date": "2026-10-21",
+  "source_files": 65,
+  "native_modules": {
+    "runtime": {
+      "undefined_symbols": [],
+      "sections": [
+        {
+          "name": ".text",
+          "va": 150544384,
+          "bytes": 32996,
+          "nobits": false,
+          "installed_sha256": "5e2649ecf02c221ab310a8990753320fdf27b5afbc52c31c4491d5b246ec803d"
+        },
+        {
+          "name": ".rodata",
+          "va": 150577392,
+          "bytes": 748,
+          "nobits": false,
+          "installed_sha256": "3638c56e6ff86b348f3522e537d53f60769c55047d9a2974127fcd0fb63e5d98"
+        },
+        {
+          "name": ".data",
+          "va": 150765568,
+          "bytes": 4,
+          "nobits": false,
+          "installed_sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+        },
+        {
+          "name": ".bss",
+          "va": 150765576,
+          "bytes": 1304,
+          "nobits": true
+        }
+      ]
+    },
+    "worker": {
+      "undefined_symbols": [],
+      "sections": [
+        {
+          "name": ".main",
+          "va": 150667264,
+          "bytes": 29584,
+          "nobits": false,
+          "installed_sha256": "a31fd155590bf1876056555e55ce1428e59f914c8340a2ff201fc02ab6e9e92a"
+        },
+        {
+          "name": ".bss",
+          "va": 150958080,
+          "bytes": 3992,
+          "nobits": true
+        }
+      ]
+    },
+    "ui": {
+      "undefined_symbols": [],
+      "sections": [
+        {
+          "name": ".text",
+          "va": 150705152,
+          "bytes": 312,
+          "nobits": false,
+          "installed_sha256": "75ebcd1a86571b38664c0bca8ca103238f176b7a72be5a24e634f6dff5de274d"
+        },
+        {
+          "name": ".bss",
+          "va": 150991104,
+          "bytes": 8,
+          "nobits": true
+        }
+      ]
+    },
+    "volume": {
+      "undefined_symbols": [],
+      "sections": [
+        {
+          "name": ".text",
+          "va": 150700032,
+          "bytes": 2029,
+          "nobits": false,
+          "installed_sha256": "7583e95264353959293b25b1e26e39db03ae8245b3b4af7f1d669251358aea5f"
+        },
+        {
+          "name": ".data",
+          "va": 150990848,
+          "bytes": 4,
+          "nobits": false,
+          "installed_sha256": "5e5425ccc17bf1dca2d9dda73982828db3a2d0b15c1d0fa786d9055a52744efe"
+        },
+        {
+          "name": ".bss",
+          "va": 150990852,
+          "bytes": 20,
+          "nobits": true
+        }
+      ]
+    },
+    "owner": {
+      "undefined_symbols": [],
+      "sections": [
+        {
+          "name": ".text",
+          "va": 12213376,
+          "bytes": 2656,
+          "nobits": false,
+          "installed_sha256": "4e21c9ba22bf6add9482fbb5033343c91a3e40b3615b395f830edc1c143d9a71"
+        },
+        {
+          "name": ".bss",
+          "va": 22431808,
+          "bytes": 188,
+          "nobits": true
+        }
+      ]
+    },
+    "cp-gain": {
+      "undefined_symbols": [],
+      "sections": [
+        {
+          "name": ".text",
+          "va": 12210176,
+          "bytes": 2804,
+          "nobits": false,
+          "installed_sha256": "d42f961cec02aaff8e21707a13d1c2d6e1d9f3f0dbed30c59f204792bdfcfb35"
+        },
+        {
+          "name": ".bss",
+          "va": 22432000,
+          "bytes": 388,
+          "nobits": true
+        }
+      ]
+    }
+  },
+  "reference_files_reconstructed": 71,
+  "reference_files": [
+    {
+      "kind": "ap",
+      "path": "lib/appFw.so",
+      "input_sha256": "28bd97605c5cb2e0b9edfeec36abf2dec64a46a9895f79b00c7f9356ce2482c3",
+      "output_sha256": "d411daa728ce86d057f110913094f326f108de830383e520be763ffaf75ded34",
+      "output_bytes": 98893824
+    },
+    {
+      "kind": "cp",
+      "path": "cpapp-b.bin",
+      "input_sha256": "1c34764fe413d4c0d720d629e323996498305fc29e5c53d2c52d0cca0c0d1504",
+      "output_sha256": "ef922a4436a6a2d81efc13ace8c8f6a1cbd5babe782d68e07683abb60a95ad6b",
+      "output_bytes": 16236816
+    },
+    {
+      "kind": "fs",
+      "path": "lib/libmpr.so",
+      "input_sha256": "1a7a8007828810f948eb4fb95b9a269176355553a69977f6d8f2ae59516f5532",
+      "output_sha256": "d417c96feac369a82e0f2ba2ae415f450bbdd48cf416b7ddfe0eb5921a65d5f1",
+      "output_bytes": 3670016
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_arabic_horizontal.uxc",
+      "input_sha256": "708a905bbe6434877395788d3940db6e455f1560bb2ade4d5203687a7cf8dc8f",
+      "output_sha256": "028d3ee7b83f92ee72320596c08a68d893befe6d86eeb6893623b6087595fbec",
+      "output_bytes": 175965
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_arabic_vertical.uxc",
+      "input_sha256": "bd07dc2cb1627a36c5264026244b9d030b57e6e7a45a202817d09ec39d6da00d",
+      "output_sha256": "25f8fec6922a76036bda1168f6f4bb628b83ca34f837d67b0a98cfab411acfb9",
+      "output_bytes": 176137
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_brazilianportuguese_horizontal.uxc",
+      "input_sha256": "e6e668e4536c71ace1ecc08238c0261a11a36a0619c8d00433012f7e99f49639",
+      "output_sha256": "48c8a35de4ee0929a4f9faa76b60b4855bb4357a19d5bfb367288c0b892f7f7b",
+      "output_bytes": 133621
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_brazilianportuguese_vertical.uxc",
+      "input_sha256": "e1ad8d7b637745ada1cd824891fe32a2c77a7826a1e80d37d27ec3a1ac57af65",
+      "output_sha256": "0fd57ad4e94d857d332643ad50a98db2d695f17fb28c0d8880d4b420da273d15",
+      "output_bytes": 134485
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_bulgarian_horizontal.uxc",
+      "input_sha256": "80f591830ccf1bfd5a20ef399ade23e9036cf6536ec3977a8290abcff4d21884",
+      "output_sha256": "87553dee000aa02405cd590b665377438c61321f261068e4b640062fd3363f77",
+      "output_bytes": 193457
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_bulgarian_vertical.uxc",
+      "input_sha256": "989d9160a1faf1681c40bb90d04cb5c21396910d41f01d2e72c4c4a1c57fd27b",
+      "output_sha256": "9a7a21efa990a605a3ec6887b3ab5bc81024682db7f39213a1ef11457cb865e3",
+      "output_bytes": 195653
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_canadianfrench_horizontal.uxc",
+      "input_sha256": "e3c887075c4357263089b60e09c39baa4ac120ea6a35169a3c0a18ea26bf3b36",
+      "output_sha256": "a78cda65f0454029ea290b397052154bf00d393d936db3e10c8b9f216b7f3deb",
+      "output_bytes": 45709
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_canadianfrench_vertical.uxc",
+      "input_sha256": "6906c3988bdc9df0e7cc5696efb3c668e6307ab248cd8a1f0f4fa61df071eaea",
+      "output_sha256": "51ccd54cf719c27246f8ce12562a7f263aea81eb3e82fae551bef740f31df1f0",
+      "output_bytes": 36361
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_croatian_horizontal.uxc",
+      "input_sha256": "d73b9d761920d115fbdaf1cc187c8c2de5645e438f2eed22616f264531de9b9f",
+      "output_sha256": "9e8ad93ee880ca2408d53e9ea23313104fef2ca603b64a8f449384faedb0ab68",
+      "output_bytes": 129457
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_croatian_vertical.uxc",
+      "input_sha256": "55e24e8105b31522735921a06e925da05d44314620c6e5007a6d9d4a8af69836",
+      "output_sha256": "10656a483d28c2a4a52d3163fbfa0d4de2141b230fad249d4aafc249b6025772",
+      "output_bytes": 130265
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_czech_horizontal.uxc",
+      "input_sha256": "8dfbb849a720ddd9f71644936a21368c19dfdb3338cafdd90579d67333ed2050",
+      "output_sha256": "e2e27f5cdd909427bdce12f374519c5af4aa605c181836913035425853ad0037",
+      "output_bytes": 132489
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_czech_vertical.uxc",
+      "input_sha256": "7bf4691c3384cc112cb5bd910d028897e4db962cfdc876a443fee8fbd3364c81",
+      "output_sha256": "7fa9285b40a015d6cbb6fff2203bc09626950b075b54b276a6ca25bac948d94d",
+      "output_bytes": 133309
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_danish_horizontal.uxc",
+      "input_sha256": "71112035eb2dfddd64e658656c72c9fab53bc3d3a80489b9c667dde8eee967b3",
+      "output_sha256": "872cc21abe3ba6bebb54086e186d399d72951561faecc00d4f355945721d519f",
+      "output_bytes": 125637
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_danish_vertical.uxc",
+      "input_sha256": "5d8c7a63008b169a46b577083e7748a8d872d6e3630f265760ef2f2f1f843ac1",
+      "output_sha256": "9ca602e6f81368ba08a252352fc24c6b6b46b457f0fe2418f877afe49598ee74",
+      "output_bytes": 126117
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_dutch_horizontal.uxc",
+      "input_sha256": "b6dfe9bb65e00b4ee17a65721e733e4e6a35acc42154d198d33518a25f556565",
+      "output_sha256": "deb15bf1533851f068393850f4b49a8e7dfa1f0527f2d107ee8b04f162c3986b",
+      "output_bytes": 129861
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_dutch_vertical.uxc",
+      "input_sha256": "fd31a3d8bb48514208c1674919bed306eaab67403db1e9268a789a32c5572a8c",
+      "output_sha256": "940564dc0847cd9ccf6cb76ea41b0e2ab969ed489429b331cf8e9a73b00c6403",
+      "output_bytes": 130549
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_english_horizontal.uxc",
+      "input_sha256": "30818259fb7077f794de0019e96c52bd00d5d08de050e68f05aee7ccffdde6e7",
+      "output_sha256": "0ee9a709336add56065375080869d99431b3ab2551fde82b7e9e3eab9f89a675",
+      "output_bytes": 130229
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_english_vertical.uxc",
+      "input_sha256": "4f9afdc5082c491b3506ccf727428d71f0197f4c7dbc1fff07250fec30a4a30b",
+      "output_sha256": "7218423178c8b84a99be3b6f7e7493feb4cd898b489c6002f0ab9df4eb2e5fa9",
+      "output_bytes": 130745
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_finnish_horizontal.uxc",
+      "input_sha256": "4b5fac16c4bdf8f7d3c283dcd2767f8d1f80022c98132a54fa6011045e15336e",
+      "output_sha256": "cb8a6a1548583a95db19f52470407f9d44bb72bb622b9a5303692d98104c323f",
+      "output_bytes": 124973
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_finnish_vertical.uxc",
+      "input_sha256": "f77e3bbb3792a189725445dc31d68bf0d0a0c927c4bb136913e1626263048dfe",
+      "output_sha256": "8d77835b29e506dd29efaf0f2b762aa6ffd2672434bec70e0e32ceafe7cb999a",
+      "output_bytes": 125841
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_french_horizontal.uxc",
+      "input_sha256": "ab658941d6160f7fd8c61e404b7aa703afac68f94d87dad151e50de538f7eb59",
+      "output_sha256": "bf342926356ebd1343909fe19d9a07a15045cf9c49d349af94b8ef2b616bf36f",
+      "output_bytes": 141549
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_french_vertical.uxc",
+      "input_sha256": "9fade09d908271711890e42306981abb60e237c61d688b6b72c91e65abe40086",
+      "output_sha256": "b3a9cd63249878db1b5d0379dfc91c714d36bf42dc0b673f50bea78871e83e88",
+      "output_bytes": 142821
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_german_horizontal.uxc",
+      "input_sha256": "b12fc1f815c7b904cd8230087b9e63fe8f5c31cf9c7b7604c13fafc130343467",
+      "output_sha256": "935e7ff96e5b4a6db924877e429132a1de894c5430f492b3e0768ead5005cf40",
+      "output_bytes": 134469
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_german_vertical.uxc",
+      "input_sha256": "f4c2c4e38392c1ef57fdd0dd783690908cd20db026d16c40334f6afe26e5bcc4",
+      "output_sha256": "7565d6000ce5dee1db50b2849c5aac78e978711fc1e6fa9a51793268f3c9ca68",
+      "output_bytes": 135941
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_greek_horizontal.uxc",
+      "input_sha256": "4a61dd13e94311cfc475a1b7ac7657620b844c1774d51e80aae95eb2caa7847e",
+      "output_sha256": "b5c045eed709be3d3a104060e68ce939bb76333fd659047f4e2a8fd3fc399cbf",
+      "output_bytes": 210493
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_greek_vertical.uxc",
+      "input_sha256": "c55bea293461baf4111214fc60600e4860cce6d050cb2efac857a692838c0f04",
+      "output_sha256": "b1cb14e5452cf21148023bd197ffffe74f4eda9cec602b81ffa1d2b6a2b68537",
+      "output_bytes": 212425
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_hindi_horizontal.uxc",
+      "input_sha256": "2088ab6b63d0561fbe12f0d22e9563afb2523078e1e59c7b865222428a0ca760",
+      "output_sha256": "c68bf38b09feed189f5b8a04ad058c0a1a483f95583f2fe0ec963523960dc6cd",
+      "output_bytes": 260281
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_hindi_vertical.uxc",
+      "input_sha256": "5f93dd4596f7a25560cf07735aaaf56d9c627edbf438a6fc41cd0f5f5d0de8fd",
+      "output_sha256": "b1882d0662298b339c069b364d8f08fa5211309bf1cfc912f14c3eede349b1d1",
+      "output_bytes": 260657
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_hungarian_horizontal.uxc",
+      "input_sha256": "37175ca5f2bae2175101bd702b9e472cf6b5d6a4318ccc275b09916cb5cce52c",
+      "output_sha256": "3e8ebb771bd8b00604df082e6f2e353cdff20ee9b1ba551ed461ea64355d6557",
+      "output_bytes": 136933
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_hungarian_vertical.uxc",
+      "input_sha256": "7ba5ec082aa1961ca905972a7e142bbe90320f48be2b4456aeb8c8ecf70cabf1",
+      "output_sha256": "5d949226736027831df8213aceb26ea5e7ae49cd7e527b4ab5412981f7fe0da2",
+      "output_bytes": 138205
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_indonesia_horizontal.uxc",
+      "input_sha256": "3aa5317132bb7b2129ed905c07c13723bc9c6a8115267e6af5f98683bb924fb3",
+      "output_sha256": "34ed40b5ae39b66359d9928315da42cd18cf67fe575697fa0fc07c33e2315d98",
+      "output_bytes": 124145
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_indonesia_vertical.uxc",
+      "input_sha256": "7c54c1813400f2ecd8bff0789c3c3d9f932903741b75a0711d4ca02f1ed23a76",
+      "output_sha256": "d0da0161730d7a15dd59606ec8b164dfeb8cb47a6ad985b51125138c7b8356fa",
+      "output_bytes": 124901
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_italian_horizontal.uxc",
+      "input_sha256": "c2c2b782cc373f9f4d225812ef3db9059ef4a9d939e9572c9e9069f4b1ecbf1f",
+      "output_sha256": "76fb659dd3448679f4856d4f2573ce3dc156a8ab5a8488742b9b3e4864fbdd88",
+      "output_bytes": 134037
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_italian_vertical.uxc",
+      "input_sha256": "a0fcc5b9e2f5ad654297473ec3a8658a0018ff1fce5fc7ddeab80066319d1e65",
+      "output_sha256": "5afd2da2417dc5c5f274cfd6a05e73860458551f3679d6d0b3c69cd56331bb1f",
+      "output_bytes": 137389
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_japanese_horizontal.uxc",
+      "input_sha256": "9525330c08601808e1c08f42f6c7c6ddeb5c22936edc712731c6c8602b9405df",
+      "output_sha256": "e619cc0f09b08759dc30333e3dc5507a1fbfd3a7dc9ec2db6ff9421d9ae0d1a5",
+      "output_bytes": 167289
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_japanese_vertical.uxc",
+      "input_sha256": "1ff26eb42ece7952e786da80b0652dbf7c2243f21aec9dd823a7e7badc5a2e5d",
+      "output_sha256": "6785562ef096897d119b1734c0d7db95b040ad1bf5ac3b3310b4249950d2ac45",
+      "output_bytes": 167449
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_korean_horizontal.uxc",
+      "input_sha256": "55f2a35ac1ccf7a7312c73b106e85aa53fca4775dfb99ae58b9b03a5e6d3cee7",
+      "output_sha256": "c6d82f0d3dd17f7208d5f553d26973bf27da215e49af17893a1b9bed7a966bf9",
+      "output_bytes": 142421
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_korean_vertical.uxc",
+      "input_sha256": "4726934d83d763ee549e252a0088cfc22e02a2bca3485bd6f67a81091cf860c4",
+      "output_sha256": "331d5ceb05f19520d565c7f579a7a4136618ed0b7c7d58fc973af220b2379060",
+      "output_bytes": 143105
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_malay_horizontal.uxc",
+      "input_sha256": "13abbffea4a40a22c396a860f6666be18093b22c79a2e81179d97b02c6641c0a",
+      "output_sha256": "8e3ad3f381b23b3221d20ad24b322768de8afd5f5f29ee8c4c3efd3b795a754d",
+      "output_bytes": 122117
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_malay_vertical.uxc",
+      "input_sha256": "da2d629d4a457e8b14ad6f3588e1c26430b5bb4d0713e55b21e4a051984a3160",
+      "output_sha256": "17a818bfb9394e13601f90a7e684b4a5503f0028a716729450b84610648cfd78",
+      "output_bytes": 122701
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_norwegian_horizontal.uxc",
+      "input_sha256": "a9361de698991f72074e966ba3f205849a7e2f5ec5240137278bd260bc373333",
+      "output_sha256": "63b123bb87d80710d8536f32b30406be5379553c2da82cad87852d494d920f7a",
+      "output_bytes": 122461
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_norwegian_vertical.uxc",
+      "input_sha256": "4e83c380c47db31030405fb9e719ca608b97a3ac4020795c3fea0bda67f1795c",
+      "output_sha256": "7aec3a3a0ea4e88a26d8a6d9ab7b66d8bf1b68ae75ee16ec6391acf303af6a95",
+      "output_bytes": 122761
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_persian_horizontal.uxc",
+      "input_sha256": "9ec170dcec47f00afd0faf16208bcd112cea1e1b2f0c22e6ee2fe44c50482bf8",
+      "output_sha256": "4d4e92495d563beb958fa56ebc9a945804e349f2426dbafed218896ff6d561ab",
+      "output_bytes": 186685
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_persian_vertical.uxc",
+      "input_sha256": "7966ec923eb23d0c4ea85b77a9eea65042a0f50972c6603bafe849c43f5a7f58",
+      "output_sha256": "8a862b5b9a9151e251da1ef78aa0f3182cc400dd049047841562467e7bccb584",
+      "output_bytes": 186861
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_polish_horizontal.uxc",
+      "input_sha256": "b7b26574b08ce878080a79003c8760f84a533d59be75739e43a6ff9a3dc22067",
+      "output_sha256": "7f2240afe2066b5c95299e9430cea204a9e7ff6fd58001ef2019ad892c1ca045",
+      "output_bytes": 129289
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_polish_vertical.uxc",
+      "input_sha256": "11061c3a34ffcbfb4d3519786134acc9f7e62ee81666b3fa02ac420c57ddc95c",
+      "output_sha256": "316ce300aaf302bf74c46748cea0ff93d0f8fb0c3a0186a5f8fd20903d7c96d9",
+      "output_bytes": 131133
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_portuguese_horizontal.uxc",
+      "input_sha256": "2fb677254f024426afca2d5dcf904d12cf61a1d19a24695a494b64fc91ca449e",
+      "output_sha256": "93c99385e646c736c40117972315d1ae51422726dc8235106cfe18c0817aa0e0",
+      "output_bytes": 132725
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_portuguese_vertical.uxc",
+      "input_sha256": "199c66681324a5ffb80619b74348f7ba1f59430b7e8950950a07dd42006e5f0c",
+      "output_sha256": "67eda617547dd28960b157f7aa91a0b98ae1dce24bbdd7e226c3f6e7f5e7d29e",
+      "output_bytes": 134101
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_romanian_horizontal.uxc",
+      "input_sha256": "7611efdfceaa85fba17cf4c4685f38bccb92606736cf0f0beaa7771606fbb15f",
+      "output_sha256": "af73c2817db1ade0cad5264c738da644005b92bd9f86a402181803691c635c95",
+      "output_bytes": 134213
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_romanian_vertical.uxc",
+      "input_sha256": "94e00f0993099848a2227318d7e7b76a5f715b249061d5cb23a4cbffec0d0493",
+      "output_sha256": "8014854f9231be6b41b254c2b5d5a4bcd33971b34b4bf2fa0943ee5c2f39452e",
+      "output_bytes": 135861
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_russian_horizontal.uxc",
+      "input_sha256": "dda15c969ac474bf94e7be720ab97afb2ea5c90f60b36f9cf9b65ec7e5fc5855",
+      "output_sha256": "cdb863d2e39210b2b83cd0c2dc7fe0119e9298f9c2de33bae50684ba0714e113",
+      "output_bytes": 193517
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_russian_vertical.uxc",
+      "input_sha256": "c2eec5a40021f7d854075c08b2e650807bdcd19631f8e3fd6ba3a3ad89d2b710",
+      "output_sha256": "94747593cd30e1e5bff4d9f2a303286324a0c2b8aa489b5617ecf73253b85a02",
+      "output_bytes": 196093
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_simplifiedchinese_horizontal.uxc",
+      "input_sha256": "37dcd92766c8971370bfc50940cc98959440e93bf65d937e816135a92e3f4219",
+      "output_sha256": "b0071a5f67daabaa5eed7ddad29ddb665b5d622959eaaa65d85eceaf4c5473d5",
+      "output_bytes": 109549
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_simplifiedchinese_vertical.uxc",
+      "input_sha256": "9786e8fab90160e9feda98d597953b283bb5a34d799b6e50d6f6ac35ac18733e",
+      "output_sha256": "a0f05356dbec607f45e3dabb3b94a4451525d7bc985d9a7528fb4681fc1a3a91",
+      "output_bytes": 109641
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_spanish_horizontal.uxc",
+      "input_sha256": "aa9ed5d4244a84552f4333c6d8dcd42e7103a48b5b09aef55c6ab4af9f68ce47",
+      "output_sha256": "51bdb03e2d1866ea80b52b79b9789e8ccd3e0b39699948b723af55dd5b028cea",
+      "output_bytes": 132773
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_spanish_vertical.uxc",
+      "input_sha256": "d9d29e395081a36fe96c30ac5e38754b13f43a3b1eb6cde7459e634c1ae63fee",
+      "output_sha256": "4a340a4c6dfdba1da61fcd6a426a36da3b12c2d0016af326777521c9d097e319",
+      "output_bytes": 134385
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_swedish_horizontal.uxc",
+      "input_sha256": "b51c780f2efd6b888b335ae5fc74327e0dfbabe36b087a312319b6e388fa45c3",
+      "output_sha256": "fad5eecdf3970c17c894039cf5b115c92c6d0111b6da2035050d509e8e3835f3",
+      "output_bytes": 125021
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_swedish_vertical.uxc",
+      "input_sha256": "03bf3fc9603ce0c94dbec81999af2665ea9d96e54570c57f9e0496878e747b7e",
+      "output_sha256": "ffc774694230f171fdcfe5844293a0f1dc3b81db869ec640f3f4fb5a7b8f8179",
+      "output_bytes": 126593
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_thai_horizontal.uxc",
+      "input_sha256": "fd3807fc9b0148362fc3efddd63977293726deccaa959ba0a226996231741e1a",
+      "output_sha256": "a0175aae28fbd4cc3a1ec131fb6219c604142fae085c6a2b2d0c8227814d98d3",
+      "output_bytes": 265341
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_thai_vertical.uxc",
+      "input_sha256": "a3061f042193934f0246bda7653d32acd19cfd69b17909a7bf04a1184b75454d",
+      "output_sha256": "9f0253f5bf7959117538b9f62f82c7c399ca3f16058102f977d2b29477ca60f1",
+      "output_bytes": 268241
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_traditionalchinese_horizontal.uxc",
+      "input_sha256": "bdeb385ea116d7420edc47f4bb1df1f07dcad0a9333c17b8011d862294951ea8",
+      "output_sha256": "eceac4d62812cb0e6beb9389427fac6958e93e7879795bde52af7faede9fb0bd",
+      "output_bytes": 111685
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_traditionalchinese_vertical.uxc",
+      "input_sha256": "50a4bc32d20876b84898acac00ff4717971b5286fc23a9854f8edc9dcb78dadb",
+      "output_sha256": "ce570225a9d963f862373da1909f88f7aa653bc34b0f2a64acb3ad1ba1414008",
+      "output_bytes": 111561
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_turkish_horizontal.uxc",
+      "input_sha256": "ca00cbae912f0140bc572c98d9092203f43fbb921937328c0f47a9b89c5f7dc4",
+      "output_sha256": "c0c2ffbc3b1691d189eecce827f6d68315c129b2d283513368671cf884956b74",
+      "output_bytes": 126257
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_turkish_vertical.uxc",
+      "input_sha256": "341c250f9d6608d57642e0d9684286b5fd2c5751a53813f5ac18eeacbdee32a2",
+      "output_sha256": "77a7229622af24c75c833b33d349ca16032d7310d4f18779123eca465c97ceb1",
+      "output_bytes": 127549
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_ukrainian_horizontal.uxc",
+      "input_sha256": "c88405e94078e4ef24c998661b8023e6992c82646af3b6cd83b0ba95ace1eb39",
+      "output_sha256": "e73c037e1caa5616cb4b013ba9299046fe38d28bc689d45fcbb3a9d8c35bb1c2",
+      "output_bytes": 192593
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_ukrainian_vertical.uxc",
+      "input_sha256": "cc09edb9894dd2b5342794645ab59443870e4882337bef983ddba20d15b98e74",
+      "output_sha256": "733f9e72cc162eee7b4036ac4bbafd5f35fe182036acfab7e5aa91c0a2c47c88",
+      "output_bytes": 195545
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_vietnamese_horizontal.uxc",
+      "input_sha256": "e46073b8a5532ad77425d6e23d89da28bd5497d605d31ba614523f81aa7888a7",
+      "output_sha256": "fe606afbe1fbefc431d6d91bded9cbd89f7d2b68b767ae8a41e3dd57ec7339cb",
+      "output_bytes": 141033
+    },
+    {
+      "kind": "fs",
+      "path": "share/app/string_vietnamese_vertical.uxc",
+      "input_sha256": "1927f3106c8b343fc421bbb5ba8dce14b36f4d0c93bdb7953027a776d230fc07",
+      "output_sha256": "a4bed6f24a3c19ddcf5e8d395bfb6707afc079a4cf4cbbcc598fa124841c227b",
+      "output_bytes": 142205
+    }
+  ],
+  "core_C_checks": 32,
+  "core_C_result": "PASS",
+  "python_suite": {
+    "passed": 192,
+    "skipped": 2,
+    "failed": 0,
+    "windows_utf8_mode": true
+  },
+  "automatic_SD_export": false,
+  "firmware_metadata_changed": false,
+  "firmware_version_required": false,
+  "new_camera_operations": false,
+  "new_installable_package": false,
+  "hardware_evidence": "Maintainer single-camera feature baseline accepted by user; later no-export adjustment checked offline only. No new hardware or cross-layout acceptance claimed.",
+  "source_AP_contains_shared_menu_framework": true,
+  "stock_AP_supported_by_reference_recipe": false,
+  "no_export_entry": {
+    "va": "0x8fab12c",
+    "instruction_hex": "c0035fd6",
+    "verified_in_reconstructed_AP": true
+  },
+  "inputs_unchanged_after_reconstruction": true,
+  "source_inputs_verified_against_research_git": true
+}

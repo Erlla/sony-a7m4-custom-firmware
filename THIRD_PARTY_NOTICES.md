@@ -27,3 +27,7 @@ The owner explicitly authorized publication of exactly the existing two PEM file
 ## 中文说明
 
 MIT 仅覆盖本仓库原创主机代码、构建器、补丁配方和文档。完整索尼固件、供体颜色数据、个人备份、第三方驱动与 payload 未纳入发行。外部组件按原许可自行取得，公开参考仓库不自动具有再分发许可。指定的一对实验 PEM 经所有者授权公开，可自由用于实验；私钥已不具备任何保密性或发布者身份保证，不能据此提交其他凭据。
+
+## Native sound adapters
+
+`native/custom-sounds/` contains this project's original adaptation code and link bindings. Rebuilds use external Zig/Clang/LLVM and ARM GCC/Binutils; those distributions are not included and keep their upstream terms. The sound recipe references original unchanged file ranges by COPY and distributes bounded changed-byte ADDs; it does not include complete Sony libraries, factory audio, firmware containers or user sound recordings. This does not relicense the original inputs, which users must supply separately.

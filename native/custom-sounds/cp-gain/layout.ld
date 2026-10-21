@@ -1,0 +1,1 @@
+SECTIONS { .text 0xba5000 : { *(.text*) *(.rodata*) } .bss 0x1564900 (NOLOAD) : { *(.bss.driver_diag) *(.bss.gain_obs) *(.bss*) } /DISCARD/ : { *(.comment*) *(.ARM.exidx*) *(.ARM.attributes*) } }

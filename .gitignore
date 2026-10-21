@@ -8,7 +8,8 @@ dist/
 vendor/local/
 vendor/manifest.local.json
 local/
-runtime/
+# Host runtime assets are local; nested native runtime/ directories contain source.
+/runtime/
 backups/
 output/
 sessions/

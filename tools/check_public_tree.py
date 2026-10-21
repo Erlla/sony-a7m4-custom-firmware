@@ -14,6 +14,11 @@ def check():
     raw = subprocess.check_output(["git", "-C", str(ROOT), "ls-files", "--cached", "--others", "--exclude-standard", "-z"])
     paths = sorted(set(p.decode("utf-8") for p in raw.split(b"\0") if p))
     errors = []
+    sound_manifest = ROOT / "native/custom-sounds/source-manifest.json"
+    if sound_manifest.exists():
+        for row in json.loads(sound_manifest.read_text("utf-8"))["files"]:
+            if row["path"] not in paths:
+                errors.append("Native sound source missing from publication set: " + row["path"])
     manifest = json.loads((ROOT / "keys/published/fingerprints.json").read_text("utf-8"))
     for relative in paths:
         path = ROOT / relative

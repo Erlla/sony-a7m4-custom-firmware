@@ -37,3 +37,11 @@ python tools/verify_sd_package.py output/fl23-sd/BODYDATA.DAT --plain output/fl2
 这次新主机工具和本次重新构建包**没有连接或刷写相机**。以下未自动转记为通过：更新后 FL2 回放、原始 MakerNote 值、物理 NOR/eMMC CP 哈希、全部持久化与特殊模式、恢复出厂后的默认槽、实体 FX2 像素对照、新上游 UF2/payload 的硬件兼容性。 / This extracted host and newly rebuilt package have not been flashed. Post-update FL2 playback, raw MakerNote fields, physical NOR/eMMC hashes, all persistence/special modes, factory-reset slot defaults, pixel comparison to FX2 and newly built upstream payload compatibility remain unresolved hardware checks.
 
 源码检查和测试通过不是安全刷机保证，也不意味着任意机身/固件通用。 / Passing offline checks is neither a flashing safety guarantee nor compatibility with arbitrary cameras/firmware.
+
+## 自定义电子快门声与对焦声 / Custom sounds
+
+[独立方法与限制](../methods/06-custom-sounds/README.md)、[具体修改方法](../methods/06-custom-sounds/IMPLEMENTATION.md)、[机器可读验证](custom-sounds-validation.json)。公开 65 份原生输入，六模块编译及最终安装段核对、71 个文件重建、32 项 C 核心检查和 Python 拒绝路径/输出保护检查通过。参考 AP 已有共享菜单框架，不能直接套用原厂 AP；本方法不改机身报告版本，也未自动加入完整 SD 构建器。
+
+既有单机功能构建获用户确认所需功能正常；其后移除自动 SD 日志另有离线原生回归，未补写新的机内验收。新地址布局、完整包集成和跨机身可靠性没有因公开整理而自动通过。本次没有操作相机或生成新可安装固件。
+
+The published native source reconstructs six modules and the recipe reproduces71 exact reference-layout files.32 C core checks and Python safety/rejection tests run without a camera. Existing single-camera functionality has user acceptance; the later no-export change has offline checks, not a separate new hardware acceptance. Display versions are neither changed nor used as compatibility keys. Stock AP and arbitrary combinations remain unsupported by this reference recipe.

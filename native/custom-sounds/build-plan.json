@@ -1,0 +1,820 @@
+{
+  "schema": 1,
+  "modules": {
+    "runtime": {
+      "compiler": "zig",
+      "machine": "aarch64",
+      "commands": [
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/runtime/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-O2",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-fno-pic",
+          "-fno-pie",
+          "-mno-outline-atomics",
+          "-mgeneral-regs-only",
+          "-nostdlib",
+          "-Wl,--build-id=none",
+          "-Wl,--no-gc-sections",
+          "-Wl,-e,csnd_ap_load_once",
+          "-Wl,-T,{root}/native/custom-sounds/runtime/layout.ld",
+          "{root}/native/custom-sounds/runtime/src/ap_runtime.c",
+          "{root}/native/custom-sounds/runtime/src/ap_sd_backend.c",
+          "{root}/native/custom-sounds/runtime/src/ap_native_policy.c",
+          "{root}/native/custom-sounds/runtime/src/private_worker.c",
+          "{root}/native/custom-sounds/runtime/src/private_selector.c",
+          "{root}/native/custom-sounds/runtime/src/csnd_sound_path_probe.c",
+          "{root}/native/custom-sounds/runtime/src/controller_wiring.c",
+          "{root}/native/custom-sounds/runtime/src/maintenance_scheduler.c",
+          "{root}/native/custom-sounds/runtime/src/menu_callbacks.c",
+          "{root}/native/custom-sounds/runtime/src/sound_core.c",
+          "{root}/native/custom-sounds/runtime/src/freestanding.c",
+          "-o",
+          "{out}/runtime/ap_runtime.elf"
+        ]
+      ],
+      "elf": "{out}/runtime/ap_runtime.elf",
+      "sections": [
+        {
+          "name": ".text",
+          "va": 150544384,
+          "bytes": 32996,
+          "nobits": false,
+          "source_build_sha256": "a90b54b3850f8c95a78737e7c446fa406a51905771de06dd76a3ae0b2f09cd75",
+          "installed_sha256": "5e2649ecf02c221ab310a8990753320fdf27b5afbc52c31c4491d5b246ec803d",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                4756
+              ]
+            },
+            {
+              "data": "W1MAFA=="
+            },
+            {
+              "copy": [
+                4760,
+                5572
+              ]
+            },
+            {
+              "data": "vk4AFA=="
+            },
+            {
+              "copy": [
+                10336,
+                22660
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".rodata",
+          "va": 150577392,
+          "bytes": 748,
+          "nobits": false,
+          "source_build_sha256": "3638c56e6ff86b348f3522e537d53f60769c55047d9a2974127fcd0fb63e5d98",
+          "installed_sha256": "3638c56e6ff86b348f3522e537d53f60769c55047d9a2974127fcd0fb63e5d98",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                748
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".data",
+          "va": 150765568,
+          "bytes": 4,
+          "nobits": false,
+          "source_build_sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+          "installed_sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".bss",
+          "va": 150765576,
+          "bytes": 1304,
+          "nobits": true
+        }
+      ]
+    },
+    "worker": {
+      "compiler": "zig",
+      "machine": "aarch64",
+      "commands": [
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-g",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-fno-pic",
+          "-fno-pie",
+          "-DEVENT_LINK_ANCHOR=0x8fb0000ull",
+          "-c",
+          "{root}/native/custom-sounds/worker/src/event_runtime.c",
+          "-o",
+          "{out}/worker/event.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-g",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-fno-pic",
+          "-fno-pie",
+          "-DEVENT_LINK_ANCHOR=0x8fb0000ull",
+          "-fno-inline-functions",
+          "-c",
+          "{root}/native/custom-sounds/worker/src/resource.c",
+          "-o",
+          "{out}/worker/resource.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-g",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-fno-pic",
+          "-fno-pie",
+          "-DEVENT_LINK_ANCHOR=0x8fb0000ull",
+          "-c",
+          "{root}/native/custom-sounds/worker/src/native_transport.c",
+          "-o",
+          "{out}/worker/transport.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-g",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-fno-pic",
+          "-fno-pie",
+          "-DEVENT_LINK_ANCHOR=0x8fb0000ull",
+          "-c",
+          "{root}/native/custom-sounds/worker/src/convert.c",
+          "-o",
+          "{out}/worker/convert.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-g",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-fno-pic",
+          "-fno-pie",
+          "-DEVENT_LINK_ANCHOR=0x8fb0000ull",
+          "-c",
+          "{root}/native/custom-sounds/worker/src/diagnostic.c",
+          "-o",
+          "{out}/worker/diagnostic.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-g",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-fno-pic",
+          "-fno-pie",
+          "-DEVENT_LINK_ANCHOR=0x8fb0000ull",
+          "-c",
+          "{root}/native/custom-sounds/worker/src/memory.c",
+          "-o",
+          "{out}/worker/memory.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-g",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-fno-pic",
+          "-fno-pie",
+          "-DEVENT_LINK_ANCHOR=0x8fb0000ull",
+          "-c",
+          "{root}/native/custom-sounds/worker/src/stop_async_request.c",
+          "-o",
+          "{out}/worker/stop.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-c",
+          "{root}/native/custom-sounds/worker/src/async_once.S",
+          "-o",
+          "{out}/worker/async.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/worker/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-nostdlib",
+          "-Wl,--build-id=none",
+          "-Wl,--gc-sections",
+          "-Wl,-e,csnd_event_startup",
+          "-Wl,-u,csnd_resource_snapshot",
+          "-Wl,-u,csnd_event_snapshot",
+          "-Wl,-u,csnd_event_exposure",
+          "-Wl,-u,csnd_event_focus",
+          "-Wl,-u,csnd_event_config_changed",
+          "-Wl,-u,csnd_native_diagnostic_crc",
+          "-Wl,-u,csnd_volume_get",
+          "-Wl,-u,csnd_volume_blocked",
+          "-Wl,-u,csnd_volume_enqueue",
+          "-Wl,-T,{root}/native/custom-sounds/worker/layout.ld",
+          "{out}/worker/event.o",
+          "{out}/worker/resource.o",
+          "{out}/worker/transport.o",
+          "{out}/worker/convert.o",
+          "{out}/worker/diagnostic.o",
+          "{out}/worker/memory.o",
+          "{out}/worker/stop.o",
+          "{out}/worker/async.o",
+          "-o",
+          "{out}/worker/ap_component.elf"
+        ]
+      ],
+      "elf": "{out}/worker/ap_component.elf",
+      "sections": [
+        {
+          "name": ".main",
+          "va": 150667264,
+          "bytes": 29584,
+          "nobits": false,
+          "source_build_sha256": "a31fd155590bf1876056555e55ce1428e59f914c8340a2ff201fc02ab6e9e92a",
+          "installed_sha256": "a31fd155590bf1876056555e55ce1428e59f914c8340a2ff201fc02ab6e9e92a",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                29584
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".bss",
+          "va": 150958080,
+          "bytes": 3992,
+          "nobits": true
+        }
+      ]
+    },
+    "ui": {
+      "compiler": "zig",
+      "machine": "aarch64",
+      "commands": [
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/ui/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-c",
+          "{root}/native/custom-sounds/ui/src/ui_completion.c",
+          "-o",
+          "{out}/ui/ui.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/ui/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-c",
+          "{root}/native/custom-sounds/ui/src/original_event.S",
+          "-o",
+          "{out}/ui/original.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/ui/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-nostdlib",
+          "-Wl,--build-id=none",
+          "-Wl,-T,{root}/native/custom-sounds/ui/layout.ld",
+          "{out}/ui/ui.o",
+          "{out}/ui/original.o",
+          "-o",
+          "{out}/ui/module.elf"
+        ]
+      ],
+      "elf": "{out}/ui/module.elf",
+      "sections": [
+        {
+          "name": ".text",
+          "va": 150705152,
+          "bytes": 312,
+          "nobits": false,
+          "source_build_sha256": "75ebcd1a86571b38664c0bca8ca103238f176b7a72be5a24e634f6dff5de274d",
+          "installed_sha256": "75ebcd1a86571b38664c0bca8ca103238f176b7a72be5a24e634f6dff5de274d",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                312
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".bss",
+          "va": 150991104,
+          "bytes": 8,
+          "nobits": true
+        }
+      ]
+    },
+    "volume": {
+      "compiler": "zig",
+      "machine": "aarch64",
+      "commands": [
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/volume/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-c",
+          "{root}/native/custom-sounds/volume/src/sidecar_baseline50.c",
+          "-o",
+          "{out}/volume/sidecar.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/volume/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-Oz",
+          "-mgeneral-regs-only",
+          "-mno-outline-atomics",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-neon",
+          "-Xclang",
+          "-target-feature",
+          "-Xclang",
+          "-fp-armv8",
+          "-fno-vectorize",
+          "-fno-slp-vectorize",
+          "-c",
+          "{root}/native/custom-sounds/volume/src/menu_callbacks.c",
+          "-o",
+          "{out}/volume/menu_callbacks.o"
+        ],
+        [
+          "{zig}",
+          "cc",
+          "-I{root}/native/custom-sounds/volume/include",
+          "-target",
+          "aarch64-freestanding-none",
+          "-nostdlib",
+          "-Wl,--build-id=none",
+          "-Wl,-T,{root}/native/custom-sounds/volume/layout.ld",
+          "{out}/volume/sidecar.o",
+          "{out}/volume/menu_callbacks.o",
+          "-o",
+          "{out}/volume/module.elf"
+        ]
+      ],
+      "elf": "{out}/volume/module.elf",
+      "sections": [
+        {
+          "name": ".text",
+          "va": 150700032,
+          "bytes": 2029,
+          "nobits": false,
+          "source_build_sha256": "7583e95264353959293b25b1e26e39db03ae8245b3b4af7f1d669251358aea5f",
+          "installed_sha256": "7583e95264353959293b25b1e26e39db03ae8245b3b4af7f1d669251358aea5f",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                2029
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".data",
+          "va": 150990848,
+          "bytes": 4,
+          "nobits": false,
+          "source_build_sha256": "5e5425ccc17bf1dca2d9dda73982828db3a2d0b15c1d0fa786d9055a52744efe",
+          "installed_sha256": "5e5425ccc17bf1dca2d9dda73982828db3a2d0b15c1d0fa786d9055a52744efe",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".bss",
+          "va": 150990852,
+          "bytes": 20,
+          "nobits": true
+        }
+      ]
+    },
+    "owner": {
+      "compiler": "arm_gcc",
+      "machine": "arm",
+      "commands": [
+        [
+          "{arm_gcc}",
+          "-I{root}/native/custom-sounds/owner/include",
+          "-Oz",
+          "-g",
+          "-march=armv7-a",
+          "-mthumb",
+          "-mfloat-abi=soft",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-nostdlib",
+          "-Wl,--build-id=none",
+          "-Wl,-e,csnd_cp_owner_reply",
+          "-Wl,-T,{root}/native/custom-sounds/owner/layout.ld",
+          "{root}/native/custom-sounds/owner/src/cp_owner.c",
+          "{root}/native/custom-sounds/owner/src/cp_owner_hooks.S",
+          "-o",
+          "{out}/owner/cp_owner.elf"
+        ]
+      ],
+      "elf": "{out}/owner/cp_owner.elf",
+      "sections": [
+        {
+          "name": ".text",
+          "va": 12213376,
+          "bytes": 2656,
+          "nobits": false,
+          "source_build_sha256": "13ada5f1c8c4d323cd7b49b5dc9a693913a536d5989f358ba2ec605e562a8fa9",
+          "installed_sha256": "4e21c9ba22bf6add9482fbb5033343c91a3e40b3615b395f830edc1c143d9a71",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                2538
+              ]
+            },
+            {
+              "data": "irk="
+            },
+            {
+              "copy": [
+                2540,
+                116
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".bss",
+          "va": 22431808,
+          "bytes": 188,
+          "nobits": true
+        }
+      ]
+    },
+    "cp-gain": {
+      "compiler": "arm_gcc",
+      "machine": "arm",
+      "commands": [
+        [
+          "{arm_gcc}",
+          "-I{root}/native/custom-sounds/cp-gain/include",
+          "-Oz",
+          "-g",
+          "-march=armv7-a",
+          "-mthumb",
+          "-mfloat-abi=soft",
+          "-ffreestanding",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-fno-unwind-tables",
+          "-fno-asynchronous-unwind-tables",
+          "-nostdlib",
+          "-Wl,--build-id=none",
+          "-Wl,-e,csnd_custom_gain_hook",
+          "-Wl,-T,{root}/native/custom-sounds/cp-gain/layout.ld",
+          "{root}/native/custom-sounds/cp-gain/src/driver_capture.c",
+          "{root}/native/custom-sounds/cp-gain/src/driver_capture_hooks.S",
+          "{root}/native/custom-sounds/cp-gain/src/gain_observation.c",
+          "{root}/native/custom-sounds/cp-gain/src/gain_scalar.S",
+          "{root}/native/custom-sounds/cp-gain/src/bind_diag.c",
+          "-o",
+          "{out}/cp-gain/gain643.elf"
+        ]
+      ],
+      "elf": "{out}/cp-gain/gain643.elf",
+      "sections": [
+        {
+          "name": ".text",
+          "va": 12210176,
+          "bytes": 2804,
+          "nobits": false,
+          "source_build_sha256": "d42f961cec02aaff8e21707a13d1c2d6e1d9f3f0dbed30c59f204792bdfcfb35",
+          "installed_sha256": "d42f961cec02aaff8e21707a13d1c2d6e1d9f3f0dbed30c59f204792bdfcfb35",
+          "post_link_ops": [
+            {
+              "copy": [
+                0,
+                2804
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".bss",
+          "va": 22432000,
+          "bytes": 388,
+          "nobits": true
+        }
+      ]
+    }
+  },
+  "firmware_metadata_changed": false
+}
