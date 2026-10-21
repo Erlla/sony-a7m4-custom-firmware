@@ -6,3 +6,4 @@
 *.pem text eol=lf
 *.bat text eol=crlf
 *.cmd text eol=crlf
+examples/custom-sounds/*.WAV binary

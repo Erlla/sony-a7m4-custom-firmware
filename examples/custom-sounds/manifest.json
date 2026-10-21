@@ -1,0 +1,43 @@
+{
+  "schema": "custom-sound-samples/v1",
+  "purpose": "User-authorized public reference and testing samples",
+  "unchanged_from_supplied_files": true,
+  "files": [
+    {
+      "path": "YEAH.WAV",
+      "bytes": 196686,
+      "sha256": "01a907cdc8576dbc7b955ddc90b8e116e52ca634c5ad5d4482c3a79dc030cf5f",
+      "wav_format": 1,
+      "encoding": "integer PCM",
+      "channels": 2,
+      "sample_rate_hz": 44100,
+      "bits_per_sample": 16,
+      "frames": 49152,
+      "duration_seconds": 1.1145578231292517
+    },
+    {
+      "path": "DAGOU.WAV",
+      "bytes": 86094,
+      "sha256": "8ab0b01ef8361e5fc3c53e800dbd4572eec437aa3c163ab58e1b45d707b023ca",
+      "wav_format": 1,
+      "encoding": "integer PCM",
+      "channels": 2,
+      "sample_rate_hz": 44100,
+      "bits_per_sample": 16,
+      "frames": 21504,
+      "duration_seconds": 0.4876190476190476
+    },
+    {
+      "path": "JIAO.WAV",
+      "bytes": 86094,
+      "sha256": "c48b70b49e64cb64a4ceb19efb5f912d542c2255f369ca99f48882716a465ebe",
+      "wav_format": 1,
+      "encoding": "integer PCM",
+      "channels": 2,
+      "sample_rate_hz": 44100,
+      "bits_per_sample": 16,
+      "frames": 21504,
+      "duration_seconds": 0.4876190476190476
+    }
+  ]
+}

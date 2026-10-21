@@ -18,6 +18,8 @@ The public reference recipe requires an AP that already contains the shared menu
 - Silent mode suppresses both sounds. Mechanical/EFCS modes suppress and durably disable the electronic sound. Stock focus-signal settings remain authoritative; AF-C is not customized and MF produces no focus confirmation.
 - Focus default/fallback remains available. Exposure and focus have separate slots and event identities. Test them separately using AF-S half-press and MF exposure.
 
+The repository includes user-authorized [YEAH.WAV, DAGOU.WAV and JIAO.WAV examples](../../examples/custom-sounds/README.en.md) for reference and import testing. The example guide covers SD placement, menu steps, audio parameters and SHA-256 checksums. You can also supply your own compatible audio.
+
 ## Offline component reconstruction
 
 ```powershell
@@ -27,7 +29,7 @@ python -m a7m4.custom_sound apply --ap local/sound-input/appFw.so --cp local/sou
 
 `inspect` lists all 71 required input/output hashes. AP input is `28bd97605c5cb2e0b9edfeec36abf2dec64a46a9895f79b00c7f9356ce2482c3`; CP input is `1c34764fe413d4c0d720d629e323996498305fc29e5c53d2c52d0cca0c0d1504`. Supply the exact local reference AP/CP plus original `fs/lib/libmpr.so` and 68 original `fs/share/app/*.uxc` resources. Filenames and nearby display numbers are not substitutes for these hashes.
 
-All inputs and output hashes are checked before creating a new output directory. Inputs and existing outputs are never overwritten. Output contains `fs/lib/appFw.so`, `fs/lib/libmpr.so`, the resource files, `cp/cpapp-b.bin` and an evidence manifest. Original unchanged bytes are referenced by bounded COPY operations; only changed-byte ADDs are distributed. No complete Sony firmware, user WAVs or camera backups are included.
+All inputs and output hashes are checked before creating a new output directory. Inputs and existing outputs are never overwritten. Output contains `fs/lib/appFw.so`, `fs/lib/libmpr.so`, the resource files, `cp/cpapp-b.bin` and an evidence manifest. Original unchanged bytes are referenced by bounded COPY operations; only changed-byte ADDs are distributed. No complete Sony firmware or camera backups are included. The three reference WAVs are distributed separately in [examples/custom-sounds](../../examples/custom-sounds/README.en.md).
 
 ## Source and integration
 

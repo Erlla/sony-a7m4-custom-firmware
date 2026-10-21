@@ -30,4 +30,10 @@ MIT 仅覆盖本仓库原创主机代码、构建器、补丁配方和文档。�
 
 ## Native sound adapters
 
-`native/custom-sounds/` contains this project's original adaptation code and link bindings. Rebuilds use external Zig/Clang/LLVM and ARM GCC/Binutils; those distributions are not included and keep their upstream terms. The sound recipe references original unchanged file ranges by COPY and distributes bounded changed-byte ADDs; it does not include complete Sony libraries, factory audio, firmware containers or user sound recordings. This does not relicense the original inputs, which users must supply separately.
+`native/custom-sounds/` contains this project's original adaptation code and link bindings. Rebuilds use external Zig/Clang/LLVM and ARM GCC/Binutils; those distributions are not included and keep their upstream terms. The sound recipe references original unchanged file ranges by COPY and distributes bounded changed-byte ADDs; it does not include complete Sony libraries, factory audio or firmware containers. This does not relicense the original firmware inputs, which users must supply separately.
+
+## Reference sound samples / 参考音频
+
+The user supplied and explicitly authorized public distribution of exactly `YEAH.WAV`, `DAGOU.WAV` and `JIAO.WAV` for reference and testing in [examples/custom-sounds](examples/custom-sounds/README.en.md). These files are distributed unchanged, with audio parameters and SHA-256 checksums in that directory. The MIT license for this project's original code does not automatically apply to these audio files; their existing rights remain with the respective rights holders.
+
+[示例目录](examples/custom-sounds/README.md)中的 `YEAH.WAV`、`DAGOU.WAV` 和 `JIAO.WAV` 由用户提供并明确授权随仓库公开，供参考与测试。三个文件均保持原始字节，附音频参数和 SHA-256。仓库原创代码的 MIT 许可不自动适用于这些音频，原有权利归相应权利人所有。
