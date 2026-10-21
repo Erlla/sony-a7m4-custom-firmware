@@ -2,6 +2,8 @@
 
 [中文](README.md) · [Detailed implementation map](IMPLEMENTATION.md) · [Rebuildable native source](../../native/custom-sounds/README.md)
 
+Working sounds with blank or incorrect merged menu labels: use the [resource-only repair and final-package verification](menu-resource-repair.md). It restores all68 banks while preserving existing LUT and sound program changes.
+
 Adds two independent items under Shooting → Shutter/Silent: custom electronic shutter sound and custom focus sound. The stock electronic shutter has no sound; this implementation adds an exposure event sound rather than replacing a nonexistent stock clip. AF-S / AF-A can use a custom focus clip or the stock default.
 
 **Firmware display numbers are not part of this method.** It does not read or write `updater/dat4`, impose an internal test label, or select compatibility by display version. Exact file hashes and native address/calling contracts establish compatibility.
@@ -36,6 +38,8 @@ All inputs and output hashes are checked before creating a new output directory.
 The [implementation map](IMPLEMENTATION.md) documents the exact menu registrations, ELF relocation changes, controller completion refresh, filesystem transactions, PCM-to-24-kHz f0 conversion, AP/CP leases, restart recovery and gain correction. The [native build](../../native/custom-sounds/README.md) reproduces six modules and their installed sections; post-link corrections are explicit.
 
 A complete firmware build must integrate AP/MPR/all language resources and CP together, preserve unrelated changes and calibration, verify all container checksums/signatures, and synchronize the independent CP NOR through the supported SD update path. Flashing an eMMC CP image alone does not update NOR. The component `cpapp-b.bin` is not a whole partition image. This sound method never chooses a firmware release number; complete-package publication manages that separately.
+
+The full reference profile now enforces AP, CP, MPR and every required horizontal/vertical bank, including text records. After integration, extract the filesystem from the **final package** and run `python -m a7m4.custom_sound verify-resources --fs-root local/final-package-fs`. Correct intermediate files alone do not prove that the final package contains them.
 
 ## Validation
 

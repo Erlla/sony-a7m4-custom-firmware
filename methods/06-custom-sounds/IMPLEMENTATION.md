@@ -2,6 +2,8 @@
 
 本说明对应[精确文件配方](../../a7m4/profiles/custom-sounds-reference.json)和[原生源码](../../native/custom-sounds/README.md)。以下地址均属于该参考布局的运行时 VA，不能当成其他程序的文件偏移；AP 必须通过 ELF `PT_LOAD` 映射，CP 平面文件偏移为 `VA - 0x108000`。协议 schema、资源 ID、会话代次与表 ID 是运行数据，不是报告的固件版本。
 
+菜单资源遗漏的独立修复与最终包验证见 [menu-resource-repair.md](menu-resource-repair.md)。`a7m4.custom_sound` 的 `repair-resources` 只生成68个UXC资源，`verify-resources` 对最终提取目录核验全部哈希与文字；不覆盖已合并AP／CP／MPR。修复配方目标与现有完整声音配方相同，输入则绑定已确认的合并菜单资源布局。
+
 ## 文件与源码分工
 
 | 修改对象 | 公开源码 / 配方 | 修改内容 |
