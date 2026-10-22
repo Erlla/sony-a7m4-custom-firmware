@@ -1,0 +1,60 @@
+{
+  "description": "User-authorized camera interface photographs; metadata removed without changing image pixels.",
+  "authorization": "Maintainer explicitly requested public upload to this repository for reference.",
+  "files": [
+    {
+      "file": "fn-65-24.jpg",
+      "source_sha256": "854842b979d9546cf8c324d4b6e24018416e9df37ee0878360dcf71d3a9fd890",
+      "sha256": "fe3200735f53aa267b9977990cb6b28d24c409c3683fa09236162d0292f90358",
+      "bytes": 2701746,
+      "dimensions": [
+        3288,
+        2198
+      ],
+      "decoded_pixels_sha256": "1c0d5fdaa16e98989167e9740bde08f77032cd6b0ee01fb595a68ea874eb0034",
+      "decoded_pixels_equal": true,
+      "compressed_scan_unchanged": true,
+      "removed_metadata": [
+        {
+          "marker": "0xe1",
+          "bytes": 727
+        },
+        {
+          "marker": "0xe1",
+          "bytes": 1113
+        },
+        {
+          "marker": "after-EOI",
+          "bytes": 2931422
+        }
+      ]
+    },
+    {
+      "file": "selection-65-24.jpg",
+      "source_sha256": "932f1f0ae07880a1c37002a4380dc8ae3a4fcd3949571f6a72957c561569240d",
+      "sha256": "c4c1a9189e4e0bb654f667da337bb68a3df369bab544a8bb904a871fbef5f961",
+      "bytes": 3271948,
+      "dimensions": [
+        2671,
+        2278
+      ],
+      "decoded_pixels_sha256": "0650651b8b2647a6ac3dd7d8ecc80be172f3e49047e5fd0831755709917ed101",
+      "decoded_pixels_equal": true,
+      "compressed_scan_unchanged": true,
+      "removed_metadata": [
+        {
+          "marker": "0xe1",
+          "bytes": 727
+        },
+        {
+          "marker": "0xe1",
+          "bytes": 1113
+        },
+        {
+          "marker": "after-EOI",
+          "bytes": 4576722
+        }
+      ]
+    }
+  ]
+}

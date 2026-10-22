@@ -37,3 +37,9 @@ MIT 仅覆盖本仓库原创主机代码、构建器、补丁配方和文档。�
 The user supplied and explicitly authorized public distribution of exactly `YEAH.WAV`, `DAGOU.WAV` and `JIAO.WAV` for reference and testing in [examples/custom-sounds](examples/custom-sounds/README.en.md). These files are distributed unchanged, with audio parameters and SHA-256 checksums in that directory. The MIT license for this project's original code does not automatically apply to these audio files; their existing rights remain with the respective rights holders.
 
 [示例目录](examples/custom-sounds/README.md)中的 `YEAH.WAV`、`DAGOU.WAV` 和 `JIAO.WAV` 由用户提供并明确授权随仓库公开，供参考与测试。三个文件均保持原始字节，附音频参数和 SHA-256。仓库原创代码的 MIT 许可不自动适用于这些音频，原有权利归相应权利人所有。
+
+## Aspect-ratio reference photographs / 纵横比参考照片
+
+The maintainer supplied and explicitly authorized public display of the two camera photographs in [method7](methods/07-custom-aspect-ratios/README.en.md). Public copies remove location and other metadata while preserving compressed image data and decoded pixels. The project's code license does not automatically relicense these photographs; existing rights remain with their respective holders.
+
+[方法7](methods/07-custom-aspect-ratios/README.md)中的两张相机照片由维护者提供并授权公开展示。公开副本去除了定位等元数据，压缩图像与解码像素保持不变。原创代码的MIT许可不自动适用于照片，原有权利归相应权利人所有。

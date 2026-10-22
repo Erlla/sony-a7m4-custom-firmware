@@ -2,7 +2,7 @@
 
 English · [中文](README.md)
 
-Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry and six separate modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
+Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry and seven separate modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
 
 ## Risk and mandatory backups
 
@@ -26,8 +26,9 @@ Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastb
 | 4. Third-party battery percentage/caution restrictions | [English](methods/04-third-party-battery/README.en.md) / [中文](methods/04-third-party-battery/README.md) | 16 AP instructions restoring reported percentage/suppressing caution, preserving authentication state and charging/temperature protection; exact recipes, offline patching and reversal | Independent mechanism, baseline, recipe and validation. Included in SD builds only with `--battery`. **Updates still require an original Sony battery.** |
 | 5. Lens AF mechanisms and compatibility capability filtering | [English](methods/05-third-party-lens-af/README.en.md) / [中文](methods/05-third-party-lens-af/README.md) | Separate ID filtering and category/capability/profile range-gate analysis; six CP regions retain reported capabilities/speed profiles, leaving the range gate unchanged; **speed improvements remain untested on hardware** | **No physical focus-speed testing; performance effect unknown.** Independent baseline and validation; SD inclusion requires `--lens-af`. |
 | 6. Custom electronic shutter and focus sounds | [English](methods/06-custom-sounds/README.en.md) / [中文](methods/06-custom-sounds/README.md) | Native source, menu/WAV import and persistence, independent slots, volume, restart recovery; exact-layout offline recipe and [test audio](examples/custom-sounds/README.en.md) | File-SHA compatibility, **no firmware version edits**. Reference AP requires the shared menu framework. Reconstructs components, not an installable DAT; single-camera feedback and public rebuild limits are documented. |
+| 7. Custom aspect ratios and preview masks | [English](methods/07-custom-aspect-ratios/README.en.md) / [中文](methods/07-custom-aspect-ratios/README.md) | Adds 17:6, 65:24, 5:4 and 7:6; JPEG/HEIF cropping, original RAW area, labels and Fn icons; final method and camera photos | Landscape/portrait preview accepted on one camera; some settings pages temporarily show 3:2, with masks restored in the shooting view. |
 
-Recovery is separate from the six firmware modification methods. Normal maintenance retains its full-eMMC-backup and plan-confirmation requirements. Recovery automatically backs up six relevant partitions and permits only its prepared settings candidate; **this is not a complete eMMC/NOR backup**. This publication was checked offline without operating a camera.
+Recovery is separate from the seven firmware modification methods. Normal maintenance retains its full-eMMC-backup and plan-confirmation requirements. Recovery automatically backs up six relevant partitions and permits only its prepared settings candidate; **this is not a complete eMMC/NOR backup**. This publication was checked offline without operating a camera.
 
 ## Fixed-condition colour comparison
 

@@ -51,3 +51,9 @@ The published native source reconstructs six modules and the recipe reproduces71
 [资源修复方法](../methods/06-custom-sounds/menu-resource-repair.md)补充独立的68文件修复配方及最终文件系统检查。修复目标与原完整声音配方相同；只输出文字资源，保留已合并AP／CP／MPR、LUT和版本字段。维护者资源独立修复已获用户单机实测确认，不自动扩大到完整参考程序或任意基线。新CLI另经本地真实文件重建与合成数据拒绝／完整性测试；记录见 [menu resource validation](custom-sound-menu-resources-validation.json)。
 
 The resource-only repair has user acceptance on the maintainer's merged camera build. All68 resource outputs match the existing full recipe. Offline checks also cover final-filesystem verification, missing/corrupt bank rejection, idempotent repaired inputs and preservation of program/settings files. They do not emulate glyph rendering or certify other program combinations.
+
+## 自定义纵横比 / Custom aspect ratios
+
+2026-10-22：[方法7](../methods/07-custom-aspect-ratios/README.md)记录17:6、65:24、5:4、7:6的最终功能、JPEG/HEIF裁切与RAW原始幅面、比例文字/Fn图标及预览遮罩。维护者确认6.63 T22横竖屏预览正常，附两张65:24实机照片。部分参数设置页暂时显示3:2，返回拍摄页恢复所选比例遮罩；此项只涉及预览。
+
+The maintainer accepted landscape and portrait previews on the 6.63 T22 camera build. [Method7](../methods/07-custom-aspect-ratios/README.en.md) documents the final behavior and two 65:24 camera examples. 336 native lifecycle cases, 3,475 drawing checks, 3,968 ABI checks and final package verification passed. JPEG/RAW geometry has sample checks; a separate measured HEIF sample is not included. This publication adds documentation and photographs without changing firmware or host programs.
