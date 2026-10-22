@@ -1,0 +1,754 @@
+{
+  "schema": "a7m4.aspect-ratio.documentation-reference.v1",
+  "purpose": "Final-file identities and verified AP preview hooks; not a patch recipe or an input compatibility whitelist.",
+  "model": "ILCE-7M4",
+  "build": "6.63 T22",
+  "address_convention": {
+    "AP": "ELF virtual address; map through matching PT_LOAD",
+    "CP": "file offset = VA - 0x108000",
+    "AVCAM": "map VA through LIRO segments; no global VA/file delta"
+  },
+  "evidence": {
+    "final_package_sha256": "d80ab2c84d6f60f4dd729b6665858d406c96071a50f1ed019ca3e581b2a1e686",
+    "signed_package_audit_sha256": "67fb4fd909b4fb23c26575d23e79f7e28b5f5829fdad064921e1584fb524f39a",
+    "ap_manifest_sha256": "7c70ceaec727edbae73dbe8673b24ad084e940f022d70ba3fcb6e28b1e9d5d82",
+    "package_members": 76,
+    "camera_acceptance": "Maintainer confirmed landscape and portrait previews; not an exhaustive format/output matrix."
+  },
+  "files": [
+    {
+      "partition": "nflasha3",
+      "path": "/av-cam.bin",
+      "bytes": 12729680,
+      "sha256": "3e881a3d9db8644c63a6d9fb9723d04c024d8e17b670c0d1635cd020459dd49f",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha8",
+      "path": "/cpapp-b.bin",
+      "bytes": 16236816,
+      "sha256": "193b0df451a5eadf265aee0fc1ba8cbd66fb28992e8faa6418d67d5a71e8eb7b",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/lib/appFw.so",
+      "bytes": 99026944,
+      "sha256": "80a0d71c8f46a4ad05dc2fcab9650465845c96b5700ac6dc90fea1fe28da8d3e",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_arabic_horizontal.uxc",
+      "bytes": 175892,
+      "sha256": "20cf4f883116841badf89fc049a0abfccd14369e295f1c52754cf3e123b6a674",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_arabic_vertical.uxc",
+      "bytes": 176064,
+      "sha256": "4937a9bf017ab944281508131db2b974899cdcb9b81f48cadbfd89d826874ef0",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_brazilianportuguese_horizontal.uxc",
+      "bytes": 133548,
+      "sha256": "245676b8e5252724591537659efea111e41b5c034642806e1989aae8727ffab6",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_brazilianportuguese_vertical.uxc",
+      "bytes": 134412,
+      "sha256": "5c48455b9160c0971e614ad9bb56c632d72869b56eb6c1ace39430438e33ba82",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_bulgarian_horizontal.uxc",
+      "bytes": 193384,
+      "sha256": "ebb3e336a662b7ce2b0c7aece1c430a5a74f94d729b02780e69451237ee061bc",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_bulgarian_vertical.uxc",
+      "bytes": 195580,
+      "sha256": "e566acd1e960ee119d837a21dcc00975352128c3a9cd16073f8d3db0cdf1e80d",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_canadianfrench_horizontal.uxc",
+      "bytes": 45636,
+      "sha256": "8ae6389fcc6cba9832cf8094babc5b181e905a566f95a4f6f531fdafcabdef00",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_canadianfrench_vertical.uxc",
+      "bytes": 36288,
+      "sha256": "6ca22fe629a6c24b31613f44773671c5f50a97177fafc8d200e170e196c25420",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_croatian_horizontal.uxc",
+      "bytes": 129384,
+      "sha256": "261f725777c26c863d74571e70b4e0cd3f3ac50cef9e1ecc73e02bab989f1e55",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_croatian_vertical.uxc",
+      "bytes": 130192,
+      "sha256": "d1f5ad2e2abced4b1c84a995ccd5faddc1d643d1f2af37d5666b017fd876609d",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_czech_horizontal.uxc",
+      "bytes": 132416,
+      "sha256": "5934e7f66274f7dac91a67dc2cd92d78132beb6f9a28a4707dba50d56049f549",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_czech_vertical.uxc",
+      "bytes": 133236,
+      "sha256": "32b1d7b9000d2e48a973a69871b1d876ae0c3c23532097dcd6e9a004820cefe9",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_danish_horizontal.uxc",
+      "bytes": 125564,
+      "sha256": "cb2f220e577b9172ac6043bc0a288c909266099323495384612ce82b1ea95d58",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_danish_vertical.uxc",
+      "bytes": 126044,
+      "sha256": "1129d479621005a5d038af5fc9b4110a00bd5dd3ef11c4a7b3c48d6f31dd40c1",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_dutch_horizontal.uxc",
+      "bytes": 129788,
+      "sha256": "b5346ac93ed8b537641eba12da7915e840bdc2c594cb9a4a44e42fdd8c51ce87",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_dutch_vertical.uxc",
+      "bytes": 130476,
+      "sha256": "b46099bf241425ccb607a1abf3a0b42e0555060e97696ea68502de67b562d443",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_english_horizontal.uxc",
+      "bytes": 130156,
+      "sha256": "fd29955e248e1f7e53382aa642e7806b085d837909fc4dc2073a8a1a29910916",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_english_vertical.uxc",
+      "bytes": 130672,
+      "sha256": "ba57970070745201adc8717d77c4fc6c6682ea92697d4aea860d6f73845ec1bd",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_finnish_horizontal.uxc",
+      "bytes": 124900,
+      "sha256": "aa66d15958748674ad7c860013af4c88d8d228618709ff5d84e0a273967cfebd",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_finnish_vertical.uxc",
+      "bytes": 125768,
+      "sha256": "f52994c47a57298fa1cb1969730f6930c59aeccd58d98f8d4f16a4f316fbed74",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_french_horizontal.uxc",
+      "bytes": 141476,
+      "sha256": "0525bd3d838f834724e02a487aaf4f8d8924091e7a2df365d24c7190157422d7",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_french_vertical.uxc",
+      "bytes": 142748,
+      "sha256": "c1607b91a16f4fafb3a40d6ee1335bb05b45f3d4377cf706303d1c47c9367f9d",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_german_horizontal.uxc",
+      "bytes": 134396,
+      "sha256": "7e68e739aad08aa9b968836377f675f663de94565f6f8c471f2d7377ebc4318d",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_german_vertical.uxc",
+      "bytes": 135868,
+      "sha256": "cae14e9e3d9362f03b97277fce7d45577f30600ac4736bc3901bb4defebeec17",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_greek_horizontal.uxc",
+      "bytes": 210420,
+      "sha256": "187062b522ca619d05cbee9053b617c446cda2991c2047852e6a6f4162ffa7ce",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_greek_vertical.uxc",
+      "bytes": 212352,
+      "sha256": "350e34ab55706ae9146430c2b943547b9a9ac642737566ccee2282f0ccff409f",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_hindi_horizontal.uxc",
+      "bytes": 260208,
+      "sha256": "723629d5a70fe9647e83a7446a7d4c1f9e7f57156a5bea7f7cf7db4e883aa99e",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_hindi_vertical.uxc",
+      "bytes": 260584,
+      "sha256": "a0000a1fae2ecf63b4c3e28381202bfae7eb9d6b1f1d601acba47309d6a92a57",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_hungarian_horizontal.uxc",
+      "bytes": 136860,
+      "sha256": "db33e10ea2ee38f78f01029891bae54d4487e3d6b8c2253ead2488169392fcd8",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_hungarian_vertical.uxc",
+      "bytes": 138132,
+      "sha256": "9df86b0936dd23b61a494d0ad9d0bd3beb5453f17c224f52f3b699e393fa0555",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_indonesia_horizontal.uxc",
+      "bytes": 124072,
+      "sha256": "90fc1f865393fcfcce70a1addd4bdcf137074dc17470be03a69f182b7b5d9397",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_indonesia_vertical.uxc",
+      "bytes": 124828,
+      "sha256": "83045566d3392c983c7ed8ffd69932b621355dd0f733caa2201cfd64a86c65b1",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_italian_horizontal.uxc",
+      "bytes": 133964,
+      "sha256": "bb1fb42f6f0edf9c19492a8ff832f7d94b5253b3ba041de9c4a94e2bd583c549",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_italian_vertical.uxc",
+      "bytes": 137316,
+      "sha256": "19d12b2f580a7d9851a5a4869752a4e6e550c1e27ffc63e5c275d2a83701b752",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_japanese_horizontal.uxc",
+      "bytes": 167216,
+      "sha256": "dea2b27b4e9df8f9c5024796afb12ad14cbe8f893cffecddbb4ae8f410943516",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_japanese_vertical.uxc",
+      "bytes": 167376,
+      "sha256": "b7c1574539b75568506fa4116d74d5f1043046bdbfda6b1cea990d0516bcbad5",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_korean_horizontal.uxc",
+      "bytes": 142348,
+      "sha256": "b5f811da404097d3ea0f8e7de9e717a8c2e54c72f185261c8a5829f064ea9c6a",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_korean_vertical.uxc",
+      "bytes": 143032,
+      "sha256": "70c8debc521791e7373a6072e8b6c33aea7bc96b1c9fb1c01ccec1853936bd56",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_malay_horizontal.uxc",
+      "bytes": 122044,
+      "sha256": "8c990bb0cdff5f4db11d4cb38bff92be9a5ff2fae9659b892b3eeacd3dc8a6f0",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_malay_vertical.uxc",
+      "bytes": 122628,
+      "sha256": "5f33a62ce286a1f4d57c4de88ff6aec97c18be9d2425b5df7334f651bb39464d",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_norwegian_horizontal.uxc",
+      "bytes": 122388,
+      "sha256": "3bb5884a22a79ccbf29d0519adf14e0fb241e56656064292b07ea73b7dba65ce",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_norwegian_vertical.uxc",
+      "bytes": 122688,
+      "sha256": "deb5086e3486df914b0ae6c99e62ddeb1df6e7ec5e62e93725d725fa13c10a9e",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_persian_horizontal.uxc",
+      "bytes": 186612,
+      "sha256": "9ce77caace8fa7f3b11806e83fdae51ae5433987be93f6d089608c1ce9109a9a",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_persian_vertical.uxc",
+      "bytes": 186788,
+      "sha256": "3edcfcc9cbf658ec6f83ca7ca741ac60ebacc1bd02c4c6a50815b1b01fed597b",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_polish_horizontal.uxc",
+      "bytes": 129216,
+      "sha256": "9de4d0dad38f8ffda55f21212c7ddfedf617af3727b37e71b711026542995807",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_polish_vertical.uxc",
+      "bytes": 131060,
+      "sha256": "1a4565c83afb8abdd2bfd88ff809bd652ea57913b0cb5a06550d1a03be6f8159",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_portuguese_horizontal.uxc",
+      "bytes": 132652,
+      "sha256": "03d566b78dddac9c9386bbc37e2b3479a29f47743641bef520c80e4db1cefedd",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_portuguese_vertical.uxc",
+      "bytes": 134028,
+      "sha256": "7f5c863f5b5f8e613a527b03e76b92913dd60ef34f1cea0e3f649ba7abd1251d",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_romanian_horizontal.uxc",
+      "bytes": 134140,
+      "sha256": "973ea221d857d28cd1d2f0ed3941ff315b9d9ea1f9fff121591fae5fa2a0fef6",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_romanian_vertical.uxc",
+      "bytes": 135788,
+      "sha256": "a34afb180f6bb2ac9ba0b720bd0d6fc6a0f67433646b2e1cfe216d7d4a5ea7bf",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_russian_horizontal.uxc",
+      "bytes": 193444,
+      "sha256": "bd41c4c270c68603cc0460e9cdf998dbab49b3f09125fca8f8e350050151c1d6",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_russian_vertical.uxc",
+      "bytes": 196020,
+      "sha256": "7c7880a7c4d42b9cec3bb38e531e0d282eb92e9a3e56f2fc0b2a0ca9dd321343",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_simplifiedchinese_horizontal.uxc",
+      "bytes": 109444,
+      "sha256": "95f9fc805666418febb94de45dcd1791a8794cf92905f00be2f13592b89b1c3e",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_simplifiedchinese_vertical.uxc",
+      "bytes": 109536,
+      "sha256": "ab0ebb43dd56f74a9d1c529bafb707d0ab10336e15a30f59711ad3582fc71cde",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_spanish_horizontal.uxc",
+      "bytes": 132700,
+      "sha256": "657e2d7d2c34e95739e08d7c001298a2791461d995c90463c5a89d411e13aeff",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_spanish_vertical.uxc",
+      "bytes": 134312,
+      "sha256": "5984b8250e4747d655ba70e3fa3f553d07d98056f65a95e85bd86e200c24b5ed",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_swedish_horizontal.uxc",
+      "bytes": 124948,
+      "sha256": "ae62fc65eaebafc66f0535ba2ff3f2cf805fac04bc7285e953e4079755082a2f",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_swedish_vertical.uxc",
+      "bytes": 126520,
+      "sha256": "b67ae12936fc99a61232d3552d4e440e4a0cb6a6c6d0c320f4c265c3de8169dd",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_thai_horizontal.uxc",
+      "bytes": 265268,
+      "sha256": "c053d6f1f8d09e32f7d4820b99ce855b2fa14a61ff4f8ebcfe7961013aa38e10",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_thai_vertical.uxc",
+      "bytes": 268168,
+      "sha256": "1ea872ae9b31d9dc3193e2d9e4d4a60d564385bed68f26d32e0ca343134f11ae",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_traditionalchinese_horizontal.uxc",
+      "bytes": 111588,
+      "sha256": "e68847490f0da87d67cfb7807150747c3638fca0fe2aeec59826ae5b09d758e5",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_traditionalchinese_vertical.uxc",
+      "bytes": 111464,
+      "sha256": "9d479b498df9e691706cedf19f980e81727b8fcbe035e12c2d91c95bfc34e818",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_turkish_horizontal.uxc",
+      "bytes": 126184,
+      "sha256": "596deae963fdf1cdcfce719a4c8615cf9b1cb79876619117bc48f26eef31d800",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_turkish_vertical.uxc",
+      "bytes": 127476,
+      "sha256": "ffcdac61a1969f126d00cfcfc2c1cb82c2db1d32d715770ffb68d4b9d7f2c8ba",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_ukrainian_horizontal.uxc",
+      "bytes": 192520,
+      "sha256": "f64de431df3ef355f59b987b912c214cc4f60cb510ccfcd3ca2a9a0c25341783",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_ukrainian_vertical.uxc",
+      "bytes": 195472,
+      "sha256": "12fdb5a8127245085534cc248ca837cc6b3d9a41b163e52d4d17568fb01cae41",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_vietnamese_horizontal.uxc",
+      "bytes": 140960,
+      "sha256": "87682cd7097d354cfaa09cca89a34a1b087e112afcfe613b85248c62dbfd8dad",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/string_vietnamese_vertical.uxc",
+      "bytes": 142132,
+      "sha256": "6dc0f2cdeb85c17a13acdc9af3c61cb24b71cdc1aa93a38f4d96bc3dd7f67a79",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/image_00_23_IPSX.uxc",
+      "bytes": 9684852,
+      "sha256": "9a4bc7c4127701c6e5c2d0eed73a459fe938b32fbf91fbe32740f3a597052144",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/share/app/image_00_32_IPSX.uxc",
+      "bytes": 10036528,
+      "sha256": "adc5659b6f5d47b0db643e1c37bec84742722785bd4e79c62f93691b62b9036c",
+      "role": "aspect_ratio_integration"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/lib/libmpr.so",
+      "bytes": 3549952,
+      "sha256": "1a7a8007828810f948eb4fb95b9a269176355553a69977f6d8f2ae59516f5532",
+      "role": "retained_dependency"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/lib/libObj.so",
+      "bytes": 2884880,
+      "sha256": "0d4957f95e73b3ab643ef584c53f37de71098d3e353de15d3088651710ca2ba6",
+      "role": "retained_dependency"
+    },
+    {
+      "partition": "nflasha15",
+      "path": "/kmod/ldec.ko",
+      "bytes": 23464,
+      "sha256": "d0ce8b233d27c91a1b5f0e944c77eff044e770b0e96deac8ce7d85264a97ec94",
+      "role": "retained_dependency"
+    }
+  ],
+  "ap_custom_load_segments": [
+    {
+      "va": "0x9010000",
+      "file_offset": 98959360,
+      "file_bytes": 33564,
+      "memory_bytes": 33564,
+      "flags": 5
+    },
+    {
+      "va": "0x9020000",
+      "file_offset": 99024896,
+      "file_bytes": 2048,
+      "memory_bytes": 4400,
+      "flags": 6
+    }
+  ],
+  "ap_verified_preview_hooks": [
+    {
+      "va": "0x1ddab68",
+      "file_offset": 31304552,
+      "instruction": "BL",
+      "bytes_le": "1ce0c895",
+      "target_va": "0x9012bd8",
+      "target_label": "aspect_preview_bind_first"
+    },
+    {
+      "va": "0x1e56b2c",
+      "file_offset": 31812396,
+      "instruction": "BL",
+      "bytes_le": "6ef0c695",
+      "target_va": "0x9012ce4",
+      "target_label": "aspect_preview_bind_second"
+    },
+    {
+      "va": "0x186d238",
+      "file_offset": 25612856,
+      "instruction": "B",
+      "bytes_le": "0c97de15",
+      "target_va": "0x9012e68",
+      "target_label": "aspect_preview_guide_update"
+    },
+    {
+      "va": "0x186d2ac",
+      "file_offset": 25612972,
+      "instruction": "B",
+      "bytes_le": "d196de15",
+      "target_va": "0x9012df0",
+      "target_label": "aspect_preview_guide_destructor"
+    },
+    {
+      "va": "0x1ddacc4",
+      "file_offset": 31304900,
+      "instruction": "BL",
+      "bytes_le": "75dfc895",
+      "target_va": "0x9012a98",
+      "target_label": "aspect_preview_producer_wrapper"
+    },
+    {
+      "va": "0x1e56c68",
+      "file_offset": 31812712,
+      "instruction": "BL",
+      "bytes_le": "8cefc695",
+      "target_va": "0x9012a98",
+      "target_label": "aspect_preview_producer_wrapper"
+    },
+    {
+      "va": "0x21853a0",
+      "file_offset": 35148704,
+      "instruction": "B",
+      "bytes_le": "f036ba15",
+      "target_va": "0x9012f60",
+      "target_label": "aspect_preview_capability_first"
+    },
+    {
+      "va": "0x2195ff0",
+      "file_offset": 35217392,
+      "instruction": "B",
+      "bytes_le": "0bf4b915",
+      "target_va": "0x901301c",
+      "target_label": "aspect_preview_capability_second"
+    },
+    {
+      "va": "0x1d54898",
+      "file_offset": 30754968,
+      "instruction": "BL",
+      "bytes_le": "4ffaca95",
+      "target_va": "0x90131d4",
+      "target_label": "aspect_preview_rotation_first"
+    },
+    {
+      "va": "0x1d547b0",
+      "file_offset": 30754736,
+      "instruction": "BL",
+      "bytes_le": "ccfaca95",
+      "target_va": "0x90132e0",
+      "target_label": "aspect_preview_rotation_second"
+    },
+    {
+      "va": "0x244d2e0",
+      "file_offset": 38064864,
+      "instruction": "B",
+      "bytes_le": "3016af15",
+      "target_va": "0x9012ba0",
+      "target_label": "aspect_preview_still_display_gate"
+    },
+    {
+      "va": "0x1df5198",
+      "file_offset": 31412632,
+      "instruction": "BL",
+      "bytes_le": "d077c895",
+      "target_va": "0x90130d8",
+      "target_label": "aspect_selection_create"
+    },
+    {
+      "va": "0x1d49fb0",
+      "file_offset": 30711728,
+      "instruction": "BL",
+      "bytes_le": "4a24cb95",
+      "target_va": "0x90130d8",
+      "target_label": "aspect_selection_create"
+    },
+    {
+      "va": "0x1df55f8",
+      "file_offset": 31413752,
+      "instruction": "BL",
+      "bytes_le": "3f78c895",
+      "target_va": "0x90136f4",
+      "target_label": "aspect_selection_refresh"
+    },
+    {
+      "va": "0x1e33f84",
+      "file_offset": 31670148,
+      "instruction": "BL",
+      "bytes_le": "b081c795",
+      "target_va": "0x9014644",
+      "target_label": "aspect_fn_create"
+    },
+    {
+      "va": "0x1d4acd0",
+      "file_offset": 30715088,
+      "instruction": "BL",
+      "bytes_le": "5d26cb95",
+      "target_va": "0x9014644",
+      "target_label": "aspect_fn_create"
+    },
+    {
+      "va": "0x1e34734",
+      "file_offset": 31672116,
+      "instruction": "BL",
+      "bytes_le": "477fc795",
+      "target_va": "0x9014450",
+      "target_label": "aspect_fn_refresh"
+    },
+    {
+      "va": "0x1de4e70",
+      "file_offset": 31346288,
+      "instruction": "BL",
+      "bytes_le": "fac1c895",
+      "target_va": "0x9015658",
+      "target_label": "aspect_fn38_create"
+    },
+    {
+      "va": "0x1d4adb0",
+      "file_offset": 30715312,
+      "instruction": "BL",
+      "bytes_le": "2a2acb95",
+      "target_va": "0x9015658",
+      "target_label": "aspect_fn38_create"
+    },
+    {
+      "va": "0x1de5344",
+      "file_offset": 31347524,
+      "instruction": "BL",
+      "bytes_le": "48c0c895",
+      "target_va": "0x9015464",
+      "target_label": "aspect_fn38_refresh"
+    },
+    {
+      "va": "0x9013490",
+      "file_offset": 98972816,
+      "instruction": "B",
+      "bytes_le": "dc120014",
+      "target_va": "0x9018000",
+      "target_label": "aspect_selection_ui_geometry"
+    },
+    {
+      "va": "0x90140b0",
+      "file_offset": 98975920,
+      "instruction": "B",
+      "bytes_le": "f80c0014",
+      "target_va": "0x9017490",
+      "target_label": "aspect_fn76_ui_geometry"
+    },
+    {
+      "va": "0x90150bc",
+      "file_offset": 98980028,
+      "instruction": "B",
+      "bytes_le": "d1070014",
+      "target_va": "0x9017000",
+      "target_label": "aspect_fn38_ui_geometry"
+    }
+  ]
+}

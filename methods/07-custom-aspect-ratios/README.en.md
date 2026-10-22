@@ -1,10 +1,12 @@
 # Custom aspect ratios: 17:6, 65:24, 5:4 and 7:6
 
-[中文](README.md) · [Method index](../../README.en.md)
+[中文](README.md) · [Implementation details (中文)](IMPLEMENTATION.md) · [Method index](../../README.en.md)
 
 Adds **17:6, 65:24, 5:4 and 7:6** to the existing Aspect Ratio setting on the Sony A7 IV (ILCE-7M4), alongside the stock 3:2, 4:3, 16:9 and 1:1 options. Selection uses the existing menu or Fn menu, with matching labels, Fn icons and live-view masks. The maintainer confirmed landscape and portrait previews on the **6.63 T22** feature build.
 
 This page documents the final functionality, implementation and camera examples. A complete firmware requires integration against compatible programs and resources; this page provides neither a standalone installer nor a complete firmware download. See the [main project requirements](../../README.en.md).
+
+For implementation or porting, [IMPLEMENTATION.md](IMPLEMENTATION.md) lists exact files and addresses, menu/resource IDs, private state, AP-to-CP transport, JPEG/HEIF cropping, RAW boundaries, and preview lifecycle/rotation handling. The [reference manifest](reference-layout.json) provides final-file SHA-256 identities and verified preview branches. It is documentation metadata, not an executable patch recipe.
 
 ## Resulting behavior
 
