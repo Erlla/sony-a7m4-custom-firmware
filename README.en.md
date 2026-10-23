@@ -1,6 +1,6 @@
 # Sony A7 IV custom firmware, Fastboot tools and research methods
 
-> 2026-10-23: [Combined 6.62 LUT/aspect/sound sources and exact-layout recipes](native/combined-662/README.en.md) are available. Offline composition and package verification passed; camera acceptance is pending. Generated firmware remains local.
+> 2026-10-23: [Combined 6.62](native/combined-662/README.en.md) has single-camera functional test support. The new [6.63 JPEG EXIF dimension fix](native/jpeg-exif-663/README.md) preserves sound extensions and passes offline verification; its camera regression is pending. Generated firmware remains local.
 
 English · [中文](README.md)
 

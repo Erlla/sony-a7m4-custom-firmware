@@ -1,0 +1,16 @@
+{
+  "input_sha256": "d417c96feac369a82e0f2ba2ae415f450bbdd48cf416b7ddfe0eb5921a65d5f1",
+  "output_sha256": "e800ea9ecf3e399e4f5fbb42bfb329f3504ded737b6f142d192541814296ae55",
+  "file_bytes": 3670016,
+  "compiler": "Zig 0.14.1 Windows x86_64",
+  "compiler_sha256": "1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd",
+  "code_sha256": "4f42e2112de743868656035434044ad573d54770cdc475573d9e8e7509a7a402",
+  "sources": {
+    "jpeg_exif.S": "376573173eaffebe1d077daf6dc56a5807dc0f1d92ad15d077333ca0ce1f185b",
+    "jpeg_exif.ld": "a690ef8030969cd66d8b6736eb83bba947832837d4f06a6a7cb32c6aa0861848"
+  },
+  "live_program_header_offset": "0x370000",
+  "JPEG_entry": "0x2732f0",
+  "prelude": "0x2e9e50",
+  "hardware_tested": false
+}
