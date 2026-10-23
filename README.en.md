@@ -1,7 +1,5 @@
 # Sony A7 IV custom firmware, Fastboot tools and research methods
 
-> 2026-10-23: [Combined 6.62](native/combined-662/README.en.md) has single-camera functional test support. The new [6.63 JPEG EXIF dimension fix](native/jpeg-exif-663/README.md) preserves sound extensions and passes offline verification; its camera regression is pending. Generated firmware remains local.
-
 English · [中文](README.md)
 
 Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry and seven separate modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.

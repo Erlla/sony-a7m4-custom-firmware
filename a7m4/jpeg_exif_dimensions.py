@@ -1,4 +1,4 @@
-"""Offline JPEG EXIF correction for the exact combined-6.62 sound libmpr.
+"""Offline JPEG EXIF correction for the hash-pinned sound-enabled libmpr.
 
 Builds one component from original assembly. No device or signing operations.
 """
@@ -16,7 +16,7 @@ if not __debug__:
     raise RuntimeError('Run without Python -O: binary invariant checks are required')
 
 ROOT = Path(__file__).resolve().parents[1]
-NATIVE = ROOT / 'native/jpeg-exif-663'
+NATIVE = ROOT / 'native/jpeg-exif-dimensions'
 LAYOUT = json.loads((NATIVE / 'layout.json').read_text('utf8'))
 
 

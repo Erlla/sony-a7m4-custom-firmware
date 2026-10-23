@@ -1,7 +1,4 @@
 {
-  "version": "6.62",
-  "camera_tested": false,
-  "source_merge": "4fa0dad10a3cd9a1cb9fd0cdda467ccd8c7b20b2",
   "input_CP": "9a8bfb63b53dc5fcfe77bc06e773675459de556cc10a03ae2221a0e24ea0ea89",
   "output_CP": "92a1b6ccdd2a92e94af7377858c79b08595cbb86ccb4b9a0464015ea8bdabae3",
   "input_AP": {
@@ -104,52 +101,52 @@
   ],
   "source_files": [
     {
-      "path": "native/combined-662/cp/crop_core.c",
+      "path": "native/feature-integration/cp/crop_core.c",
       "sha256": "16b5e359d4ed6264a2acf904c3936bb4fcbef6d4ee241faeaa7b8f58b5d3d109",
       "research_source_sha256": "16b5e359d4ed6264a2acf904c3936bb4fcbef6d4ee241faeaa7b8f58b5d3d109"
     },
     {
-      "path": "native/combined-662/cp/crop_core.h",
+      "path": "native/feature-integration/cp/crop_core.h",
       "sha256": "0ddcf1b4af8a9e5fc92466d852d6405d1882ff253eac78ba668cadc2c7ac4c16",
       "research_source_sha256": "0ddcf1b4af8a9e5fc92466d852d6405d1882ff253eac78ba668cadc2c7ac4c16"
     },
     {
-      "path": "native/combined-662/cp/cp_selector.c",
+      "path": "native/feature-integration/cp/cp_selector.c",
       "sha256": "76fb1948711180c1612b8bddc7972ecb8387f435c948cf43f6bc06286755b442",
       "research_source_sha256": "76fb1948711180c1612b8bddc7972ecb8387f435c948cf43f6bc06286755b442"
     },
     {
-      "path": "native/combined-662/cp/cp_selector_wrapper.S",
+      "path": "native/feature-integration/cp/cp_selector_wrapper.S",
       "sha256": "1517beec4dd66156142580a4a3b8e11adc10b5b9186a8475566b877a82164b99",
       "research_source_sha256": "1517beec4dd66156142580a4a3b8e11adc10b5b9186a8475566b877a82164b99"
     },
     {
-      "path": "native/combined-662/cp/cp_capture_latch.c",
+      "path": "native/feature-integration/cp/cp_capture_latch.c",
       "sha256": "cee4af00807d0ffe913c136140da5d75e7870edce99af12a64043c2edb13feb1",
       "research_source_sha256": "cee4af00807d0ffe913c136140da5d75e7870edce99af12a64043c2edb13feb1"
     },
     {
-      "path": "native/combined-662/cp/cp_crop_wrappers.S",
+      "path": "native/feature-integration/cp/cp_crop_wrappers.S",
       "sha256": "754685fb714f6a85bab0d9673d5e420bfff3c55813ddff8e591d32f2d243e352",
       "research_source_sha256": "754685fb714f6a85bab0d9673d5e420bfff3c55813ddff8e591d32f2d243e352"
     },
     {
-      "path": "native/combined-662/cp/aspect_gate.S",
+      "path": "native/feature-integration/cp/aspect_gate.S",
       "sha256": "feba41e57530d66ee225285ba9f262e0dd677dcdf46c4c342da115f02d8afae6",
       "research_source_sha256": "24524fbd57f4b528767ac68f8166bc4f8468b88a68127583ac82c6a60e790ba5"
     },
     {
-      "path": "native/combined-662/cp/aspect_prepare.S",
+      "path": "native/feature-integration/cp/aspect_prepare.S",
       "sha256": "b54094882bd414dbc18f349849a6014a019427bd9f5b10028c1f9b26b90738d4",
       "research_source_sha256": "012bacf491439630d7152d257dd6c81cfbdda2a315489b6b3fa6505fb2f53509"
     },
     {
-      "path": "native/combined-662/cp/boot_wrapper.S",
+      "path": "native/feature-integration/cp/boot_wrapper.S",
       "sha256": "149c184ef8c75b00df49b3b7379fa5891bafd61722d9ba94b2fedbc288eab548",
       "research_source_sha256": "30013190dcb5d142379cf6713417d5c26e0e99e090375c794bf1827e48ec3898"
     },
     {
-      "path": "native/combined-662/cp/aspect.ld",
+      "path": "native/feature-integration/cp/aspect.ld",
       "sha256": "db881d0bb7df51be2b998c23a3e7289214b126e626dce8dcf0f116b613555287",
       "research_source_sha256": "4ed909dd41829c99b82a8826074db77f4acc2425466543e5ccac17e1cbb2f8be"
     }

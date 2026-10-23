@@ -1,20 +1,21 @@
 # Maintainer handoff
 
-## 2026-10-23: independent integration review
+## Publication scope
 
-- See `native/combined-662/REVIEW-20261023.md`. No new defect was confirmed; firmware sources/hashes remain unchanged. New checks cover nine AP layout/linkage groups, twenty shared LUT/aspect state combinations and two outer-lock contexts.
-- Do not report the isolated `aspect_pool_release` reuse counterexample as a product bug. It omitted native mutex 9 around both allocation and release wrappers. With explicit outer mutex blocking, clear completes before reuse and the new ratio remains intact. Review every enclosing lock before claiming a concurrency failure.
-- A per-thread replay needs separate stacks and real blocking semantics at the modeled OS boundary; unconditional lock-success stubs can manufacture impossible schedules.
-- Old `.rela.dyn` has four intentional aspect descriptor redirects, and five legacy aspect entries branch to the T22 atomic selection implementation. Inspect active paths instead of treating old source names as executed code.
-- Camera startup/playback timing, burst pixels, UI/display and sound acceptance remain open. Existing 5,444 checks were not represented as rerun in this review.
+- Publish reusable implementation methods, authored source, input hashes and component verification boundaries. Do not publish specific experimental firmware versions, versioned delivery directories, package manifests or per-round test progress to GitHub. Keep those in the research repository.
+- Preserve the root README structure: introduction and method index, without dated version announcements or a test-progress feed. The maintainer explicitly requested this separation.
+- Functional directories and commands are `native/feature-integration/` / `a7m4.feature_integration` and `native/jpeg-exif-dimensions/` / `a7m4.jpeg_exif_dimensions`. Exact input/output hashes remain mandatory; renaming a recipe does not make its fixed addresses portable.
+- Do not rewrite repository history to remove older announcements. Make a normal scoped cleanup commit; generated firmware, manufacturer inputs and camera originals remain local.
 
-## 2026-10-23: combined 6.62
+## Integration pitfalls
 
-- This public checkout is separate from the private research Git history. Publish relevant authored code, recipes and reports only; keep generated firmware and manufacturer inputs local.
-- `native/combined-662/` and `a7m4/combined662.py` reproduce exact components, not a complete DAT from stock firmware. The tool requires a source checkout with adjacent `native/`, pinned input images and compiler.
-- T22 aspect text IDs AB60–AB63 collide with current sound dialogs. Combined IDs are AB4C–AB4F; only aspect-owned references change.
-- AP new RX ranges do not overlap: LUT starts at 0x09000000, aspect at 0x09010000. Actual conflicts are shared metadata, relocation tails and constructor chains. Do not replace the whole AP with the older standalone T22 file.
-- CP uses relocated aspect RX/BSS and an independent READY word. ARM calls to absolute Thumb symbols need STT_FUNC/Thumb typing; `.thumb_set` avoids incorrect BL state.
-- Repack live UXC records instead of appending indefinitely. Offsets are u16 words, so longest-record-last matters for Hindi/Thai banks.
-- CP/AP/68 banks reproduced byte-identical to the signed research package. 218 public tests pass. The combined firmware is not yet camera-tested; LUT P2 remains open.
-- `layout.json` hashes authored sources with LF line endings, as required by this repository's attributes. The frozen research source ID in AP is an artifact identity, not a live hash of arbitrary future edits.
+- See `native/feature-integration/REVIEW.md`. The isolated `aspect_pool_release` reuse counterexample omitted native mutex 9 around both allocation and release wrappers. With the outer mutex modeled, clearing finishes before reuse. Review every enclosing lock before reporting a concurrency defect.
+- Per-thread replay needs separate stacks and actual blocking semantics at the modeled OS boundary; unconditional lock-success shims can create impossible schedules.
+- Four old `.rela.dyn` aspect descriptor redirects are intentional; five legacy aspect entries branch to atomic selection. Inspect active paths rather than assuming every old entry executes old logic.
+- Aspect text IDs AB60–AB63 collide with sound dialogs. Use AB4C–AB4F and modify only aspect-owned references.
+- AP RX ranges for LUT and aspect do not overlap; shared metadata, relocation tails and constructors still need composition. Do not replace the main AP with an older standalone file.
+- CP aspect code/BSS and its READY word must be independent of LUT. Preserve Thumb symbol typing for ARM calls.
+- UXC offsets are u16 words: repack live records with the longest record last instead of appending indefinitely.
+- Component tools require the source checkout and adjacent `native/`, pinned inputs and compiler, and LF source bytes. They do not produce a flashable package by themselves.
+- Sound libmpr uses the active program-header table at 0x370000. Preserve sound extensions when adding the JPEG-specific EXIF source copy; do not use an old stock-library patch blindly.
+- Offline native replay, encoded image structure and physical camera behavior are distinct evidence. Keep precise limits and avoid claims of complete color equivalence or performance from metadata alone.

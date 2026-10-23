@@ -1,5 +1,9 @@
 # Contributions / 贡献说明
 
+公开仓库按功能与实现方法组织，只同步源码、精确输入哈希和必要的组件验证说明。具体实验固件版本、交付目录、安装包校验清单、逐轮测试／验收进度留在研究库；不要在根 README 添加版本播报或测试动态。官方输入版本与兼容性标识仍须准确记录。
+
+Organize public content by feature and implementation. Keep experimental firmware releases, delivery manifests and per-run test progress in the research repository; preserve the root README structure without version announcements. Retain official input versions and compatibility identities where technically necessary.
+
 修改前阅读中英文 README、各独立方法和验证范围。每个新固件基线应记录机型、原始文件 SHA-256、ELF/CP 地址映射、明确的改动范围、回滚方式及验证证据。原生函数回放、完整包校验和实机测试应分别说明。镜头对焦速度功能必须保留未经实机测试状态；FL2/FL3 的当前颜色差异不得描述为官方色彩一致。
 
 Please identify each new firmware baseline with model, input hashes, address mappings, bounded changes, rollback and verification evidence. Keep native instruction replay, container validation and hardware acceptance distinct.

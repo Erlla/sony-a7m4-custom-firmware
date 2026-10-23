@@ -1,6 +1,6 @@
-"""Exact-layout 6.62 AP/CP/resource composition. Offline component output only.
+"""Exact-layout LUT/aspect/sound AP/CP/resource composition. Offline component output only.
 
-Requires privately held exact input images listed in native/combined-662/layout.json.
+Requires privately held exact input images listed in native/feature-integration/layout.json.
 Never opens USB, signs a package or changes a device. Not a generic firmware patcher.
 """
 from pathlib import Path
@@ -20,7 +20,7 @@ if not __debug__:
     raise RuntimeError("Run without Python -O: binary invariant checks are required")
 
 ROOT = Path(__file__).resolve().parents[1]
-LAYOUT = json.loads((ROOT/'native/combined-662/layout.json').read_text('utf8'))
+LAYOUT = json.loads((ROOT/'native/feature-integration/layout.json').read_text('utf8'))
 BASE = 0x108000
 
 
@@ -169,12 +169,12 @@ def compile_cp(source, gcc):
     check_hash(Path(gcc).read_bytes(), LAYOUT['compiler_sha256'], 'compiler')
     for item in LAYOUT['source_files']:
         check_hash((ROOT/item['path']).read_bytes(), item['sha256'], item['path'])
-    with tempfile.TemporaryDirectory(prefix='a7m4-combined662-') as directory:
+    with tempfile.TemporaryDirectory(prefix='a7m4-feature_integration-') as directory:
         return _compile_cp(source, str(gcc), Path(directory))
 
 
 def _compile_cp(raw, compiler, out):
-    cpdir = ROOT/'native/combined-662/cp'
+    cpdir = ROOT/'native/feature-integration/cp'
     sources = [cpdir/name for name in ('crop_core.c', 'cp_selector.c', 'cp_selector_wrapper.S',
                'cp_capture_latch.c', 'cp_crop_wrappers.S', 'aspect_gate.S', 'aspect_prepare.S', 'boot_wrapper.S')]
     linker = cpdir/'aspect.ld'

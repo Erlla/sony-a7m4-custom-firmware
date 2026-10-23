@@ -1,7 +1,5 @@
 # Custom aspect ratios: 17:6, 65:24, 5:4 and 7:6
 
-> Combined-main update: [6.62 integration sources and component recipes](../../native/combined-662/README.en.md) preserve LUT and sound features. Single-camera combined functional tests passed; a separate [6.63 JPEG EXIF correction](../../native/jpeg-exif-663/README.md) awaits its own camera regression; the T22 identities and field acceptance below remain specific to the standalone build.
-
 [中文](README.md) · [Implementation details (中文)](IMPLEMENTATION.md) · [Method index](../../README.en.md)
 
 Adds **17:6, 65:24, 5:4 and 7:6** to the existing Aspect Ratio setting on the Sony A7 IV (ILCE-7M4), alongside the stock 3:2, 4:3, 16:9 and 1:1 options. Selection uses the existing menu or Fn menu, with matching labels, Fn icons and live-view masks. The maintainer confirmed landscape and portrait previews on the **6.63 T22** feature build.
@@ -68,3 +66,5 @@ The maintainer confirmed correct labels, Fn icons and captured image dimensions,
 The selection-page implementation passed 336 native creation/rotation/mask-clearing cases, 3,475 drawing checks and 3,968 calling-convention checks. The final installation package passed signature, 739,727-block, partition-CRC and target-file verification. Hardware acceptance refers to the maintainer's single A7M4 and does not certify arbitrary models, firmware combinations or every output device.
 
 Photo identities are in [assets/manifest.json](assets/manifest.json); see [third-party notices](../../THIRD_PARTY_NOTICES.md) for authorization details.
+
+Related implementation: [combining LUT, aspect and sound components](../../native/feature-integration/README.en.md), and [JPEG EXIF dimension synchronization](../../native/jpeg-exif-dimensions/README.md). Each component has its own pinned input hashes.

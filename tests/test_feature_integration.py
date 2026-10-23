@@ -8,7 +8,7 @@ import sys
 import pytest
 
 pytest.importorskip('numpy')
-from a7m4 import combined662 as c
+from a7m4 import feature_integration as c
 
 
 def bank(labels):
@@ -85,7 +85,7 @@ def test_sources_match_published_recipe():
 
 
 def test_optimized_python_is_rejected():
-    result = subprocess.run([sys.executable, '-O', '-B', '-c', 'import a7m4.combined662'],
+    result = subprocess.run([sys.executable, '-O', '-B', '-c', 'import a7m4.feature_integration'],
                             cwd=c.ROOT, env=os.environ.copy(), capture_output=True, text=True)
     assert result.returncode != 0
     assert 'binary invariant checks are required' in result.stderr

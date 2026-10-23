@@ -11,6 +11,5 @@
   },
   "live_program_header_offset": "0x370000",
   "JPEG_entry": "0x2732f0",
-  "prelude": "0x2e9e50",
-  "hardware_tested": false
+  "prelude": "0x2e9e50"
 }

@@ -1,14 +1,12 @@
-# 6.62 integration re-audit — 2026-10-23
+# Component layout and concurrency review
 
 **No new firmware defect was confirmed in this review.** This is an offline review result, not camera acceptance or a claim that the firmware is bug-free. No firmware implementation or pinned artifact was changed.
 
-Reviewed public recipe: `0ebfbae1923bbbd0ad4789e057d1439afd1443ce`.
 
 | Artifact | SHA-256 |
 | --- | --- |
 | Combined CP | `92a1b6ccdd2a92e94af7377858c79b08595cbb86ccb4b9a0464015ea8bdabae3` |
 | Combined AP | `cc9c0b3fc9722e957ab9d046835c4a7d083285ca02b2f2a9fe2f5258d67cad2c` |
-| Local DAT, 757,480,856 bytes | `b2959d877b262bd506c1cc6bc9815d8b8aa6e5fb91f48a278f6d5cc5b1a78ad2` |
 
 New checks executed against the saved combined components:
 
@@ -16,7 +14,7 @@ New checks executed against the saved combined components:
 - Twenty shared CP state cases: LUT Off/slot 1, native 3:2/four custom ratios, both selection orders. Native color messages, capture snapshots, per-task ratios and JPEG request geometry preserve each other's state. These checks do not render ISP pixels or encode JPEGs.
 - Two OS-context models of the outer pool locking sequence, described below.
 
-The earlier 5,444 checks and signed package audit in [validation.json](validation.json) remain historical evidence; they were not counted as rerun in this review. The DAT hash was read again and matched.
+Component identities are recorded in [layout.json](layout.json), with the offline scope in [validation.json](validation.json). Package and per-run acceptance records are maintained separately in the research repository.
 
 ## Withdrawn pool-reuse hypothesis
 
@@ -26,8 +24,8 @@ The real allocation wrapper `0xA05BC0` and release wrapper `0xA05C0A` both acqui
 
 Direct branch and absolute-pointer scans found no alternate bypass caller in this image; this does not rule out every computed indirect edge. OS synchronization was modeled, not measured on a camera. The isolated counterexample was withdrawn, and no cleanup-order patch was made on its basis.
 
-## Still open
+## Evidence boundaries
 
-Cold-start and playback-return first-frame timing, real burst scheduling, encoded pixels, RAW/HEIF auxiliary lifetimes, hardware/display behavior and the combined UI/sound acceptance tests still require camera testing. LUT P2 remains one independent slot at fixed 100%; this review does not complete JSON import or multi-slot fitting.
+Cold-start and playback-return first-frame timing, real burst scheduling, encoded pixels, RAW/HEIF auxiliary lifetimes, hardware/display behavior and combined UI/sound acceptance cannot be inferred from these offline checks. The LUT interface is one independent slot at fixed 100%; this review does not establish JSON import or multi-slot fitting.
 
-中文版摘要：本轮未确认新缺陷；早期“对象归还后清掉新比例”的局部反例漏掉原厂外层 mutex 9，补齐后已排除并撤回。固件代码和安装包保持，继续按既定步骤进行 6.62 实机验收。
+中文版摘要：本轮未确认新缺陷；早期“对象归还后清掉新比例”的局部反例漏掉原厂外层 mutex 9，补齐后已排除并撤回。审查时必须检查全部外层锁，不能把局部模型构造的交错直接当成机内故障。

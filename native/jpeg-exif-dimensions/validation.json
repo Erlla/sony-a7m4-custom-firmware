@@ -1,0 +1,12 @@
+{
+  "scope": "Offline JPEG metadata component validation; deployment and camera acceptance records are maintained in the research repository.",
+  "input_and_output_identities": "layout.json",
+  "native_JPEG_cases": 148,
+  "native_sound_cases": 7,
+  "portable_source_exact_rebuild": true,
+  "limitations": [
+    "JPEG A002/A003 only; SIDB and HEIF unchanged.",
+    "Native replay uses external service shims and the XML allocation-failure branch.",
+    "Complete RAW writing, camera scheduling and physical sound output are outside the native replay."
+  ]
+}

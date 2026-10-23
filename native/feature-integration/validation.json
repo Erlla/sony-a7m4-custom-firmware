@@ -1,0 +1,18 @@
+{
+  "scope": "Offline component recipe checks; deployment and camera acceptance records are maintained in the research repository.",
+  "input_and_output_identities": "layout.json",
+  "AP_LOADS": 8,
+  "AP_nonoverlap": true,
+  "resource_banks": 68,
+  "native_text_queries": 1836,
+  "component_byte_exact_reproduction": [
+    "CP",
+    "AP",
+    "68 language/orientation banks"
+  ],
+  "limitations": [
+    "Native replay models external OS services.",
+    "No complete firmware or release manifest is distributed here.",
+    "Geometry and metadata checks are not pixel-quality or performance measurements."
+  ]
+}
