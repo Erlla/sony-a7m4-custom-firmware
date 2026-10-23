@@ -22,6 +22,15 @@ The public reference recipe requires an AP that already contains the shared menu
 
 The repository includes user-authorized [YEAH.WAV, DAGOU.WAV and JIAO.WAV examples](../../examples/custom-sounds/README.en.md) for reference and import testing. The example guide covers SD placement, menu steps, audio parameters and SHA-256 checksums. You can also supply your own compatible audio.
 
+## Camera demo photos
+
+These four maintainer-provided photos show the custom electronic shutter sound menu, including the switch, selected WAV filename and volume. All four photos show the electronic shutter sound interface.
+
+| Enabled | Disabled |
+|---|---|
+| ![Custom electronic shutter sound enabled, volume at 100%](images/electronic-shutter-enabled.jpg) | ![Custom electronic shutter sound disabled, volume at 100%](images/electronic-shutter-disabled.jpg) |
+| ![Enabled with JIAO.WAV selected, volume at 100%](images/electronic-shutter-enabled-selected-wav.jpg) | ![Disabled with JIAO.WAV still selected, volume at 100%](images/electronic-shutter-disabled-selected-wav.jpg) |
+
 ## Offline component reconstruction
 
 ```powershell

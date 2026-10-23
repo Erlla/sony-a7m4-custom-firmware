@@ -28,6 +28,15 @@
 
 AF-C 不替换为自定义对焦音，MF 不产生合焦提示。原厂“音频信号/对焦提示音”关闭时，自定义对焦也不出声。拍照同时合焦可能连续触发两类事件，区分测试应采用“AF-S 只半按”与“MF 独立拍照”。
 
+## 实机演示照片
+
+以下四张照片由维护者提供，展示自定义电子快门声菜单的开关、所选 WAV 文件名和音量。本组照片均为电子快门声界面。
+
+| 开关开启 | 开关关闭 |
+|---|---|
+| ![自定义电子快门声开启，音量为100%](images/electronic-shutter-enabled.jpg) | ![自定义电子快门声关闭，音量为100%](images/electronic-shutter-disabled.jpg) |
+| ![开启状态下显示所选JIAO.WAV，音量为100%](images/electronic-shutter-enabled-selected-wav.jpg) | ![关闭状态下仍显示所选JIAO.WAV，音量为100%](images/electronic-shutter-disabled-selected-wav.jpg) |
+
 ## 离线生成修改后的文件
 
 先查看所有 71 个精确输入哈希：
