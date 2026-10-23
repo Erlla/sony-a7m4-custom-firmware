@@ -24,12 +24,23 @@ The repository includes user-authorized [YEAH.WAV, DAGOU.WAV and JIAO.WAV exampl
 
 ## Camera demo photos
 
-These four maintainer-provided photos show the custom electronic shutter sound menu, including the switch, selected WAV filename and volume. All four photos show the electronic shutter sound interface.
+These five maintainer-provided photos show the locations of both new menu items, their settings screens and the audio import interface.
 
-| Enabled | Disabled |
+**Menu locations: Shooting → Shutter/Silent**
+
+| Custom electronic shutter sound (page 13/60 in the photo) | Custom focus sound (page 14/60 in the photo) |
 |---|---|
-| ![Custom electronic shutter sound enabled, volume at 100%](images/electronic-shutter-enabled.jpg) | ![Custom electronic shutter sound disabled, volume at 100%](images/electronic-shutter-disabled.jpg) |
-| ![Enabled with JIAO.WAV selected, volume at 100%](images/electronic-shutter-enabled-selected-wav.jpg) | ![Disabled with JIAO.WAV still selected, volume at 100%](images/electronic-shutter-disabled-selected-wav.jpg) |
+| ![Custom electronic shutter sound item under Shooting, Shutter/Silent](images/electronic-shutter-menu-location.jpg) | ![Custom focus sound item under Shooting, Shutter/Silent](images/focus-sound-menu-location.jpg) |
+
+**Settings screens: enabled, YEAH.WAV selected, volume at 100%**
+
+| Custom electronic shutter sound | Custom focus sound |
+|---|---|
+| ![Electronic shutter sound settings: enabled, YEAH.WAV, volume at 100%](images/electronic-shutter-settings.jpg) | ![Focus sound settings: enabled, YEAH.WAV, volume at 100%](images/focus-sound-settings.jpg) |
+
+**Audio import: select Import from SD to browse WAV files**
+
+![Audio import interface with an orange selection highlight for WAV files on the SD card](images/audio-import-picker.jpg)
 
 ## Offline component reconstruction
 

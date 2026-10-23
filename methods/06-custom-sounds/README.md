@@ -30,12 +30,23 @@ AF-C 不替换为自定义对焦音，MF 不产生合焦提示。原厂“音频
 
 ## 实机演示照片
 
-以下四张照片由维护者提供，展示自定义电子快门声菜单的开关、所选 WAV 文件名和音量。本组照片均为电子快门声界面。
+以下五张照片由维护者提供，依次展示两个新增选项的菜单位置、打开后的设置，以及音频文件导入界面。
 
-| 开关开启 | 开关关闭 |
+**新增选项的位置：拍摄 → 快门/静音**
+
+| 自定义电子快门声（图中第 13/60 页） | 自定义对焦声音（图中第 14/60 页） |
 |---|---|
-| ![自定义电子快门声开启，音量为100%](images/electronic-shutter-enabled.jpg) | ![自定义电子快门声关闭，音量为100%](images/electronic-shutter-disabled.jpg) |
-| ![开启状态下显示所选JIAO.WAV，音量为100%](images/electronic-shutter-enabled-selected-wav.jpg) | ![关闭状态下仍显示所选JIAO.WAV，音量为100%](images/electronic-shutter-disabled-selected-wav.jpg) |
+| ![拍摄的快门/静音菜单中新增的自定义电子快门声选项](images/electronic-shutter-menu-location.jpg) | ![拍摄的快门/静音菜单中新增的自定义对焦声音选项](images/focus-sound-menu-location.jpg) |
+
+**打开后的设置：开关开启、已选 YEAH.WAV、音量 100%**
+
+| 自定义电子快门声 | 自定义对焦声音 |
+|---|---|
+| ![自定义电子快门声设置：开启，YEAH.WAV，音量100%](images/electronic-shutter-settings.jpg) | ![自定义对焦声音设置：开启，YEAH.WAV，音量100%](images/focus-sound-settings.jpg) |
+
+**导入音频文件：选择“从 SD 卡内导入”，浏览 WAV 文件列表**
+
+![音频导入界面，橙色选框用于选择SD卡内的WAV文件](images/audio-import-picker.jpg)
 
 ## 离线生成修改后的文件
 

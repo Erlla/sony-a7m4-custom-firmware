@@ -4,6 +4,7 @@
 
 - Publish reusable implementation methods, authored source, input hashes and component verification boundaries. Do not publish specific experimental firmware versions, versioned delivery directories, package manifests or per-round test progress to GitHub. Keep those in the research repository.
 - Preserve the root README structure: introduction and method index, without dated version announcements or a test-progress feed. The maintainer explicitly requested this separation.
+- The custom-sound gallery uses the maintainer's corrected five-photo set: two menu locations, two settings screens and the audio picker. Match shutter/focus captions to the visible menu title, update both language guides together and remove superseded gallery assets in a normal commit.
 - Functional directories and commands are `native/feature-integration/` / `a7m4.feature_integration` and `native/jpeg-exif-dimensions/` / `a7m4.jpeg_exif_dimensions`. Exact input/output hashes remain mandatory; renaming a recipe does not make its fixed addresses portable.
 - Do not rewrite repository history to remove older announcements. Make a normal scoped cleanup commit; generated firmware, manufacturer inputs and camera originals remain local.
 
