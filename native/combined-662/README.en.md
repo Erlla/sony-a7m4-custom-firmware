@@ -1,5 +1,7 @@
 # 6.62 combined LUT / aspect-ratio / sound recipe
 
+[Independent re-audit, 2026-10-23](REVIEW-20261023.md): no new defect confirmed. The isolated pool-reuse hypothesis was withdrawn after checking the native outer mutex. New layout, shared-state and locking checks passed; firmware hashes are unchanged and camera acceptance remains pending.
+
 This publishes authored CP adapter sources and an exact-layout, offline component composer. It merges the accepted standalone T22 aspect implementation into the newer LUT/sound baseline. The combined package passed offline checks; **camera acceptance is pending and LUT P2 remains open**.
 
 See [the detailed integration notes](README.md), [input/output identities](layout.json), and [validation summary](validation.json). Run the tool from this source checkout after installing `.[firmware,test]`:

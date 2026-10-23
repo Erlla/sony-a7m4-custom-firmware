@@ -1,5 +1,13 @@
 # Maintainer handoff
 
+## 2026-10-23: independent integration review
+
+- See `native/combined-662/REVIEW-20261023.md`. No new defect was confirmed; firmware sources/hashes remain unchanged. New checks cover nine AP layout/linkage groups, twenty shared LUT/aspect state combinations and two outer-lock contexts.
+- Do not report the isolated `aspect_pool_release` reuse counterexample as a product bug. It omitted native mutex 9 around both allocation and release wrappers. With explicit outer mutex blocking, clear completes before reuse and the new ratio remains intact. Review every enclosing lock before claiming a concurrency failure.
+- A per-thread replay needs separate stacks and real blocking semantics at the modeled OS boundary; unconditional lock-success stubs can manufacture impossible schedules.
+- Old `.rela.dyn` has four intentional aspect descriptor redirects, and five legacy aspect entries branch to the T22 atomic selection implementation. Inspect active paths instead of treating old source names as executed code.
+- Camera startup/playback timing, burst pixels, UI/display and sound acceptance remain open. Existing 5,444 checks were not represented as rerun in this review.
+
 ## 2026-10-23: combined 6.62
 
 - This public checkout is separate from the private research Git history. Publish relevant authored code, recipes and reports only; keep generated firmware and manufacturer inputs local.
