@@ -1,5 +1,7 @@
 # Custom aspect ratios: 17:6, 65:24, 5:4 and 7:6
 
+> Combined-main update: [6.62 integration sources and component recipes](../../native/combined-662/README.en.md) preserve LUT and sound features. Combined camera acceptance is pending; the T22 identities and field acceptance below remain specific to the standalone build.
+
 [中文](README.md) · [Implementation details (中文)](IMPLEMENTATION.md) · [Method index](../../README.en.md)
 
 Adds **17:6, 65:24, 5:4 and 7:6** to the existing Aspect Ratio setting on the Sony A7 IV (ILCE-7M4), alongside the stock 3:2, 4:3, 16:9 and 1:1 options. Selection uses the existing menu or Fn menu, with matching labels, Fn icons and live-view masks. The maintainer confirmed landscape and portrait previews on the **6.63 T22** feature build.

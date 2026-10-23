@@ -1,5 +1,7 @@
 # Sony A7 IV custom firmware, Fastboot tools and research methods
 
+> 2026-10-23: [Combined 6.62 LUT/aspect/sound sources and exact-layout recipes](native/combined-662/README.en.md) are available. Offline composition and package verification passed; camera acceptance is pending. Generated firmware remains local.
+
 English · [中文](README.md)
 
 Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry and seven separate modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.

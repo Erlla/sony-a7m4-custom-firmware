@@ -1,0 +1,111 @@
+.syntax unified
+.arch armv7-a
+.arm
+.section .boot_wrapper,"ax",%progbits
+.balign 4
+.global nt_late_boot
+.type nt_late_boot,%function
+/* Original seven map arguments and original return/flags are preserved.
+ * A missing/corrupt optional native table may never fail camera boot. */
+nt_late_boot:
+ push {r4-r10,lr}
+ sub sp,sp,#64
+ mov r7,r0
+ mov r8,r1
+ mov r9,r2
+ mov r10,r3
+ ldr r4,[sp,#96]
+ ldr r5,[sp,#100]
+ ldr r6,[sp,#104]
+ str r4,[sp]
+ str r5,[sp,#4]
+ str r6,[sp,#8]
+ mov ip,#0
+ str ip,[sp,#40]
+ movw ip,#0xa2a8
+ movt ip,#0x147
+ cmp r7,ip
+ bne 1f
+ movw ip,#0x8000
+ movt ip,#0x10
+ cmp r8,ip
+ cmpeq r10,ip
+ cmpeq r9,#0x20000
+ cmpeq r4,#12
+ cmpeq r5,#0
+ cmneq r6,#1
+ bne 1f
+ mov ip,#1
+ str ip,[sp,#40]
+ movw ip,#0x5ef0
+ movt ip,#0x156
+ mov r4,#0
+ dmb ish
+ str r4,[ip]
+ str r4,[ip,#4]
+ str r4,[ip,#8]
+ str r4,[ip,#12]
+ str r4,[ip,#16]
+ str r4,[ip,#24]
+ str r4,[ip,#28]
+ dmb ish
+1:bl native_runtime_map
+ str r0,[sp,#12]
+ str r1,[sp,#16]
+ str r2,[sp,#20]
+ str r3,[sp,#24]
+ str ip,[sp,#28]
+ str lr,[sp,#36]
+ mrs ip,apsr
+ str ip,[sp,#32]
+ cmp r0,#0
+ bne 2f
+ ldr ip,[sp,#40]
+ cmp ip,#1
+ bne 2f
+ bl aspect_boot_zero
+ bl nt_boot_check
+ mov r0,r7
+ bl aspect_boot_map
+ bl sound_preflight
+ cmp r0,#1
+ bne 2f
+ mov r0,r7
+ movw r1,#0xe000
+ movt r1,#0x11
+ mov r2,#0x2000
+ mov r3,r1
+ mov ip,#15
+ str ip,[sp]
+ mov ip,#0
+ str ip,[sp,#4]
+ mvn ip,#0
+ str ip,[sp,#8]
+ bl native_runtime_map
+ cmp r0,#0
+ bne 2f
+ movw ip,#0x5f08
+ movt ip,#0x156
+ mov r0,#1
+ dmb ish
+ str r0,[ip]
+ dmb ish
+2:ldr ip,[sp,#32]
+ msr apsr_nzcvqg,ip
+ ldr r0,[sp,#12]
+ ldr r1,[sp,#16]
+ ldr r2,[sp,#20]
+ ldr r3,[sp,#24]
+ ldr ip,[sp,#28]
+ ldr lr,[sp,#36]
+ add sp,sp,#64
+ pop {r4-r10,pc}
+.size nt_late_boot,.-nt_late_boot
+
+.global nt_boot_check
+.type nt_boot_check,%function
+.thumb_set nt_boot_check,0xba4d31
+
+.global sound_preflight
+.type sound_preflight,%function
+.thumb_set sound_preflight,0xba51b5
