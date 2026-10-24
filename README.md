@@ -8,6 +8,8 @@
 
 用户手动放入安装包，点击“写入补丁”，按提示拔下 USB 后在相机更新。相机须能正常开机并匹配已核对的代码布局；完整 Windows 分发包仍待单独整理。
 
+**当前暂不提供完整固件，待全部功能更新完毕后再提供。**
+
 [English](README.en.md) · 中文
 
 针对 **Sony ILCE-7M4（A7 IV / A7M4）** 的社区研究。提供精简的 Windows fastboot 主机工具、可审查的源码、SD 更新救砖入口、普通 USB 免 Fastboot 安装方法和七份固件功能修改方法。与索尼公司无隶属关系。主要补丁源于 **A7M4 官方 6.02**；FL2/FL3 供体为 **FX2 1.01**。各方法按文件哈希严格识别支持基线。自定义功能按方法和验收阶段说明，最终发布版本由统一打包确定。
@@ -89,6 +91,7 @@ py -3 -m venv .venv
 
 | 项目 | 使用或参考内容 |
 |---|---|
+| [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) | 免 Fastboot 安装方案的研究与实现思路参考；感谢项目公开相关成果。 |
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | 串行启动、RP2040 桥、相机 fastboot payload、eMMC 访问。 |
 | [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | A7C II 的 FL2/FL3 参数与安装研究；历史0.1.0配方作为本次 A7M4 对照。未在本仓库打包其 USB payload 或源码。 |
 | [DavidBuchanan314/fwtool.py，a7iv 分支](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) 与 [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | 升级包格式、解包与研究。 |

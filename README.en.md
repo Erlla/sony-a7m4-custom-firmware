@@ -8,6 +8,8 @@ Use a normal USB data cable and **M4 Camera Tool 1.00** to prepare the updater, 
 
 Place the package on the card manually, select “写入补丁”, then unplug USB when prompted and update on the camera. Requires a bootable camera and reviewed code layouts; the complete Windows distribution still requires separate cleanup.
 
+**Complete firmware packages are not available yet. They will be provided after all feature updates are complete.**
+
 English · [中文](README.md)
 
 Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry, a normal-USB installation route without Fastboot and seven firmware modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
@@ -89,6 +91,7 @@ Projects directly used or referenced for this release are listed below. [The ful
 
 | Project | Use |
 |---|---|
+| [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) | Research and implementation reference for installation without Fastboot; thanks for making the work public. |
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | serial boot, RP2040 bridge, camera fastboot payload and eMMC access. |
 | [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | A7C II FL2/FL3 parameter and installation research; historical0.1.0 recipe used as an A7M4 comparison. No upstream USB payload/code vendored. |
 | [DavidBuchanan314/fwtool.py, a7iv branch](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) and [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | firmware container formats and extraction. |

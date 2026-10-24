@@ -27,3 +27,7 @@ Signature verification returns success status **0**, while the version predicate
 Compatibility follows actual reviewed contents and instruction layouts, without a displayed-version allowlist. This does not establish support for arbitrary firmware, cameras or packages. The tool keeps full backups, integrity checks, independent readback and unresolved-operation records. Normal operations do not run full ARM64 simulation or fault-injection regression tests.
 
 This directory contains the current method, recipe and software guide. **The complete 1.00 Windows distribution still requires separate cleanup; this candidate includes no binary download.** Cloning this repository does not install that desktop tool.
+
+## Acknowledgements
+
+The installation approach references the research and implementation shared by [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools). Thank you for making this work public.

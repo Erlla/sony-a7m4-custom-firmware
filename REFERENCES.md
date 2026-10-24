@@ -6,6 +6,7 @@
 
 | Project | Use / 用途 | Publication treatment / 分发处理 |
 |---|---|---|
+| [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) | No-Fastboot installation approach / 免 Fastboot 安装方案的研究与实现思路参考 | Acknowledged research reference; this documentation change does not vendor upstream code or payloads. / 本次文档更新不复制上游源码或 payload。 |
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | BootROM serial boot, RP2040 bridge, fastboot payload/protocol, eMMC crypto/access, wiring | Reviewed local checkout `2328d18ce640e6c8cd9341efcf0043ce9042a135`; local changes/builds are separate evidence. No explicit license found in that tree. Payload/UF2/source are linked and externally obtained, not copied into this MIT repository. |
 | [DavidBuchanan314/fwtool.py — a7iv](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) | A7 IV firmware format / container extraction reference | Fork and branch identified separately from its ancestor; external tool, not vendored. |
 | [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | Sony UFU/firmware format and extraction foundation | Upstream MIT source; attribution retained by reference, not copied here. |
