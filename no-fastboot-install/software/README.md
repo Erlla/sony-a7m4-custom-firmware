@@ -46,10 +46,13 @@ D:\M4-build\M4相机工具.exe --verify
 ```powershell
 D:\M4-build\runtime\python\python.exe -I -B tests\test_usb_recovery.py --package D:\M4-build
 D:\M4-build\runtime\python\python.exe -I -B tests\test_local_failure.py --package D:\M4-build
+D:\M4-build\runtime\python\python.exe -I -B tests\test_state_io.py --package D:\M4-build
 D:\M4-build\runtime\python\python.exe -I -B tests\test_menu_seal.py --package D:\M4-build --lineage stock
 D:\M4-build\runtime\python\python.exe -I -B tests\test_menu_seal.py --package D:\M4-build --lineage user
 ```
 
 检查覆盖初始恢复按钮、驱动状态与未决任务保护、菜单材料生成／封存／校验，以及本地失败的续接边界。菜单封存测试使用虚拟接收端证明，不能替代实机验证。构建成功或菜单出现也不等于 SD 固件安装成功。日常补丁只执行完整性校验，不运行 ARM64 仿真或故障回归。
+
+状态 JSON 在 Windows 使用可共享删除的读取句柄和 ReplaceFileW 原子替换；短暂占用只对本地发布做有时限重试。创建初始记录时失败，须先核对双份记录、事件和本轮时间，证明没有进入设备步骤后才能结案并使用独立 USB 恢复。此逻辑不会重试驱动派发、原生 START 或 COMMIT。
 
 本项目源码沿用仓库 [LICENSE](../../LICENSE)；第三方运行组件继续适用各自许可。完整固件暂不提供，待功能全部更新完毕后再提供。

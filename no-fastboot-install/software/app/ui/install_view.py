@@ -1,3 +1,4 @@
+from state_io import read_json
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 from product_integrity import pinned, state_path
@@ -19,15 +20,15 @@ def snapshot():
             if (PRIVATE / 'flows').exists() and any((PRIVATE / 'flows').iterdir()):
                 return dict(phase='REVIEW_REQUIRED', error='流程索引缺失')
             return dict(phase='NO_FLOW')
-        name = json.loads(pointer.read_text('utf-8-sig'))['flow']
+        name = read_json(pointer)['flow']
         if not re.fullmatch('[0-9a-f]{32}', name):
             raise ValueError('流程编号无效')
-        state = json.loads((PRIVATE / 'flows' / name / 'flow.json').read_text('utf-8-sig'))
+        state = read_json(PRIVATE / 'flows' / name / 'flow.json')
         if state.get('flow') != name or state.get('schema') != 'm4-user-flow/1':
             raise ValueError('流程状态无效')
         state['folder'] = str(PRIVATE / 'flows' / name)
         if state['phase'] == 'AWAITING_MENU_OBSERVATION':
-            native = json.loads((Path(state['folder']) / 'status.json').read_text('utf-8-sig'))
+            native = read_json(Path(state['folder']) / 'status.json')
             from datetime import datetime, timezone
             start = native['window_start_bound']
             wall = (datetime.now(timezone.utc) - datetime.fromisoformat(start['utc'])).total_seconds()

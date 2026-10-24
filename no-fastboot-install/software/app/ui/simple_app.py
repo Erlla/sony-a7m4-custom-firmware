@@ -247,6 +247,7 @@ class App:
                 self.progress_text.set(value[1])
             elif event == 'finished':
                 self.bar.stop()
+                self.progress_text.set('' if value['phase'] == 'SUCCESS' else '操作已停止')
                 self.bar.configure(mode='determinate', value=100 if value['phase'] == 'SUCCESS' else 0)
                 self.result.set('请按上方提示继续。' if value['phase'] == 'SUCCESS' else '操作已停止，请查看日志和上方提示。')
                 if value.get('action') == 'simple-recover-usb':
@@ -257,6 +258,7 @@ class App:
                         self.last_folder = payload['folder']
             elif event == 'error':
                 self.bar.stop()
+                self.progress_text.set('操作已停止')
                 self.result.set('操作已停止，请保留运行记录。')
                 self.log.configure(state='normal')
                 self.log.insert('end', str(value) + '\n')

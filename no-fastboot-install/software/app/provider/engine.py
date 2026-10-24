@@ -1,3 +1,4 @@
+from state_io import read_json as read, atomic_json as atomic
 from product_integrity import pinned, state_path
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -14,22 +15,11 @@ def require(value, message):
     if not value:
         raise ValueError(message)
 
-def read(path):
-    return json.loads(Path(path).read_text('utf-8-sig'))
 
 def sha(path):
     with Path(path).open('rb') as stream:
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
-def atomic(path, value):
-    path = Path(path)
-    tmp = path.with_name(path.name + '.' + uuid.uuid4().hex + '.tmp')
-    with tmp.open('x', encoding='utf-8', newline='\n') as stream:
-        json.dump(value, stream, ensure_ascii=False, indent=2)
-        stream.write('\n')
-        stream.flush()
-        os.fsync(stream.fileno())
-    os.replace(tmp, path)
 
 def local_under(root, relative):
     require(isinstance(relative, str) and relative and ('\\' not in relative) and (':' not in relative) and (not relative.startswith('/')) and all((p not in ('', '.', '..') for p in relative.split('/'))), 'Invalid local relative path')

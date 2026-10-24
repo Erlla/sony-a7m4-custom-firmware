@@ -1,3 +1,4 @@
+from state_io import read_json as read, atomic_json as atomic
 from product_integrity import pinned, state_path
 from collections import deque
 from datetime import datetime, timezone
@@ -28,19 +29,7 @@ def sha(path):
     with Path(path).open('rb') as stream:
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
-def read(path):
-    return json.loads(Path(path).read_text('utf-8-sig'))
 
-def atomic(path, value):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_name(path.name + '.' + uuid.uuid4().hex + '.tmp')
-    with temporary.open('x', encoding='utf-8', newline='\n') as stream:
-        json.dump(value, stream, ensure_ascii=False, indent=2)
-        stream.write('\n')
-        stream.flush()
-        os.fsync(stream.fileno())
-    os.replace(temporary, path)
 
 def verify_release():
     from product_integrity import verify_release as verify

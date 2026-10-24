@@ -135,6 +135,14 @@ def recover(value, confirmed=False):
             require(not (flow.folder(value) / 'status.json').exists(), '菜单任务已启动，请先确认更新结果')
         from standalone_usb_restore import recover as standalone
         return standalone()
+    if value['phase'] == 'REVIEW_REQUIRED':
+        from local_task_stop import reconcile
+        local_stop = reconcile(value)
+        if local_stop is not None:
+            from standalone_usb_restore import recover as standalone
+            result = standalone()
+            return flow.save(local_stop, 'CANCELLED_BEFORE_DEVICE', usb_recovery=result['phase'],
+                             message=result.get('message'), recovery_folder=result.get('folder'))
     if value['phase'] == 'PATCH_REJECTED_RECOVERY':
         from rejected_read import recover as rejected_recover
         result = rejected_recover(value['patch_run'])

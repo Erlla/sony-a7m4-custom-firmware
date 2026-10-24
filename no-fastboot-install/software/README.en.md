@@ -29,4 +29,6 @@ Run the scripts under `tests/` with the built package's isolated Python and `--p
 
 Tests cover recovery UI/state guards, real local job construction and menu sealing/validation, stopping before real device operations. Their receiver proof is synthetic and cannot establish physical-camera behavior. Normal patch operations use integrity checks without ARM64 simulation or fault-injection regression.
 
+`test_state_io.py` also exercises real Windows file-sharing behavior inside temporary directories. JSON readers permit delete sharing and existing documents use ReplaceFileW. Bounded retries apply only to publishing local JSON. An initial-record failure is retired only after paired records, events and flow timing prove that no device step began; driver dispatch, native START and COMMIT are never retried by this helper.
+
 Project-authored code follows the repository [LICENSE](../../LICENSE); external components keep their original licenses. Complete firmware packages are not available yet and will be provided after all feature updates are complete.

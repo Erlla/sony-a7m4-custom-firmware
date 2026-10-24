@@ -1,3 +1,4 @@
+from state_io import read_json as read, atomic_json as atomic
 from product_integrity import pinned, state_path
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -36,19 +37,7 @@ def sha(path):
     with Path(path).open('rb') as stream:
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
-def read(path):
-    return json.loads(Path(path).read_text('utf-8-sig'))
 
-def atomic(path, value):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_name(path.name + '.' + uuid.uuid4().hex + '.tmp')
-    with temporary.open('x', encoding='utf-8', newline='\n') as stream:
-        json.dump(value, stream, ensure_ascii=False, indent=2)
-        stream.write('\n')
-        stream.flush()
-        os.fsync(stream.fileno())
-    os.replace(temporary, path)
 
 def local_path(root, relative):
     root = Path(root).resolve()
@@ -165,10 +154,10 @@ class Engine:
         prior = self.journal.load()
         require(prior is None or prior['phase'] in TERMINAL, 'Previous run unresolved; use recover only for a known recovery wait, otherwise review logs')
         self.journal.create(self.backend.runner_sha())
-        self.journal.update('PREPARING', action=action, restore_bundle=str(bundle) if bundle is not None else None)
         folder = self.journal.folder
         self.emit('正在准备新的完整 p1 读取任务；本轮只读取，不写入固件。' if action == 'read' else '正在准备完整备份与独立回读；本轮会按当前 p1 状态决定是否写入，请保持供电和 USB 稳定。')
         try:
+            self.journal.update('PREPARING', action=action, restore_bundle=str(bundle) if bundle is not None else None)
             job = self.backend.prepare_reader(folder)
             after_job = self.backend.prepare_reader(folder, role='after') if action != 'read' else None
             self.journal.update('PREFLIGHT', reader=job, after_reader=after_job)
