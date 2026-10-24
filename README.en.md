@@ -6,7 +6,7 @@ Use a normal USB data cable and **M4 Camera Tool 1.00** to prepare the updater, 
 
 **[Get started](no-fastboot-install/README.en.md)** · [Principle and patch locations](no-fastboot-install/IMPLEMENTATION.md) · [1.00 software guide](no-fastboot-install/TOOL-1.00.md)
 
-Place the package on the card manually, select “写入补丁”, then unplug USB when prompted and update on the camera. Requires a bootable camera and reviewed code layouts; the complete Windows distribution still requires separate cleanup.
+Place the package on the card manually, select “写入补丁”, then unplug USB when prompted and update on the camera. Requires a bootable camera and reviewed code layouts; source and build instructions are available under [software](no-fastboot-install/software/README.en.md).
 
 **Complete firmware packages are not available yet. They will be provided after all feature updates are complete.**
 

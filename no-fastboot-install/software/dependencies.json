@@ -1,0 +1,45 @@
+{
+  "schema": "m4-source-runtime-dependencies/1",
+  "version": "1.00",
+  "groups": {
+    "runtime/python": {
+      "files": 1765,
+      "tree_sha256": "57b1eb53d5dd088aabc38d57263af2c6977533fd9d7f0a647092c66e2b9d5bcd"
+    },
+    "vendor/python": {
+      "files": 306,
+      "tree_sha256": "4444dd91bea585fe44f0c739a5474c8ee56f61abf42da2dadd01265bce75a0b8"
+    },
+    "vendor/squashfs": {
+      "files": 10,
+      "tree_sha256": "0b0bb8333277b26b6bf845dd83ee10295af194b505cce46a2524943d34f02999"
+    },
+    "vendor/usb": {
+      "files": 63,
+      "tree_sha256": "0e9f537c91f3f9cac3bee1791b714354c12142cdf81273c48f226421576a433e"
+    },
+    "vendor/sony_pmca": {
+      "files": 2,
+      "tree_sha256": "e5c7d6cdde398bab0fba54b67ddddcaf70a4167c58f6f020fed4b1873a920bf7"
+    },
+    "tools/zig": {
+      "files": 1085,
+      "tree_sha256": "4b89f9e975a95fbbf32976ad030f405f55ca9ba2bedc2034662da8ec78fcdd44"
+    },
+    "tools/squashfs": {
+      "files": 8,
+      "tree_sha256": "d6ca4a72a9536c54f960cafe22c95521e75c7951e37141837e7ac8f820221c49"
+    },
+    "tools/driver": {
+      "files": 2,
+      "tree_sha256": "ef714ff2f1d2ae0bad932c540f7470a604e70582a7c2a0e80be963f9d16ea924"
+    },
+    "licenses": {
+      "files": 12,
+      "tree_sha256": "4d0b42db2f8727cc4b97059f4e1fd8bba0b6915565a523872283457734c63ebd"
+    }
+  },
+  "python": "3.12.14",
+  "zig": "0.15.2",
+  "squashfs_tools_ng": "1.3.2"
+}

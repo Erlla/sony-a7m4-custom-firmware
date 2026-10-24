@@ -1,0 +1,13 @@
+/dist/
+/build/
+/state/
+**/__pycache__/
+*.pyc
+/app/release.json
+*.zip
+*.exe
+*.dll
+*.pyd
+*.so
+*.DAT
+*.FDAT

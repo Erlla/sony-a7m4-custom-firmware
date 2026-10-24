@@ -6,7 +6,7 @@
 
 **[开始使用](no-fastboot-install/README.md)** · [原理与修改位置](no-fastboot-install/IMPLEMENTATION.md) · [1.00 软件说明](no-fastboot-install/TOOL-1.00.md)
 
-用户手动放入安装包，点击“写入补丁”，按提示拔下 USB 后在相机更新。相机须能正常开机并匹配已核对的代码布局；完整 Windows 分发包仍待单独整理。
+用户手动放入安装包，点击“写入补丁”，按提示拔下 USB 后在相机更新。相机须能正常开机并匹配已核对的代码布局；软件源码与构建入口见 [software](no-fastboot-install/software/README.md)。
 
 **当前暂不提供完整固件，待全部功能更新完毕后再提供。**
 

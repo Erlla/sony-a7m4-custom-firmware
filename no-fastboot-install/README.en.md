@@ -26,7 +26,7 @@ Signature verification returns success status **0**, while the version predicate
 
 Compatibility follows actual reviewed contents and instruction layouts, without a displayed-version allowlist. This does not establish support for arbitrary firmware, cameras or packages. The tool keeps full backups, integrity checks, independent readback and unresolved-operation records. Normal operations do not run full ARM64 simulation or fault-injection regression tests.
 
-This directory contains the current method, recipe and software guide. **The complete 1.00 Windows distribution still requires separate cleanup; this candidate includes no binary download.** Cloning this repository does not install that desktop tool.
+This directory contains the current method, recipe, guide and [software source](software/README.en.md), including the UI, recovery flow, native workers and build entry. Third-party runtime components are supplied separately and checked against dependency locks. This synchronization does not upload EXE/runtime binaries or complete firmware, and does not create a binary Release. Build the complete portable directory before running device operations.
 
 ## Acknowledgements
 
