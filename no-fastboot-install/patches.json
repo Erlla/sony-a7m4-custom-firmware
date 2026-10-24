@@ -1,0 +1,81 @@
+{
+  "schema": "m4-no-fastboot-patch-reference/1",
+  "model": "ILCE-7M4",
+  "model_id": "01030081",
+  "executable_recipe": false,
+  "scope": "reviewed ELF contents only; not raw p1 or DAT offsets",
+  "p1_partition_bytes": 25100288,
+  "p1_fat_bytes": 19377152,
+  "chunks": 766,
+  "chunk_bytes": 32768,
+  "displayed_version_allowlist": false,
+  "card_package_read": false,
+  "changes_existing_public_key": false,
+  "patches": [
+    {
+      "path": "usr/lib/libsdfileinputupdaterapi.so",
+      "offset": 44016,
+      "original_hex": "fd7bbba9fd030091",
+      "patched_hex": "00008052c0035fd6",
+      "result_type": "status",
+      "successful_return": 0
+    },
+    {
+      "path": "usr/lib/libsdfileinputupdaterapi.so",
+      "offset": 40916,
+      "original_hex": "220440b900008052",
+      "patched_hex": "20008052c0035fd6",
+      "result_type": "boolean",
+      "successful_return": 1
+    },
+    {
+      "path": "usr/lib/libupdatercorecommon.so",
+      "offset": 53768,
+      "original_hex": "13008012",
+      "patched_hex": "13008052",
+      "result_type": "local_version_rejection",
+      "successful_return": 0
+    },
+    {
+      "path": "usr/lib/libupdatercorecommon.so",
+      "offset": 53884,
+      "original_hex": "f3c39f5a",
+      "patched_hex": "13008052",
+      "result_type": "local_version_rejection",
+      "successful_return": 0
+    }
+  ],
+  "updater_libraries": {
+    "libsdfileinputupdaterapi.so": {
+      "official_original_sha256": "257164d1cdf88757b8c0e2ba08ac47b06c46007410af308b7a8571b442b00cd2",
+      "official_patched_sha256": "f6c68faca339cadff1c1bda5aca9971fb4fcf3af5ac5150ccb6e59f489b65c75",
+      "custom_patched_sha256": "48846e295f4d46705252f9901777aac383b02c41d14c0512c45388139dea3ccb"
+    },
+    "libupdatercorecommon.so": {
+      "original_sha256": "b2b066b963a42d96556f811a773579eb16a0358de1b3a9206a1845c0df99bb74",
+      "patched_sha256": "cfe23b709f1a4feba16642729f39c9bb5f4516caa188fa67a6d31d3c1d833425"
+    }
+  },
+  "ram_window": {
+    "hold_seconds": 600,
+    "offsets_are": "ELF-relative virtual addresses",
+    "patches": [
+      {
+        "module": "libupdaterufp.so",
+        "offset": 8016,
+        "original_hex": "00c84479",
+        "patched_hex": "00c08052"
+      },
+      {
+        "module": "appFw.so",
+        "offset": 40219336,
+        "original_hex": "e3050054",
+        "patched_hex": "2f000014"
+      }
+    ],
+    "official_app_sha256": "1e1b9202eaa69198f20df03dbfdab2f103b206cc4ebcd2e7bd817e6a710018a2",
+    "custom_app_sha256": "fcb052ef4c33040036db72eba21495441ab1019b968a625b9bc69f9f0bab6a97",
+    "ufp_sha256": "f2e7d27602e3f7b236fc41dd93fccf53ba24f0793fd454e7fec171ae378beca7",
+    "reviewed_target": "tested custom target above the local 6.00 comparison baseline; lower targets not established"
+  }
+}

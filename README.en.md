@@ -1,8 +1,16 @@
 # Sony A7 IV custom firmware, Fastboot tools and research methods
 
+## Install firmware without Fastboot
+
+Use a normal USB data cable and **M4 Camera Tool 1.00** to prepare the updater, then install firmware from the camera SD card.
+
+**[Get started](no-fastboot-install/README.en.md)** · [Principle and patch locations](no-fastboot-install/IMPLEMENTATION.md) · [1.00 software guide](no-fastboot-install/TOOL-1.00.md)
+
+Place the package on the card manually, select “写入补丁”, then unplug USB when prompted and update on the camera. Requires a bootable camera and reviewed code layouts; the complete Windows distribution still requires separate cleanup.
+
 English · [中文](README.md)
 
-Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry and seven separate modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
+Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry, a normal-USB installation route without Fastboot and seven firmware modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
 
 ## Risk and mandatory backups
 
@@ -12,7 +20,7 @@ Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastb
 - **Back up your own camera before any write**: every eMMC partition, boot0/boot1, the partition layout and SHA-256 hashes. Keep an additional offline copy. For FL2/FL3, independently back up the physical CP NOR as well. Preserve the original update package, tool revisions, change manifest and rollback images.
 - The normal maintenance host requires verified complete backups of the eMMC partitions exposed by the payload from the current connection before maintenance writes, then verifies the entire written partition by readback SHA-256. This is not a raw copy of every chip address. **It excludes separate CP NOR, other MCUs and some hardware state.** It does not guarantee recovery from every failure.
 - Maintain reliable power and USB connections. Do not disconnect, power off or force-quit during writes. Never restore another camera's complete settings, calibration or eMMC dump onto your body.
-- **A custom flashing cable is required**: a camera Multi-port breakout, an RP2040-Zero boot bridge, common ground and an electrically correct interface. An ordinary USB cable alone is insufficient. Read [wiring](docs/wiring.en.md) first. The camera's Multi-port serial signal level is approximately **3.15 V**; RP2040 is a 3.3 V device. Follow the wiring guide's open-drain configuration and verify signal pull-ups and RESET wiring.
+- **The Fastboot route requires a custom flashing cable**: a camera Multi-port breakout, an RP2040-Zero boot bridge, common ground and an electrically correct interface. An ordinary USB cable alone is insufficient for that route. [The no-Fastboot installer](no-fastboot-install/README.en.md) uses a normal USB cable. Read [wiring](docs/wiring.en.md) first. The camera's Multi-port serial signal level is approximately **3.15 V**; RP2040 is a 3.3 V device. Follow the wiring guide's open-drain configuration and verify signal pull-ups and RESET wiring.
 - Fixed binary offsets are specific to the documented model and source hashes. Similar version numbers do not imply compatibility.
 
 ## Independent methods (recovery first)
@@ -28,7 +36,7 @@ Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastb
 | 6. Custom electronic shutter and focus sounds | [English](methods/06-custom-sounds/README.en.md) / [中文](methods/06-custom-sounds/README.md) | Native source, menu/WAV import and persistence, independent slots, volume, restart recovery; exact-layout offline recipe, [test audio](examples/custom-sounds/README.en.md) and [camera demo photos](methods/06-custom-sounds/README.en.md#camera-demo-photos) | File-SHA compatibility, **no firmware version edits**. Reference AP requires the shared menu framework. Reconstructs components, not an installable DAT; single-camera feedback and public rebuild limits are documented. |
 | 7. Custom aspect ratios and preview masks | [English](methods/07-custom-aspect-ratios/README.en.md) / [中文](methods/07-custom-aspect-ratios/README.md) / [Implementation (中文)](methods/07-custom-aspect-ratios/IMPLEMENTATION.md) | Adds 17:6, 65:24, 5:4 and 7:6; JPEG/HEIF cropping, original RAW area, labels and Fn icons; exact modification points and camera photos | Landscape/portrait preview accepted on one camera; some settings pages temporarily show 3:2, with masks restored in the shooting view. |
 
-Recovery is separate from the seven firmware modification methods. Normal maintenance retains its full-eMMC-backup and plan-confirmation requirements. Recovery automatically backs up six relevant partitions and permits only its prepared settings candidate; **this is not a complete eMMC/NOR backup**. This publication was checked offline without operating a camera.
+Fastboot recovery, installation without Fastboot and the seven feature modifications are separate routes. Normal maintenance retains its full-eMMC-backup and plan-confirmation requirements. Recovery automatically backs up six relevant partitions and permits only its prepared settings candidate; **this is not a complete eMMC/NOR backup**. The no-Fastboot tool backs up and independently reads p1; this is also not a complete eMMC/NOR backup. Its installation and functionality checks are described in its separate guide.
 
 ## Fixed-condition colour comparison
 
