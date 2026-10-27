@@ -10,7 +10,7 @@
     {
       "component": "AP",
       "bytes": 99221508,
-      "sha256": "6b32c13e1b51b426ba4a29bd0f5073b242abaceaacf82a5aeab3fe9719486293"
+      "sha256": "cda216ccbbf3ad628a4a3b1c4d282d82ce36de9dd37e644f5f29336087e12aed"
     },
     {
       "component": "CP",
@@ -1111,6 +1111,20 @@
     "strength_basis": "fixed factory ST defaults",
     "resident_banks": 63,
     "cumulative_content_limit": null,
-    "parameter_combination_limit": null
-  }
+    "parameter_combination_limit": null,
+    "off_page_right_key": "No detail page or RAM diagnostics; normal slot navigation remains available"
+  },
+  "AP_component_patches": [
+    {
+      "purpose": "Disable Off-page RAM diagnostic activation; preserve normal key dispatch",
+      "source_sha256": "6b32c13e1b51b426ba4a29bd0f5073b242abaceaacf82a5aeab3fe9719486293",
+      "output_sha256": "cda216ccbbf3ad628a4a3b1c4d282d82ce36de9dd37e644f5f29336087e12aed",
+      "VA": "0x903EC48",
+      "offset": "0x5E8EC48",
+      "original_hex": "01eeff54",
+      "patched_hex": "70ffff17",
+      "target_VA": "0x903EA08",
+      "tool": "tools/disable_lut_ram_diagnostics.py"
+    }
+  ]
 }

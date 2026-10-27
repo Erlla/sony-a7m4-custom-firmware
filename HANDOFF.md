@@ -35,3 +35,5 @@
 - Keep the opening flashing warning, then no-Fastboot installation, then a concise Fastboot method table and navigation, followed by declarations and acknowledgements. Keep detailed reports linked rather than reproducing test conclusions on the homepage.
 - Credit Hearts-Ace/sony-a7r5-custom-firmware for native colour parameters, grid lifecycle research and R5ColorLab LUT fitting. The user explicitly excluded menu attribution; retain the custom LUT method entry.
 - State the supported camera and official firmware prominently near the top: Sony ILCE-7M4 (A7 IV / A7M4), official V6.02. This is the supported stock baseline, not an internal development version.
+
+- The custom LUT Off page has no Right-key RAM diagnostics entry. Keep the AP component identity in methods/08-custom-lut/reference-layout.json aligned with tools/disable_lut_ram_diagnostics.py; do not reintroduce the perf_active activation branch when rebuilding the GUI.

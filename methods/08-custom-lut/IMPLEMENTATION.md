@@ -38,6 +38,16 @@ LUT 控制 RX 位于 `0x09000000`，本布局长 `0xEFF0`；控制 RW 位于 `0x
 
 GUI 只提交请求/显示状态，导入和颜色传输由相应工作线程执行。初次载入的短等待/刷新必须放在已确认的原生线程与 GUI 循环边界，不能在任意事件回调里重入存储或颜色处理。
 
+## “关”页面的按键行为
+
+“关”页面按右键不进入诊断或调节页，正常上下切换、确认关闭与返回保持。GUI 源码不注册 `perf_active = 1` 的右键入口；供精确旧 AP 组件使用的[离线修补工具](../../tools/disable_lut_ram_diagnostics.py)将 `p4_gui_dispatch` 的 `VA 0x903EC48` 从条件分支改为直接跳到正常按键处理 `0x903EA08`。文件偏移为 `0x5E8EC48`，字节 `01eeff54 → 70ffff17`；工具核对完整输入 SHA-256、ELF 映射与输出 SHA-256，拒绝未知组件。
+
+```powershell
+python tools/disable_lut_ram_diagnostics.py --input appFw.so --output appFw.no-diagnostics.so
+```
+
+这一步只输出 AP 组件。组装固件时还须写回文件系统、更新分区 CRC 并重新封装签名；更新器与 CP 无需改动。组件身份见 [reference-layout.json](reference-layout.json)。
+
 ## 八项预览、九项编辑
 
 预览复用原生八项参数显示。详细页保留原生 type `0x5E` 的八个子项，强度单独占第九项；不把原厂固定为八的内部循环改成九。标尺按当前项目切换有符号、无符号或锐度范围模式。
