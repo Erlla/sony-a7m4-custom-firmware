@@ -6,7 +6,7 @@ Adds Custom LUTS under Exposure/Color → Color/Tone on the Sony A7 IV (ILCE-7M4
 
 - Import individually converted **JSON LUT files from an SD card**, one file per look.
 - Each look has **eight native adjustments plus one strength control**. The preview shows eight values; the detailed editor shows all nine.
-- The **first use after powering on takes approximately one second to load** on the observed camera. Timing varies with the file, card and camera state; ordinary adjustments do not repeatedly import the SD file.
+- The **first use after powering on takes approximately one second to load** with timing varying by file, card and camera state.
 - **16 custom slots**, replaceable whenever needed. Imported looks and per-slot settings persist internally, so later use does not require the original SD file.
 
 ## Operation
@@ -15,7 +15,7 @@ Put converted `.json` files in `PRIVATE/M4ROOT/GENERAL/LUT/`. Open Custom LUTS, 
 
 Contrast, highlights, shadows and saturation range from −9 to +9; fade, sharpness and clarity from 0 to 9; sharpness range from 1 to 5. Strength runs from 10% to 100% in 10% steps. Lower strength approaches **fixed factory ST defaults**, independently of the user's current ST adjustments.
 
-Each slot retains its own settings. Automatic reclamation waits for native consumers to release old LUT content; there is no cumulative 31/63-edit quota. Ordinary `.cube` or DCP files must first be converted to the native JSON contract; renaming a file is not conversion. Format validity does not establish color-match quality.
+Each slot independently retains its eight adjustments and strength. Ordinary `.cube` or DCP files must first be converted to the native JSON contract; renaming a file is not conversion. Format validity does not establish color-match quality.
 
 ## Camera photographs
 
@@ -29,8 +29,8 @@ Supplied and authorized by the maintainer. Displayed look names are examples, no
 | Card selection | JSON selection |
 | ![Card](images/card-selection.png) | ![File](images/file-selection.png) |
 
-## Publication and validation
+## Implementation resources
 
 Includes implementation and modification locations, component identities, a [standalone atomic cache core](../../native/custom-lut/README.md), and camera UI photographs. It does not distribute complete manufacturer programs, color tables or firmware packages, and does not add a complete one-command firmware builder.
 
-Single-camera feedback covers menu/editing behavior and the selected-frame appearance correction. Offline checks cover native lifetime handoffs, repeated cross-slot editing, retained old-frame data, save/cancel, and component structure. UI acceptance does not validate arbitrary color conversions, sustained physical stress, every mode or other camera models. Follow the [integration notes](INTEGRATION.md) when combining methods.
+Follow the [integration notes](INTEGRATION.md) when combining methods.

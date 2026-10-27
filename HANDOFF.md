@@ -27,3 +27,5 @@
 - Preserve the AF helper relocation to 0xBA5718; old 0xBA4E00 belongs to LUT resident code in this integrated layout. Old standalone patch tools must keep their exact-input rejection.
 - Retain the frozen basic feature-integration recipe, but do not describe its reference-slot limit as the current LUT feature. Preserve sound resources, aspect capture-copy chaining, MPR EXIF and AVCAM identities.
 - Format/ABI versions, official input versions, software releases and BCD numeric examples are not internal firmware announcements. Do not alter measured numeric data when cleaning prose labels.
+
+- User-facing feature introductions must describe current functions and operation only. Omit retired cache quotas, per-key cache explanations, iterative fixes, acceptance summaries and test-process conclusions in both languages and the root feature index. Keep implementation mechanics in technical references.
