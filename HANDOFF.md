@@ -29,3 +29,9 @@
 - Format/ABI versions, official input versions, software releases and BCD numeric examples are not internal firmware announcements. Do not alter measured numeric data when cleaning prose labels.
 
 - User-facing feature introductions must describe current functions and operation only. Omit retired cache quotas, per-key cache explanations, iterative fixes, acceptance summaries and test-process conclusions in both languages and the root feature index. Keep implementation mechanics in technical references.
+
+## README layout
+
+- Keep the opening flashing warning, then no-Fastboot installation, then a concise Fastboot method table and navigation, followed by declarations and acknowledgements. Keep detailed reports linked rather than reproducing test conclusions on the homepage.
+- Credit Hearts-Ace/sony-a7r5-custom-firmware for native colour parameters, grid lifecycle research and R5ColorLab LUT fitting. The user explicitly excluded menu attribution; retain the custom LUT method entry.
+- State the supported camera and official firmware prominently near the top: Sony ILCE-7M4 (A7 IV / A7M4), official V6.02. This is the supported stock baseline, not an internal development version.

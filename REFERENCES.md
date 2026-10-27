@@ -15,6 +15,7 @@
 | [ExifTool](https://exiftool.org/) / [Sony LensType2](https://exiftool.org/TagNames/Sony.html) | Lens ID category cross-checks for the third-party lens research | Reference table, not a runtime dependency or physical lens-test evidence. No source/data table is copied here. |
 | [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker) | Public firmware decryption/key derivation research; credits fwtool | Public reference, not a claim of MIT permission for all attached artifacts. No archive copied. |
 | [DavidBuchanan314/Sony-ILCE-7M4-Linux](https://github.com/DavidBuchanan314/Sony-ILCE-7M4-Linux) | Linux/platform source, hardware context | Kernel/reference source under its own per-file terms. Not decompiled firmware or an included payload. |
+| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | Native colour parameters, grid lifecycle research and R5ColorLab LUT fitting / 原生色彩参数、网格生命周期研究与 R5ColorLab 的 LUT 拟合思路 | Research reference; camera-specific layouts and colour models require A7M4 adaptation. This documentation update imports no upstream code or data. / 作为研究参考，机型布局与色彩模型须针对 A7M4 适配；本次文档更新不引入上游源码或数据。 |
 
 ## 主机与桥接构建 / Host and bridge dependencies
 

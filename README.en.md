@@ -1,121 +1,116 @@
-# Sony A7 IV custom firmware, Fastboot tools and research methods
+# Sony A7 IV custom firmware and tools
 
-## Install firmware without Fastboot
-
-Use a normal USB data cable and **M4 Camera Tool 1.00** to prepare the updater, then install firmware from the camera SD card.
-
-**[Get started](no-fastboot-install/README.en.md)** · [Principle and patch locations](no-fastboot-install/IMPLEMENTATION.md) · [1.00 software guide](no-fastboot-install/TOOL-1.00.md)
-
-Place the package on the card manually, select “写入补丁”, then unplug USB when prompted and update on the camera. Requires a bootable camera and reviewed code layouts; source and build instructions are available under [software](no-fastboot-install/software/README.en.md).
-
-**Complete firmware packages are not available yet. They will be provided after all feature updates are complete.**
+> **Flashing risk**
+>
+> Writing or modifying firmware can permanently brick the camera, prevent booting or destroy calibration and settings. Incorrect wiring can damage the camera and computer. You assume the risks of these operations.
+>
+> **Back up your own camera before any write. Use an original Sony battery for firmware updates.** Maintain stable power and connections throughout writes. Never restore another camera's backup onto your body.
 
 English · [中文](README.md)
 
-Community research for **Sony ILCE-7M4 (A7 IV / A7M4)**: a compact Windows fastboot host, reviewable source, an SD recovery entry, a normal-USB installation route without Fastboot and eight firmware modification methods. This project is not affiliated with Sony. Recipes primarily derive from **official A7M4 6.02**, using **FX2 1.01** as the FL2/FL3 donor. Exact supported file hashes are documented per method. Custom features are described by method and validation stage; the final release version is assigned during unified packaging.
+**Supported firmware: official V6.02 for Sony ILCE-7M4 (A7 IV / A7M4).**
 
-## Risk and mandatory backups
+Provides installation without Fastboot, Fastboot maintenance tools and source for firmware modifications. Supported input hashes are documented in each method guide.
 
-**Flashing can permanently brick your camera, destroy calibration or settings, or prevent booting. Incorrect wiring can damage the camera and computer. You assume these risks. Use equipment you can afford to lose.** A valid signature, successful script or visible menu is not proof of safety or complete functionality.
+## 1. Install firmware without Fastboot
 
-- **Use an original Sony battery for firmware updates, including SD updates and recovery updates. Do not use a third-party battery.** The battery display/caution patch does not waive this requirement. Meet the updater's charge requirement and maintain stable power.
-- **Back up your own camera before any write**: every eMMC partition, boot0/boot1, the partition layout and SHA-256 hashes. Keep an additional offline copy. For FL2/FL3, independently back up the physical CP NOR as well. Preserve the original update package, tool revisions, change manifest and rollback images.
-- The normal maintenance host requires verified complete backups of the eMMC partitions exposed by the payload from the current connection before maintenance writes, then verifies the entire written partition by readback SHA-256. This is not a raw copy of every chip address. **It excludes separate CP NOR, other MCUs and some hardware state.** It does not guarantee recovery from every failure.
-- Maintain reliable power and USB connections. Do not disconnect, power off or force-quit during writes. Never restore another camera's complete settings, calibration or eMMC dump onto your body.
-- **The Fastboot route requires a custom flashing cable**: a camera Multi-port breakout, an RP2040-Zero boot bridge, common ground and an electrically correct interface. An ordinary USB cable alone is insufficient for that route. [The no-Fastboot installer](no-fastboot-install/README.en.md) uses a normal USB cable. Read [wiring](docs/wiring.en.md) first. The camera's Multi-port serial signal level is approximately **3.15 V**; RP2040 is a 3.3 V device. Follow the wiring guide's open-drain configuration and verify signal pull-ups and RESET wiring.
-- Fixed binary offsets are specific to the documented model and source hashes. Similar version numbers do not imply compatibility.
+Use a normal USB data cable and **M4 Camera Tool** to prepare the updater, then install firmware from the camera SD card. The camera must boot normally and enter USB mass-storage mode.
 
-## Independent methods (recovery first)
+1. Place a compatible `BODYDATA.DAT` in the **root of the card in slot 1**.
+2. Connect the camera to the computer with a normal USB cable and select **写入补丁** in M4 Camera Tool.
+3. Wait for the tool to explicitly allow updating, disconnect USB, then install through the camera's version / software-update menu.
 
-| Method | Separate guide | Included material | Notes and validation limits |
-|---|---|---|---|
-| 0. One-click recovery through the SD updater | [English](methods/00-sd-recovery/README.en.md) / [中文](methods/00-sd-recovery/README.md) | Six-partition backup, same-body settings preservation, MODE5 trigger, full readback then reboot; camera installs slot1 `BODYDATA.DAT`; read-only connection check and USB failure classification | **Already-fastboot and exact updater allowlist required**. Host cannot read card DAT or confirm installation. [Mechanism and use](methods/00-sd-recovery/README.en.md). |
-| 1. Replace the official update key and modify public-key authenticity verification | [English](methods/01-custom-signing/README.en.md) / [中文](methods/01-custom-signing/README.md) | Per-camera PEM replacement, verified four-library `verifyKey` patch, SquashFS/checksum rebuild, maintainer's existing key pair, DAT re-signing utility | Does not install FL2/FL3 automatically. |
-| 2. Set the reported firmware version | [English](methods/02-firmware-version/README.en.md) / [中文](methods/02-firmware-version/README.md) | Bounded FAT editing of the two BCD bytes in `updater/dat4`, accepting `0.00`–`9.99` while preserving other contents | Changes the reported version only; does not add newer firmware features. |
-| 3. Port and install FL2 / FL3 | [English](methods/03-fl2-fl3/README.en.md) / [中文](methods/03-fl2-fl3/README.md) | AP/CP, donor conversion, configuration and NOR synchronization; **fixed A1 is supported by sample comparisons to Imaging Edge re-selection** | **Default fixed A1**; donor look data comes from FX2. Sample colours approach Edit re-selection, without pixel identity or all-scene FX2 equivalence. [Installation and SD migration repair](methods/03-fl2-fl3/sd-colour-preservation.md). Fresh lossless-RAW samples match all105 main-matrix entries per look; the exact-source RAW recipe is separate from the official6.02 baseline build. |
-| 4. Third-party battery percentage/caution restrictions | [English](methods/04-third-party-battery/README.en.md) / [中文](methods/04-third-party-battery/README.md) | 16 AP instructions restoring reported percentage/suppressing caution, preserving authentication state and charging/temperature protection; exact recipes, offline patching and reversal | Independent mechanism, baseline, recipe and validation. Included in SD builds only with `--battery`. **Updates still require an original Sony battery.** |
-| 5. Lens AF mechanisms and compatibility capability filtering | [English](methods/05-third-party-lens-af/README.en.md) / [中文](methods/05-third-party-lens-af/README.md) | Separate ID filtering and category/capability/profile range-gate analysis; six CP regions retain reported capabilities/speed profiles, leaving the range gate unchanged; **speed improvements remain untested on hardware** | **No physical focus-speed testing; performance effect unknown.** Independent baseline and validation; SD inclusion requires `--lens-af`. |
-| 6. Custom electronic shutter and focus sounds | [English](methods/06-custom-sounds/README.en.md) / [中文](methods/06-custom-sounds/README.md) | Native source, menu/WAV import and persistence, independent slots, volume, restart recovery; exact-layout offline recipe, [test audio](examples/custom-sounds/README.en.md) and [camera demo photos](methods/06-custom-sounds/README.en.md#camera-demo-photos) | File-SHA compatibility, **no firmware version edits**. Reference AP requires the shared menu framework. Reconstructs components, not an installable DAT; single-camera feedback and public rebuild limits are documented. |
-| 7. Custom aspect ratios and preview masks | [English](methods/07-custom-aspect-ratios/README.en.md) / [中文](methods/07-custom-aspect-ratios/README.md) / [Implementation (中文)](methods/07-custom-aspect-ratios/IMPLEMENTATION.md) | Adds 17:6, 65:24, 5:4 and 7:6; JPEG/HEIF cropping, original RAW area, labels and Fn icons; exact modification points and camera photos | Landscape/portrait preview accepted on one camera; some settings pages temporarily show 3:2, with masks restored in the shooting view. |
-| 8. Custom LUTs and independent adjustments | [English](methods/08-custom-lut/README.en.md) / [中文](methods/08-custom-lut/README.md) | Import converted JSON LUTs individually from SD; 16 replaceable slots; eight adjustments plus strength; approximately one-second first use after power-on | Six camera-screen photos. See [integration](methods/08-custom-lut/INTEGRATION.md). |
+**[Installation guide](no-fastboot-install/README.en.md)** · [Software guide](no-fastboot-install/TOOL-1.00.md) · [Source and build](no-fastboot-install/software/README.en.md) · [Principle and patch locations](no-fastboot-install/IMPLEMENTATION.md)
 
-Fastboot recovery, installation without Fastboot and the eight feature modifications are separate routes. Normal maintenance retains its full-eMMC-backup and plan-confirmation requirements. Recovery automatically backs up six relevant partitions and permits only its prepared settings candidate; **this is not a complete eMMC/NOR backup**. The no-Fastboot tool backs up and independently reads p1; this is also not a complete eMMC/NOR backup. Its installation and functionality checks are described in its separate guide.
+**Complete firmware packages are not available yet. They will be provided after all feature updates are complete.** The tool neither supplies nor validates the package; follow the installation guide to check files and prerequisites.
 
-## Fixed-condition colour comparison
+## 2. Fastboot modification methods
 
-[Full report: FX2 原厂 / 当前配方](docs/fl23-colour-comparison-20261018/README.md) · [CSV metrics](docs/fl23-colour-comparison-20261018/指标汇总.csv) · [Methods and offline HTML](docs/fl23-colour-comparison-20261018/METHODS.md)
+The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boot bridge**; a normal USB cable is insufficient. Complete [wiring](docs/wiring.en.md), [setup](docs/setup.en.md) and your camera's backup before using a method below. Feature source and installation routes are documented separately; consult each method's integration notes when combining features.
 
-Fixed aperture, shutter, ISO, white balance and lens;8 camera/Edit pairs. Lower native24-patch mean ΔE00 indicates closer agreement with the supplied Edit rendering.
+| Method | Function | Guide |
+|---|---|---|
+| SD update recovery | Trigger the camera's SD recovery updater from Fastboot while preserving same-body settings. | [Instructions](methods/00-sd-recovery/README.en.md) |
+| Custom update signing | Replace the update key and modify key verification to support self-signed packages. | [Instructions](methods/01-custom-signing/README.en.md) |
+| Firmware version display | Set the firmware version reported by the camera. | [Instructions](methods/02-firmware-version/README.en.md) |
+| FL2 / FL3 port | Port the FX2 FL2 and FL3 Creative Looks and associated colour configuration. | [Instructions](methods/03-fl2-fl3/README.en.md) |
+| Third-party batteries | Show battery percentage and suppress the caution while retaining charging and temperature protection. Updates still require a Sony battery. | [Instructions](methods/04-third-party-battery/README.en.md) |
+| Lens AF capability filtering | Retain lens-reported capabilities and speed profiles; no focus-speed improvement is promised. | [Instructions](methods/05-third-party-lens-af/README.en.md) |
+| Custom sounds | Import WAV files from SD and set electronic shutter and focus sounds and volume independently. | [Instructions](methods/06-custom-sounds/README.en.md) |
+| Custom aspect ratios | Add 17:6, 65:24, 5:4 and 7:6, with JPEG / HEIF cropping and the original RAW area retained. | [Instructions](methods/07-custom-aspect-ratios/README.en.md) |
+| Custom LUTs | Import converted JSON LUTs individually from SD; 16 replaceable slots, eight adjustments plus strength per filter, and approximately one-second loading on first use after power-on. | [Instructions](methods/08-custom-lut/README.en.md) |
 
-| Recipe | FL mean ΔE00 ↓ | FL2 mean ΔE00 ↓ | FL3 mean ΔE00 ↓ |
-| --- | --- | --- | --- |
-| FX2 原厂 | 1.444 | 1.565 | 0.951 |
-| 当前配方 | 1.444 | 1.233 | 0.678 |
+### Documentation navigation
 
-![Two-recipe comparison](docs/fl23-colour-comparison-20261018/assets/summary.png)
+| Task | Links |
+|---|---|
+| Prepare hardware and the host | [Wiring](docs/wiring.en.md) · [Setup and external resources](docs/setup.en.md) |
+| Back up, restore and maintain | [Advanced maintenance](advanced/) · [SD update recovery](methods/00-sd-recovery/README.en.md) |
+| Combine features and migrate installs | [Custom LUT integration](methods/08-custom-lut/INTEGRATION.md) · [FL2 / FL3 SD migration](methods/03-fl2-fl3/sd-colour-preservation.md) |
+| View interfaces and sample files | [LUT interface](methods/08-custom-lut/README.en.md) · [Sound samples](examples/custom-sounds/README.en.md) · [Aspect ratios](methods/07-custom-aspect-ratios/README.en.md) |
+| Read technical references | [Colour comparison](docs/fl23-colour-comparison-20261018/README.md) · [Validation notes](docs/validation.md) · [Reference register](REFERENCES.md) |
+| Contribute | [Contribution guide](CONTRIBUTING.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) |
 
-FL, FL2 and FL3 are compared together. Both FL means are about1.444; the current recipe is closest for FL2/FL3 in this scene/light, with FL2 yellow/orange residuals. All captures are from A7M4; these are not physical FX2-camera comparisons or general colour-accuracy rankings.
+### Fastboot tools
 
-## Fastboot host
+Includes complete backups, version inspection and editing, custom updater preparation, same-camera restoration and restoration of official verification. Requires **Windows 10 / 11 and Python 3.11+**.
 
-Includes full backup, version inspection/editing, custom updater preparation, same-camera backup restoration and restoration of official verification. Chinese BAT entry points are in `advanced/`. **There is no interactive UART console, serial shell, arbitrary UART command interface or serial update-mode switch.** RP2040 serial boot transport remains necessary to enter fastboot; it is not an interactive camera console.
+After cloning, run `setup.bat` to install dependencies, then `advanced/进阶维护菜单.bat`. Prepare external tools and drivers using the [setup guide](docs/setup.en.md).
 
-Requirements: Windows 10/11 and Python 3.11+. After cloning:
+<details>
+<summary>Command-line installation and launch</summary>
 
 ```powershell
 py -3 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e .
-```
-
-Follow [setup and external resources](docs/setup.en.md) for fastboot, RP2040 UF2, camera boot payload, driver and SquashFS utilities. External binaries, complete Sony firmware and camera dumps are not bundled.
-
-```powershell
-# Synthetic camera only: no hardware, driver or serial operations
+# Simulation only: no camera operations
 .\.venv\Scripts\python.exe -m a7m4 --demo maintain
-# Check local resources without operating devices
+# Check local resources
 .\.venv\Scripts\python.exe -m a7m4 doctor
-# Real hardware: enter fastboot, complete a full backup, then show maintenance
+# Hardware maintenance: enter Fastboot and complete a full backup first
 .\.venv\Scripts\python.exe -m a7m4 maintain
 ```
 
-Alternatively, run `setup.bat`, then `advanced/进阶维护菜单.bat`. A write plan shows its partition, source/output hashes and an exact plan-bound confirmation string. `maintain --already-fastboot` skips boot preparation while retaining the complete backup requirement.
+Use `maintain --already-fastboot` if already connected in Fastboot. Backup and write-plan confirmation remain required.
 
-## Public keys and distribution scope
+</details>
+
+<details>
+<summary>Backup scope and recovery requirements</summary>
+
+- Preserve all eMMC partitions, boot0 / boot1, the partition table and SHA-256 hashes, with an offline copy. Back up physical CP NOR separately for FL2 / FL3 work.
+- Normal maintenance requires a complete backup of the eMMC partitions exposed by the payload from the current connection and full readback verification after writing. Separate CP NOR, other MCUs and some hardware state are excluded.
+- Recovery's six-partition backup and the no-Fastboot tool's p1 backup are not complete eMMC / NOR backups. SD recovery requires an existing Fastboot connection and a supported updater layout.
+- Backups cannot guarantee recovery from every failure. Fixed-offset patches apply only to their documented inputs, regardless of similar displayed version numbers.
+
+</details>
+
+## Disclaimer and licensing
+
+This community project is not affiliated with Sony. Most recipes derive from **official A7M4 6.02**, with **FX2 1.01** as the FL2 / FL3 colour-data donor. See each method for its supported inputs.
 
 The maintainer explicitly authorized publication of their previously used [RSA key pair](keys/published/README.md). **The private key is public. Anyone can sign with it, so signatures accepted by this key cannot authenticate the publisher.** Inspect and build packages yourself. Generate a new private identity if you need independent signing authority.
 
-This repository publishes original host code, patch recipes, documentation, the specified research keys and [three user-authorized WAV samples](examples/custom-sounds/README.en.md). Obtain Sony firmware, donor curves/matrices, camera calibration, backups and external drivers separately. Original source uses [MIT](LICENSE); third-party material retains its own terms, described in [third-party notices](THIRD_PARTY_NOTICES.md). Some public research upstreams have no explicit redistribution license; they are linked instead of rebundled as MIT payloads.
+This repository publishes original host code, patch recipes, documentation, the specified public keys and [three user-authorized WAV samples](examples/custom-sounds/README.en.md). Obtain Sony firmware, donor curves/matrices, camera calibration, backups and external drivers separately. Original source uses [MIT](LICENSE); third-party material retains its own terms, described in [third-party notices](THIRD_PARTY_NOTICES.md). Some public research upstreams have no explicit redistribution license; they are linked instead of rebundled as MIT payloads.
 
-## References and acknowledgements
 
-Projects directly used or referenced for this release are listed below. [The full reference register](REFERENCES.md) explains their roles, recorded revisions, runtime dependencies and research-only tools.
+## Acknowledgements
 
-| Project | Use |
+Thanks to the following projects for sharing the research referenced here:
+
+| Project | Reference |
 |---|---|
-| [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) | Research and implementation reference for installation without Fastboot; thanks for making the work public. |
-| [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | serial boot, RP2040 bridge, camera fastboot payload and eMMC access. |
-| [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | A7C II FL2/FL3 parameter and installation research; historical0.1.0 recipe used as an A7M4 comparison. No upstream USB payload/code vendored. |
-| [DavidBuchanan314/fwtool.py, a7iv branch](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) and [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | firmware container formats and extraction. |
+| [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) | Research and implementation approach for installation without Fastboot. |
+| [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | Serial boot, RP2040 bridge, Fastboot payload and eMMC access. |
+| [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | FL2 / FL3 parameters and installation research. |
+| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | Native colour parameters, grid lifecycle research and R5ColorLab's LUT-fitting approach. |
+| [DavidBuchanan314/fwtool.py](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) and [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | Firmware container formats and extraction. |
 | [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | Sony camera protocols and firmware research. |
-| [ExifTool](https://exiftool.org/) and its [Sony LensType2 table](https://exiftool.org/TagNames/Sony.html) | lens ID category research, not a substitute for actual lens telemetry. |
-| [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker) | firmware decryption and key derivation research. |
-| [DavidBuchanan314/Sony-ILCE-7M4-Linux](https://github.com/DavidBuchanan314/Sony-ILCE-7M4-Linux) | platform Linux reference source. |
-| [AOSP fastboot](https://android.googlesource.com/platform/system/core/+/refs/heads/main/fastboot/) and [squashfs-tools-ng](https://github.com/AgentD/squashfs-tools-ng) | USB host tooling and updater filesystem rebuilding. |
-| [arduino-pico](https://github.com/earlephilhower/arduino-pico), [Pico SDK](https://github.com/raspberrypi/pico-sdk) | RP2040 build dependencies. |
-| [pySerial](https://github.com/pyserial/pyserial), [pyelftools](https://github.com/eliben/pyelftools), [cryptography](https://github.com/pyca/cryptography) | host runtime dependencies. |
-| [Dissect](https://github.com/fox-it/dissect), [PyCryptodome](https://github.com/Legrandin/pycryptodome), [Capstone](https://github.com/capstone-engine/capstone), [Unicorn](https://github.com/unicorn-engine/unicorn), [Keystone](https://github.com/keystone-engine/keystone) | offline filesystem/container work, disassembly, instruction replay and patch research. |
-| [Python](https://github.com/python/cpython), [pytest](https://github.com/pytest-dev/pytest), [setuptools](https://github.com/pypa/setuptools) | language, tests and packaging. |
-| [NumPy](https://github.com/numpy/numpy), [Dissect extfs](https://github.com/fox-it/dissect.extfs), [util](https://github.com/fox-it/dissect.util), [cstruct](https://github.com/fox-it/dissect.cstruct) | optional complete firmware build dependencies. |
-| [Arduino CLI](https://github.com/arduino/arduino-cli), [GCC](https://gcc.gnu.org/), [GNU Binutils](https://www.gnu.org/software/binutils/) | external bridge/payload build tools; [OpenSSL](https://github.com/openssl/openssl), [cffi](https://github.com/python-cffi/cffi), [pycparser](https://github.com/eliben/pycparser), [pip](https://github.com/pypa/pip): cryptography and installation dependencies. |
-| [Pillow](https://github.com/python-pillow/Pillow), [Matplotlib](https://github.com/matplotlib/matplotlib) | Offline photo decoding, independent histogram checks and report figures; not host runtime dependencies. |
-| [Sharma / Wu / Dalal CIEDE2000](https://hajim.rochester.edu/ece/sites/gsharma/ciede2000/) | 34 reference pairs for colour-difference formula validation; research reference, not code redistribution. |
+| [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker) | Firmware decryption and key derivation research. |
+| [DavidBuchanan314/Sony-ILCE-7M4-Linux](https://github.com/DavidBuchanan314/Sony-ILCE-7M4-Linux) | Platform Linux reference source. |
 
-## Validation and contributions
+Thanks also to the open-source tools and dependencies used by this project. Full attribution, roles and licensing are listed in the [reference register](REFERENCES.md) and [third-party notices](THIRD_PARTY_NOTICES.md).
 
-```powershell
-python -m pip install -e ".[test]"
-python -m pytest -q
-python tools/check_public_tree.py
-```
+## Contributing
 
-Automated tests use synthetic data and never connect to a camera. Method guides and [validation notes](docs/validation.md) distinguish historical user feedback, current offline reproduction and unresolved checks. The extracted host has not completed a new physical flashing acceptance test. Contributions for new baselines should include input hashes, address mapping, differences and verification evidence. Do not submit other people's keys, camera personalization or complete firmware.
+Issues and pull requests are welcome. For new baselines, include input hashes, address maps and the basis for changes. Do not submit personal private keys, camera calibration, backups or complete firmware. See the [contribution guide](CONTRIBUTING.md).
