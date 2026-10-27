@@ -224,7 +224,7 @@ def build(args):
     index = tar_index(plain)
     products = args.components
     ar = json.loads((RECIPES / "ap-recipe.json").read_text("utf-8"))
-    cr = json.loads((RECIPES / "cp-v7-recipe.json").read_text("utf-8"))
+    cr = json.loads((RECIPES / "cp-recipe.json").read_text("utf-8"))
     ap, cp = (products / "appFw.so").read_bytes(), (products / "CPAPP-B.BIN").read_bytes()
     require(digest(ap) == ar["target_sha256"] and digest(cp) == cr["target_sha256"], "COMPONENT", "Components differ from the reviewed FL2/FL3 recipe")
     ap, cp, feature_evidence = optional_features(ap, cp, battery=args.battery, lens_af=args.lens_af)
@@ -359,7 +359,7 @@ def main():
             stream.seek(off)
             cp = Fat(exact(stream, size)).read("CPAPP-B.BIN")
         require(digest(ap) == json.loads((RECIPES / "ap-recipe.json").read_text("utf-8"))["source_sha256"]
-                and digest(cp) == json.loads((RECIPES / "cp-v7-recipe.json").read_text("utf-8"))["source_sha256"], "BASELINE", "Extracted AP/CP mismatch")
+                and digest(cp) == json.loads((RECIPES / "cp-recipe.json").read_text("utf-8"))["source_sha256"], "BASELINE", "Extracted AP/CP mismatch")
         args.output.mkdir(parents=True)
         (args.output / "appFw.so").write_bytes(ap)
         (args.output / "CPAPP-B.BIN").write_bytes(cp)

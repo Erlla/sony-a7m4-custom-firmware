@@ -39,12 +39,12 @@ with Path("output/CPAPP-B.raw-lossless.BIN").open("xb") as output:
 | 原厂 `appFw.so` | `1e1b9202eaa69198f20df03dbfdab2f103b206cc4ebcd2e7bd817e6a710018a2` |
 | 目标 `appFw.so` | `d17e61fb4ba193d8e7d802196edff5f578d5691b3fcc4abcd1cbbb6e58bdd8ff` |
 | 原厂 `CPAPP-B.BIN` | `7b9b137d696e5972d20db7f9119076172ed8e0730805d7f0b4c31b87689e2c2b` |
-| 目标 CP（v7，16,236,816 字节） | `4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479` |
+| 目标 CP（16,236,816 字节） | `4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479` |
 | FX2 1.01 CP | `eba723db657117a36d9593dacf640840aca893c0d6ee5d728de9d1996b8c5e29` |
 | FX2 CC1 | `c87f4dad18225b0b6a5a273bd27211fd93ad0ca0ab8ac2f1b65f680daec4d996` |
 | FX2 block13 | `d783cf223304e67d6d671642c8b1102a0c663bc114a64c7f76a1d160d8a3feee` |
 
-源码：[fl23.py](../../a7m4/fl23.py)、[firmware.py](../../a7m4/firmware.py)。精确配方：[AP](../../a7m4/profiles/fl23/ap-recipe.json)、[CP v7](../../a7m4/profiles/fl23/cp-v7-recipe.json)。配方包含原始字节哈希、位置及补丁，不包含完整索尼程序、供体曲线或系数。CP 的 20 项供体操作在用户本地读取并转换数据，416 段其余差分合计 1,595 字节；重建后核对完整目标哈希。
+源码：[fl23.py](../../a7m4/fl23.py)、[firmware.py](../../a7m4/firmware.py)。精确配方：[AP](../../a7m4/profiles/fl23/ap-recipe.json)、[CP](../../a7m4/profiles/fl23/cp-recipe.json)。配方包含原始字节哈希、位置及补丁，不包含完整索尼程序、供体曲线或系数。CP 的 20 项供体操作在用户本地读取并转换数据，416 段其余差分合计 1,595 字节；重建后核对完整目标哈希。
 
 ## 功能链与存储范围
 
@@ -69,9 +69,9 @@ AP 与 CP 的编号空间不同，不能互换这些数字。
 
 以下在本基线中 ELF VA 与文件偏移相同：`0x35E6258` 写 40 字节，把 look 10/11 发成 color 19/20；`0x3FDE5B4`、`0x3FDE634` 各 40 字节，把两行的 20 个 uint16 flags 设为 1；`0x4AB894A`、`0x4AB9B21` 各 2 字节，开放 look 10/11 与主枚举 17/18。实际变化 66 字节。旧 look 0–9 的转换保持，非法 look 12 仍拒绝。使用固件已有 FL2/FL3 资源，无需复制 FX2 整套 UI。
 
-### CP 的完整 v7 修改
+### CP 的完整修改
 
-常规 CP 地址 = 文件偏移 + `0x108000`，不适用于把启动段表当执行地址。CP 实际变化 5,845 字节。公开配方覆盖 v7 第二名称补丁，也保留历史构建中留下的数据副本，不能只按旧 v5 清单重建。
+常规 CP 地址 = 文件偏移 + `0x108000`，不适用于把启动段表当执行地址。CP 实际变化 5,845 字节。公开配方覆盖 第二名称补丁，也保留历史构建中留下的数据副本，不能只按旧局部清单重建。
 
 | 数据块 | CP 文件偏移 | 内容 |
 |---|---:|---|
@@ -164,3 +164,7 @@ python -m a7m4.fl23 verify-nor --nor local/post-update-nor.bin --cp output/fl23-
 **当前结论：FL2/FL3 供体外观数据一致；固定 A1 样片与 Imaging Edge 重选颜色接近，已无此前主要矩阵选择造成的偏色。** 这不等同于 JPEG 零差异，也不等同于复刻 FX2 全部动态插值。若要额外合并电池或镜头方法，分别阅读[方法4](../04-third-party-battery/README.md)、[方法5（未经实机测试）](../05-third-party-lens-af/README.md)；它们不是默认 FL2/FL3 构建的一部分。
 
 [2026-10-18 固定条件三配方实拍报告](../../docs/fl23-colour-comparison-20261018/README.md)：当前配方、FX2 原厂、原 A7C II 项目 0.1.0；保留全部12对直方图、原尺寸色块指标与残差。
+
+## 与自定义 LUT 组合
+
+自定义 LUT 共用 CP 颜色/Gamma/网格消费者。私有代际与原 FL2/FL3 回退路径必须同时保留，不能整份覆盖 CP。参见[当前组合规则](../08-custom-lut/INTEGRATION.md)。原独立配方仍只接受其列明的源哈希。

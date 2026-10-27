@@ -66,3 +66,7 @@ The full reference profile now enforces AP, CP, MPR and every required horizonta
 The maintainer's existing single-camera implementation received successful custom-sound, matching-level and repeated-restart feedback, followed by user acceptance of the requested functionality. The published reference files were checked offline; they have no separate new hardware acceptance claim.
 
 This publication rechecks 71 complete reconstructed file hashes, six source-built modules and their installed sections, 32 C core checks, and Python input/output guard tests. See [validation evidence](../../docs/custom-sounds-validation.json). No camera operation or new installable package was performed. Other baselines and combinations still require native replay, full-package audit and hardware testing, including immediate startup, repeated OFF/ON, silent/mechanical policies, real bursts, photo writes and clean shutdown.
+
+## Shared resources with custom LUTs
+
+SD JSON/multi-slot LUTs share AP registration, GUI lifecycle, language banks and CP boot/dispatch paths with sound. Follow the [integration rules](../08-custom-lut/INTEGRATION.md). Existing sound tools retain their exact hashes; a different integrated resource set requires separate validation, not replacement with older AP/resources.

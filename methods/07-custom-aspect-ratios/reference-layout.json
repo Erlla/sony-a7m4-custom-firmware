@@ -2,7 +2,6 @@
   "schema": "a7m4.aspect-ratio.documentation-reference.v1",
   "purpose": "Final-file identities and verified AP preview hooks; not a patch recipe or an input compatibility whitelist.",
   "model": "ILCE-7M4",
-  "build": "6.63 T22",
   "address_convention": {
     "AP": "ELF virtual address; map through matching PT_LOAD",
     "CP": "file offset = VA - 0x108000",
@@ -750,5 +749,6 @@
       "target_va": "0x9017000",
       "target_label": "aspect_fn38_ui_geometry"
     }
-  ]
+  ],
+  "reference": "accepted integrated aspect-ratio layout"
 }

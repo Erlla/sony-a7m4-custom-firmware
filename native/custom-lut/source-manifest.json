@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "native/custom-lut/cache_core.c",
+      "sha256": "2e5241cc0f09aca0e8f8767535ec62f6d3c092bda1a6be18adab3a09432da5dc"
+    },
+    {
+      "path": "native/custom-lut/cache_core.h",
+      "sha256": "e2f252129f7c58c3b8f0478fd989330ad89c010242e6311dcb5337a8f547d538"
+    },
+    {
+      "path": "native/custom-lut/cache_thread_fixture.c",
+      "sha256": "4194f7cc5d672913a85c6798ff759e9772d8a86dc2b3c39f9a3be306b6b5a87b"
+    }
+  ],
+  "scope": "Atomic cache core and Windows-only thread fixture; not the complete AP/CP integration build."
+}

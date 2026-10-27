@@ -1,0 +1,35 @@
+{
+  "source": "Maintainer-supplied camera-screen photographs; explicitly authorized for this publication.",
+  "files": [
+    {
+      "path": "images/preview.png",
+      "sha256": "b59662922dbd63d592ed61bf9955c60a32975d55903051f7ec38223de8554f87",
+      "bytes": 834905
+    },
+    {
+      "path": "images/adjustments.png",
+      "sha256": "4ce41f9bac9bf3c7461dacaf871ba3e7be1c2ccaee2cef7fda19fa0ba5672aeb",
+      "bytes": 715960
+    },
+    {
+      "path": "images/strength.png",
+      "sha256": "830e3e1782202176a249a0dbfa528fd81b45e0f039f1671b4b22b62637e38e90",
+      "bytes": 761622
+    },
+    {
+      "path": "images/card-selection.png",
+      "sha256": "9755381b289a643d886583691bc722d83e9356a98b458146cdc2518d97f75e1f",
+      "bytes": 647590
+    },
+    {
+      "path": "images/file-selection.png",
+      "sha256": "9949a6c22e4c41bda44c7ffedfd86f131891c7aa641548741ff3fd374154bbf9",
+      "bytes": 620354
+    },
+    {
+      "path": "images/menu-location.png",
+      "sha256": "913d68820d8e5ca8fb553b881baa22a95e7339682f1cd2555e3bd1c145e63347",
+      "bytes": 678358
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "model": "ILCE-7M4",
-  "baseline": "Official 6.02, FX2 donor 1.01; CP final v7",
+  "baseline": "Official 6.02, FX2 donor 1.01; CP with secondary-name handling",
   "size": 16236816,
   "source_sha256": "7b9b137d696e5972d20db7f9119076172ed8e0730805d7f0b4c31b87689e2c2b",
   "target_sha256": "4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479",
@@ -2257,7 +2257,7 @@
   "changed_bytes": 5845,
   "notes": [
     "Donor gamma curves and color coefficients are read from user-supplied FX2 artifacts, never embedded in this recipe.",
-    "Includes retained early data copies and v7 secondary-name patch, not only v5 inventory.",
+    "Includes retained early data copies and secondary-name patch, not only older partial inventory.",
     "Output is CPAPP-B.BIN content, not a complete partition or an installable DAT."
   ]
 }

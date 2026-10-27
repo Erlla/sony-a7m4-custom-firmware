@@ -34,6 +34,6 @@ python -m pytest -q tests/test_feature_integration.py
 
 [组件检查摘要](validation.json)、[布局与并发审查方法](REVIEW.md)。CP、AP 和 68 个银行已用所列输入重建比对，源码及输出身份保持固定。原生回放的 OS 服务采用模型，不能用离线检查替代机内像素、实际调度或性能测试。
 
-当前 LUT 接口仅提供独立参考槽、固定 100%；JSON 机内导入和多槽拟合尚未实现。JPEG 裁切还需要独立同步元数据，见 [JPEG EXIF 尺寸修正](../jpeg-exif-dimensions/README.md)。
+本目录冻结的基础合并配方保留早期独立参考槽接口。当前完整 LUT 方法已支持 SD JSON 导入、16 槽、八项微调、强度和缓存复用，见[自定义 LUT](../../methods/08-custom-lut/README.md)。不要把本目录旧配方输出当成当前完整 LUT 实现，也不要对新组合文件重放旧地址。JPEG 裁切还需要独立同步元数据，见 [JPEG EXIF 尺寸修正](../jpeg-exif-dimensions/README.md)。
 
 输出组件不足以单独刷入，完整集成还需声音库、AVCAM、图标、语言资源、文件系统和分区校验。厂商程序、颜色模板、DAT、构建副产物与具体测试版本记录不在本目录分发。

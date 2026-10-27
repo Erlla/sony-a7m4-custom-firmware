@@ -28,7 +28,7 @@ def colours(tmp_path, monkeypatch):
         for endpoint in range(4):
             matrix[base + endpoint * 192:base + (endpoint + 1) * 192] = bytes([bank + endpoint]) * 192
     # Only synthetic identities are substituted; production has pinned FX2 hashes.
-    (tmp_path / "cp-v7-recipe.json").write_text(json.dumps({"donors": {
+    (tmp_path / "cp-recipe.json").write_text(json.dumps({"donors": {
         "fx2_cc1": digest(cc), "fx2_block13": digest(matrix)}}))
     monkeypatch.setattr(sd, "RECIPES", tmp_path)
     return bytes(cc), bytes(matrix)

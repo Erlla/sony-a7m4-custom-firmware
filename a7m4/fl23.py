@@ -189,7 +189,7 @@ def main():
         require(not args.output.exists(), "EXISTS", "Choose a new donor directory")
         data = args.backup.read_bytes()
         rows = bk4_rows(data)
-        cr = read_json(RECIPES / "cp-v7-recipe.json")
+        cr = read_json(RECIPES / "cp-recipe.json")
         products = {}
         for key, name, identity in ((0x02a40001, "cc1.bin", "fx2_cc1"), (0x02a4000d, "block13.bin", "fx2_block13")):
             records = [row["records"][key] for row in rows if key in row["records"]]
@@ -214,7 +214,7 @@ def main():
         print(json.dumps({"nor_cp_matches": True, "cp_sha256": digest(cp), "camera_io": False}))
         return
     require(not args.output.exists(), "EXISTS", "Choose a new output directory")
-    ar, cr = read_json(RECIPES / "ap-recipe.json"), read_json(RECIPES / "cp-v7-recipe.json")
+    ar, cr = read_json(RECIPES / "ap-recipe.json"), read_json(RECIPES / "cp-recipe.json")
     donors = {"fx2_cp": args.fx2_cp.read_bytes(), "fx2_cc1": args.fx2_cc1.read_bytes(), "fx2_block13": args.fx2_block13.read_bytes()}
     for key, value in donors.items():
         require(digest(value) == cr["donors"][key], "DONOR", "Wrong donor: " + key)
@@ -237,7 +237,7 @@ def main():
               "color_validation": "Fixed A1 samples are close to Imaging Edge re-selection; not pixel-identical or an all-scene FX2 equivalence claim",
               "installable_dat": False, "nor_updated": False, "outputs": {}}
     for name, (data, source_hash) in products.items():
-        evidence = {"source_sha256": source_hash, "method": "FL2/FL3 v7"}
+        evidence = {"source_sha256": source_hash, "method": "FL2/FL3"}
         save_new(args.output / name, data, evidence)
         report["outputs"][name] = evidence | {"output_sha256": digest(data), "size": len(data)}
     (args.output / "manifest.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

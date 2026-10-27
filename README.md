@@ -12,7 +12,7 @@
 
 [English](README.en.md) · 中文
 
-针对 **Sony ILCE-7M4（A7 IV / A7M4）** 的社区研究。提供精简的 Windows fastboot 主机工具、可审查的源码、SD 更新救砖入口、普通 USB 免 Fastboot 安装方法和七份固件功能修改方法。与索尼公司无隶属关系。主要补丁源于 **A7M4 官方 6.02**；FL2/FL3 供体为 **FX2 1.01**。各方法按文件哈希严格识别支持基线。自定义功能按方法和验收阶段说明，最终发布版本由统一打包确定。
+针对 **Sony ILCE-7M4（A7 IV / A7M4）** 的社区研究。提供精简的 Windows fastboot 主机工具、可审查的源码、SD 更新救砖入口、普通 USB 免 Fastboot 安装方法和八份固件功能修改方法。与索尼公司无隶属关系。主要补丁源于 **A7M4 官方 6.02**；FL2/FL3 供体为 **FX2 1.01**。各方法按文件哈希严格识别支持基线。自定义功能按方法和验收阶段说明，最终发布版本由统一打包确定。
 
 ## 先读风险与备份要求
 
@@ -37,8 +37,9 @@
 | 5. 镜头 AF 机制与兼容能力过滤 | [中文](methods/05-third-party-lens-af/README.md) / [English](methods/05-third-party-lens-af/README.en.md) | 分别分析 ID 能力过滤与类别/能力/档案范围门控；六处 CP 补丁仅保留上报能力和速度 profile，范围门控未修改；**速度改善未经实机测试** | **对焦速度改善未经实机测试，效果未知。** 独立基线与验证边界；SD 构建显式传入 `--lens-af` 才合并。 |
 | 6. 自定义电子快门声与对焦声 | [中文](methods/06-custom-sounds/README.md) / [English](methods/06-custom-sounds/README.en.md) | 完整原生源码、菜单/WAV 导入与持久化、双槽播放、音量、重启恢复；附精确布局的离线配方、[测试音频](examples/custom-sounds/README.md)与[实机演示照片](methods/06-custom-sounds/README.md#实机演示照片) | 以文件 SHA-256 识别兼容性，**不改固件版本号**；参考 AP 须有共享菜单框架，输出组件文件，不直接生成 DAT。已有单机功能反馈，公开源码/文件重建验证见方法说明。 |
 | 7. 自定义纵横比与预览遮罩 | [中文](methods/07-custom-aspect-ratios/README.md) / [English](methods/07-custom-aspect-ratios/README.en.md) / [修改位置与实现](methods/07-custom-aspect-ratios/IMPLEMENTATION.md) | 新增17:6、65:24、5:4、7:6；JPEG/HEIF裁切、RAW原始幅面、比例文字与Fn图标；具体地址、实现方法及实机照片 | 横竖屏预览已获单机实测确认；部分参数设置页暂用3:2预览，返回拍摄页恢复遮罩。 |
+| 8. 自定义 LUT 与独立微调 | [中文](methods/08-custom-lut/README.md) / [English](methods/08-custom-lut/README.en.md) / [实现](methods/08-custom-lut/IMPLEMENTATION.md) | SD 卡单独导入转换后的 JSON LUT；16 槽可替换；每滤镜八项参数与一项强度；开机初次使用约 1 秒载入 | 已有实机界面与调节反馈，附六张照片；自动回收旧缓存。[与其他方法组合](methods/08-custom-lut/INTEGRATION.md)。 |
 
-Fastboot 救砖、普通 USB 免 Fastboot 安装与七项功能修改分别提供。常规维护仍要求完整 eMMC 备份与计划确认；救砖入口每次自动备份六个相关分区，只允许本次设置候选写入，**不等于完整 eMMC 或 NOR 备份**。免 Fastboot 工具自动备份和独立回读 p1，仍不等于完整 eMMC/NOR 备份；其安装及功能验收范围见独立方法。
+Fastboot 救砖、普通 USB 免 Fastboot 安装与八项功能修改分别提供。常规维护仍要求完整 eMMC 备份与计划确认；救砖入口每次自动备份六个相关分区，只允许本次设置候选写入，**不等于完整 eMMC 或 NOR 备份**。免 Fastboot 工具自动备份和独立回读 p1，仍不等于完整 eMMC/NOR 备份；其安装及功能验收范围见独立方法。
 
 ## 固定条件实拍色彩对比
 

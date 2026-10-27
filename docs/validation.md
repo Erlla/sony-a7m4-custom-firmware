@@ -54,8 +54,12 @@ The resource-only repair has user acceptance on the maintainer's merged camera b
 
 ## 自定义纵横比 / Custom aspect ratios
 
-2026-10-22：[方法7](../methods/07-custom-aspect-ratios/README.md)记录17:6、65:24、5:4、7:6的最终功能、JPEG/HEIF裁切与RAW原始幅面、比例文字/Fn图标及预览遮罩。维护者确认6.63 T22横竖屏预览正常，附两张65:24实机照片。部分参数设置页暂时显示3:2，返回拍摄页恢复所选比例遮罩；此项只涉及预览。
+2026-10-22：[方法7](../methods/07-custom-aspect-ratios/README.md)记录17:6、65:24、5:4、7:6的最终功能、JPEG/HEIF裁切与RAW原始幅面、比例文字/Fn图标及预览遮罩。维护者确认组合实现的横竖屏预览正常，附两张65:24实机照片。部分参数设置页暂时显示3:2，返回拍摄页恢复所选比例遮罩；此项只涉及预览。
 
-The maintainer accepted landscape and portrait previews on the 6.63 T22 camera build. [Method7](../methods/07-custom-aspect-ratios/README.en.md) documents the final behavior and two 65:24 camera examples. 336 native lifecycle cases, 3,475 drawing checks, 3,968 ABI checks and final package verification passed. JPEG/RAW geometry has sample checks; a separate measured HEIF sample is not included. This publication adds documentation and photographs without changing firmware or host programs.
+The maintainer accepted landscape and portrait previews on the accepted integrated camera build. [Method7](../methods/07-custom-aspect-ratios/README.en.md) documents the final behavior and two 65:24 camera examples. 336 native lifecycle cases, 3,475 drawing checks, 3,968 ABI checks and final package verification passed. JPEG/RAW geometry has sample checks; a separate measured HEIF sample is not included. This publication adds documentation and photographs without changing firmware or host programs.
 
 2026-10-23：新增[方法7的具体修改位置与实现说明](../methods/07-custom-aspect-ratios/IMPLEMENTATION.md)及[参考身份清单](../methods/07-custom-aspect-ratios/reference-layout.json)。清单包含最终76个成员的身份；其中23处AP预览B/BL已重新从最终文件核对指令、目标与文件偏移。菜单的16处跳转、8行option、4个相对重定位addend，以及CP/AVCAM最终成员身份另行按冻结实现核对。此次是文档审阅与静态身份检查，没有新增固件构建或机身测试，也没有发布本功能的完整自动补丁配方。
+
+## 自定义 LUT / Custom LUTs
+
+[方法 8](../methods/08-custom-lut/README.md)记录 SD JSON 导入、16 槽、八项微调、强度与自动缓存回收。附维护者授权的六张实机界面照片、修改位置及组件身份，并记录与声音、纵横比和 AF 的共享调用/资源要求。缓存核心的主机线程检查不能替代真实相机调度与长期压力；界面验收不能代替色彩拟合测量。

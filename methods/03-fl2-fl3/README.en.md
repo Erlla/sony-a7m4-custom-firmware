@@ -24,12 +24,12 @@ Target: **official A7M4 6.02**. Color donor: **FX2 1.01**. Identify actual progr
 | Stock `appFw.so` | `1e1b9202eaa69198f20df03dbfdab2f103b206cc4ebcd2e7bd817e6a710018a2` |
 | Target `appFw.so` | `d17e61fb4ba193d8e7d802196edff5f578d5691b3fcc4abcd1cbbb6e58bdd8ff` |
 | Stock `CPAPP-B.BIN` | `7b9b137d696e5972d20db7f9119076172ed8e0730805d7f0b4c31b87689e2c2b` |
-| Target CP v7, 16,236,816 bytes | `4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479` |
+| Target CP, 16,236,816 bytes | `4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479` |
 | FX2 1.01 CP | `eba723db657117a36d9593dacf640840aca893c0d6ee5d728de9d1996b8c5e29` |
 | FX2 CC1 | `c87f4dad18225b0b6a5a273bd27211fd93ad0ca0ab8ac2f1b65f680daec4d996` |
 | FX2 block13 | `d783cf223304e67d6d671642c8b1102a0c663bc114a64c7f76a1d160d8a3feee` |
 
-Source: [fl23.py](../../a7m4/fl23.py), [firmware.py](../../a7m4/firmware.py). Exact recipes: [AP](../../a7m4/profiles/fl23/ap-recipe.json), [CP v7](../../a7m4/profiles/fl23/cp-v7-recipe.json). Recipes contain offsets, preimage hashes and patch bytes, not complete Sony programs or donor curves/coefficients. Twenty donor operations read/convert user-supplied data; 416 remaining difference runs contain 1,595 patch bytes. Entire target hashes are checked after reconstruction.
+Source: [fl23.py](../../a7m4/fl23.py), [firmware.py](../../a7m4/firmware.py). Exact recipes: [AP](../../a7m4/profiles/fl23/ap-recipe.json), [CP](../../a7m4/profiles/fl23/cp-recipe.json). Recipes contain offsets, preimage hashes and patch bytes, not complete Sony programs or donor curves/coefficients. Twenty donor operations read/convert user-supplied data; 416 remaining difference runs contain 1,595 patch bytes. Entire target hashes are checked after reconstruction.
 
 ## Functional mapping and storage
 
@@ -54,9 +54,9 @@ These are distinct numbering spaces, not interchangeable values.
 
 On this exact baseline ELF VA equals file offset at the patched sites. `0x35E6258` changes 40 bytes to route look10/11 to color19/20; `0x3FDE5B4` and `0x3FDE634` each replace 40 bytes with twenty enabled uint16 profile flags; `0x4AB894A` and `0x4AB9B21` each enable two support entries. Actual differences total 66 bytes. Old look0–9 mappings remain; invalid look12 still fails. Existing packaged FL2/FL3 text/icons are reused.
 
-### Complete CP v7
+### Complete CP
 
-The normal CP mapping is `address = file offset + 0x108000`; bootstrap segment metadata must not be confused with executable addresses. Actual differences total 5,845 bytes. The recipe includes the v7 secondary-name patch and retained early data copies; the old v5 inventory alone is insufficient.
+The normal CP mapping is `address = file offset + 0x108000`; bootstrap segment metadata must not be confused with executable addresses. Actual differences total 5,845 bytes. The recipe includes the secondary-name patch and retained early data copies; the old older partial inventory alone is insufficient.
 
 | Block | CP file offset | Contents |
 |---|---:|---|
@@ -153,3 +153,7 @@ Fixed-A1 configuration passed full write readback and post-boot persistence chec
 Correct menu/playback names and matching donor records do not establish official color equivalence: **the current fixed-A1 samples closely match Imaging Edge re-selection, with measured residuals**. Optional battery and lens changes are documented separately in [Method 4](../04-third-party-battery/README.en.md) and [Method 5 (untested on hardware)](../05-third-party-lens-af/README.en.md); neither is included in default FL2/FL3 builds.
 
 **Use an original Sony battery for every SD update or recovery update, even when the third-party battery patch is installed.** [Fixed-condition three-recipe photo report](../../docs/fl23-colour-comparison-20261018/README.md).
+
+## Combining with custom LUTs
+
+The [custom LUT method](../08-custom-lut/INTEGRATION.md) shares CP color/Gamma/grid consumers. Preserve private-generation handling and existing FL2/FL3 fallback; do not overwrite the complete CP with an older output. Original standalone recipes retain their exact input hashes.

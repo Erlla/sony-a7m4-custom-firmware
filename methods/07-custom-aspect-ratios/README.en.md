@@ -2,7 +2,7 @@
 
 [中文](README.md) · [Implementation details (中文)](IMPLEMENTATION.md) · [Method index](../../README.en.md)
 
-Adds **17:6, 65:24, 5:4 and 7:6** to the existing Aspect Ratio setting on the Sony A7 IV (ILCE-7M4), alongside the stock 3:2, 4:3, 16:9 and 1:1 options. Selection uses the existing menu or Fn menu, with matching labels, Fn icons and live-view masks. The maintainer confirmed landscape and portrait previews on the **6.63 T22** feature build.
+Adds **17:6, 65:24, 5:4 and 7:6** to the existing Aspect Ratio setting on the Sony A7 IV (ILCE-7M4), alongside the stock 3:2, 4:3, 16:9 and 1:1 options. Selection uses the existing menu or Fn menu, with matching labels, Fn icons and live-view masks. The maintainer confirmed landscape and portrait previews on the accepted integrated feature build.
 
 This page documents the final functionality, implementation and camera examples. A complete firmware requires integration against compatible programs and resources; this page provides neither a standalone installer nor a complete firmware download. See the [main project requirements](../../README.en.md).
 
@@ -61,7 +61,7 @@ The maintainer supplied and authorized publication of these two **65:24** exampl
 
 ## Validation results
 
-The maintainer confirmed correct labels, Fn icons and captured image dimensions, then confirmed that landscape and portrait previews both work in the 6.63 T22 test. JPEG crop dimensions and original RAW geometry have sample-based checks. The photos above show the 65:24 interface. HEIF is included in the crop implementation; this page does not supply a separate measured HEIF camera sample.
+The maintainer confirmed correct labels, Fn icons and captured image dimensions, then confirmed that landscape and portrait previews both work in the integrated camera test. JPEG crop dimensions and original RAW geometry have sample-based checks. The photos above show the 65:24 interface. HEIF is included in the crop implementation; this page does not supply a separate measured HEIF camera sample.
 
 The selection-page implementation passed 336 native creation/rotation/mask-clearing cases, 3,475 drawing checks and 3,968 calling-convention checks. The final installation package passed signature, 739,727-block, partition-CRC and target-file verification. Hardware acceptance refers to the maintainer's single A7M4 and does not certify arbitrary models, firmware combinations or every output device.
 

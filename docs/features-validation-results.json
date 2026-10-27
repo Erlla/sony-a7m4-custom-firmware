@@ -40,7 +40,7 @@
     {
       "profile": "lens-fl23",
       "feature": "lens-af",
-      "baseline": "Published FL2/FL3 v7 CP on 6.02; newly bound experimental profile",
+      "baseline": "Published FL2/FL3 CP on 6.02; newly bound experimental profile",
       "undo": false,
       "source_sha256": "4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479",
       "output_sha256": "fdf131baa7c951ecf07e14ab47137fd00bbff71301995faf55f2e136b2e0a160",
@@ -55,7 +55,7 @@
     {
       "profile": "lens-historical",
       "feature": "lens-af",
-      "baseline": "Historical experimental 6.13 CP; original 6.14/6.15 delta",
+      "baseline": "Historical integrated CP; original AF capability delta",
       "undo": false,
       "source_sha256": "290e1ccec739ddf9604dc928663c934cb2e04c5976fef32ca35ebe582042380d",
       "output_sha256": "1c34764fe413d4c0d720d629e323996498305fc29e5c53d2c52d0cca0c0d1504",

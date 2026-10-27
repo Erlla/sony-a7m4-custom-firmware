@@ -23,7 +23,7 @@ class ColourField:
 
 
 def colour_fields(donor_cc1, donor_matrix, matrix_mode="fixed-a1"):
-    identities = json.loads((RECIPES / "cp-v7-recipe.json").read_text("utf-8"))["donors"]
+    identities = json.loads((RECIPES / "cp-recipe.json").read_text("utf-8"))["donors"]
     require(len(donor_cc1) == 8192 and len(donor_matrix) == 28672
             and digest(donor_cc1) == identities["fx2_cc1"]
             and digest(donor_matrix) == identities["fx2_block13"],

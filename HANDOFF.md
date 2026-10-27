@@ -20,3 +20,10 @@
 - Component tools require the source checkout and adjacent `native/`, pinned inputs and compiler, and LF source bytes. They do not produce a flashable package by themselves.
 - Sound libmpr uses the active program-header table at 0x370000. Preserve sound extensions when adding the JPEG-specific EXIF source copy; do not use an old stock-library patch blindly.
 - Offline native replay, encoded image structure and physical camera behavior are distinct evidence. Keep precise limits and avoid claims of complete color equivalence or performance from metadata alone.
+
+## Custom LUT publication
+
+- The SD JSON / 16-slot LUT method lives in methods/08-custom-lut. Publish functional descriptions and component identities, never internal firmware labels or per-round package manifests. Six screen photographs are maintainer-authorized.
+- Preserve the AF helper relocation to 0xBA5718; old 0xBA4E00 belongs to LUT resident code in this integrated layout. Old standalone patch tools must keep their exact-input rejection.
+- Retain the frozen basic feature-integration recipe, but do not describe its reference-slot limit as the current LUT feature. Preserve sound resources, aspect capture-copy chaining, MPR EXIF and AVCAM identities.
+- Format/ABI versions, official input versions, software releases and BCD numeric examples are not internal firmware announcements. Do not alter measured numeric data when cleaning prose labels.

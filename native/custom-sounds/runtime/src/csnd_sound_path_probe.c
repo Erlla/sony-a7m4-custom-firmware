@@ -1,5 +1,5 @@
 /* Optional read-only mount-namespace diagnostic for an independently reviewed
- * future exporter. This file does not alter the frozen6.18/internal candidates. */
+ * future exporter. This file does not alter the frozen internal candidates. */
 #include "csnd_sound_path_probe.h"
 #include <stddef.h>
 extern int csnd_find_first(const char *,void *);

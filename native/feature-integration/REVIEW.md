@@ -10,7 +10,7 @@
 
 New checks executed against the saved combined components:
 
-- Nine AP layout/linkage groups: eight LOADs, thirteen PHDRs, 4/64 KiB page separation, offset congruence, 1,004,897 dynamic relocation targets and symbol indices, RELACOUNT, four unique appended relocations, shared constructor chains, retained main payloads and active T22 selection entries. Four existing aspect descriptor redirects are intentional; the rest of the relocation prefix and live PLT remain intact.
+- Nine AP layout/linkage groups: eight LOADs, thirteen PHDRs, 4/64 KiB page separation, offset congruence, 1,004,897 dynamic relocation targets and symbol indices, RELACOUNT, four unique appended relocations, shared constructor chains, retained main payloads and active atomic selection entries. Four existing aspect descriptor redirects are intentional; the rest of the relocation prefix and live PLT remain intact.
 - Twenty shared CP state cases: LUT Off/slot 1, native 3:2/four custom ratios, both selection orders. Native color messages, capture snapshots, per-task ratios and JPEG request geometry preserve each other's state. These checks do not render ISP pixels or encode JPEGs.
 - Two OS-context models of the outer pool locking sequence, described below.
 

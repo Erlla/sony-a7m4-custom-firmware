@@ -103,10 +103,10 @@ CP size must be 16,236,816 bytes, with the existing executable rodata mapping in
 
 | Input | Source SHA-256 | Patched SHA-256 |
 |---|---|---|
-| Published FL2/FL3 v7 CP derived from 6.02 | `4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479` | `fdf131baa7c951ecf07e14ab47137fd00bbff71301995faf55f2e136b2e0a160` |
-| Historical experimental 6.13 CP | `290e1ccec739ddf9604dc928663c934cb2e04c5976fef32ca35ebe582042380d` | `1c34764fe413d4c0d720d629e323996498305fc29e5c53d2c52d0cca0c0d1504` |
+| Published FL2/FL3 CP derived from 6.02 | `4551c73386c27a0a9b247fd3e05c3bd5e3425bdb9fe9f8374c201c96533b3479` | `fdf131baa7c951ecf07e14ab47137fd00bbff71301995faf55f2e136b2e0a160` |
+| Historical integrated CP | `290e1ccec739ddf9604dc928663c934cb2e04c5976fef32ca35ebe582042380d` | `1c34764fe413d4c0d720d629e323996498305fc29e5c53d2c52d0cca0c0d1504` |
 
-The first is a **newly bound experimental profile** for the public baseline: six preimages, existing execute mapping and four related code ranges were compared with 6.13. Historical full 6.13 review does not automatically validate the complete new baseline. The second reproduces the original 6.14/6.15 feature delta. Neither has completed physical focus-speed acceptance.
+The first is a **newly bound experimental profile** for the public baseline: six preimages, existing execute mapping and four related code ranges were compared with the historical integrated CP. Historical full integrated-CP review does not automatically validate the complete new baseline. The second reproduces the original AF capability delta. Neither has completed physical focus-speed acceptance.
 
 Stock 6.02 CP is refused because its executable layout differs. There is no skip-hash, arbitrary-address or disable-mapping-check option. The existing FL2/FL3 input is a supported file layout; lens filtering does not conceptually depend on filter colors.
 
@@ -131,6 +131,10 @@ Installation requires eMMC **and separate CP NOR** backups and matching installe
 
 ## Evidence and mandatory status
 
-Historical 6.13 evidence includes 1,216 source/candidate cases, 52 request-to-speed-consumer cases, 16 unknown-flag cases and 98 independent cases / 13 checks. Inputs are synthetic and documented SDK/hardware boundaries use stubs. Profile values 7000/9000 demonstrate parameter preservation, not measured lens speed.
+Historical integrated-CP evidence includes 1,216 source/candidate cases, 52 request-to-speed-consumer cases, 16 unknown-flag cases and 98 independent cases / 13 checks. Inputs are synthetic and documented SDK/hardware boundaries use stubs. Profile values 7000/9000 demonstrate parameter preservation, not measured lens speed.
 
-Historical 6.15 general-use feedback reporting no problems does not validate AF acceleration. This release does not sample actual lens IDs, capability snapshots, calibration or tracking performance, and does not access/flash a camera. **Publication status remains UNTESTED ON HARDWARE; performance effects are unknown.**
+Historical general-use feedback reporting no problems does not validate AF acceleration. This release does not sample actual lens IDs, capability snapshots, calibration or tracking performance, and does not access/flash a camera. **Publication status remains UNTESTED ON HARDWARE; performance effects are unknown.**
+
+## Address coordination with custom LUTs
+
+The integrated layout moves the unchanged 34-byte helper to `0xBA5718`, with all five callers targeting it. The standalone location `0xBA4E00` is now occupied by LUT resident code. Do not replay the old recipe over this CP. This is structural preservation, not new AF-speed acceptance. See [integration](../08-custom-lut/INTEGRATION.md).
