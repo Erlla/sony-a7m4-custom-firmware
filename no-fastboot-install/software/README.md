@@ -43,6 +43,8 @@ D:\M4-build\M4相机工具.exe --verify
 
 每次打开均回到“写入补丁”初始界面，“恢复普通 USB”可直接点击。每次启动在 `state/sessions/` 创建独立目录，同一窗口的后台子进程继承该会话。历史任务不再作为下次启动的流程入口或写入门禁；机身配置、备份和日志继续保留。全局进程锁和相机实时状态检查仍生效，每次新操作重新完整读取当前 p1。
 
+驱动重绑后的普通 USB 字符串检查最多等待约 8 秒，只重试标准描述符读取，并在每次失败后释放句柄、重新枚举。语言码取自设备实际返回的列表，型号、序列号和已绑定机身仍须一致；不使用固定语言码或 Windows 文本替代实际 USB 身份。底层 USB 错误单独记录。菜单准备阶段若在认证前持续读不到描述符，自动恢复普通驱动并停止该轮菜单；等待重新插拔时按提示确认，不会重发补丁或菜单任务。
+
 ## 离线开发检查
 
 以下命令只用于新构建的测试目录，不能对用户运行目录执行；它们会生成虚拟任务和绑定。不会调用 Windows 驱动或相机，但会留下测试 state，测试目录不能直接分发。
@@ -52,6 +54,7 @@ D:\M4-build\runtime\python\python.exe -I -B tests\test_usb_recovery.py --package
 D:\M4-build\runtime\python\python.exe -I -B tests\test_local_failure.py --package D:\M4-build
 D:\M4-build\runtime\python\python.exe -I -B tests\test_state_io.py --package D:\M4-build
 D:\M4-build\runtime\python\python.exe -I -B tests\test_startup_session.py --package D:\M4-build
+D:\M4-build\runtime\python\python.exe -I -B tests\test_usb_identity.py --package D:\M4-build
 D:\M4-build\runtime\python\python.exe -I -B tests\test_menu_seal.py --package D:\M4-build --lineage stock
 D:\M4-build\runtime\python\python.exe -I -B tests\test_menu_seal.py --package D:\M4-build --lineage user
 ```

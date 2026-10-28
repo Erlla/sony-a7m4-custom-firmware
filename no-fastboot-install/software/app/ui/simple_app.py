@@ -8,7 +8,7 @@ from tkinter import messagebox, ttk
 import backend_bridge as bridge
 import install_view
 BG, WHITE, INK, MUTED, GREEN = ('#f3f5f1', '#ffffff', '#203b2d', '#627367', '#28654f')
-NEW = {'NO_FLOW', 'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
+NEW = {'MENU_CONNECTION_STOPPED', 'NO_FLOW', 'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
 RECOVERY = {'PATCH_RECOVERY', 'POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL', 'PATCH_REJECTED_RECOVERY'}
 HANDOFF = {'AWAITING_MENU_OBSERVATION', 'WAITING_FOR_USER_INSTALL_RESULT'}
 ALLOWED = {'simple-start', 'simple-continue', 'simple-installed', 'simple-failure', 'simple-recover-usb'}
@@ -17,6 +17,8 @@ USB_RECOVERY = {'PATCH_RECOVERY', 'PATCH_REJECTED_RECOVERY', 'REVIEW_REQUIRED', 
 
 def presentation(state):
     phase = state['phase']
+    if phase == 'MENU_CONNECTION_STOPPED':
+        return ('连接已恢复，可以重试', '本轮 p1 补丁已完成，USB 描述符检查未通过，更新菜单尚未准备。\n保持供电和连接，点击“写入补丁”重新检查当前相机。', '写入补丁', 'simple-start')
     if phase == 'PATCH_REJECTED_RECOVERY':
         return ('补丁未写入，请恢复连接', '完整备份已保存，但更新器兼容性检查未通过。\n保持相机开机，重新插拔 USB 后继续；本次只恢复连接。', '已重新插拔，恢复连接', 'simple-continue')
     if phase == 'USB_RECOVERY_WAITING':

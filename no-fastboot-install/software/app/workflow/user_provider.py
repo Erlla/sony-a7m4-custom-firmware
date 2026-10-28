@@ -108,15 +108,17 @@ class Provider(old.Provider):
         sys.path.insert(0, str(backend_dir))
         module = importlib.import_module('usb_session')
         probe = module.load_backend()
-        devices = list(probe.usb.core.find(find_all=True, idVendor=1356, idProduct=3493, backend=probe.libusb_package.get_libusb1_backend()))
-        require(len(devices) == 1, '无法唯一核对正常 USB 描述符')
-        device = devices[0]
+        from normal_identity import wait_normal_identity, DescriptorReadError
         try:
-            serial = device.serial_number
-            require(device.product == 'ILCE-7M4' and isinstance(serial, str) and serial and (serial.casefold() == row['instance'].rsplit('\\', 1)[-1].casefold()), 'USB 序列号和 Windows 机身不一致')
+            device, identity, receipt = wait_normal_identity(probe,
+                expected=self.binding.get('identity'), instance_serial=row['instance'].rsplit('\\', 1)[-1])
+        except DescriptorReadError as error:
+            atomic(folder / 'usb_identity.json', error.report)
+            raise
+        try:
+            atomic(folder / 'usb_identity.json', receipt)
         finally:
             probe.usb.util.dispose_resources(device)
-        identity = dict(model='ILCE-7M4', normal_usb_serial_sha256=hashlib.sha256(serial.encode()).hexdigest())
         require(self.binding.get('identity') in (None, identity), 'USB 机身身份发生变化')
         if self.binding.get('identity') is None:
             self.binding['identity'] = identity

@@ -15,7 +15,7 @@ import integrity_backend as backend
 CASE, ROOT = (backend.CASE, backend.ROOT)
 PRIVATE = operation_path('workflow')
 POINTER = PRIVATE / 'flow.json'
-TERMINAL = {'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
+TERMINAL = {'MENU_CONNECTION_STOPPED', 'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
 sha, read, atomic, require = (backend.sha, backend.read, backend.atomic, backend.require)
 
 def utc():

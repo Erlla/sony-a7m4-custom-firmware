@@ -319,6 +319,11 @@ class Trial:
             self.save(status, 'BINDING')
             provider.bind(folder)
         except BaseException as error:
+            from normal_identity import DescriptorReadError
+            if isinstance(error, DescriptorReadError):
+                self.save(status, 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.report,
+                          safe_to_restore=True, stopped_before_session=True)
+                return self.restore(provider, folder, status)
             self.save(status, 'BINDING_UNCONFIRMED', error=str(error))
             raise
         handoff = None
@@ -358,6 +363,10 @@ class Trial:
                         status['safe_to_restore'] = True
                     raise
         except BaseException as error:
+            from normal_identity import DescriptorReadError
+            if isinstance(error, DescriptorReadError) and not status['preread_started'] and not status['window_started']:
+                self.save(status, 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.report,
+                          safe_to_restore=True, stopped_before_session=True)
             self.save(status, 'REVIEW_REQUIRED', session_error=str(error))
             if status['safe_to_restore']:
                 self.restore(provider, folder, status)
@@ -398,6 +407,8 @@ class Trial:
         complete = 'INSTALL_USER_ACCEPTED_NORMAL_VERIFIED' if status.get('post_install_user_verified') else 'POST_RESTART_NORMAL_VERIFIED' if status.get('camera_restarted') else 'WINDOW_COMPLETE_NORMAL_VERIFIED'
         if status.get('window_started') is False and status.get('preread_completed_safe') is True:
             complete = 'PREREAD_REJECTED_NORMAL_VERIFIED'
+        if status.get('stopped_before_session') is True and status.get('window_started') is False:
+            complete = 'MENU_CONNECTION_STOPPED'
         phase = {'VERIFIED': complete, 'RESTART_REQUIRED': 'WAITING_FOR_RESTART', 'NORMAL_CONNECTION_PENDING': 'WAITING_FOR_NORMAL'}[result]
         self.save(status, phase, normal_recovery=result, pending_restore_confirmation=result == 'RESTART_REQUIRED')
         return status

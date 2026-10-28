@@ -27,6 +27,8 @@ Normal launch requests Windows administrator privileges. Cancelling the UAC prom
 
 Every launch opens the initial patch screen with USB recovery available. A new directory under `state/sessions/` isolates workflow, patch and recovery state; child processes inherit the current session. Previous tasks do not gate a new session. Enrollment, logs and backups remain available. Global process locks and live camera-state checks still apply, and a new operation reads the complete current p1 again.
 
+After driver rebinding, normal USB identity checks wait up to about eight seconds, releasing handles and re-enumerating between standard descriptor reads. Only a language advertised by the device is requested; model, serial and saved identity must still match. Underlying USB errors are recorded. A persistent descriptor failure before menu-session authentication restores the normal driver and stops menu preparation, without replaying firmware writes or starting a menu worker.
+
 ## Offline checks
 
 Run the scripts under `tests/` with the built package's isolated Python and `--package D:\M4-build`, including `test_startup_session.py` for process-level restart isolation and Tk controls. `test_menu_seal.py` also needs `--lineage stock` or `--lineage user`. Use a disposable build: tests create fake enrollment and run state, so the tested directory must not be distributed.

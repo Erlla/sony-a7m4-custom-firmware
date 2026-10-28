@@ -3,6 +3,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -135,6 +136,55 @@ def main():
         else:
             raise AssertionError('Proof from another patch accepted')
         checks.append('unrelated_failure_and_mismatched_patch_remain_blocked')
+        from normal_identity import DescriptorReadError
+        for recovery, phase in (('VERIFIED', 'MENU_CONNECTION_STOPPED'),
+                                ('RESTART_REQUIRED', 'WAITING_FOR_RESTART'),
+                                ('NORMAL_CONNECTION_PENDING', 'WAITING_FOR_NORMAL')):
+            activity = []
+            class DescriptorFailureProvider:
+                check = lambda self: None
+                load_legacy = lambda self: None
+                preflight = lambda self, folder: None
+                def bind(self, folder):
+                    activity.append('bind')
+                    raise DescriptorReadError(dict(camera_commands=0, passed=False, attempts=[]))
+                def restore(self, folder, confirmation=False):
+                    activity.append('restore'); return recovery
+                session = forbidden
+            runtime.Provider = DescriptorFailureProvider
+            attempt = controller.Trial(private / ('descriptor_' + recovery), services=runtime)
+            attempt.seal(job, reader, patch_only=True)
+            result = attempt.execute(stable_power=True, patch_only=True)
+            assert result['phase'] == phase and result['stopped_before_session']
+            assert not result['window_started'] and not result['preread_started'] and not result['firmware_written']
+            assert activity == ['bind', 'restore']
+        checks.append('descriptor_failure_recovers_driver_without_reader_window_or_firmware_retry')
+        activity = []
+        class SessionDescriptorFailure(DescriptorFailureProvider):
+            bind = lambda self, folder: None
+            @contextmanager
+            def session(self, folder):
+                activity.append('session_descriptor')
+                raise DescriptorReadError(dict(camera_commands=0, passed=False, attempts=[]))
+                yield
+            def restore(self, folder, confirmation=False): activity.append('restore'); return 'VERIFIED'
+        runtime.Provider = SessionDescriptorFailure
+        attempt = controller.Trial(private / 'session_descriptor', services=runtime)
+        attempt.seal(job, reader, patch_only=True)
+        result = attempt.execute(stable_power=True, patch_only=True)
+        assert result['phase'] == 'MENU_CONNECTION_STOPPED' and activity == ['session_descriptor', 'restore']
+        checks.append('session_descriptor_failure_stops_before_authentication_and_restores')
+        class UnknownBindFailure(DescriptorFailureProvider):
+            def bind(self, folder): raise OSError('unknown bind outcome')
+            restore = forbidden
+        runtime.Provider = UnknownBindFailure
+        attempt = controller.Trial(private / 'unknown_bind', services=runtime)
+        attempt.seal(job, reader, patch_only=True)
+        try: attempt.execute(stable_power=True, patch_only=True)
+        except OSError: pass
+        else: raise AssertionError('Unknown bind failure was cleared')
+        assert controller.read(attempt.status_path)['phase'] == 'BINDING_UNCONFIRMED'
+        checks.append('unknown_bind_failure_does_not_assume_safe_recovery')
     assert not calls
     result = dict(passed=True, lineage=args.lineage, tests=checks, cases=len(checks),
                   device_operations=0, driver_tasks_dispatched=0, fake_receiver_proof=True,

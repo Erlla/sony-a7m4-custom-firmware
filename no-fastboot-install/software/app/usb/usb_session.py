@@ -66,18 +66,15 @@ class ResearchSession:
         self.probe.EVIDENCE = self.evidence
         self.rec = self.probe.Recorder('m4-research-session', 'Authenticated bounded reads; optional unique 32-byte work-area file roundtrip')
         try:
-            devices = self._devices(3493)
-            if len(devices) != 1 or self._devices(822):
-                raise RuntimeError('Start with exactly one ILCE-7M4 in normal 054C:0DA5 identity')
-            normal_dev = devices[0]
+            from normal_identity import wait_normal_identity, DescriptorReadError
+            try:
+                normal_dev, normal_identity, receipt = wait_normal_identity(self.probe, expected=self.expected)
+            except DescriptorReadError as error:
+                self.rec.note('normal_usb_identity', error.report)
+                raise
+            self.rec.note('normal_usb_identity', receipt)
             try:
                 normal_location = usb_location(normal_dev)
-                product, serial = (normal_dev.product, normal_dev.serial_number)
-                if product != 'ILCE-7M4' or not serial:
-                    raise RuntimeError('Normal USB product or serial cannot bind the target body')
-                normal_identity = {'model': product, 'normal_usb_serial_sha256': hashlib.sha256(serial.encode('utf-8')).hexdigest()}
-                if self.expected is not None and self.expected != normal_identity:
-                    raise RuntimeError('Connected normal USB body differs from the backup')
                 normal = self.probe.LibusbCameraDriver(normal_dev, self.rec)
                 self.probe.authenticate_with_fallback(normal, self.rec, 'first4')
             finally:
