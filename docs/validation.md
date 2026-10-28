@@ -44,6 +44,8 @@ python tools/verify_sd_package.py output/fl23-sd/BODYDATA.DAT --plain output/fl2
 
 [资源独立修复](../methods/06-custom-sounds/menu-resource-repair.md)和完整配方使用一致的目标银行；集成后从最终包提取目录运行 `verify-resources`。固件显示标签不参与兼容判断，完整输入摘要、地址和调用合同是必要前提。
 
+[声音交接源码](../native/custom-sounds/handoff/README.md)与 `python -m a7m4.custom_sound_handoff` 对应组合 CP 的双向抢占。构建器核对各段编译字节，组件工具核对完整输入／输出与原字节范围；LUT 的 CP 组件链同步记录最终身份。基础声音配方保持原精确输入合同。
+
 The reference recipe reconstructs AP, CP, MPR and all 68 language resources. The six native modules verify compiled and installed sections, including the current mechanical/electronic shutter policy and directory edits. Host/native checks do not replace physical audio, SD, scheduling or cross-layout integration checks.
 
 ## 自定义纵横比 / Custom aspect ratios

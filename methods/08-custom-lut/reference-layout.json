@@ -15,7 +15,7 @@
     {
       "component": "CP",
       "bytes": 16236816,
-      "sha256": "687f9005d8d81ac7b45e6ddedf3b3cb08b94de26e779c260df9894b806a686d6"
+      "sha256": "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640"
     },
     {
       "component": "MPR",
@@ -1133,5 +1133,41 @@
       "tool": "python -m a7m4.custom_sound_policy",
       "profile": "a7m4/profiles/custom-sound-policy.json"
     }
-  ]
+  ],
+  "CP_component_patches": [
+    {
+      "purpose": "Latest focus/shutter request preempts either active sound through native Stop and retirement",
+      "source_sha256": "687f9005d8d81ac7b45e6ddedf3b3cb08b94de26e779c260df9894b806a686d6",
+      "output_sha256": "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640",
+      "tool": "python -m a7m4.custom_sound_handoff",
+      "profile": "a7m4/profiles/custom-sound-handoff.json"
+    }
+  ],
+  "sound_handoff": {
+    "CP_base": "0x108000",
+    "entry_points": [
+      "0x5ddc24",
+      "0x5ddd08",
+      "0x5dec74"
+    ],
+    "resident_gates": {
+      "start": "0xba55e0",
+      "end": "0xba5640"
+    },
+    "code": {
+      "start": "0x11ea10",
+      "bytes": 880
+    },
+    "hooks": {
+      "start": "0x11fb00",
+      "bytes": 78
+    },
+    "BSS": {
+      "start": "0x1564a84",
+      "end": "0x1564f98",
+      "bytes": 1300
+    },
+    "gamma_fallback_start": "0x1565000",
+    "policy": "latest trigger wins; final sound finishes naturally"
+  }
 }

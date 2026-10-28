@@ -6,6 +6,8 @@
 
 AF-S / AF-A 合焦可使用单独的音频或恢复原厂默认提示。两类声音分别保存开关、WAV 和音量，静音模式同时控制两类自定义播放。
 
+对焦声与快门声按**最后触发优先**相互抢占：播放快门声时再次合焦会转为对焦声，播放对焦声时拍照会转为快门声。连拍时新拍摄重新触发声音；停止操作后，最后一段自然播完，较早的声音不再排队补播。
+
 ## 文件放置与操作
 
 将 WAV 放在所用 SD 卡根目录下的 **`PRIVATE/M4ROOT/GENERAL/SOUNDS/`**：
@@ -37,7 +39,7 @@ PRIVATE/
 
 建议使用短促的整数 PCM WAV：格式 1、单／双声道、8/16/24/32 位、8–192 kHz，单文件最多 1 MiB、最长 5 秒。压缩或浮点 WAV、损坏的 RIFF/chunk 和不安全文件名会被拒绝。可下载维护者授权公开的 [YEAH.WAV、DAGOU.WAV 和 JIAO.WAV 示例](../../examples/custom-sounds/README.md)。
 
-原厂“音频信号／对焦提示音”关闭时，自定义对焦声也不出声。拍照同时合焦可能先后触发两类声音。
+原厂“音频信号／对焦提示音”关闭时，自定义对焦声也不出声。对焦声由相机实际的合焦确认事件触发；拍照与合焦相继发生时，播放最后触发的声音。
 
 ## 实机演示照片
 
@@ -67,6 +69,14 @@ python -m a7m4.custom_sound apply --ap local/sound-input/appFw.so --cp local/sou
 ```
 
 按 `inspect` 提供精确的 AP、CP、`fs/lib/libmpr.so` 及 68 个横竖屏语言资源。输出包括修改后的 AP、MPR、语言资源、CP 和校验清单，已包含机械快门支持、当前菜单名和新声音目录。输入与已有输出不会被覆盖。
+
+上述命令重建其列明的基础声音布局。当前 LUT／纵横比组合布局的双向抢占在完整 CP 上单独应用：
+
+```powershell
+python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --output output/cpapp-b.handoff.bin
+```
+
+输入／输出摘要见[交接配方](../../a7m4/profiles/custom-sound-handoff.json)。本工具只接受指定的组合 CP；基础声音配方的 CP 不能直接替代该输入。源码与从源码重建安装段的命令见[交接模块](../../native/custom-sounds/handoff/README.md)。
 
 菜单空白或错名时可使用[文字资源独立修复](menu-resource-repair.md)。完整固件集成后，从最终包提取文件系统，再执行：
 

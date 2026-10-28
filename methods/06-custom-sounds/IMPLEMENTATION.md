@@ -114,7 +114,33 @@ CP 文件中 `0xBA5C80` 起的 owner 模块只处理私有协议；原回复消�
 python -m a7m4.custom_sound_policy --input local/appFw.so --output output/appFw.sound-policy.so
 ```
 
-支持的完整输入／输出 SHA-256 见 [策略配方](../../a7m4/profiles/custom-sound-policy.json)。本命令只输出 AP；标题更新仍需同步 68 个资源。完整 `a7m4.custom_sound apply` 已包含全部改动，不需要重复运行。与 LUT 组合时遵守 [AP 组件修改链](../08-custom-lut/reference-layout.json)，保留关闭页诊断入口移除和其他功能。
+支持的完整输入／输出 SHA-256 见 [策略配方](../../a7m4/profiles/custom-sound-policy.json)。本命令只输出 AP；标题更新仍需同步 68 个资源。`a7m4.custom_sound apply` 已包含本节的 AP／资源改动。与 LUT 组合时遵守 [AP 组件修改链](../08-custom-lut/reference-layout.json)，保留关闭页诊断入口移除和其他功能。
+
+## 8. 对焦／快门双向抢占与连拍
+
+当前组合布局使用 [handoff 源码](../../native/custom-sounds/handoff)与[精确 CP 配方](../../a7m4/profiles/custom-sound-handoff.json)。两个声音使用同一原生通道，交接必须先停止当前播放并完成释放，再设置下一段的资源和增益。
+
+| CP 入口／区域 | 作用 |
+|---|---|
+| `0x5DDC24` | PIN 请求入口，在原仲裁前保存快门请求 |
+| `0x5DEC74` | APP 请求入口，在原厂提前拒绝分支之前保存对焦请求 |
+| `0x5DDD08` | 公共 begin 入口，保留从其他原生调用者进入的合同 |
+| `0xBA55E0..0xBA5640` | 常驻门，只有声音可选页 READY 才进入新增代码 |
+| `0x11EA10` / `0x11FB00` | 交接逻辑与三个入口包装，分别为 880 / 78 字节 |
+| `0x1564A84..0x1564F98` | 1300 字节交接状态，使用原 BODY 清零；不得覆盖 `0x1565000` 起的 Gamma 回退表 |
+
+kind 4 和 17 的新 Start 都取消较早等待的这两类请求，以原 E005 回包结算。若当前对焦／快门声仍为 Start，则发同类型原生 Stop；如果已进入 Stop，只等原生 actor、属性回调和忙状态释放。Sysnd 原线程的周期回调随后派发最新一次，最多保留一个待播请求。没有新的触发时，最后一段自然结束，既不补播历史声音，也不另加松键强停。
+
+APP、PIN 和 begin 请求保留各自入口。尤其不能只挂 common begin：原 APP admission 在另一声音活跃时可以直接返回，根本不调用它。延后 APP 请求仍调用原 APP admission，让原方法计算 mode 和处理参数。对象低两位只用于保存入口标签，派发和取消前均去掉标签。
+
+`F57BAC` 是操作码，1 为 Start，2 为 Stop。原消费分支只处理 1；完成后的 Stop 残留不能当作待播声音，否则交接会永久等待。不通过清共享 busy、抢写活动缓冲或提前改增益来促成交接。
+
+```powershell
+python tools/build_sound_handoff.py --arm-gcc C:/tools/arm/bin/arm-none-eabi-gcc.exe --output output/sound-handoff
+python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --output output/cpapp-b.handoff.bin
+```
+
+构建器核对公开源码、段布局、编译段摘要和未解析符号；组件工具核对完整输入、每个原字节范围、输出摘要及声音页预检 CRC。该入口仅用于配方列明的组合 CP，基础声音配方和其他布局必须先完成移植与原生生命周期核对。
 
 ## 配方复核方法与验证边界
 

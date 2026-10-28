@@ -6,6 +6,8 @@ Adds **Custom Shutter Sound** and **Custom Focus Sound** under Shooting → Shut
 
 AF-S / AF-A focus confirmation uses a separate clip or the stock default. Each sound slot stores its own switch, WAV and volume. Silent mode suppresses both custom sounds.
 
+Focus and shutter sounds **preempt each other, with the latest trigger taking priority**. Focus confirmation interrupts a playing shutter clip; taking a photo interrupts the focus clip. During a burst, each new exposure retriggers the sound. After activity stops, the final clip finishes naturally without replaying older requests.
+
 ## Files and operation
 
 Place WAV files in **`PRIVATE/M4ROOT/GENERAL/SOUNDS/`** from the SD card root:
@@ -37,7 +39,7 @@ Imported audio and filenames are saved internally and restored after power-on. T
 
 Use short integer PCM WAV files: format 1, mono/stereo, 8/16/24/32 bits, 8–192 kHz, at most 1 MiB and 5 seconds. Compressed/floating-point WAV, damaged RIFF/chunks and unsafe filenames are rejected. User-authorized [YEAH.WAV, DAGOU.WAV and JIAO.WAV examples](../../examples/custom-sounds/README.en.md) are available.
 
-The stock focus-signal setting also controls custom focus playback. Focusing while taking a photo can trigger both sound types in succession.
+The stock focus-signal setting also controls custom focus playback. Focus sound requires an actual focus-confirmation event. When focus and capture events arrive in succession, the latest trigger takes priority.
 
 ## Camera demo photos
 
@@ -67,6 +69,14 @@ python -m a7m4.custom_sound apply --ap local/sound-input/appFw.so --cp local/sou
 ```
 
 Supply the exact AP, CP, `fs/lib/libmpr.so` and all 68 horizontal/vertical language resources listed by `inspect`. Outputs contain AP, MPR, resources, CP and a verification manifest, including mechanical shutter support, the current menu name and sound directory. Input files and existing outputs are preserved.
+
+That command reconstructs its pinned basic sound layout. Apply mutual preemption separately to the complete CP in the current LUT/aspect integration layout:
+
+```powershell
+python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --output output/cpapp-b.handoff.bin
+```
+
+The [handoff recipe](../../a7m4/profiles/custom-sound-handoff.json) lists exact input/output hashes. The basic sound recipe's CP is not interchangeable with this integrated input. See the [handoff module](../../native/custom-sounds/handoff/README.md) for source and reproducible section builds.
 
 For missing or incorrect menu text, see the [resource-only repair](menu-resource-repair.md). After full-package integration, extract the final filesystem and run:
 
