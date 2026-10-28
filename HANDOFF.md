@@ -7,6 +7,7 @@
 - The custom-sound gallery uses the maintainer's corrected five-photo set: two menu locations, two settings screens and the audio picker. Match shutter/focus captions to the visible menu title, update both language guides together and remove superseded gallery assets in a normal commit.
 - Functional directories and commands are `native/feature-integration/` / `a7m4.feature_integration` and `native/jpeg-exif-dimensions/` / `a7m4.jpeg_exif_dimensions`. Exact input/output hashes remain mandatory; renaming a recipe does not make its fixed addresses portable.
 - Do not rewrite repository history to remove older announcements. Make a normal scoped cleanup commit; generated firmware, manufacturer inputs and camera originals remain local.
+- The desktop tool starts a fresh operation session on every normal launch, after requesting Windows elevation. Keep enrollment and historical evidence, but never use an old workflow, patch or USB-recovery pointer to gate the new session. Child processes inherit the new session; global process locks and live camera checks remain. `--verify` must stay noninteractive and local-only.
 
 ## Integration pitfalls
 

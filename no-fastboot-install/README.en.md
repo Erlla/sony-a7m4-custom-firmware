@@ -10,7 +10,7 @@ The tool writes the p1 updater partition. Preserve your own backups, use an orig
 
 1. Manually place a suitable `BODYDATA.DAT` in the root of the card in **slot 1**. The tool does not bundle, read, validate or copy it.
 2. Extract the complete **1.00** Windows package to a short path, such as `D:\M4`. Turn on the camera and connect in USB mass-storage mode.
-3. Open `M4相机工具.exe`, confirm readiness and select **写入补丁**. Approve the normal Windows administrator prompt during first-time setup.
+3. Open `M4相机工具.exe`, approve the Windows administrator prompt, then confirm readiness and select **写入补丁**.
 4. Wait for the full backup, compatibility checks, any required patch and independent full readback. If prompted, keep the camera on and unplug/replug USB, then continue. Do not start the update yet.
 5. Only when the tool explicitly permits it, unplug USB without turning off the camera. Return to shooting, open Version / Software Update, check the target and start installation.
 6. Start within the approximately ten-minute menu window. Once installation has started, wait for completion; the computer countdown is not an instruction to interrupt power.

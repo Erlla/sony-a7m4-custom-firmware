@@ -11,12 +11,15 @@ for relative in ('app', 'vendor/python', 'vendor/squashfs', 'vendor/usb', 'app/c
     sys.path.insert(0, str(ROOT / relative))
 from product_integrity import verify_release
 verify_release()
+from operation_session import new_session, ensure_session
 if len(sys.argv) > 1:
     action, *arguments = sys.argv[1:]
     if action.startswith('simple-'):
+        ensure_session()
         sys.argv = [str(ROOT / 'app/workflow/simple_workflow.py'), action[7:], *arguments]
         runpy.run_path(sys.argv[0], run_name='__main__')
     elif action == 'flow-setup':
+        ensure_session()
         import wizard
         import json
         print(json.dumps(wizard.act('setup'), ensure_ascii=False))
@@ -26,5 +29,6 @@ if len(sys.argv) > 1:
     else:
         raise SystemExit('Unsupported operation')
 else:
+    new_session()
     import simple_app
     simple_app.main()

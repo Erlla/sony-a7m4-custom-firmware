@@ -1,3 +1,4 @@
+from operation_session import operation_path
 """Driver-only recovery; no enrollment, camera session or firmware operations."""
 from pathlib import Path
 import hashlib
@@ -13,7 +14,7 @@ from local_json import atomic
 from product_integrity import verify_release
 
 ROOT = Path(__file__).resolve().parents[2]
-PRIVATE = ROOT / 'state/usb_restore'
+PRIVATE = operation_path('usb_restore')
 POINTER = PRIVATE / 'current.json'
 
 

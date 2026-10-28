@@ -1,3 +1,4 @@
+from operation_session import operation_path
 from product_integrity import pinned, state_path
 from pathlib import Path
 import json
@@ -22,7 +23,7 @@ def terminal_native(record, worker, run):
 
 def prior_read_proof(target, run):
     matches = []
-    for path in (ROOT / 'state/workflow').glob('read_only_recovery_*/reconciliation.json'):
+    for path in (operation_path('workflow')).glob('read_only_recovery_*/reconciliation.json'):
         try:
             proof = read(path)
             binding = read(path.parent / 'source_run.json')
@@ -36,7 +37,7 @@ def prior_read_proof(target, run):
 def fresh_read(worker, target, value, run):
     pointer = flow.folder(value) / 'usb_recovery.json'
     require(not pointer.exists(), '回读或恢复已启动，请保留记录，不能重复发送任务')
-    folder = ROOT / 'state/workflow' / ('usb_recovery_' + uuid.uuid4().hex)
+    folder = operation_path('workflow') / ('usb_recovery_' + uuid.uuid4().hex)
     folder.mkdir(parents=True, exist_ok=False)
     atomic(pointer, dict(folder=str(folder), source_run=run, state='READ_STARTED', automatic_retry=False))
     reader = worker.prepare_reader(folder, 'before')
@@ -55,7 +56,7 @@ def read_folder(worker, target, value, run):
         require(saved.get('source_run', run) == run, '恢复记录属于其他任务')
         require(saved['state'] in ('READ_VERIFIED', 'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART', 'RESTORE_DISPATCHED'), '上次回读结果未确认，不能重试')
         folder = Path(saved['folder']).resolve()
-        require(folder.is_relative_to((ROOT / 'state/workflow').resolve()), '恢复记录路径无效')
+        require(folder.is_relative_to((operation_path('workflow')).resolve()), '恢复记录路径无效')
     else:
         folder = prior_read_proof(target, run)
         if folder is None:
@@ -126,8 +127,7 @@ def recover(value, confirmed=False):
         from simple_workflow import installed
         return installed(value, confirmed)
     if value['phase'] in flow.TERMINAL | {'NO_FLOW', 'PATCH_READY', 'PATCH_PREPARED', 'MENU_PREPARATION_RETRY'}:
-        for base in (backend.STATE, ROOT / 'state/maintenance', ROOT / 'state/maintenance_custom',
-                     state_path(backend.STOCK), state_path(backend.USER)):
+        for base in (backend.STATE,):
             prior = backend.frozen.Journal(base).load()
             require(prior is None or prior['phase'] in backend.frozen.TERMINAL,
                     '存在未完成的相机读写，请保留记录并按原任务恢复，不能直接切换驱动')

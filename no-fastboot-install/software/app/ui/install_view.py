@@ -1,3 +1,4 @@
+from operation_session import operation_path
 from state_io import read_json
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
@@ -10,7 +11,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 CASE = Path(__file__).resolve().parent
 FLOW = CASE.parent / 'workflow'
-PRIVATE = ROOT / 'state/workflow'
+PRIVATE = operation_path('workflow')
 DONE = {'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'NO_FLOW'}
 
 def snapshot():

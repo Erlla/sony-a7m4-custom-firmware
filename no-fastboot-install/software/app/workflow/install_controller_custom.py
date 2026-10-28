@@ -1,3 +1,4 @@
+from operation_session import operation_path
 from product_integrity import pinned, state_path
 from datetime import datetime, timezone
 from pathlib import Path
@@ -14,7 +15,7 @@ import time
 import uuid
 CASE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[2]
-PRIVATE = ROOT / 'state/workflow'
+PRIVATE = operation_path('workflow')
 WINDOW = CASE.parent / 'menu_custom'
 REPAIR = CASE.parent / 'receiver_custom'
 READER = CASE.parent / 'reader'

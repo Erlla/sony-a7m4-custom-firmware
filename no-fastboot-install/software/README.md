@@ -4,7 +4,7 @@
 
 这是 **M4 相机工具 1.00** 的当前源码：简化桌面界面、Windows 驱动准备与独立 USB 恢复、完整 p1 读取、按内容生成补丁、单次写入与独立完整回读、两处限时 RAM 菜单窗口，以及中断任务的证据校验。
 
-不附完整固件、相机库、预编译工作器、机身绑定、备份或运行状态。用户自行放置 SD 卡安装包，软件不检查或复制安装包。保留未决写入保护，不能删除 state 强行重试。参考方案致谢：[YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools)。
+不附完整固件、相机库、预编译工作器、机身绑定、备份或运行状态。用户自行放置 SD 卡安装包，软件不检查或复制安装包。每次启动使用新会话，历史任务不影响新会话；备份与日志保留。参考方案致谢：[YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools)。
 
 ## 目录
 
@@ -39,6 +39,10 @@ D:\M4-build\M4相机工具.exe --verify
 
 完成后打开输出目录的 EXE。不要直接运行源码中的 entry.py：它需要构建时生成的完整性清单与运行组件。不要将构建覆盖到正在使用或存在未完成任务的目录。
 
+正常启动 EXE 时会请求 Windows 管理员权限，取消授权则退出；已经具有管理员权限时直接打开。`--verify` 仅做本地完整性检查，不请求提升权限，也不建立操作会话。
+
+每次打开均回到“写入补丁”初始界面，“恢复普通 USB”可直接点击。每次启动在 `state/sessions/` 创建独立目录，同一窗口的后台子进程继承该会话。历史任务不再作为下次启动的流程入口或写入门禁；机身配置、备份和日志继续保留。全局进程锁和相机实时状态检查仍生效，每次新操作重新完整读取当前 p1。
+
 ## 离线开发检查
 
 以下命令只用于新构建的测试目录，不能对用户运行目录执行；它们会生成虚拟任务和绑定。不会调用 Windows 驱动或相机，但会留下测试 state，测试目录不能直接分发。
@@ -47,6 +51,7 @@ D:\M4-build\M4相机工具.exe --verify
 D:\M4-build\runtime\python\python.exe -I -B tests\test_usb_recovery.py --package D:\M4-build
 D:\M4-build\runtime\python\python.exe -I -B tests\test_local_failure.py --package D:\M4-build
 D:\M4-build\runtime\python\python.exe -I -B tests\test_state_io.py --package D:\M4-build
+D:\M4-build\runtime\python\python.exe -I -B tests\test_startup_session.py --package D:\M4-build
 D:\M4-build\runtime\python\python.exe -I -B tests\test_menu_seal.py --package D:\M4-build --lineage stock
 D:\M4-build\runtime\python\python.exe -I -B tests\test_menu_seal.py --package D:\M4-build --lineage user
 ```

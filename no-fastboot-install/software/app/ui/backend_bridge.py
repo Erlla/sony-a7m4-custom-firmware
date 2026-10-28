@@ -1,3 +1,4 @@
+from operation_session import operation_path
 from state_io import read_json as read, atomic_json as atomic
 from product_integrity import pinned, state_path
 from collections import deque
@@ -37,9 +38,9 @@ def verify_release():
 
 def state_snapshot():
     """Display-only snapshot. All operation authorization remains in the CLI."""
-    base = ROOT / 'state/maintenance'
+    base = operation_path('maintenance')
     if (ROOT / 'state/workflow/patch/current.json').exists():
-        base = ROOT / 'state/workflow/patch'
+        base = operation_path('workflow/patch')
     if not (base / 'current.json').exists():
         return dict(phase='NO_RUN')
     try:
@@ -55,7 +56,7 @@ class Jobs:
 
     def __init__(self, events=None, private=None, executor=None, validate=True):
         self.events = events or queue.Queue()
-        self.private = PRIVATE if private is None else Path(private)
+        self.private = operation_path('ui') if private is None else Path(private)
         self.executor = executor or self._execute
         self.validate = validate
         self.busy = False

@@ -4,7 +4,7 @@
 
 Current **1.00** desktop source: the simplified UI, Windows driver setup and standalone USB recovery, full p1 backup, content-based receiver patches, single-attempt writes, independent full readback and the temporary two-site RAM menu window.
 
-The source excludes complete firmware, camera libraries, precompiled workers, enrollment, backups and run state. Users prepare the SD package manually; the tool does not inspect or copy it. Unresolved operations remain protected. The no-Fastboot approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools).
+The source excludes complete firmware, camera libraries, precompiled workers, enrollment, backups and run state. Users prepare the SD package manually; the tool does not inspect or copy it. Each launch starts a new operation session while preserving earlier logs and backups. The no-Fastboot approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools).
 
 Unused experimental installation entry points and fixed experimental labels have been removed. Current UI-reachable operations, native workers and evidence checks remain. Research logs are not runtime dependencies.
 
@@ -23,9 +23,13 @@ The output must be a new directory. Only locked runtime groups are copied from t
 
 Launch the output EXE; running the raw entry.py without its generated manifest and runtime is unsupported. Never build over an existing user installation or unresolved run.
 
+Normal launch requests Windows administrator privileges. Cancelling the UAC prompt exits; an already elevated process opens directly. `--verify` remains a local integrity check without elevation or an operation session.
+
+Every launch opens the initial patch screen with USB recovery available. A new directory under `state/sessions/` isolates workflow, patch and recovery state; child processes inherit the current session. Previous tasks do not gate a new session. Enrollment, logs and backups remain available. Global process locks and live camera-state checks still apply, and a new operation reads the complete current p1 again.
+
 ## Offline checks
 
-Run the scripts under `tests/` with the built package's isolated Python and `--package D:\M4-build`. `test_menu_seal.py` also needs `--lineage stock` or `--lineage user`. Use a disposable build: tests create fake enrollment and run state, so the tested directory must not be distributed.
+Run the scripts under `tests/` with the built package's isolated Python and `--package D:\M4-build`, including `test_startup_session.py` for process-level restart isolation and Tk controls. `test_menu_seal.py` also needs `--lineage stock` or `--lineage user`. Use a disposable build: tests create fake enrollment and run state, so the tested directory must not be distributed.
 
 Tests cover recovery UI/state guards, real local job construction and menu sealing/validation, stopping before real device operations. Their receiver proof is synthetic and cannot establish physical-camera behavior. Normal patch operations use integrity checks without ARM64 simulation or fault-injection regression.
 

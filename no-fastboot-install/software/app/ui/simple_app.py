@@ -13,14 +13,6 @@ RECOVERY = {'PATCH_RECOVERY', 'POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART'
 HANDOFF = {'AWAITING_MENU_OBSERVATION', 'WAITING_FOR_USER_INSTALL_RESULT'}
 ALLOWED = {'simple-start', 'simple-continue', 'simple-installed', 'simple-failure', 'simple-recover-usb'}
 
-def startup_can_reset(state, patch_reader):
-    if state['phase'] in NEW:
-        return True
-    if state['phase'] != 'PATCH_READY':
-        return False
-    patch = patch_reader()
-    folder = state.get('folder')
-    return patch.get('run') == state.get('patch_run') and patch.get('phase') == 'COMPLETE' and (patch.get('normal_recovery_verified') is True) and (patch.get('read_verified') is True) and (patch.get('session_ended') is True) and (not folder or not (Path(folder) / 'status.json').exists())
 USB_RECOVERY = {'PATCH_RECOVERY', 'PATCH_REJECTED_RECOVERY', 'REVIEW_REQUIRED', 'USB_RECOVERY_WAITING'}
 
 def presentation(state):
@@ -67,7 +59,6 @@ class App:
         self.closed, self.current_action, self.last_folder = (False, None, None)
         self.started_at, self._poll_id, self.log_open, self.last_phase = (None, None, False, None)
         self.state = self.flow_reader()
-        self.startup_reset_key = (self.state.get('flow'), self.state['phase']) if startup_can_reset(self.state, self.patch_reader) else None
         self.previous_phase = None
         self.usb_message = None
         root.title('M4 相机工具')
@@ -141,9 +132,7 @@ class App:
 
     def refresh(self):
         self.state = self.flow_reader()
-        if self.startup_reset_key != (self.state.get('flow'), self.state['phase']):
-            self.startup_reset_key = None
-        display = dict(phase='NO_FLOW') if self.startup_reset_key else self.state
+        display = self.state
         if self.state['phase'] == 'COMPLETE' and self.previous_phase != 'COMPLETE':
             self.ready.set(False)
         self.previous_phase = self.state['phase']
@@ -171,7 +160,7 @@ class App:
             self.title.set('请确认本轮更新状态')
             self.detail.set('菜单窗口已到期。如果尚未开始，请勿执行更新。\n如果更新已经开始，保持供电并等待完成；完成后再确认版本和拍摄保存。')
         self.timer.set((f'请在 {seconds // 60:02d}:{seconds % 60:02d} 内开始更新；已开始更新后请等待相机完成。' if seconds else '窗口已到期：尚未开始则请勿更新；若已开始更新，请等待相机完成。') if seconds is not None else '')
-        if self.state['phase'] == 'COMPLETE' and (not self.startup_reset_key):
+        if self.state['phase'] == 'COMPLETE':
             self.result.set('本轮已结束，普通 USB 连接已恢复。')
         if self.usb_message and not self.jobs.busy:
             self.result.set(self.usb_message)
@@ -293,7 +282,7 @@ class App:
             os.startfile(str(path))
 
     def open_records(self):
-        self.open_path(self.last_folder or self.state.get('folder') or bridge.PRIVATE)
+        self.open_path(self.last_folder or self.state.get('folder') or bridge.ROOT / 'state')
 
     def close(self):
         if self.jobs.busy:

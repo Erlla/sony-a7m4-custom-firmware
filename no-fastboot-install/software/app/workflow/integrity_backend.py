@@ -1,3 +1,4 @@
+from operation_session import operation_path
 from product_integrity import pinned, state_path
 from pathlib import Path
 import argparse
@@ -9,7 +10,7 @@ CASE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[2]
 STOCK = CASE.parent / 'receiver_stock'
 USER = CASE.parent / 'receiver_custom'
-STATE = ROOT / 'state/workflow/patch'
+STATE = operation_path('workflow/patch')
 sys.path.insert(0, str(STOCK))
 import orchestrator as frozen
 sha, read, require = (frozen.sha, frozen.read, frozen.require)

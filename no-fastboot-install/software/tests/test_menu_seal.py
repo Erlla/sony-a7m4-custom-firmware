@@ -54,7 +54,7 @@ def main():
     proof = dict(receiver_p1_sha256='a' * 64, receiver_bytes=25100288,
                  accepted_reader_nonce='11' * 16, accepted_run=accepted_run, hashes={})
     checks = []
-    private = root / 'state/offline_menu_seal' / args.lineage
+    private = root / 'state/offline_menu_seal' / args.lineage / uuid.uuid4().hex
     trial = controller.Trial(private, services=runtime)
     private.mkdir(parents=True)
     with patch.object(controller, 'receiver_evidence', return_value=proof):
@@ -97,14 +97,13 @@ def main():
         flow.save(value, value['phase'])
         migrated = retry.mark_retry(value)
         assert migrated['phase'] == 'MENU_PREPARATION_RETRY'
-        assert not simple_app.startup_can_reset(migrated, lambda: {})
         assert simple_app.presentation(migrated)[3] == 'simple-continue'
         with patch.object(simple_workflow, 'open_menu', return_value={'phase': 'FAKE_MENU'}) as opening, \
              patch.object(simple_workflow, 'patch_receiver', forbidden):
             assert simple_workflow.continue_flow(migrated)['phase'] == 'FAKE_MENU'
             assert opening.call_args[0][0]['phase'] == 'PATCH_READY'
             assert opening.call_args[0][0]['p1_rewrite_required'] is False
-        checks.append('known_local_failure_resumes_menu_without_patch_write_or_startup_reset')
+        checks.append('same_session_local_failure_resumes_menu_without_patch_write')
         for marker in ('plan.json', 'status.json', 'start', 'execution'):
             location = folder / marker
             if '.' in marker:

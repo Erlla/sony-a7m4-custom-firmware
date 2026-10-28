@@ -72,7 +72,7 @@ def begin(ready):
     if prior['phase'] == 'PATCH_READY':
         old = backend.frozen.Journal(backend.STATE).load()
         require(old and old['run'] == prior.get('patch_run') and (old['phase'] == 'COMPLETE') and (old.get('normal_recovery_verified') is True) and (old.get('read_verified') is True) and (old.get('session_ended') is True) and (not (state.folder(prior) / 'status.json').exists()), '上次补丁或菜单结果未确认，不能开始新一轮')
-    for base in (backend.STATE, ROOT / 'state/maintenance', state_path(backend.STOCK)):
+    for base in (backend.STATE,):
         old = backend.frozen.Journal(base).load()
         require(old is None or old['phase'] in backend.frozen.TERMINAL, '有尚未完成的相机操作，请保留记录并先处理')
     if prior['phase'] == 'PATCH_READY':

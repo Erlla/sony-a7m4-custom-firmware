@@ -4,6 +4,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Reflection;
+using System.ComponentModel;
+using System.Security.Principal;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: AssemblyInformationalVersion("1.00")]
@@ -18,6 +20,16 @@ internal static class Launcher {
     Application.EnableVisualStyles();
     try {
       string root=AppDomain.CurrentDomain.BaseDirectory;
+      if (!verify && !new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)) {
+        var elevate=new ProcessStartInfo(Assembly.GetExecutingAssembly().Location);
+        elevate.WorkingDirectory=root; elevate.UseShellExecute=true; elevate.Verb="runas";
+        try { Process.Start(elevate); }
+        catch(Win32Exception error) {
+          if(error.NativeErrorCode!=1223)throw;
+          Environment.ExitCode=1223;
+        }
+        return;
+      }
       string python=Path.Combine(root,"runtime","python","pythonw.exe");
       string entry=Path.Combine(root,"app","entry.py");
       string manifest=Path.Combine(root,"app","release.json");

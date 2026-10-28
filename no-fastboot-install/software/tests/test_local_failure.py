@@ -56,7 +56,6 @@ def main():
                       if execute_failure else 'local_preseal_failure_is_resumable'))
     value = dict(phase='MENU_PREPARATION_RETRY')
     assert simple_app.presentation(value)[3] == 'simple-continue'
-    assert not simple_app.startup_can_reset(value, lambda: {})
     with patch.object(flow, 'load', return_value=value), patch.object(workflow, 'patch_receiver', forbidden):
         try: workflow.begin(True)
         except ValueError: pass

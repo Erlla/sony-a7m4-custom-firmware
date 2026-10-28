@@ -1,3 +1,4 @@
+from operation_session import operation_path
 from product_integrity import pinned, state_path
 from datetime import datetime, timezone
 from pathlib import Path
@@ -12,7 +13,7 @@ import sys
 import uuid
 import integrity_backend as backend
 CASE, ROOT = (backend.CASE, backend.ROOT)
-PRIVATE = ROOT / 'state/workflow'
+PRIVATE = operation_path('workflow')
 POINTER = PRIVATE / 'flow.json'
 TERMINAL = {'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
 sha, read, atomic, require = (backend.sha, backend.read, backend.atomic, backend.require)

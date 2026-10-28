@@ -19,8 +19,8 @@ def proof(value, journal):
     error = str(value.get('error', '')).replace('\\', '/')
     while '//' in error:
         error = error.replace('//', '/')
-    signature = '/state/workflow/patch/control/' + record['run'] + '.json'
-    if not (error.startswith(('[WinError 5]', '[WinError 32]', '[WinError 33]')) and signature in error):
+    signature = str(backend.STATE / 'control' / (record['run'] + '.json')).replace('\\', '/').casefold()
+    if not (error.startswith(('[WinError 5]', '[WinError 32]', '[WinError 33]')) and signature in error.casefold()):
         return None
     if record.get('phase') != 'PREPARING':
         return None
