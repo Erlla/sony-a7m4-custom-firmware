@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "AP_identities": {
+    "d411daa728ce86d057f110913094f326f108de830383e520be763ffaf75ded34": "51177ea9c13c1f7ab770e86ee559ef5b150029d8f24d805b1d1e23a698060fbe",
+    "cda216ccbbf3ad628a4a3b1c4d282d82ce36de9dd37e644f5f29336087e12aed": "d61cf91f1457027c78b6e094ee3c87160e37523f4476b1b9b7bc1e101cd1aea4"
+  },
+  "shutter_modes": [
+    "mechanical",
+    "electronic",
+    "electronic_front_curtain"
+  ],
+  "sound_directory": "PRIVATE/M4ROOT/GENERAL/SOUNDS",
+  "menu_resource_id": "0x0200AB5C",
+  "confirmation_resource_id": "0x0200AB61",
+  "firmware_metadata_changed": false,
+  "edits": [
+    {
+      "VA": "0x8f990f4",
+      "original_hex": "63000034",
+      "patched_hex": "03000014",
+      "purpose": "Allow enabling in valid shutter modes"
+    },
+    {
+      "VA": "0x8f99430",
+      "original_hex": "41030034",
+      "patched_hex": "1a000014",
+      "purpose": "Preserve setting when shutter type changes"
+    },
+    {
+      "VA": "0x8f996dc",
+      "original_hex": "6afdff35",
+      "patched_hex": "1f2003d5",
+      "purpose": "Route all valid exposure mechanisms"
+    },
+    {
+      "VA": "0x8f928f0",
+      "original_hex": "28008052",
+      "patched_hex": "08008052",
+      "purpose": "Clear obsolete mechanical-off latch"
+    },
+    {
+      "VA": "0x8f98228",
+      "original_hex": "61000054",
+      "patched_hex": "68000054",
+      "purpose": "Accept native mechanical/electronic menu values"
+    },
+    {
+      "VA": "0x8f93378",
+      "original_hex": "22038052",
+      "patched_hex": "e2038052",
+      "purpose": "Scanner prefix length"
+    },
+    {
+      "VA": "0x8f9338c",
+      "original_hex": "806e0091",
+      "patched_hex": "80860091",
+      "purpose": "Scanner wildcard position"
+    },
+    {
+      "VA": "0x8f9339c",
+      "original_hex": "ffb30039",
+      "patched_hex": "ffcb0039",
+      "purpose": "Scanner terminator position"
+    },
+    {
+      "VA": "0x8f936cc",
+      "original_hex": "22038052",
+      "patched_hex": "e2038052",
+      "purpose": "Importer prefix length"
+    },
+    {
+      "VA": "0x8f936dc",
+      "original_hex": "c06e0091",
+      "patched_hex": "c0860091",
+      "purpose": "Importer filename position"
+    },
+    {
+      "VA": "0x8f936f8",
+      "original_hex": "1f6d0039",
+      "patched_hex": "1f850039",
+      "purpose": "Importer terminator position"
+    },
+    {
+      "VA": "0x8f9a18f",
+      "original_hex": "2f505249564154452f534f4e592f50524f2f534f554e44532f00000000000000",
+      "patched_hex": "2f505249564154452f4d34524f4f542f47454e4552414c2f534f554e44532f00",
+      "purpose": "Shared directory"
+    }
+  ]
+}

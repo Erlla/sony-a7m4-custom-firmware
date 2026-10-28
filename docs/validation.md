@@ -38,19 +38,13 @@ python tools/verify_sd_package.py output/fl23-sd/BODYDATA.DAT --plain output/fl2
 
 源码检查和测试通过不是安全刷机保证，也不意味着任意机身/固件通用。 / Passing offline checks is neither a flashing safety guarantee nor compatibility with arbitrary cameras/firmware.
 
-## 自定义电子快门声与对焦声 / Custom sounds
+## 自定义快门声与对焦声 / Custom sounds
 
-[独立方法与限制](../methods/06-custom-sounds/README.md)、[具体修改方法](../methods/06-custom-sounds/IMPLEMENTATION.md)、[机器可读验证](custom-sounds-validation.json)。公开 65 份原生输入，六模块编译及最终安装段核对、71 个文件重建、32 项 C 核心检查和 Python 拒绝路径/输出保护检查通过。参考 AP 已有共享菜单框架，不能直接套用原厂 AP；本方法不改机身报告版本，也未自动加入完整 SD 构建器。
+[功能与操作](../methods/06-custom-sounds/README.md)、[修改方法](../methods/06-custom-sounds/IMPLEMENTATION.md)、[组件核验记录](custom-sounds-validation.json)。公开文件配方重建 AP、CP、MPR 和全部 68 个语言资源；原生构建核对六个模块的源编译与后链接安装段。当前策略支持机械／前帘／电子快门共用声音，并从 `PRIVATE/M4ROOT/GENERAL/SOUNDS` 导入。
 
-既有单机功能构建获用户确认所需功能正常；公开文件配方另有离线原生回归，未补写新的机内验收。新地址布局、完整包集成和跨机身可靠性没有因公开整理而自动通过。本次没有操作相机或生成新可安装固件。
+[资源独立修复](../methods/06-custom-sounds/menu-resource-repair.md)和完整配方使用一致的目标银行；集成后从最终包提取目录运行 `verify-resources`。固件显示标签不参与兼容判断，完整输入摘要、地址和调用合同是必要前提。
 
-The published native source reconstructs six modules and the recipe reproduces71 exact reference-layout files.32 C core checks and Python safety/rejection tests run without a camera. Existing single-camera functionality has user acceptance; the published reference files have offline checks, not a separate new hardware acceptance. Display versions are neither changed nor used as compatibility keys. Stock AP and arbitrary combinations remain unsupported by this reference recipe.
-
-### 合并菜单文字资源修复 / Merged menu resource repair
-
-[资源修复方法](../methods/06-custom-sounds/menu-resource-repair.md)补充独立的68文件修复配方及最终文件系统检查。修复目标与原完整声音配方相同；只输出文字资源，保留已合并AP／CP／MPR、LUT和版本字段。维护者资源独立修复已获用户单机实测确认，不自动扩大到完整参考程序或任意基线。新CLI另经本地真实文件重建与合成数据拒绝／完整性测试；记录见 [menu resource validation](custom-sound-menu-resources-validation.json)。
-
-The resource-only repair has user acceptance on the maintainer's merged camera build. All68 resource outputs match the existing full recipe. Offline checks also cover final-filesystem verification, missing/corrupt bank rejection, idempotent repaired inputs and preservation of program/settings files. They do not emulate glyph rendering or certify other program combinations.
+The reference recipe reconstructs AP, CP, MPR and all 68 language resources. The six native modules verify compiled and installed sections, including the current mechanical/electronic shutter policy and directory edits. Host/native checks do not replace physical audio, SD, scheduling or cross-layout integration checks.
 
 ## 自定义纵横比 / Custom aspect ratios
 

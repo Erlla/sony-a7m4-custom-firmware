@@ -10,7 +10,7 @@
     {
       "component": "AP",
       "bytes": 99221508,
-      "sha256": "cda216ccbbf3ad628a4a3b1c4d282d82ce36de9dd37e644f5f29336087e12aed"
+      "sha256": "d61cf91f1457027c78b6e094ee3c87160e37523f4476b1b9b7bc1e101cd1aea4"
     },
     {
       "component": "CP",
@@ -1125,6 +1125,13 @@
       "patched_hex": "70ffff17",
       "target_VA": "0x903EA08",
       "tool": "tools/disable_lut_ram_diagnostics.py"
+    },
+    {
+      "purpose": "Shared mechanical/electronic shutter sound and sound directory",
+      "source_sha256": "cda216ccbbf3ad628a4a3b1c4d282d82ce36de9dd37e644f5f29336087e12aed",
+      "output_sha256": "d61cf91f1457027c78b6e094ee3c87160e37523f4476b1b9b7bc1e101cd1aea4",
+      "tool": "python -m a7m4.custom_sound_policy",
+      "profile": "a7m4/profiles/custom-sound-policy.json"
     }
   ]
 }

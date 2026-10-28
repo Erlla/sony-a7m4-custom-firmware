@@ -8,8 +8,8 @@
 
 The custom sound feature must already be integrated. Copying WAVs alone does not install it. See the [method guide](../../methods/06-custom-sounds/README.en.md) for complete firmware integration requirements.
 
-1. Download the original WAV files you want to try and copy them to `PRIVATE/SONY/PRO/SOUNDS/` on the SD card.
-2. Under Shooting → Shutter/Silent, enter Custom electronic shutter sound or Custom focus sound and turn its switch on.
+1. Download the original WAV files you want to try and copy them to `PRIVATE/M4ROOT/GENERAL/SOUNDS/` on the SD card.
+2. Under Shooting → Shutter/Silent, enter Custom shutter sound or Custom focus sound and turn its switch on.
 3. Choose Import from SD, select one file and confirm. The saved filename appears in the menu after successful import. Each sound slot selects one WAV; the two slots may use the same or different files.
 
 Test focus with an AF-S half-press, then switch to MF and take an electronic single shot to test shutter sound separately. Keep silent mode off and enable the stock focus signal for the focus test. 50% volume is the feature's reference gain; 100% doubles that digital amplitude. Different recordings may have different perceived loudness.

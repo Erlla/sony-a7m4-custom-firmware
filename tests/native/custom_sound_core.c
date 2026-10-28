@@ -46,11 +46,18 @@ int main(void) {
  ss_state previous=restored;snapshot[written-1]^=1;
  CHECK(ss_snapshot_restore(&restored,snapshot,written)==SS_CORRUPT);
  CHECK(!memcmp(&restored,&previous,sizeof(previous)));
- CHECK(ss_native_shutter_changed(&state,SS_SHUTTER_MECHANICAL,commit_ok,0)==SS_OK && !state.slots[0].enabled);
- CHECK(ss_set_enabled(&state,SS_ELECTRONIC,1,SS_SHUTTER_MECHANICAL,commit_ok,0)==SS_INCOMPATIBLE);
+ uint32_t generation=state.generation;
+ CHECK(ss_native_shutter_changed(&state,SS_SHUTTER_MECHANICAL,commit_ok,0)==SS_OK && state.slots[0].enabled && state.generation==generation);
+ CHECK(ss_set_enabled(&state,SS_ELECTRONIC,1,SS_SHUTTER_MECHANICAL,commit_ok,0)==SS_OK);
+ native.shutter=SS_SHUTTER_MECHANICAL;
+ CHECK(ss_plan(&state,&native,SS_ELECTRONIC_EXPOSURE,&play)==SS_OK && play.route==SS_PLAY_ELECTRONIC);
+ native.shutter=SS_SHUTTER_EFCS;
+ CHECK(ss_plan(&state,&native,SS_ELECTRONIC_EXPOSURE,&play)==SS_OK && play.route==SS_PLAY_ELECTRONIC);
  CHECK(ss_focus_default(&state,commit_ok,0)==SS_OK);
  CHECK(ss_plan(&state,&native,SS_FOCUS_CONFIRMED,&play)==SS_OK && play.route==SS_NATIVE_FOCUS);
- ss_menu_view view;CHECK(ss_get_menu_view(&state,SS_ELECTRONIC,&view)==SS_OK && !view.import_selectable);
+ ss_menu_view view;CHECK(ss_get_menu_view(&state,SS_ELECTRONIC,&view)==SS_OK && view.import_selectable);
+ CHECK(ss_set_enabled(&state,SS_ELECTRONIC,0,SS_SHUTTER_MECHANICAL,commit_ok,0)==SS_OK);
+ CHECK(ss_plan(&state,&native,SS_ELECTRONIC_EXPOSURE,&play)==SS_OK && play.route==SS_SUPPRESS);
  wav[4]=1;CHECK(ss_parse_wav(wav,sizeof(wav),&format)==SS_WAV_INVALID);
  printf("{\"checks\":%u,\"passed\":true,\"camera_io\":false}\n",checks);return 0;
 }

@@ -1,72 +1,83 @@
-# Custom electronic shutter and focus sounds
+# Custom shutter and focus sounds
 
-[中文](README.md) · [Detailed implementation map](IMPLEMENTATION.md) · [Rebuildable native source](../../native/custom-sounds/README.md)
+[中文](README.md) · [Implementation map](IMPLEMENTATION.md) · [Native source and build](../../native/custom-sounds/README.md)
 
-Working sounds with blank or incorrect merged menu labels: use the [resource-only repair and final-package verification](menu-resource-repair.md). It restores all68 banks while preserving existing LUT and sound program changes.
+Adds **Custom Shutter Sound** and **Custom Focus Sound** under Shooting → Shutter/Silent. **Mechanical, electronic front-curtain and electronic shutter modes can all play the imported shutter sound.** They share the shutter slot’s switch, WAV and volume. Switching shutter types preserves the setting. The mechanical shutter’s physical sound remains audible; the custom sound plays through the speaker.
 
-Adds two independent items under Shooting → Shutter/Silent: custom electronic shutter sound and custom focus sound. The stock electronic shutter has no sound; this implementation adds an exposure event sound rather than replacing a nonexistent stock clip. AF-S / AF-A can use a custom focus clip or the stock default.
+AF-S / AF-A focus confirmation uses a separate clip or the stock default. Each sound slot stores its own switch, WAV and volume. Silent mode suppresses both custom sounds.
 
-**Firmware display numbers are not part of this method.** It does not read or write `updater/dat4`, impose an internal test label, or select compatibility by display version. Exact file hashes and native address/calling contracts establish compatibility.
+## Files and operation
 
-The public reference recipe requires an AP that already contains the shared menu framework. **It is not a stock-AP recipe and is not automatically included by the existing `build-sd` command.** It reconstructs component files, not a complete installable DAT. Read the root project's backup/update requirements before integrating a complete package.
+Place WAV files in **`PRIVATE/M4ROOT/GENERAL/SOUNDS/`** from the SD card root:
 
-## Behaviour
+```text
+PRIVATE/
+└─ M4ROOT/
+   └─ GENERAL/
+      └─ SOUNDS/
+         ├─ shutter.wav
+         └─ focus.wav
+```
 
-- Each menu has enable, import from SD, and volume. Import and volume are disabled when the switch is off; asynchronous completion refreshes both text and availability without an extra key press.
-- Select one WAV for each slot from `PRIVATE/SONY/PRO/SOUNDS/`. The filename is shown after a successful durable import. The picker has no date/duration column and uses audio-specific confirmation text.
-- WAV bytes, filenames and switches are stored internally; volume has a CRC-protected sidecar. A later boot rebuilds native sound ownership rather than trusting old numeric handles.
-- Integer PCM WAV: format 1, mono/stereo, 8/16/24/32 bits, 8–192 kHz, at most 1 MiB and 5 seconds. Invalid RIFF/chunk lengths, unsafe names and compressed/floating-point WAV are rejected.
-- Independent 10%–100% levels in 10% steps. 50% is the feature's reference gain; 100% doubles that digital amplitude. The two playback paths receive a matching private CP scalar. This is not a promise of equal perceived loudness for different recordings.
-- Silent mode suppresses both sounds. Mechanical/EFCS modes suppress and durably disable the electronic sound. Stock focus-signal settings remain authoritative; AF-C is not customized and MF produces no focus confirmation.
-- Focus default/fallback remains available. Exposure and focus have separate slots and event identities. Test them separately using AF-S half-press and MF exposure.
+1. Open Shooting → Shutter/Silent → Custom Shutter Sound and enable it.
+2. Select Import from SD, choose the card and a WAV, then confirm.
+3. Set the volume. Mechanical, electronic front-curtain and electronic shutters share this clip.
+4. To customize focus confirmation, select a separate WAV under Custom Focus Sound, using the same directory.
 
-The repository includes user-authorized [YEAH.WAV, DAGOU.WAV and JIAO.WAV examples](../../examples/custom-sounds/README.en.md) for reference and import testing. The example guide covers SD placement, menu steps, audio parameters and SHA-256 checksums. You can also supply your own compatible audio.
+Imported audio and filenames are saved internally and restored after power-on. The original card need not remain inserted. Existing saved clips remain usable; files for a new import belong in the directory above.
+
+| Item | Behaviour |
+|---|---|
+| Shutter sound | Available with mechanical, electronic front-curtain and electronic shutters; changing shutter type preserves its switch |
+| Focus sound | Separate AF-S / AF-A clip or Default; AF-C and MF retain their existing rules |
+| Volume | Independent 10%–100% levels in 10% steps; 50% is reference gain, 100% doubles the reference digital amplitude |
+| Switch off | Disables that slot’s import and volume rows without disabling the other slot |
+| Silent mode | Suppresses both custom sounds; existing selections resume when silence is disabled |
+| File picker | WAV filenames, orange selection highlight and audio-specific confirmation |
+
+Use short integer PCM WAV files: format 1, mono/stereo, 8/16/24/32 bits, 8–192 kHz, at most 1 MiB and 5 seconds. Compressed/floating-point WAV, damaged RIFF/chunks and unsafe filenames are rejected. User-authorized [YEAH.WAV, DAGOU.WAV and JIAO.WAV examples](../../examples/custom-sounds/README.en.md) are available.
+
+The stock focus-signal setting also controls custom focus playback. Focusing while taking a photo can trigger both sound types in succession.
 
 ## Camera demo photos
 
-These five maintainer-provided photos show the locations of both new menu items, their settings screens and the audio import interface.
+**Menu location: custom shutter sound with mechanical shutter and electronic front-curtain enabled**
 
-**Menu locations: Shooting → Shutter/Silent**
-
-| Custom electronic shutter sound (page 13/60 in the photo) | Custom focus sound (page 14/60 in the photo) |
+| Custom shutter sound | Custom focus sound |
 |---|---|
-| ![Custom electronic shutter sound item under Shooting, Shutter/Silent](images/electronic-shutter-menu-location.jpg) | ![Custom focus sound item under Shooting, Shutter/Silent](images/focus-sound-menu-location.jpg) |
+| ![Mechanical shutter and electronic front-curtain enabled with the Custom Shutter Sound menu](images/shutter-menu-location.png) | ![Custom Focus Sound menu location](images/focus-sound-menu-location.jpg) |
 
-**Settings screens: enabled, YEAH.WAV selected, volume at 100%**
+**Independent switches, clips and volume**
 
-| Custom electronic shutter sound | Custom focus sound |
+| Shutter sound: Ciallo.wav, 100% | Focus sound: YEAH.WAV, 100% |
 |---|---|
-| ![Electronic shutter sound settings: enabled, YEAH.WAV, volume at 100%](images/electronic-shutter-settings.jpg) | ![Focus sound settings: enabled, YEAH.WAV, volume at 100%](images/focus-sound-settings.jpg) |
+| ![Custom Shutter Sound enabled with Ciallo.wav and volume at 100%](images/shutter-settings.png) | ![Custom Focus Sound enabled with YEAH.WAV and volume at 100%](images/focus-sound-settings.jpg) |
 
-**Audio import: select Import from SD to browse WAV files**
+**Select Import from SD to browse WAV files**
 
-![Audio import interface with an orange selection highlight for WAV files on the SD card](images/audio-import-picker.jpg)
+![Audio file picker](images/audio-import-picker.jpg)
 
-## Offline component reconstruction
+## Reconstruct modified components
+
+The repository distributes authored source and change recipes, without complete Sony firmware. The reference AP already contains the shared menu framework; **stock AP is not interchangeable**. Complete per-file SHA-256 hashes and the address layout establish compatibility.
 
 ```powershell
 python -m a7m4.custom_sound inspect
 python -m a7m4.custom_sound apply --ap local/sound-input/appFw.so --cp local/sound-input/cpapp-b.bin --fs-root local/sound-input/fs --output output/custom-sounds
 ```
 
-`inspect` lists all 71 required input/output hashes. AP input is `28bd97605c5cb2e0b9edfeec36abf2dec64a46a9895f79b00c7f9356ce2482c3`; CP input is `1c34764fe413d4c0d720d629e323996498305fc29e5c53d2c52d0cca0c0d1504`. Supply the exact local reference AP/CP plus original `fs/lib/libmpr.so` and 68 original `fs/share/app/*.uxc` resources. Filenames and nearby display numbers are not substitutes for these hashes.
+Supply the exact AP, CP, `fs/lib/libmpr.so` and all 68 horizontal/vertical language resources listed by `inspect`. Outputs contain AP, MPR, resources, CP and a verification manifest, including mechanical shutter support, the current menu name and sound directory. Input files and existing outputs are preserved.
 
-All inputs and output hashes are checked before creating a new output directory. Inputs and existing outputs are never overwritten. Output contains `fs/lib/appFw.so`, `fs/lib/libmpr.so`, the resource files, `cp/cpapp-b.bin` and an evidence manifest. Original unchanged bytes are referenced by bounded COPY operations; only changed-byte ADDs are distributed. No complete Sony firmware or camera backups are included. The three reference WAVs are distributed separately in [examples/custom-sounds](../../examples/custom-sounds/README.en.md).
+For missing or incorrect menu text, see the [resource-only repair](menu-resource-repair.md). After full-package integration, extract the final filesystem and run:
 
-## Source and integration
+```powershell
+python -m a7m4.custom_sound verify-resources --fs-root local/final-package-fs
+```
 
-The [implementation map](IMPLEMENTATION.md) documents the exact menu registrations, ELF relocation changes, controller completion refresh, filesystem transactions, PCM-to-24-kHz f0 conversion, AP/CP leases, restart recovery and gain correction. The [native build](../../native/custom-sounds/README.md) reproduces six modules and their installed sections; post-link corrections are explicit.
+## Source and firmware integration
 
-A complete firmware build must integrate AP/MPR/all language resources and CP together, preserve unrelated changes and calibration, verify all container checksums/signatures, and synchronize the independent CP NOR through the supported SD update path. Flashing an eMMC CP image alone does not update NOR. The component `cpapp-b.bin` is not a whole partition image. This sound method never chooses a firmware release number; complete-package publication manages that separately.
+The [implementation map](IMPLEMENTATION.md) identifies shutter policy, directory construction, menu resource IDs, persistence, AP/CP ownership and volume changes. The [native build guide](../../native/custom-sounds/README.md) covers all six modules, address-preserving post-link edits and generation of current-policy sources.
 
-The full reference profile now enforces AP, CP, MPR and every required horizontal/vertical bank, including text records. After integration, extract the filesystem from the **final package** and run `python -m a7m4.custom_sound verify-resources --fs-root local/final-package-fs`. Correct intermediate files alone do not prove that the final package contains them.
+A complete firmware build integrates AP, MPR, all language resources and CP together, recalculates container/partition checksums and signatures, and synchronizes the independent CP NOR through the supported SD update path. The component `cpapp-b.bin` is not a whole partition image. Different layouts require renewed address, calling-contract, memory-ownership and runtime checks.
 
-## Validation
-
-The maintainer's existing single-camera implementation received successful custom-sound, matching-level and repeated-restart feedback, followed by user acceptance of the requested functionality. The published reference files were checked offline; they have no separate new hardware acceptance claim.
-
-This publication rechecks 71 complete reconstructed file hashes, six source-built modules and their installed sections, 32 C core checks, and Python input/output guard tests. See [validation evidence](../../docs/custom-sounds-validation.json). No camera operation or new installable package was performed. Other baselines and combinations still require native replay, full-package audit and hardware testing, including immediate startup, repeated OFF/ON, silent/mechanical policies, real bursts, photo writes and clean shutdown.
-
-## Shared resources with custom LUTs
-
-SD JSON/multi-slot LUTs share AP registration, GUI lifecycle, language banks and CP boot/dispatch paths with sound. Follow the [integration rules](../08-custom-lut/INTEGRATION.md). Existing sound tools retain their exact hashes; a different integrated resource set requires separate validation, not replacement with older AP/resources.
+SD JSON/multi-slot LUTs share AP registration, GUI lifecycle, language banks and CP boot/dispatch with sound. Follow the [LUT integration rules](../08-custom-lut/INTEGRATION.md); preserve already-composed features when modifying components.

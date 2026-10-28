@@ -15,7 +15,7 @@ def bank(path, *, missing=None, bad_volume=False):
     labels.update({rid: f"{(rid - 0x200ABD8 + 1) * 10}%" for rid in range(0x200ABD8, 0x200ABE2)})
     if "simplifiedchinese" in path:
         labels.update(zip((0x200AB5C, 0x200AB5D, 0x200AB5E, 0x200AB5F, 0x200AB65),
-                          ("自定义电子快门声", "自定义对焦声音", "从SD卡内导入", "开关", "音量")))
+                          ("自定义快门声", "自定义对焦声音", "从SD卡内导入", "开关", "音量")))
     if missing:
         del labels[missing]
     if bad_volume:

@@ -1,35 +1,19 @@
 {
   "schema": 1,
-  "date": "2026-10-21",
   "feature": "sound-menu-resource-repair",
   "repair_resource_files": 68,
   "required_horizontal_vertical_banks": 68,
   "private_text_checks_per_verification": 1360,
-  "all_repair_outputs_equal_existing_full_sound_recipe": true,
-  "actual_local_resource_reconstruction_passed": true,
-  "existing_full_recipe_files_reconstructed": 71,
-  "existing_full_recipe_outputs_unchanged": true,
-  "already_repaired_inputs_supported": true,
+  "repair_outputs_equal_full_sound_recipe": true,
+  "resource_reconstruction_passed": true,
+  "full_recipe_files_reconstructed": 71,
+  "already_correct_targets_supported": true,
   "unknown_inputs_rejected": true,
   "all_inputs_preserved": true,
-  "repair_profile_sha256": "150bd3ec0eedb9a1c4de093525a3f90d3a7e1e68ed369ea6ab9bba9893339f38",
-  "targeted_python_tests": {
-    "passed": 41,
-    "failed": 0
-  },
-  "full_python_suite": {
-    "passed": 208,
-    "failed": 0,
-    "windows_child_process_UTF8_mode": true
-  },
-  "user_acceptance": {
-    "date": "2026-10-21",
-    "statement": "实测已修复",
-    "scope": "Resource-only repair on maintainer merged camera build; not a new acceptance of the full public AP/CP recipe or other layouts"
-  },
-  "new_camera_operations": false,
-  "new_installable_package": false,
+  "repair_profile_sha256": "460191c89fd62b46e591412d53d4eaf16c3b542f87d94a1f736eee6b6c2e6f49",
   "native_programs_modified": false,
   "firmware_metadata_changed": false,
+  "camera_io": false,
+  "installable_package_created": false,
   "glyph_rendering_emulated": false
 }

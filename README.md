@@ -36,7 +36,7 @@ Fastboot 路线需要 **Multi 接口刷机线与 RP2040-Zero 启动桥**，普�
 | FL2 / FL3 移植 | 移植 FX2 的 FL2、FL3 创意外观及相关色彩配置。 | [使用方法](methods/03-fl2-fl3/README.md) |
 | 副厂电池 | 显示电量、取消副厂提示，保留充电与温度保护；更新仍须用原厂电池。 | [使用方法](methods/04-third-party-battery/README.md) |
 | 镜头 AF 能力过滤 | 保留镜头上报的兼容能力与速度参数；不承诺对焦提速。 | [使用方法](methods/05-third-party-lens-af/README.md) |
-| 自定义声音 | 从 SD 卡导入 WAV，分别设置电子快门声、对焦声及音量。 | [使用方法](methods/06-custom-sounds/README.md) |
+| 自定义声音 | 从 SD 卡导入 WAV，机械／电子快门均可播放自定义声音，对焦声与音量分别设置。 | [使用方法](methods/06-custom-sounds/README.md) |
 | 自定义纵横比 | 新增 17:6、65:24、5:4、7:6；JPEG / HEIF 裁切，RAW 保留原始幅面。 | [使用方法](methods/07-custom-aspect-ratios/README.md) |
 | 自定义 LUT | 从 SD 卡单独导入转换后的 JSON LUT；16 个槽位可随时替换，每个滤镜支持 8 项微调与 1 项强度，开机初次使用约 1 秒载入。 | [使用方法](methods/08-custom-lut/README.md) |
 

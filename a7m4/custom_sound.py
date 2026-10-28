@@ -78,7 +78,7 @@ def verify_menu_payloads(profile: dict, payloads: dict[str, bytes]) -> dict:
             raise ValueError("Invalid sound volume labels")
         if "simplifiedchinese" in row["path"] and [labels[rid] for rid in (
                 0x200AB5C, 0x200AB5D, 0x200AB5E, 0x200AB5F, 0x200AB65)] != [
-                "自定义电子快门声", "自定义对焦声音", "从SD卡内导入", "开关", "音量"]:
+                "自定义快门声", "自定义对焦声音", "从SD卡内导入", "开关", "音量"]:
             raise ValueError("Invalid Simplified Chinese sound labels")
     return {"banks_verified": len(rows), "text_checks": len(rows) * len(SOUND_TEXT_IDS),
             "glyph_rendering_tested": False, "camera_io": False}

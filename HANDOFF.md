@@ -4,7 +4,7 @@
 
 - Publish reusable implementation methods, authored source, input hashes and component verification boundaries. Do not publish specific experimental firmware versions, versioned delivery directories, package manifests or per-round test progress to GitHub. Keep those in the research repository.
 - Preserve the root README structure: introduction and method index, without dated version announcements or a test-progress feed. The maintainer explicitly requested this separation.
-- The custom-sound gallery uses the maintainer's corrected five-photo set: two menu locations, two settings screens and the audio picker. Match shutter/focus captions to the visible menu title, update both language guides together and remove superseded gallery assets in a normal commit.
+- The custom-sound gallery uses the maintainer's corrected five-photo set: two menu locations, two settings screens and the audio picker. Shutter photos show the current generic title and Ciallo.wav; focus photos retain YEAH.WAV. Match shutter/focus captions to the visible menu title, update both language guides together and remove superseded gallery assets in a normal commit.
 - Functional directories and commands are `native/feature-integration/` / `a7m4.feature_integration` and `native/jpeg-exif-dimensions/` / `a7m4.jpeg_exif_dimensions`. Exact input/output hashes remain mandatory; renaming a recipe does not make its fixed addresses portable.
 - Do not rewrite repository history to remove older announcements. Make a normal scoped cleanup commit; generated firmware, manufacturer inputs and camera originals remain local.
 - The desktop tool starts a fresh operation session on every normal launch, after requesting Windows elevation. Keep enrollment and historical evidence, but never use an old workflow, patch or USB-recovery pointer to gate the new session. Child processes inherit the new session; global process locks and live camera checks remain. `--verify` must stay noninteractive and local-only.
@@ -37,4 +37,12 @@
 - Credit Hearts-Ace/sony-a7r5-custom-firmware for native colour parameters, grid lifecycle research and R5ColorLab LUT fitting. The user explicitly excluded menu attribution; retain the custom LUT method entry.
 - State the supported camera and official firmware prominently near the top: Sony ILCE-7M4 (A7 IV / A7M4), official V6.02. This is the supported stock baseline, not an internal development version.
 
-- The custom LUT Off page has no Right-key RAM diagnostics entry. Keep the AP component identity in methods/08-custom-lut/reference-layout.json aligned with tools/disable_lut_ram_diagnostics.py; do not reintroduce the perf_active activation branch when rebuilding the GUI.
+- The custom LUT Off page has no Right-key RAM diagnostics entry. Keep the AP component identity in methods/08-custom-lut/reference-layout.json aligned with tools/disable_lut_ram_diagnostics.py and the subsequent custom-sound-policy chain; do not reintroduce the perf_active activation branch when rebuilding the GUI.
+
+## Custom shutter sound policy and directory
+
+- Mechanical, electronic front-curtain and electronic shutter modes share the shutter sound slot; changing capture mechanism preserves the user switch. Both sound slots import from PRIVATE/M4ROOT/GENERAL/SOUNDS. Keep feature prose, examples, resource profiles and title validation aligned in both languages.
+- Fixed native source inputs preserve exported addresses. The runtime build-plan explicitly applies policy/directory changes after linking; installed.elf is authoritative. Use prepare_current_sound_sources.py for current C policy tests or a separately relinked port, not the unmodified reference C for current behaviour.
+- The independent AP policy tool supports only listed complete SHA-256 identities. Do not change stock shutter getters to fake electronic mode. Scan/import prefix lengths, filename offsets and terminators must all change together.
+- Update only the shutter photos when replacing those views; preserve focus and picker photos and the original supplied pixels. Menu and import confirmation text use indexed UXC records; update all horizontal/vertical banks without replacing LUT resources.
+- Recipe JSON contains base64 patch bytes: do not describe release labels or copy delivery manifests into public docs. Keep numeric measurement data untouched during version-prose checks.
