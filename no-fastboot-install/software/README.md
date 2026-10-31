@@ -47,6 +47,18 @@ D:\M4-build\M4相机工具.exe --verify
 
 ## 离线开发检查
 
+统一离线入口可以直接检查源码，不需要外部运行组件、完整便携包或相机：
+
+```powershell
+py -3 -I -B tests\run_offline.py --source-only --report build\source-tests.json --junit build\source-tests.xml
+# 有完整、可信的本机构建包时，同时运行包级检查；每项使用独立临时副本。
+py -3 -I -B tests\run_offline.py --package D:\M4-build --report build\package-tests.json
+```
+
+源码检查覆盖构建资产复制、USB 身份重试策略（Fake 设备）、会话继承／隔离、状态 IO 和测试运行器本身；Windows 上实际验证文件共享。目录资产在整组复制完成后重新计算输出摘要，依赖锁不变。
+
+未指定 `--source-only` 或 `--package` 时，源码检查仍会执行，缺少完整包的检查逐项列为 `BLOCKED`，总体 `PARTIAL`。退出码：`PASS=0`、`FAIL=1`、`PARTIAL=2`；源码范围的 PASS 不代表发布包或相机安装通过。运行器支持每项超时与 JSON/JUnit 报告，不生成替代运行时或 release.json，也不修改原包的状态。详见 [离线测试说明](tests/OFFLINE.md)。
+
 以下命令只用于新构建的测试目录，不能对用户运行目录执行；它们会生成虚拟任务和绑定。不会调用 Windows 驱动或相机，但会留下测试 state，测试目录不能直接分发。
 
 ```powershell

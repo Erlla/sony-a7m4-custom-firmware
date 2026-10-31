@@ -31,7 +31,19 @@ After driver rebinding, normal USB identity checks wait up to about eight second
 
 ## Offline checks
 
-Run the scripts under `tests/` with the built package's isolated Python and `--package D:\M4-build`, including `test_startup_session.py` for process-level restart isolation and Tk controls. `test_menu_seal.py` also needs `--lineage stock` or `--lineage user`. Use a disposable build: tests create fake enrollment and run state, so the tested directory must not be distributed.
+The offline runner checks source directly with Python 3.12+, without external runtime assets, a built package or a camera:
+
+```powershell
+py -3 -I -B tests\run_offline.py --source-only --report build\source-tests.json --junit build\source-tests.xml
+# With a complete trusted local build, also run package checks on isolated copies.
+py -3 -I -B tests\run_offline.py --package D:\M4-build --report build\package-tests.json
+```
+
+Source checks cover asset copying, USB identity retry policy with fake devices, session inheritance/isolation, state IO and the runner itself, including real Windows sharing checks. Directory asset outputs are re-hashed after a complete group is copied; dependency locks are unchanged.
+
+With neither `--source-only` nor `--package`, source checks run and package checks are individually `BLOCKED`, producing `PARTIAL`. Exit codes are `PASS=0`, `FAIL=1`, `PARTIAL=2`. A source-only PASS does not validate a release or camera installation. The runner supports per-check timeouts and JSON/JUnit reports, never fabricates a runtime or release manifest, and leaves original package state untouched. See [Offline testing](tests/OFFLINE.md).
+
+Run the package-level scripts under `tests/` with the built package's isolated Python and `--package D:\M4-build`, including `test_startup_session.py` for process-level restart isolation and Tk controls. `test_menu_seal.py` also needs `--lineage stock` or `--lineage user`. Use a disposable build: tests create fake enrollment and run state, so the tested directory must not be distributed.
 
 Tests cover recovery UI/state guards, real local job construction and menu sealing/validation, stopping before real device operations. Their receiver proof is synthetic and cannot establish physical-camera behavior. Normal patch operations use integrity checks without ARM64 simulation or fault-injection regression.
 
