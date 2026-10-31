@@ -54,6 +54,11 @@ def copy_assets(assets, output, dependencies):
             for name in actual:
                 target = output / name; target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(assets / name, target)
+            # Re-read the completed group: a source may change after preflight,
+            # or an earlier destination may change while later files copy.
+            copied = {name: sha(output / name) for name in actual}
+            if copied != actual:
+                raise ValueError('Copied runtime asset group differs: ' + group)
 
 
 def main():
