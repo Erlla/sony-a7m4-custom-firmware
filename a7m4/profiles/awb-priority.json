@@ -1,0 +1,48 @@
+{
+  "schema": "a7m4.awb-priority.v1",
+  "model": "ILCE-7M4",
+  "stock_firmware_basis": "6.02",
+  "cp_base": 1081344,
+  "input_bytes": 16236816,
+  "settings": {
+    "ambience": -1,
+    "standard": 0,
+    "white": 97
+  },
+  "identities": {
+    "7b9b137d696e5972d20db7f9119076172ed8e0730805d7f0b4c31b87689e2c2b": {
+      "kind": "stock CP",
+      "output_sha256": "795c1ee2ed55be0e85b75b0aad4010ba8568c299e26016176d2176ed342af2a9"
+    },
+    "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640": {
+      "kind": "integrated CP after custom-sound handoff",
+      "output_sha256": "8f3061af864a86f49c03d62301af0dd193d493251b2058731149924d676cc939"
+    }
+  },
+  "patches": [
+    {
+      "file_offset": "0x13293e",
+      "va": "0x23a93e",
+      "before": "96f83019",
+      "after": "4ff06101",
+      "purpose": "White-priority input is 97 before the original signed-byte arithmetic"
+    },
+    {
+      "file_offset": "0x132948",
+      "va": "0x23a948",
+      "before": "96f83119",
+      "after": "4ff0ff01",
+      "purpose": "Ambience-priority input is 0xff, interpreted as -1 by the original SXTAB"
+    }
+  ],
+  "standard_branch": {
+    "file_offset": "0x132952",
+    "bytes": "00210023",
+    "action": "unchanged"
+  },
+  "limits": [
+    "Component-only, local-file patch; does not build or install a DAT or write camera backup records.",
+    "The two MOV.W instructions preserve flags; all other CP bytes and the component length are retained.",
+    "Physical installation and image-quality changes require separate camera validation."
+  ]
+}
