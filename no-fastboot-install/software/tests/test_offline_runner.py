@@ -256,6 +256,52 @@ class RunnerTests(unittest.TestCase):
             self.assertTrue(all(row['status']=='PASS' for row in rows[1:]))
             self.assertEqual(marker.read_bytes(), b'preserve')
 
+    @unittest.skipUnless(os.name == 'nt', 'checks Windows extended-path cleanup')
+    def test_package_workspace_removes_extended_path_files(self):
+        with runner.package_workspace() as directory:
+            length = max(263, len(str(directory)) + 40)
+            padding = length - len(str(directory)) - len('recovery.json') - 2
+            target = directory/('d'*padding)/'recovery.json'
+            extended = '\\\\?\\' + str(target)
+            os.makedirs(os.path.dirname(extended))
+            with open(extended, 'wb') as stream:
+                stream.write(b'{"inert":true}\n')
+            self.assertGreater(len(str(target)), 260)
+            self.assertTrue(os.path.exists(extended))
+        self.assertFalse(os.path.exists('\\\\?\\' + str(directory)))
+
+    def test_cleanup_failure_is_reported_and_remaining_checks_continue(self):
+        remove = runner.shutil.rmtree
+        leftover = []
+        def cleanup(path, *args, **kwargs):
+            if not leftover:
+                leftover.append(path)
+                raise OSError(145, 'controlled cleanup failure')
+            return remove(path, *args, **kwargs)
+        try:
+            with patch.object(runner, 'package_preflight', return_value={'status':'PASS'}), \
+                 patch.object(runner, 'copy_package'), \
+                 patch.object(runner, 'run_process', return_value=completed()) as process, \
+                 patch.object(runner.shutil, 'rmtree', side_effect=cleanup):
+                rows = runner.run_package_cases(Path('inert-dispatch-fixture'), 10)
+            self.assertEqual(len(rows), len(runner.PACKAGE_CASES))
+            self.assertEqual(process.call_count, len(runner.PACKAGE_CASES))
+            self.assertEqual(rows[0]['status'], 'FAIL')
+            self.assertIn('controlled cleanup failure', rows[0]['cleanup_error'])
+            self.assertTrue(all(row['status']=='PASS' for row in rows[1:]))
+            report = dict(status=runner.overall_status(rows), checks=rows)
+            self.assertEqual(report['status'], 'FAIL')
+            exported = ET.fromstring(runner.junit(report))
+            self.assertEqual(exported.attrib['failures'], '1')
+            self.assertIn('controlled cleanup failure', exported.find('testcase/failure').text)
+            with tempfile.TemporaryDirectory() as directory:
+                destination = Path(directory)/'report.json'
+                runner.atomic_json(destination, report)
+                self.assertEqual(json.loads(destination.read_text('utf-8')), report)
+        finally:
+            for path in leftover:
+                if os.path.exists(path): remove(path)
+
     def test_reports_cannot_overwrite_package_or_source_tests(self):
         with tempfile.TemporaryDirectory() as directory:
             package = Path(directory)

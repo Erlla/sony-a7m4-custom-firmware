@@ -36,6 +36,8 @@ The package catalogue includes native `--verify`, USB recovery, local failure, s
 
 Tests are deliberately sequential. `--timeout SECONDS` bounds each suite/check (default 900, maximum 3600); timeout cleanup targets only the owned test process tree. Output capture retains at most the final 64 KiB in the report. A failure in one check does not suppress the remaining checks.
 
+Package-copy cleanup uses Windows extended paths without requiring a global long-path setting. A cleanup error marks that check as failed, preserves its child-process result, and allows the remaining checks and final JSON/JUnit reports to complete.
+
 ## Results
 
 | Result | Exit | Meaning |

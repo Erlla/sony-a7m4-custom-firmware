@@ -4,6 +4,7 @@ No dependency download, driver preparation or camera action is performed.
 Package tests always receive a disposable copy, never the supplied package.
 """
 from pathlib import Path
+from contextlib import contextmanager
 import argparse
 import hashlib
 import importlib.util
@@ -209,6 +210,20 @@ def copy_package(package, target):
     # Deliberately omit state, backups, logs and unrelated root files.
 
 
+@contextmanager
+def package_workspace():
+    directory = Path(tempfile.mkdtemp(prefix='m4-package-check-')).resolve()
+    try:
+        yield directory
+    finally:
+        # State writers can create extended paths even when Windows long-path
+        # support is disabled. Cleanup must address the same files.
+        path = str(directory)
+        if os.name == 'nt' and not path.startswith('\\\\?\\'):
+            path = '\\\\?\\UNC\\' + path[2:] if path.startswith('\\\\') else '\\\\?\\' + path
+        shutil.rmtree(path)
+
+
 def run_package_cases(package, timeout):
     rows = []
     try:
@@ -221,20 +236,29 @@ def run_package_cases(package, timeout):
                     for name, _, _ in PACKAGE_CASES)
         return rows
     for name, script, extra in PACKAGE_CASES:
-        with tempfile.TemporaryDirectory(prefix='m4-package-check-') as directory:
-            disposable = Path(directory)/'package'
-            try:
-                copy_package(package, disposable)
-                copied = package_preflight(disposable)
-                if copied['status'] != 'PASS': raise ValueError(copied['reason'])
-                command = ([disposable/'M4相机工具.exe', '--verify'] if script is None else
-                           [disposable/'runtime/python/python.exe', '-I', '-B', '-X', 'utf8',
-                            HERE/script, '--package', disposable, *extra])
-                result = run_process(command, timeout)
-                passed = result['exit_code'] == 0 and not result['timed_out']
-                rows.append(dict(id='package.'+name, status='PASS' if passed else 'FAIL', **result))
-            except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
-                rows.append(dict(id='package.'+name, status='FAIL', reason=str(error)))
+        row = None
+        try:
+            with package_workspace() as directory:
+                disposable = directory/'package'
+                try:
+                    copy_package(package, disposable)
+                    copied = package_preflight(disposable)
+                    if copied['status'] != 'PASS': raise ValueError(copied['reason'])
+                    command = ([disposable/'M4相机工具.exe', '--verify'] if script is None else
+                               [disposable/'runtime/python/python.exe', '-I', '-B', '-X', 'utf8',
+                                HERE/script, '--package', disposable, *extra])
+                    result = run_process(command, timeout)
+                    passed = result['exit_code'] == 0 and not result['timed_out']
+                    row = dict(id='package.'+name, status='PASS' if passed else 'FAIL', **result)
+                except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+                    row = dict(id='package.'+name, status='FAIL', reason=str(error))
+        except OSError as error:
+            if row is None:
+                row = dict(id='package.'+name, status='FAIL', reason=str(error))
+            else:
+                row.update(status='FAIL', cleanup_error=str(error),
+                           reason=row.get('reason') or 'Package cleanup failed: '+str(error))
+        rows.append(row)
     return rows
 
 
