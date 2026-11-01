@@ -1,9 +1,10 @@
-"""Runner error/timeout/isolation tests. Package dispatch is mocked, not built."""
+"""Runner regressions with inert preflight fixtures and mocked package dispatch."""
 from pathlib import Path
 import importlib.util
 import io
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -19,6 +20,142 @@ spec.loader.exec_module(runner)
 
 def completed(exit_code=0):
     return dict(exit_code=exit_code, timed_out=False, output='', output_truncated=False, seconds=0)
+
+
+@unittest.skipUnless(os.name == 'nt', 'package preflight requires Windows')
+class PackagePreflightTests(unittest.TestCase):
+    """Exercise real preflight/copy code, never execute these inert package files."""
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix='m4-preflight-fixture-')
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.software = self.root/'source'
+        self.package = self.root/'package'
+        self.software.mkdir(); self.package.mkdir()
+        # Use checkout hashing code and the current metadata/layout, but small
+        # text-only app/runtime fixtures. Production dependency locks stay intact.
+        builder_path = runner.SOFTWARE/'build.py'
+        self.builder = runner.load_module('fixture_builder', builder_path)
+        shutil.copyfile(builder_path, self.software/'build.py')
+        self.dependencies = json.loads((runner.SOFTWARE/'dependencies.json').read_text('utf-8'))
+        (self.software/'app').mkdir()
+        (self.software/'app/entry.py').write_text('raise RuntimeError("inert fixture must never execute")\n', 'utf-8')
+        shutil.copytree(self.software/'app', self.package/'app')
+        for group in self.dependencies['groups']:
+            folder = self.package/group
+            folder.mkdir(parents=True)
+            name = 'python.exe' if group == 'runtime/python' else 'fixture.txt'
+            (folder/name).write_bytes(b'inert locked asset')
+            files = {p.relative_to(self.package).as_posix():self.builder.sha(p)
+                     for p in folder.rglob('*') if p.is_file()}
+            self.dependencies['groups'][group] = dict(files=len(files), tree_sha256=self.builder.fingerprint(files))
+        self.write_dependencies()
+        for name in ('README.md', 'THIRD_PARTY.md', '使用说明.md'):
+            (self.package/name).write_text('Inert root documentation: '+name, 'utf-8')
+        (self.package/'M4相机工具.exe').write_bytes(b'inert launcher; never execute')
+        files = {p.relative_to(self.package).as_posix():self.builder.sha(p)
+                 for group in runner.COPY_DIRS for p in (self.package/group).rglob('*') if p.is_file()}
+        files.update({name:self.builder.sha(self.package/name)
+                      for name in ('README.md', 'THIRD_PARTY.md', '使用说明.md')})
+        self.manifest = dict(schema='m4-clean-product-release/1', version=self.dependencies['version'], files=files)
+        self.write_manifest()
+        source = patch.object(runner, 'SOFTWARE', self.software)
+        source.start(); self.addCleanup(source.stop)
+
+    def write_dependencies(self):
+        (self.software/'dependencies.json').write_text(json.dumps(self.dependencies), 'utf-8')
+
+    def write_manifest(self):
+        (self.package/'app/release.json').write_text(json.dumps(self.manifest, ensure_ascii=False), 'utf-8')
+
+    def test_current_manifest_with_root_documents_passes_real_preflight(self):
+        self.assertEqual(self.manifest['version'], '1.0.0')
+        self.assertEqual(runner.package_preflight(self.package)['status'], 'PASS')
+
+    def test_version_comes_from_checkout_dependency_metadata(self):
+        self.dependencies['version'] = 'fixture-next-version'
+        self.manifest['version'] = self.dependencies['version']
+        self.write_dependencies(); self.write_manifest()
+        self.assertEqual(runner.package_preflight(self.package)['status'], 'PASS')
+
+    def test_unsupported_schema_and_versions_remain_rejected(self):
+        for field, value in (('schema', 'unsupported/1'), ('version', '1.00'), ('version', None)):
+            with self.subTest(field=field, value=value):
+                original = self.manifest[field]
+                self.manifest[field] = value; self.write_manifest()
+                with self.assertRaisesRegex(ValueError, 'Unsupported release manifest'):
+                    runner.package_preflight(self.package)
+                self.manifest[field] = original
+
+    def test_each_root_document_is_hashed_and_required_when_manifested(self):
+        for name in ('README.md', 'THIRD_PARTY.md', '使用说明.md'):
+            path = self.package/name
+            original = path.read_bytes()
+            with self.subTest(name=name, change='modified'):
+                path.write_bytes(original+b'!')
+                with self.assertRaisesRegex(ValueError, 'Release file differs'):
+                    runner.package_preflight(self.package)
+            with self.subTest(name=name, change='missing'):
+                path.unlink()
+                with self.assertRaises(FileNotFoundError): runner.package_preflight(self.package)
+            path.write_bytes(original)
+
+    def test_manifest_cannot_include_state_logs_backups_or_other_root_paths(self):
+        for name in ('state/record.json', 'logs/run.log', 'backups/p1.bin', 'README.en.md',
+                     'README.md/child', '../README.md', 'app/../README.md', 'app\\entry.py', 'C:/file'):
+            with self.subTest(name=name):
+                self.manifest['files'][name] = '0'*64; self.write_manifest()
+                with self.assertRaisesRegex(ValueError, 'Unsafe release path'):
+                    runner.package_preflight(self.package)
+                del self.manifest['files'][name]
+
+    def test_locked_content_remains_checked_even_with_updated_release_hash(self):
+        name = 'runtime/python/python.exe'
+        (self.package/name).write_bytes(b'changed runtime')
+        self.manifest['files'][name] = self.builder.sha(self.package/name)
+        self.write_manifest()
+        with self.assertRaisesRegex(ValueError, 'Runtime asset group differs'):
+            runner.package_preflight(self.package)
+
+    def test_app_must_match_checkout_even_with_updated_release_hash(self):
+        name = 'app/entry.py'
+        (self.package/name).write_bytes(b'changed app')
+        self.manifest['files'][name] = self.builder.sha(self.package/name)
+        self.write_manifest()
+        with self.assertRaisesRegex(ValueError, 'Package app does not match'):
+            runner.package_preflight(self.package)
+
+    def test_manifest_must_cover_locked_assets_and_checkout_app(self):
+        for name, reason in (('runtime/python/python.exe', 'Release does not cover locked assets'),
+                             ('app/entry.py', 'Release does not cover the checkout app')):
+            with self.subTest(name=name):
+                digest = self.manifest['files'].pop(name); self.write_manifest()
+                with self.assertRaisesRegex(ValueError, reason): runner.package_preflight(self.package)
+                self.manifest['files'][name] = digest
+
+    def test_copy_with_current_manifest_passes_real_preflight_and_excludes_user_files(self):
+        for name in ('state/enrollment.json', 'logs/run.log', 'backups/p1.bin', 'private.txt', 'README.en.md'):
+            path = self.package/name
+            path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(b'preserve user file')
+        before = {p.relative_to(self.package).as_posix():p.read_bytes()
+                  for p in self.package.rglob('*') if p.is_file()}
+        self.assertEqual(runner.package_preflight(self.package)['status'], 'PASS')
+        target = self.root/'copy'
+        runner.copy_package(self.package, target)
+        self.assertEqual(runner.package_preflight(target)['status'], 'PASS')
+        copied = {p.relative_to(target).as_posix():p.read_bytes() for p in target.rglob('*') if p.is_file()}
+        expected = set(self.manifest['files']) | {'app/release.json', 'M4相机工具.exe'}
+        self.assertEqual(set(copied), expected)
+        self.assertEqual(copied, {name:before[name] for name in expected})
+        self.assertEqual(before, {p.relative_to(self.package).as_posix():p.read_bytes()
+                                  for p in self.package.rglob('*') if p.is_file()})
+
+    def test_unmanifested_root_document_is_not_copied(self):
+        del self.manifest['files']['README.md']; self.write_manifest()
+        target = self.root/'copy'
+        runner.copy_package(self.package, target)
+        self.assertFalse((target/'README.md').exists())
+        self.assertEqual(runner.package_preflight(target)['status'], 'PASS')
 
 
 class RunnerTests(unittest.TestCase):

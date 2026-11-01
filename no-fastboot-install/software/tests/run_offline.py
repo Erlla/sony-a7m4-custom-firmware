@@ -38,6 +38,7 @@ PACKAGE_CASES = (
     ('menu-user', 'test_menu_seal.py', ('--lineage', 'user')),
 )
 COPY_DIRS = ('app', 'runtime', 'vendor', 'tools', 'licenses')
+ROOT_DOCS = ('README.md', 'THIRD_PARTY.md', '使用说明.md')
 
 
 def load_module(name, path):
@@ -155,8 +156,10 @@ def package_preflight(package):
     if not all((package/name).is_file() for name in required):
         return dict(status='BLOCKED', reason='A complete locally built package is required')
     builder = load_module('offline_checked_builder', SOFTWARE/'build.py')
+    dependencies = json.loads((SOFTWARE/'dependencies.json').read_text('utf-8'))
     manifest = json.loads((package/'app/release.json').read_text('utf-8'))
-    if manifest.get('schema') != 'm4-clean-product-release/1' or manifest.get('version') != '1.00':
+    if (manifest.get('schema') != 'm4-clean-product-release/1' or
+            manifest.get('version') != dependencies['version']):
         raise ValueError('Unsupported release manifest')
     for group in COPY_DIRS:
         folder = package/group
@@ -168,12 +171,14 @@ def package_preflight(package):
     files = manifest['files']
     for relative, expected in files.items():
         if (not isinstance(relative, str) or '\\' in relative or ':' in relative or
-                '..' in relative.split('/') or relative.split('/')[0] not in COPY_DIRS):
+                '..' in relative.split('/') or
+                (relative.split('/')[0] not in COPY_DIRS and relative not in ROOT_DOCS)):
             raise ValueError('Unsafe release path')
         path = package/relative
+        if path.is_symlink() or getattr(path, 'is_junction', lambda:False)():
+            raise ValueError('Linked package paths are not accepted')
         if not path.resolve().is_relative_to(package): raise ValueError('Unsafe release path')
         if builder.sha(path) != expected: raise ValueError('Release file differs: '+relative)
-    dependencies = json.loads((SOFTWARE/'dependencies.json').read_text('utf-8'))
     for group, lock in dependencies['groups'].items():
         actual = {p.relative_to(package).as_posix():builder.sha(p)
                   for p in (package/group).rglob('*') if p.is_file()}
@@ -197,6 +202,10 @@ def copy_package(package, target):
     for group in COPY_DIRS:
         shutil.copytree(package/group, target/group)
     shutil.copyfile(package/'M4相机工具.exe', target/'M4相机工具.exe')
+    files = json.loads((package/'app/release.json').read_text('utf-8'))['files']
+    for name in ROOT_DOCS:
+        if name in files:
+            shutil.copyfile(package/name, target/name)
     # Deliberately omit state, backups, logs and unrelated root files.
 
 
