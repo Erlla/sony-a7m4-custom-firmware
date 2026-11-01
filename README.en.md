@@ -39,6 +39,7 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 | Custom sounds | Import WAVs from SD for mechanical/electronic shutters; focus and shutter sounds preempt each other, with the latest trigger taking priority and separate clips and volumes. | [Instructions](methods/06-custom-sounds/README.en.md) |
 | Custom aspect ratios | Add 17:6, 65:24, 5:4 and 7:6, with JPEG / HEIF cropping and the original RAW area retained. | [Instructions](methods/07-custom-aspect-ratios/README.en.md) |
 | Custom LUTs | Import converted JSON LUTs individually from SD; 16 replaceable slots, eight adjustments plus strength per filter, and approximately one-second loading on first use after power-on. | [Instructions](methods/08-custom-lut/README.en.md) |
+| Shell / SSH | Activation and integration of network Telnet, USB shell, SSH / SFTP and Multi UART root terminals. | [Instructions](methods/09-shell-access/README.en.md) |
 
 ### Documentation navigation
 

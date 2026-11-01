@@ -50,3 +50,10 @@
 
 - The integrated CP uses native/custom-sounds/handoff and a7m4.custom_sound_handoff for mutual focus/shutter preemption. Keep APP admission, PIN admission and common begin gates together: APP can reject before common begin. Dispatch delayed APP requests through their original APP path. Stop opcode 2 is not pending Start 1; never clear native busy flags to force playback.
 - Handoff state occupies 0x1564A84..0x1564F98, below Gamma fallback 0x1565000. Preserve BODY initialization, optional-page READY and CRC, the lens-AF helper at 0xBA5718 and the LUT/aspect code. The CP component chain in methods/08-custom-lut/reference-layout.json must match the handoff recipe. The frozen basic sound recipe uses a different CP layout and must retain its exact-input rejection.
+
+## Shell / SSH methods
+
+- Keep all terminal access recipes together in methods/09-shell-access, with one entry in both Fastboot method tables. Publish functional method names, component identities and activation details rather than internal candidate labels or the maintainer's current camera state.
+- Telnet/USB share the ULOGIO restoration recipe; SSH uses the existing normal-system daemon plus startup/NSS/configuration; Multi UART uses the independent p1/Cetus/RP2040 bridge. SFTP and Wi-Fi do not add separate shell methods.
+- Preserve the distinction between p1 and p15 libsencore offsets, the two-byte USB input/output payload, physical partition length and filesystem length, and persistent p10 paths. UART also changes p2 boot flags and cannot shoot in the updater environment.
+- Reference inputs and upstream resources remain separately obtained. Do not publish personal SSH keys, camera backups, research paths, raw device logs or derivative firmware binaries. Do not describe this documentation set as a one-click installer or an integrated validation of SSH plus ULOGIO.

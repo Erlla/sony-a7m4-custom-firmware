@@ -39,6 +39,7 @@ Fastboot 路线需要 **Multi 接口刷机线与 RP2040-Zero 启动桥**，普�
 | 自定义声音 | 从 SD 卡导入 WAV，机械／电子快门均可播放；对焦声与快门声相互抢占，最后触发优先，音频和音量分别设置。 | [使用方法](methods/06-custom-sounds/README.md) |
 | 自定义纵横比 | 新增 17:6、65:24、5:4、7:6；JPEG / HEIF 裁切，RAW 保留原始幅面。 | [使用方法](methods/07-custom-aspect-ratios/README.md) |
 | 自定义 LUT | 从 SD 卡单独导入转换后的 JSON LUT；16 个槽位可随时替换，每个滤镜支持 8 项微调与 1 项强度，开机初次使用约 1 秒载入。 | [使用方法](methods/08-custom-lut/README.md) |
+| Shell / SSH | 网络 Telnet、USB Shell、SSH / SFTP 与 Multi UART root 终端的开启及集成方法。 | [使用方法](methods/09-shell-access/README.md) |
 
 ### 文档导航
 
