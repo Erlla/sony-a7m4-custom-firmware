@@ -1,3 +1,4 @@
+from data_paths import data_root
 from product_integrity import pinned, state_path
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -18,7 +19,7 @@ BASE = ROOT / 'app'
 PS = Path(os.environ.get('SystemRoot', 'C:/Windows')) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
 READER = BASE / 'reader'
 WRITER = BASE / 'writer'
-SNAPSHOTS = ROOT / 'state/snapshots'
+SNAPSHOTS = data_root(ROOT) / 'snapshots'
 
 class Provider:
 

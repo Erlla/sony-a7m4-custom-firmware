@@ -34,10 +34,17 @@ def probe(root, mode):
         assert scope.operation_path() == expected
         assert flow.PRIVATE == install_view.PRIVATE == expected / 'workflow'
         assert backend.STATE == expected / 'workflow/patch'
-        assert usb.PRIVATE == expected / 'usb_restore'
+        from recovery_registry import recovery_root
+        assert usb.PRIVATE == recovery_root() and not usb.PRIVATE.is_relative_to(expected)
         assert bridge.Jobs().private == expected / 'ui'
         assert flow.load()['phase'] == install_view.snapshot()['phase'] == 'NO_FLOW'
-        assert bridge.state_snapshot()['phase'] == 'NO_RUN' and usb.pending() is None
+        assert bridge.state_snapshot()['phase'] == 'NO_RUN'
+        if mode == 'old': assert usb.pending() is None
+        else:
+            assert usb.pending()['phase'] == 'DISPATCH_UNKNOWN'
+            try: usb.require_clear()
+            except ValueError: pass
+            else: raise AssertionError('Pending restore was lost across GUI sessions')
         import install_controller, install_controller_custom
         assert install_controller.PRIVATE == install_controller_custom.PRIVATE == flow.PRIVATE
         rows.update(session=session, fresh=True)
@@ -61,7 +68,8 @@ def probe(root, mode):
         import simple_workflow as workflow
         with patch.object(workflow, 'binding_path', return_value=root / 'app/release.json'), \
              patch.object(workflow, 'Provider') as provider, \
-             patch.object(workflow, 'patch_receiver', side_effect=lambda v: v) as boundary:
+             patch.object(workflow, 'patch_receiver', side_effect=lambda v: v) as boundary, \
+             patch.object(usb, 'require_clear'):
             value = workflow.begin(True)
             assert value['phase'] == 'PATCH_PREPARED' and boundary.call_count == 1
             provider.return_value.check.assert_called_once()
@@ -121,12 +129,15 @@ def main():
     old_usb.parent.mkdir(parents=True, exist_ok=True)
     old_usb.write_text('{broken recovery', 'utf-8')
     before = {str(p): digest(p) for p in (root / 'state').rglob('*') if p.is_file()}
+    fake_programdata = root / 'state/source_tests' / ('startup_programdata_' + uuid.uuid4().hex)
     def run(mode, inherited=None):
         env = dict(os.environ)
+        env['ProgramData'] = str(fake_programdata)
         if inherited: env['M4_TOOL_SESSION'] = inherited
         outcome = subprocess.run([sys.executable, '-I', '-B', '-X', 'utf8', str(Path(__file__).resolve()),
                                   '--package', str(root), '--probe', mode],
-                                 env=env, check=True, capture_output=True, text=True, encoding='utf-8')
+                                 env=env, capture_output=True, text=True, encoding='utf-8')
+        if outcome.returncode: raise RuntimeError(outcome.stdout + outcome.stderr)
         return json.loads(outcome.stdout.splitlines()[-1])
     old = run('old')
     old_paths = {str(p): digest(p) for p in (root / 'state/sessions' / old['session']).rglob('*') if p.is_file()}
@@ -139,7 +150,7 @@ def main():
     count = len(list((root / 'state/sessions').iterdir()))
     checked = subprocess.run([str(root / 'M4相机工具.exe'), '--verify'], timeout=60)
     assert checked.returncode == 0 and len(list((root / 'state/sessions').iterdir())) == count
-    result = dict(passed=True, cases=9, tests=['legacy_corrupt_states_ignored', 'unresolved_previous_session_ignored',
+    result = dict(passed=True, cases=9, tests=['legacy_corrupt_states_ignored', 'pending_restore_retained_across_fresh_ui_sessions',
         'inherited_session_replaced_at_gui_start', 'history_bytes_preserved', 'child_cli_inherits_session',
         'new_begin_reaches_patch_boundary', 'same_session_unresolved_blocks_replay', 'live_backend_lock_remains_global',
         'tk_initial_controls_and_noninteractive_launcher_verify'], probes=[new, again], device_operations=0,

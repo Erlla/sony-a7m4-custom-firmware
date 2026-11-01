@@ -5,6 +5,7 @@
  [Parameter(Mandatory=$true)][string]$Output
 )
 $ErrorActionPreference='Stop'
+Import-Module (Join-Path $PSHOME 'Modules\Microsoft.PowerShell.Utility\Microsoft.PowerShell.Utility.psd1') -ErrorAction Stop
 [Console]::OutputEncoding=New-Object System.Text.UTF8Encoding($false)
 $sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 $base=Join-Path $env:ProgramData ('M4CameraTool\'+$sid)
@@ -14,12 +15,12 @@ $installFile=(Resolve-Path -LiteralPath $Installer).Path
 $manifestPath=Join-Path $bundleRoot 'bundle_manifest.json'
 if ((Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash -ne $BundleHash) { throw 'Setup bundle changed.' }
 $manifest=Get-Content -LiteralPath $manifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
-if (-not (Test-Path -LiteralPath $configPath)) {
- $shell=Join-Path $PSHOME 'powershell.exe'
- $arguments='-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "'+$installFile+'" -BundlePath "'+$bundleRoot+'" -ManifestSha256 '+$BundleHash
- $process=Start-Process -FilePath $shell -ArgumentList $arguments -Verb RunAs -WindowStyle Hidden -PassThru -Wait
- if ($process.ExitCode -ne 0) { throw 'Windows setup was not completed; keep the setup record.' }
-}
+# A config file may have been written before task registration was interrupted.
+# The installer validates/reuses the current version and fills missing tasks.
+$shell=Join-Path $PSHOME 'powershell.exe'
+$arguments='-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "'+$installFile+'" -BundlePath "'+$bundleRoot+'" -ManifestSha256 '+$BundleHash
+$process=Start-Process -FilePath $shell -ArgumentList $arguments -Verb RunAs -WindowStyle Hidden -PassThru -Wait
+if ($process.ExitCode -ne 0) { throw 'Windows setup was not completed; keep the setup record.' }
 $config=Get-Content -LiteralPath $configPath -Raw -Encoding UTF8 | ConvertFrom-Json
 if ($config.user_sid -ne $sid -or $config.task_folder -ne ('\M4CameraTool\'+$sid)) { throw 'Windows user differs.' }
 foreach ($file in $manifest.files) {

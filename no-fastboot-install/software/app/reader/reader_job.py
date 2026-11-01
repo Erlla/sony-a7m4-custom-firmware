@@ -1,3 +1,4 @@
+from data_paths import data_root
 from product_integrity import pinned, state_path
 from pathlib import Path
 import argparse, hashlib, importlib.util, io, json, secrets, struct, subprocess, sys
@@ -31,7 +32,7 @@ def sources():
 
 def prepare():
     nonce = secrets.token_bytes(16)
-    out = ROOT / 'state/reader' / ('job_' + nonce.hex())
+    out = data_root(ROOT) / 'reader' / ('job_' + nonce.hex())
     out.mkdir(parents=True, exist_ok=False)
     directory = '/tmp_wbshd/m4rd_' + nonce.hex()
 
@@ -67,7 +68,7 @@ def prepare():
 
 def validate(folder):
     folder = Path(folder).resolve()
-    require(folder.is_relative_to(ROOT / 'state/reader'), 'Job outside private case')
+    require(folder.is_relative_to(data_root(ROOT) / 'reader'), 'Job outside private case')
     meta = json.loads((folder / 'job.json').read_text('utf-8'))
     require(meta['schema'] == 'm4-fixed-p1-reader/1' and meta['sources'] == sources(), 'Reader source changed')
     require(len(bytes.fromhex(meta['nonce'])) == 16 and meta['job_dir'] == '/tmp_wbshd/m4rd_' + meta['nonce'], 'Job scope changed')

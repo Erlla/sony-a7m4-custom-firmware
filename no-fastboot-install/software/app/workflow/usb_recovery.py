@@ -120,12 +120,20 @@ def recover_write_race(value):
     return flow.save(value, 'PATCH_READY', patch_run=record['run'], updater_lineage=lineage, menu_profile='content_' + lineage, usb_recovery='VERIFIED', recovery_folder=str(folder), error=None)
 
 def recover(value, confirmed=False):
+    if value['phase'] in ('REVIEW_REQUIRED', 'MENU_CONNECTION_RECOVERY', 'WINDOWS_RESTART_REQUIRED'):
+        from menu_connection_recovery import recover as menu_recover
+        recovered = menu_recover(value)
+        if recovered is not None:
+            return recovered
+        if value['phase'] == 'WINDOWS_RESTART_REQUIRED':
+            from simple_workflow import continue_flow
+            return continue_flow(value)
     if value['phase'] in ('POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL'):
         from simple_workflow import continue_flow
         return continue_flow(value)
     if value['phase'] in ('AWAITING_MENU_OBSERVATION', 'WAITING_FOR_USER_INSTALL_RESULT'):
         from simple_workflow import installed
-        return installed(value, confirmed)
+        return recover(installed(value, confirmed))
     if value['phase'] in flow.TERMINAL | {'NO_FLOW', 'PATCH_READY', 'PATCH_PREPARED', 'MENU_PREPARATION_RETRY'}:
         for base in (backend.STATE,):
             prior = backend.frozen.Journal(base).load()

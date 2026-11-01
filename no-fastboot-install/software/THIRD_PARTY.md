@@ -14,6 +14,8 @@ Runtime components are **not vendored here**. The build consumes separately supp
 | cryptography / cffi / pycparser | Existing RSA public-key format handling; [cryptography](https://github.com/pyca/cryptography), [cffi](https://github.com/python-cffi/cffi), [pycparser](https://github.com/eliben/pycparser) |
 | squashfs-tools-ng | Filesystem rebuilding; [squashfs-tools-ng](https://github.com/AgentD/squashfs-tools-ng) (original GPL/LGPL terms as applicable) |
 | Zig / Clang / LLVM | Per-run AArch64 compilation; [Zig](https://github.com/ziglang/zig) and included component notices |
-| Reviewed WinUSB binding package | Manufacturer-signed driver setup files, supplied externally with their original terms |
+| Reviewed WinUSB binding package | libwdi-generated self-signed binding catalogs, in-box WinUSB, and catalog-matched WDF/WinUSB coinstallers; original component terms apply |
 
 Exact runtime versions and component digests are in [dependencies.json](dependencies.json). This is a dependency lock, not a list of camera backups or a firmware package. A runtime asset ZIP can be supplied locally even when no binary release is hosted on GitHub.
+
+[assets-files.json](assets-files.json) lists every pinned asset (3257 files across nine locked groups), byte count and SHA-256. [assets-sources.json](assets-sources.json) records available package metadata and twelve retained license files. Metadata project URLs are identification aids, not verified exact archive recipes. [prepare_assets.py](prepare_assets.py) exports only these exact files from an existing trusted portable ZIP, with no line-ending conversion and with dist-info retained. App, state, firmware and all unlisted inputs are excluded. Official-archive reconstruction, a public asset download and a complete per-file upstream-license mapping remain follow-up work; the driver group includes all six required files; other group locks are unchanged.

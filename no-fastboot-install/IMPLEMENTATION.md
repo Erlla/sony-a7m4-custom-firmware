@@ -44,6 +44,6 @@ Senser/Jiritsu 服务协议提供受认证的通信路径；经已验证的文�
 
 当前相机里的接收端决定此次包是否被接受。仅修改待安装 DAT 内的更新器，不能替代当前接收端补丁。安装完成后，目标包的 p1 又成为下一次更新的接收端；因此目标包也必须保留正确的签名状态和版本布尔语义，才能继续按正常菜单安装官方 6.02。
 
-已验证自定义目标包含作者公钥、四库 `verifyKey` 成功返回以及上述 p1 补丁。四个 `verifyKey` 文件偏移为：`libsdfileinputupdaterapi.so +0xA9A8`、`libupdaterapi.so +0x13324`、`libseninputupdaterapi.so +0x5244`、`libuudfileinputupdaterapi.so +0x95AC`，既有桩均为 `00008052c0035fd6`。这些是该目标包的状态，不是 1.00 软件对用户卡文件所做的修改。
+已验证自定义目标包含作者公钥、四库 `verifyKey` 成功返回以及上述 p1 补丁。四个 `verifyKey` 文件偏移为：`libsdfileinputupdaterapi.so +0xA9A8`、`libupdaterapi.so +0x13324`、`libseninputupdaterapi.so +0x5244`、`libuudfileinputupdaterapi.so +0x95AC`，既有桩均为 `00008052c0035fd6`。这些是该目标包的状态，不是 1.0.0 软件对用户卡文件所做的修改。
 
 DAT 内保留原官方 256 字节签名，但修改后的内容与该签名不匹配。这里没有生成官方有效签名。兼容性配方见 [patches.json](patches.json)，样本身份及验收范围见 [VALIDATION.md](VALIDATION.md)。

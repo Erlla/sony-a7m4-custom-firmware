@@ -1,40 +1,52 @@
-# M4 Camera Tool source
+# M4 Camera Tool 1.0.0 source
 
-[中文](README.md) · [Installation](../README.en.md) · [Implementation](../IMPLEMENTATION.md)
+[中文](README.md) · [User guide](../TOOL-1.0.0.md) · [Installation](../README.en.md) · [Implementation](../IMPLEMENTATION.md)
 
-Current **1.00** desktop source: the simplified UI, Windows driver setup and standalone USB recovery, full p1 backup, content-based receiver patches, single-attempt writes, independent full readback and the temporary two-site RAM menu window.
+Prepare the Sony ILCE-7M4 update environment over ordinary USB, then let its owner install firmware from the SD card using the camera menu. The current build has received a successful user-test report. This update publishes source only; **no binary Release is published yet**.
 
-The source excludes complete firmware, camera libraries, precompiled workers, enrollment, backups and run state. Users prepare the SD package manually; the tool does not inspect or copy it. Each launch starts a new operation session while preserving earlier logs and backups. The no-Fastboot approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools).
+The UI provides patch preparation and standalone ordinary-USB recovery. Users place the package on the card themselves. The tool does not read, validate, copy or bind DAT files. Complete firmware will be provided after all feature updates are finished.
 
-Unused experimental installation entry points and fixed experimental labels have been removed. Current UI-reachable operations, native workers and evidence checks remain. Research logs are not runtime dependencies.
+## Behavior
+
+- Setup binds one Windows user and camera. Matching installations and empty task folders are reused; missing tasks are added. Running tasks and unknown operations are preserved.
+- Account names and SIDs are resolved to the same Windows identity before comparison. Mismatch fields are recorded in private setup receipts.
+- Reviewed WinUSB packages cover normal and service USB identities. Trusting the libwdi self-signed certificates requires explicit consent, defaulting to cancellation; these are not Sony or Microsoft publisher certificates.
+- Patch and menu stages reuse the driver. Full p1 backup, content matching, one write and independent complete readback remain; unknown layouts stop. Displayed firmware labels are not a whitelist.
+- Operation completion is separate from storage recovery. Each launch opens a fresh UI session, preserving backups and logs. Unknown tasks are not automatically dispatched again.
+- Normal operations use integrity checks without ARM64 simulation or fault injection.
 
 ## Build on Windows x64
 
-Use Python 3.12+ and the Windows .NET Framework C# compiler. Building does not request elevation, install drivers or access a camera.
+Use Python 3.12+ and the Windows .NET Framework C# compiler. Building does not elevate, access a camera or install drivers. Runtime components are supplied separately rather than committed as source binaries.
 
-Runtime components are supplied separately. Provide a clean runtime directory or portable ZIP containing the groups locked by `dependencies.json`: `runtime/python`, the four `vendor` groups, Zig, SquashFS tools, reviewed driver files and licenses. Each directory's filename/content digest must match. Equal version labels alone are insufficient. See [THIRD_PARTY.md](THIRD_PARTY.md). This source publication does not upload runtime binaries or create a GitHub Release.
+`assets-files.json` pins **3257 files across nine groups**. Both WinUSB INF/catalog pairs and their shared coinstallers are six locked `tools/driver` assets. No research directory or extra source-tree binaries are required; other group locks are unchanged.
+
+From this directory, with a separately supplied trusted portable package:
 
 ```powershell
+py -3 prepare_assets.py --from-package D:\M4-portable.zip --output D:\M4-runtime
 py -3 build.py --assets D:\M4-runtime --output D:\M4-build
 D:\M4-build\M4相机工具.exe --verify
 ```
 
-The output must be a new directory. Only locked runtime groups are copied from the asset input; app source always comes from this checkout. Input app, state and firmware files are ignored. The builder generates `app/release.json`, compiles `Launcher.cs` and performs local-only integrity validation. An application icon is optional.
+A portable ZIP containing all locked assets can also be passed directly to `build.py --assets`. Input app, state and firmware are ignored; app source comes from this checkout. The output must be new. See [THIRD_PARTY.md](THIRD_PARTY.md) and [assets-sources.json](assets-sources.json). Exact export is not a complete recipe for independently reconstructing every component from upstream archives.
 
-Launch the output EXE; running the raw entry.py without its generated manifest and runtime is unsupported. Never build over an existing user installation or unresolved run.
+The native launcher verifies files and imports before Python, CLR or elevation. Normal execution uses a protected ProgramData runtime; state and caches stay in the extracted folder. Read handles constrain replacement while running. `--verify` is local-only without elevation or a device session. A trusted launcher EXE remains the starting assumption; no Authenticode signature or antivirus verdict is provided.
 
-Normal launch requests Windows administrator privileges. Cancelling the UAC prompt exits; an already elevated process opens directly. `--verify` remains a local integrity check without elevation or an operation session.
+## Development checks
 
-Every launch opens the initial patch screen with USB recovery available. A new directory under `state/sessions/` isolates workflow, patch and recovery state; child processes inherit the current session. Previous tasks do not gate a new session. Enrollment, logs and backups remain available. Global process locks and live camera-state checks still apply, and a new operation reads the complete current p1 again.
+Use a disposable build; never distribute its test state:
 
-After driver rebinding, normal USB identity checks wait up to about eight seconds, releasing handles and re-enumerating between standard descriptor reads. Only a language advertised by the device is requested; model, serial and saved identity must still match. Underlying USB errors are recorded. A persistent descriptor failure before menu-session authentication restores the normal driver and stops menu preparation, without replaying firmware writes or starting a menu worker.
+```powershell
+D:\M4-build\runtime\python\python.exe -I -B tests\run_clean_setup.py --package D:\M4-build
+D:\M4-build\runtime\python\python.exe -I -B tests\test_driver_reuse.py --package D:\M4-build
+powershell -NoProfile -ExecutionPolicy Bypass -File tests\test_driver_trust.ps1 -Package D:\M4-build
+```
 
-## Offline checks
+Full setup simulation starts without tool state, tasks, related driver packages or certificates. Its scheduler models Windows returning an account name after SID registration. The optional `test_task_user_readback.ps1 -Source <source-directory>` requires reference tasks and is read-only; it is not a clean-machine installation test. Actual UAC, ACLs, driver binding and camera behavior require separate physical acceptance.
 
-Run the scripts under `tests/` with the built package's isolated Python and `--package D:\M4-build`, including `test_startup_session.py` for process-level restart isolation and Tk controls. `test_menu_seal.py` also needs `--lineage stock` or `--lineage user`. Use a disposable build: tests create fake enrollment and run state, so the tested directory must not be distributed.
+## Acknowledgements and scope
 
-Tests cover recovery UI/state guards, real local job construction and menu sealing/validation, stopping before real device operations. Their receiver proof is synthetic and cannot establish physical-camera behavior. Normal patch operations use integrity checks without ARM64 simulation or fault-injection regression.
+The approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools). Driver reuse and independent recovery draw on [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research). Other sources are in [REFERENCES.md](../../REFERENCES.md).
 
-`test_state_io.py` also exercises real Windows file-sharing behavior inside temporary directories. JSON readers permit delete sharing and existing documents use ReplaceFileW. Bounded retries apply only to publishing local JSON. An initial-record failure is retired only after paired records, events and flow timing prove that no device step began; driver dispatch, native START and COMMIT are never retried by this helper.
-
-Project-authored code follows the repository [LICENSE](../../LICENSE); external components keep their original licenses. Complete firmware packages are not available yet and will be provided after all feature updates are complete.
+No enrollment, backups, logs, private keys, full firmware or camera firmware libraries are included. External components keep their original licenses.

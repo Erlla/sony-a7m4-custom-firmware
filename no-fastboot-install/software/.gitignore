@@ -11,3 +11,5 @@
 *.so
 *.DAT
 *.FDAT
+# Runtime driver packages are locked assets from the portable release.
+/tools/

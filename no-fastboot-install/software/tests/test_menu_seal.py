@@ -155,10 +155,12 @@ def main():
             attempt = controller.Trial(private / ('descriptor_' + recovery), services=runtime)
             attempt.seal(job, reader, patch_only=True)
             result = attempt.execute(stable_power=True, patch_only=True)
-            assert result['phase'] == phase and result['stopped_before_session']
+            assert result['phase'] == 'MENU_CONNECTION_STOPPED' and result['stopped_before_session']
             assert not result['window_started'] and not result['preread_started'] and not result['firmware_written']
-            assert activity == ['bind', 'restore']
-        checks.append('descriptor_failure_recovers_driver_without_reader_window_or_firmware_retry')
+            assert activity == ['bind'] and result['normal_recovery'] == 'NOT_REQUESTED'
+            result = attempt.restore(runtime.Provider(), attempt.private / 'start', result)
+            assert result['phase'] == phase and activity == ['bind', 'restore']
+        checks.append('descriptor_failure_keeps_driver_until_explicit_restore')
         activity = []
         class SessionDescriptorFailure(DescriptorFailureProvider):
             bind = lambda self, folder: None
@@ -172,8 +174,19 @@ def main():
         attempt = controller.Trial(private / 'session_descriptor', services=runtime)
         attempt.seal(job, reader, patch_only=True)
         result = attempt.execute(stable_power=True, patch_only=True)
-        assert result['phase'] == 'MENU_CONNECTION_STOPPED' and activity == ['session_descriptor', 'restore']
-        checks.append('session_descriptor_failure_stops_before_authentication_and_restores')
+        assert result['phase'] == 'MENU_CONNECTION_STOPPED' and activity == ['session_descriptor']
+        checks.append('session_descriptor_failure_keeps_driver_without_authentication')
+        class NormalPending(DescriptorFailureProvider):
+            def preflight(self, folder):
+                raise user_provider.CommunicationNotReady('normal PID pending')
+            bind = session = restore = forbidden
+        runtime.Provider = NormalPending
+        attempt = controller.Trial(private / 'normal_pending', services=runtime)
+        attempt.seal(job, reader, patch_only=True)
+        result = attempt.execute(stable_power=True, patch_only=True)
+        assert result['phase'] == 'MENU_CONNECTION_STOPPED' and result['driver_retained']
+        assert not result['window_started'] and not result['preread_started']
+        checks.append('normal_pid_wait_does_not_become_unknown_write_or_restore_driver')
         class UnknownBindFailure(DescriptorFailureProvider):
             def bind(self, folder): raise OSError('unknown bind outcome')
             restore = forbidden
@@ -185,6 +198,42 @@ def main():
         else: raise AssertionError('Unknown bind failure was cleared')
         assert controller.read(attempt.status_path)['phase'] == 'BINDING_UNCONFIRMED'
         checks.append('unknown_bind_failure_does_not_assume_safe_recovery')
+        # Reproduce a verified p1 followed by a pre-authentication menu failure.
+        # Recovery must never enter the writer-outcome branch for this state.
+        class RestoreFailure(DescriptorFailureProvider):
+            def restore(self, folder, confirmation=False): raise ValueError('Driver recovery failed')
+        runtime.Provider = RestoreFailure
+        value = dict(schema='m4-user-flow/1', flow=uuid.uuid4().hex, phase='REVIEW_REQUIRED',
+                     updater_lineage=args.lineage, patch_run=accepted_run)
+        attempt = controller.Trial(flow.folder(value), services=runtime)
+        flow.folder(value).mkdir(parents=True)
+        attempt.seal(job, reader, patch_only=True)
+        result = attempt.execute(stable_power=True, patch_only=True)
+        try: attempt.restore(runtime.Provider(), attempt.private / 'start', result)
+        except ValueError: pass
+        else: raise AssertionError('Expected a saved restoration failure')
+        flow.save(value, 'REVIEW_REQUIRED')
+        import menu_connection_recovery, usb_recovery, standalone_usb_restore
+        class CompletedJournal:
+            def __init__(self, *args): pass
+            def load(self): return dict(phase='COMPLETE', run=accepted_run, read_verified=True,
+                                       session_ended=True, normal_recovery_verified=True)
+        with patch.object(backend.frozen, 'Journal', CompletedJournal), \
+             patch.object(usb_recovery, 'recover_write_race', forbidden), \
+             patch.object(standalone_usb_restore, 'recover', return_value=dict(phase='USB_RESTORE_COMPLETE', message='normal')) as restoring:
+            result = usb_recovery.recover(value)
+            assert result['phase'] == 'MENU_CONNECTION_STOPPED' and restoring.call_count == 1
+        flow.save(value, 'REVIEW_REQUIRED')
+        with patch.object(backend.frozen, 'Journal', CompletedJournal), \
+             patch.object(usb_recovery, 'recover_write_race', forbidden), \
+             patch.object(standalone_usb_restore, 'recover', return_value=dict(phase='USB_RESTORE_WINDOWS_RESTART', message='restart computer')):
+            result = usb_recovery.recover(value)
+            assert result['phase'] == 'WINDOWS_RESTART_REQUIRED' and not result['final_unplug_ready']
+        saved = controller.read(attempt.status_path)
+        saved['window_started'] = True; controller.atomic(attempt.status_path, saved)
+        with patch.object(backend.frozen, 'Journal', CompletedJournal):
+            assert menu_connection_recovery.proof(value) is None
+        checks.append('verified_p1_and_unstarted_menu_recover_without_writer_gate_or_new_firmware_work')
     assert not calls
     result = dict(passed=True, lineage=args.lineage, tests=checks, cases=len(checks),
                   device_operations=0, driver_tasks_dispatched=0, fake_receiver_proof=True,

@@ -4,6 +4,8 @@ import argparse
 import json
 import sys
 import uuid
+from contextlib import nullcontext
+from recovery_registry import request_guard
 import integrity_backend as backend
 import wizard as state
 from user_provider import Provider, binding_path, enroll
@@ -41,7 +43,7 @@ def safe_predriver_stop(prior_run):
     return None
 
 def open_menu(value):
-    require(value['phase'] == 'PATCH_READY', '请先完成补丁与连接恢复')
+    require(value['phase'] == 'PATCH_READY', '请先完成补丁与完整回读')
     require(backend.frozen.Journal(backend.STATE).load()['run'] == value['patch_run'], '补丁任务已变更')
     controller = state.trial(value)
     runtime = controller.rt()
@@ -52,7 +54,9 @@ def open_menu(value):
         controller.seal(job, reader, patch_only=True)
         state.save(value, 'MENU_RUNNING')
         result = controller.execute(stable_power=True, patch_only=True)
-        return state.save(value, result['phase'], window_nonce=result['nonce'], automatic_menu_preparation=True, final_unplug_ready=result['phase'] == 'AWAITING_MENU_OBSERVATION')
+        return state.save(value, result['phase'], window_nonce=result['nonce'], automatic_menu_preparation=True,
+                          driver_retained=result.get('driver_retained', False),
+                          final_unplug_ready=result['phase'] == 'AWAITING_MENU_OBSERVATION')
     except BaseException as error:
         local_only = value['phase'] == 'MENU_PREPARING' and not any(
             (state.folder(value) / name).exists() for name in ('plan.json', 'status.json', 'start', 'execution'))
@@ -71,13 +75,14 @@ def begin(ready):
     require(ready is True, '请先确认相机已开机、USB 已连接和电量充足')
     if prior['phase'] == 'PATCH_READY':
         old = backend.frozen.Journal(backend.STATE).load()
-        require(old and old['run'] == prior.get('patch_run') and (old['phase'] == 'COMPLETE') and (old.get('normal_recovery_verified') is True) and (old.get('read_verified') is True) and (old.get('session_ended') is True) and (not (state.folder(prior) / 'status.json').exists()), '上次补丁或菜单结果未确认，不能开始新一轮')
+        from p1_completion import complete
+        require(complete(old) and old['run'] == prior.get('patch_run') and (not (state.folder(prior) / 'status.json').exists()), '上次补丁或菜单结果未确认，不能开始新一轮')
     for base in (backend.STATE,):
         old = backend.frozen.Journal(base).load()
         require(old is None or old['phase'] in backend.frozen.TERMINAL, '有尚未完成的相机操作，请保留记录并先处理')
     if prior['phase'] == 'PATCH_READY':
         state.save(prior, 'ABANDONED_BEFORE_MENU', reason='new_user_run', menu_window_started=False)
-    value = dict(schema='m4-user-flow/1', flow=uuid.uuid4().hex, route='project', phase='PREPARING', current_version=None, target_version=None, created_utc=state.utc(), device_started=False, card_writes=0, user_confirmed_stable_power=True, package_validation='not_performed', purpose='patch_and_menu_only', card_reads=0, installation_by_user_only=True, automatic_retry=False, ui_version='1.00')
+    value = dict(schema='m4-user-flow/1', flow=uuid.uuid4().hex, route='project', phase='PREPARING', current_version=None, target_version=None, created_utc=state.utc(), device_started=False, card_writes=0, user_confirmed_stable_power=True, package_validation='not_performed', purpose='patch_and_menu_only', card_reads=0, installation_by_user_only=True, automatic_retry=False, ui_version='1.0.0')
     state.folder(value).mkdir(parents=True, exist_ok=False)
     state.save(value, 'PREPARING')
     atomic(state.POINTER, dict(flow=value['flow']))
@@ -108,7 +113,7 @@ def continue_flow(value):
         return advance_after_patch(patch_receiver(value))
     if value['phase'] == 'PATCH_READY':
         return open_menu(value)
-    require(value['phase'] in ('POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL'), '当前不能再次发送设备任务')
+    require(value['phase'] in ('POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL', 'WINDOWS_RESTART_REQUIRED'), '当前不能再次发送设备任务')
     result = state.trial(value).recover()
     complete = result['phase'] in ('POST_RESTART_NORMAL_VERIFIED', 'INSTALL_USER_ACCEPTED_NORMAL_VERIFIED')
     return state.save(value, 'COMPLETE' if complete else result['phase'], recovery_action='user_usb_replug', installation_result='not_verified_by_tool')
@@ -117,13 +122,15 @@ def installed(value, confirmed):
     require(confirmed and value['phase'] in ('AWAITING_MENU_OBSERVATION', 'WAITING_FOR_USER_INSTALL_RESULT'), '请先确认更新已结束、相机已重启进入拍摄界面')
     observation = state.observed(value, restarted=True, returned_to_shooting=True, update_active=False, quote='相机已结束更新并自动重启，或取消更新后正常重启；现为拍摄界面，未在更新中')
     result = state.trial(value).record_session_end(observation)
-    return state.save(value, result['phase'])
+    return state.save(value, 'COMPLETE', installation_result='user_reported_finished_not_read_back',
+                      menu_session_result=result['phase'], usb_recovery='NOT_REQUESTED',
+                      normal_usb_restored=False)
 
 def act(action, ready=False, confirmed=False):
     backend.release_check()
     sys.path.insert(0, str(backend.frozen.OLD_TOOL))
     from engine import single_instance
-    with single_instance(state_path(backend.frozen.OLD_TOOL)):
+    with single_instance(state_path(backend.frozen.OLD_TOOL)), (nullcontext() if action == 'status' else request_guard()):
         if action == 'start':
             return begin(ready)
         value = state.load()
@@ -147,7 +154,7 @@ def main():
     parser.add_argument('--ready', action='store_true')
     parser.add_argument('--confirmed', action='store_true')
     value = act(**vars(parser.parse_args()))
-    print(json.dumps({**value, 'schema': 'm4-user-flow/1', 'passed': value.get('passed', value['phase'] != 'REVIEW_REQUIRED')}, ensure_ascii=False, indent=2), flush=True)
+    print(json.dumps({**value, 'schema': 'm4-user-flow/1', 'passed': value.get('passed', value['phase'] not in ('REVIEW_REQUIRED', 'WINDOWS_RESTART_REQUIRED'))}, ensure_ascii=False, indent=2), flush=True)
 if __name__ == '__main__':
     try:
         main()

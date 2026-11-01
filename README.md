@@ -14,13 +14,13 @@
 
 ## 一、免 Fastboot 安装固件
 
-使用普通 USB 数据线，通过 **M4 相机工具**准备更新环境，再由相机从 SD 卡安装固件。相机须能正常开机并进入 USB 海量存储模式。
+使用普通 USB 数据线，通过 **M4 相机工具 1.0.0**准备更新环境，再由相机从 SD 卡安装固件。相机须能正常开机并进入 USB 海量存储模式。
 
 1. 将适用的 `BODYDATA.DAT` 放入**卡槽 1 存储卡根目录**。
 2. 用普通 USB 数据线连接电脑，在 M4 相机工具中点击**写入补丁**。
 3. 等待工具明确提示可以开始更新，再拔下 USB，在相机“版本／软件更新”中安装。
 
-**[安装指南](no-fastboot-install/README.md)** · [软件说明](no-fastboot-install/TOOL-1.00.md) · [软件源码与构建](no-fastboot-install/software/README.md) · [原理与修改位置](no-fastboot-install/IMPLEMENTATION.md)
+**[安装指南](no-fastboot-install/README.md)** · [软件说明](no-fastboot-install/TOOL-1.0.0.md) · [软件源码与构建](no-fastboot-install/software/README.md) · [原理与修改位置](no-fastboot-install/IMPLEMENTATION.md)
 
 **当前暂不提供完整固件，待全部功能更新完毕后再提供。** 软件不附带或校验固件包，请按安装指南核对文件与操作条件。
 
@@ -115,3 +115,4 @@ py -3 -m venv .venv
 ## 参与贡献
 
 欢迎通过 Issue 或 Pull Request 提交问题与改进。新增基线请附输入哈希、地址映射与修改依据；请勿提交个人私钥、机身校准、备份或完整固件。详见[贡献指南](CONTRIBUTING.md)。
+

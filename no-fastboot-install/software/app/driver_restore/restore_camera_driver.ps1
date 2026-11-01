@@ -6,11 +6,17 @@
 $ErrorActionPreference = 'Stop'
 $taskResearchRoot = [IO.Path]::GetFullPath((Split-Path $PSScriptRoot -Parent)).TrimEnd('\') + '\'
 $taskEvidence = [IO.Path]::GetFullPath($EvidenceDirectory)
-if (-not $taskEvidence.StartsWith($taskResearchRoot,[StringComparison]::OrdinalIgnoreCase) -or
-    $taskEvidence -notmatch '\\state\\') { throw 'Evidence must stay under a private USB research directory.' }
+$taskSid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+$taskSharedRoot = Join-Path $env:ProgramData ('M4CameraToolRecovery\'+$taskSid+'\operations\')
+$taskSharedEvidence = $taskEvidence.StartsWith($taskSharedRoot,[StringComparison]::OrdinalIgnoreCase) -and
+    $taskEvidence.Substring($taskSharedRoot.Length) -match '^[a-f0-9]{32}\\state\\results$'
+$taskLegacyEvidence = $taskEvidence.StartsWith($taskResearchRoot,[StringComparison]::OrdinalIgnoreCase) -and
+    $taskEvidence -match '\\state\\'
+if (-not ($taskSharedEvidence -or $taskLegacyEvidence)) { throw 'Evidence must stay under the tool state or shared USB recovery directory.' }
 $taskResultPath = Join-Path $taskEvidence 'auto_restore_result.private.json'
 if (Test-Path -LiteralPath $taskResultPath) { throw 'Refusing to replace an existing restoration record.' }
 $taskExpectedInf = '501B7C682E1EF7F378353350F51E66E033962B91357E9136F9E4A9B42A8DA487'
+$taskSvcInf = '9455D90C562916277590BB9A8BC333379B86913E680D1E9176FACE6B44923E25'
 $taskPattern = 'USB\VID_054C&PID_0DA5\*'
 
 function Get-OneCamera {
@@ -42,6 +48,7 @@ function Get-Pmhome {
     })
 }
 
+try {
 $taskBefore = Get-OneCamera
 $taskPackages = @(Get-ChildItem -LiteralPath (Join-Path $env:SystemRoot 'INF') -Filter 'oem*.inf' -File | Where-Object {
     (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash -eq $taskExpectedInf
@@ -50,6 +57,15 @@ if ($taskPackages.Count -ne 1 -or $taskBefore.inf -notin @($taskPackages[0].Name
     throw 'Expected one reviewed package and its camera or USBSTOR binding.'
 }
 $taskPackage = $taskPackages[0].Name
+$taskSvcPackages = @(Get-ChildItem -LiteralPath (Join-Path $env:SystemRoot 'INF') -Filter 'oem*.inf' -File | Where-Object {
+    (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash -eq $taskSvcInf
+})
+if ($taskSvcPackages.Count -gt 1) { throw 'Expected at most one reviewed service package.' }
+$taskSvcPackage = if ($taskSvcPackages.Count) { $taskSvcPackages[0].Name } else { $null }
+if ($taskSvcPackage) {
+    $taskSvcUsers = @(Get-CimInstance Win32_PnPSignedDriver | Where-Object InfName -EQ $taskSvcPackage)
+    if (@($taskSvcUsers | Where-Object { $_.DeviceID -notlike 'USB\VID_054C&PID_0336*' }).Count) { throw 'Service driver package is used outside this camera.' }
+}
 $taskUsers = @(Get-CimInstance Win32_PnPSignedDriver | Where-Object InfName -EQ $taskPackage)
 if (@($taskUsers | Where-Object { $_.DeviceID -notlike $taskPattern }).Count) { throw 'Driver package is used outside this camera.' }
 $taskPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -58,13 +74,23 @@ Add-Type -Path (Join-Path $PSScriptRoot 'camera_port.cs')
 $taskPortInspection = [SonyCameraPortRecovery]::InspectOrCycle($taskBefore.parent,$taskBefore.port,$false)
 if (-not $Apply) {
     New-Item -ItemType Directory -Path $taskEvidence -Force | Out-Null
-    [pscustomobject]@{apply=$false;before=$taskBefore;package=$taskPackage;port_inspection=$taskPortInspection} |
+    [pscustomobject]@{apply=$false;before=$taskBefore;package=$taskPackage;svc_package=$taskSvcPackage;port_inspection=$taskPortInspection} |
         ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $taskEvidence 'inspection.private.json') -Encoding UTF8
     exit 0
 }
+} catch {
+    if ($Apply) {
+        New-Item -ItemType Directory -Path $taskEvidence -Force | Out-Null
+        [pscustomobject]@{status='STOPPED_BEFORE_DRIVER_CHANGE';device_mutation_started=$false;
+            error=$_.Exception.Message;finished_utc=[DateTime]::UtcNow.ToString('o')} |
+            ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $taskResultPath -Encoding UTF8
+    }
+    throw
+}
 New-Item -ItemType Directory -Path $taskEvidence -Force | Out-Null
 $taskResult = [ordered]@{status='running';started_utc=[DateTime]::UtcNow.ToString('o');before=$taskBefore;
-    package=$taskPackage;port_inspection=$taskPortInspection;port_cycle_attempts=0;port_cycle_count=0;error=$null}
+    package=$taskPackage;svc_package=$taskSvcPackage;port_inspection=$taskPortInspection;port_cycle_attempts=0;port_cycle_count=0;error=$null;
+    device_mutation_started=$false}
 function Save-Result { $taskResult | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $taskResultPath -Encoding UTF8 }
 function Invoke-OnePortCycle {
     $taskCurrent = Get-OneCamera
@@ -86,6 +112,20 @@ try {
     New-Item -ItemType Directory -Path $taskExport -Force | Out-Null
     & $taskUtility /export-driver $taskPackage $taskExport 2>&1 | Out-File -LiteralPath (Join-Path $taskEvidence 'export.log') -Encoding UTF8
     if ($LASTEXITCODE -ne 0) { throw "Driver recovery export failed: $LASTEXITCODE" }
+    if ($taskSvcPackage) {
+        $taskSvcExport = Join-Path $taskEvidence 'recovery_package_service'
+        New-Item -ItemType Directory -Path $taskSvcExport -Force | Out-Null
+        & $taskUtility /export-driver $taskSvcPackage $taskSvcExport 2>&1 | Out-File -LiteralPath (Join-Path $taskEvidence 'svc_export.log') -Encoding UTF8
+        if ($LASTEXITCODE -ne 0) { throw "Service driver recovery export failed: $LASTEXITCODE" }
+        # No present device uses the service identity at this point; its removal
+        # cannot disturb the normal-mode camera connection below.
+        $taskResult.device_mutation_started=$true
+        Save-Result
+        & $taskUtility /delete-driver $taskSvcPackage /uninstall 2>&1 | Out-File -LiteralPath (Join-Path $taskEvidence 'svc_uninstall.log') -Encoding UTF8
+        $taskResult.svc_uninstall_exit_code = $LASTEXITCODE
+        Save-Result
+        if ($LASTEXITCODE -ne 0) { throw "Service driver uninstall returned $($LASTEXITCODE)." }
+    }
     $taskWatch = [Diagnostics.Stopwatch]::StartNew()
     # Keep the native Process handle from Start through WaitForExit. Windows
     # PowerShell Start-Process -PassThru can otherwise leave ExitCode null.
@@ -100,6 +140,8 @@ try {
     $taskStartInfo.StandardErrorEncoding = $taskStartInfo.StandardOutputEncoding
     $taskUninstall = New-Object Diagnostics.Process
     $taskUninstall.StartInfo = $taskStartInfo
+    $taskResult.device_mutation_started=$true
+    Save-Result
     if (-not $taskUninstall.Start()) { throw 'Could not start the bounded driver uninstall.' }
     $taskStdout = $taskUninstall.StandardOutput.ReadToEndAsync()
     $taskStderr = $taskUninstall.StandardError.ReadToEndAsync()
@@ -137,6 +179,7 @@ try {
     } while ([DateTime]::UtcNow -lt $taskDeadline)
     if (-not $taskReady) { throw 'USBSTOR/PMHOME did not become accessible within the postcondition deadline.' }
     if (Test-Path -LiteralPath (Join-Path (Join-Path $env:SystemRoot 'INF') $taskPackage)) { throw 'Reviewed OEM package still remains in INF after deletion.' }
+    if ($taskSvcPackage -and (Test-Path -LiteralPath (Join-Path (Join-Path $env:SystemRoot 'INF') $taskSvcPackage))) { throw 'Reviewed service OEM package still remains in INF after deletion.' }
     $taskResult.after = $taskAfter
     $taskResult.pmhome = $taskPmhome
     $taskResult.elapsed_seconds = $taskWatch.Elapsed.TotalSeconds

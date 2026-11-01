@@ -9,7 +9,7 @@ $brokerBase = Join-Path (Join-Path ([Environment]::GetFolderPath('CommonApplicat
 if ([IO.Path]::GetFullPath($PSScriptRoot) -ne [IO.Path]::GetFullPath($brokerBase)) { throw 'Worker must execute from its protected installation.' }
 $brokerConfig = Get-Content -LiteralPath (Join-Path $brokerBase 'deployment.private.json') -Raw | ConvertFrom-Json
 if ($brokerConfig.user_sid -ne $brokerSid) { throw 'Registered user differs.' }
-$brokerExpectedNames = @('worker.ps1','restore_camera_driver.ps1','camera_port.cs','camera_driver_native.dll','driver\ilce-7m4.inf','driver\ILCE-7M4.cat')
+$brokerExpectedNames = @('worker.ps1','restore_camera_driver.ps1','camera_port.cs','camera_driver_native.dll','driver\ilce-7m4.inf','driver\ILCE-7M4.cat','driver\ilce-7m4-svc.inf','driver\ILCE-7M4-SVC.cat','driver\amd64\WdfCoInstaller01011.dll','driver\amd64\WinUSBCoInstaller2.dll')
 if (@($brokerConfig.files).Count -ne $brokerExpectedNames.Count) { throw 'Unexpected trusted file set.' }
 foreach ($brokerFile in $brokerConfig.files) {
     if ($brokerFile.name -notin $brokerExpectedNames) { throw 'Unexpected executable dependency.' }
@@ -139,20 +139,39 @@ try {
         $brokerResult.status='RECOVERY_CONFIRMED'
     } elseif ($Mode -eq 'StageBind') {
         $before = Get-BrokerCamera
-        if ($before.service -ne 'USBSTOR' -or $before.inf -ne 'usbstor.inf') { throw 'StageBind requires the normal storage driver.' }
+        $infHash='501B7C682E1EF7F378353350F51E66E033962B91357E9136F9E4A9B42A8DA487'
+        # Accepted starting states: the plain storage connection, or a camera
+        # already bound to this exact reviewed package (service-package top-up
+        # after a code update must not require a full storage restore first).
+        $stagedBefore = Join-Path (Join-Path ([IO.Path]::GetDirectoryName([Environment]::SystemDirectory)) 'INF') $before.inf
+        if (-not (($before.service -eq 'USBSTOR' -and $before.inf -eq 'usbstor.inf') -or
+            ($before.service -eq 'WinUSB' -and $before.inf -match '^oem[0-9]+\.inf$' -and
+             (Get-FileHash -LiteralPath $stagedBefore -Algorithm SHA256).Hash -eq $infHash))) { throw 'StageBind requires the normal storage driver.' }
         $inf = Join-Path $brokerBase 'driver\ilce-7m4.inf'
         $cat = Join-Path $brokerBase 'driver\ILCE-7M4.cat'
-        $infHash='501B7C682E1EF7F378353350F51E66E033962B91357E9136F9E4A9B42A8DA487'
+        $svcInf = Join-Path $brokerBase 'driver\ilce-7m4-svc.inf'
+        $svcCat = Join-Path $brokerBase 'driver\ILCE-7M4-SVC.cat'
+        $svcInfHash='9455D90C562916277590BB9A8BC333379B86913E680D1E9176FACE6B44923E25'
         if ((Get-FileHash -LiteralPath $inf -Algorithm SHA256).Hash -ne $infHash -or
-            (Get-FileHash -LiteralPath $cat -Algorithm SHA256).Hash -ne 'D923980763E6CAA1151F8854905565878CAC1367DBE24307CC103C8B88FAE933') { throw 'Reviewed driver package differs.' }
+            (Get-FileHash -LiteralPath $cat -Algorithm SHA256).Hash -ne 'D923980763E6CAA1151F8854905565878CAC1367DBE24307CC103C8B88FAE933' -or
+            (Get-FileHash -LiteralPath $svcInf -Algorithm SHA256).Hash -ne $svcInfHash -or
+            (Get-FileHash -LiteralPath $svcCat -Algorithm SHA256).Hash -ne 'FA1B38929210C1423104F1C71B488FC3E3BA6456A3478BE03659DF4E6456C886' -or
+            (Get-FileHash -LiteralPath (Join-Path $brokerBase 'driver\amd64\WdfCoInstaller01011.dll') -Algorithm SHA256).Hash -ne 'F6FB39A8578F19616570D5A3DC7212C84A9DA232B30A03376BBF08F4264FEDF2' -or
+            (Get-FileHash -LiteralPath (Join-Path $brokerBase 'driver\amd64\WinUSBCoInstaller2.dll') -Algorithm SHA256).Hash -ne '981A17EFFDDBC20377512DDAEC9F22C2B7067E17A3E2A8CCF82BB7BB7B2420B6') { throw 'Reviewed driver package differs.' }
         $utility = Join-Path ([Environment]::SystemDirectory) 'pnputil.exe'
         $brokerResult.before=$before
         $brokerResult.device_mutation_started=$true
         Write-BrokerJson $brokerIndex $brokerResult
         & $utility /add-driver $inf 2>&1 | Out-File -LiteralPath (Join-Path $brokerOutput 'stage.log') -Encoding UTF8
         if ($LASTEXITCODE -notin @(0,3010)) { throw "Driver staging failed: $LASTEXITCODE" }
+        # The service INF is staged before authentication so Windows can bind
+        # WinUSB by itself when the camera re-enumerates as USB\VID_054C&PID_0336.
+        & $utility /add-driver $svcInf 2>&1 | Out-File -LiteralPath (Join-Path $brokerOutput 'stage_svc.log') -Encoding UTF8
+        if ($LASTEXITCODE -notin @(0,3010)) { throw "Service driver staging failed: $LASTEXITCODE" }
         $packages = @(Get-ChildItem -LiteralPath (Join-Path ([IO.Path]::GetDirectoryName([Environment]::SystemDirectory)) 'INF') -Filter 'oem*.inf' -File | Where-Object { (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash -eq $infHash })
         if ($packages.Count -ne 1) { throw 'Expected one reviewed staged package.' }
+        $svcPackages = @(Get-ChildItem -LiteralPath (Join-Path ([IO.Path]::GetDirectoryName([Environment]::SystemDirectory)) 'INF') -Filter 'oem*.inf' -File | Where-Object { (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash -eq $svcInfHash })
+        if ($svcPackages.Count -ne 1) { throw 'Expected one reviewed staged service package.' }
         $reboot=$false
         if (-not [M4CameraToolBind]::UpdateDriverForPlugAndPlayDevicesW([IntPtr]::Zero,'USB\VID_054C&PID_0DA5',$inf,1,[ref]$reboot)) {
             throw (New-Object ComponentModel.Win32Exception([Runtime.InteropServices.Marshal]::GetLastWin32Error()))
@@ -160,6 +179,7 @@ try {
         $after = Get-BrokerCamera
         if ($after.instance -ne $before.instance -or $after.service -ne 'WinUSB' -or $after.inf -ne $packages[0].Name) { throw 'WinUSB binding postcondition failed.' }
         $brokerResult.before=$before; $brokerResult.after=$after; $brokerResult.reboot_required=$reboot
+        $brokerResult.service_package=$svcPackages[0].Name
         $brokerResult.status='WINUSB_BOUND'
     } else {
         $authorizedCamera = Get-BrokerCamera

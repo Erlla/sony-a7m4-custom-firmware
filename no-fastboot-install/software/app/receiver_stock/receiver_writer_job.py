@@ -1,3 +1,4 @@
+from data_paths import data_root
 from product_integrity import pinned, state_path
 from pathlib import Path
 import argparse
@@ -104,7 +105,7 @@ def prepare(bundle, direction, output, current=None, expected_current=None, nonc
     current = locked(current, expected_current)
     before = current.read_bytes()
     require(len(before) == P1_BYTES, 'Wrong current p1 length')
-    require(local_path(output).is_relative_to((ROOT / 'state/receiver_stock').resolve()), 'Receiver job output must stay in this case state')
+    require(local_path(output).is_relative_to((data_root(ROOT) / 'receiver_stock').resolve()), 'Receiver job output must stay in this case state')
     out = new_dir(output)
     replay = adapter.replay(bundle, current, expected_current, direction, out / 'image')
     after = (out / 'image' / ('p1_' + direction + '.bin')).read_bytes()

@@ -1,3 +1,4 @@
+from data_paths import data_root
 from product_integrity import pinned, state_path
 from pathlib import Path
 from datetime import datetime, timezone
@@ -9,6 +10,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import uuid
 CASE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[2]
@@ -17,7 +19,7 @@ sys.path.insert(0, str(TOOL))
 import provider as old
 from engine import read, sha, require, local_under
 from local_json import atomic
-ENROLLMENT = ROOT / 'state/workflow/enrollment.private.json'
+ENROLLMENT = data_root(ROOT) / 'workflow/enrollment.private.json'
 BROKER = CASE.parent / 'driver'
 PS = old.PS
 
@@ -29,7 +31,105 @@ def powershell_environment():
 def binding_path():
     return ENROLLMENT
 
+class CommunicationNotReady(RuntimeError):
+    """The normal PID did not return before any bind or service command."""
+
+
 class Provider(old.Provider):
+
+    def preflight(self, folder):
+        from driver_restart import require_ready
+        require_ready()
+        current = self.wait_communication(folder, timeout=30)
+        if current is None:
+            raise CommunicationNotReady('相机通信身份尚未恢复，请保持开机，重新插拔 USB 后重试。')
+        snapshot, state = current
+        row = self.same_body(state)
+        driver = self.communication_driver(row)
+        if driver == 'storage':
+            # Only the known signature refusal may enter this repair. Other
+            # unresolved operations keep the existing gate before any setup.
+            for mode in ('SelfTest', 'StageBind', 'Restore'):
+                index = snapshot / ('latest_' + mode + '.json')
+                if index.exists():
+                    prior = read(index)
+                    signature_refusal = (mode == 'StageBind' and prior.get('status') == 'NEEDS_REVIEW'
+                        and prior.get('error') == 'Driver staging failed: -2146762487')
+                    if prior.get('status') in ('RUNNING', 'FAILED', 'NEEDS_REVIEW', 'REFUSED_BEFORE_CHANGE') and not signature_refusal:
+                        self.tasks_clear(snapshot)
+        # The service signer may still be untrusted on machines that enrolled
+        # before the service package existed; this asks once and changes nothing
+        # when both certificates are already trusted.
+        if self.prepare_driver_trust(folder):
+            snapshot, state = self.snapshot(folder, connection_only=True)
+            self.communication_driver(self.same_body(state))
+        self.tasks_clear(snapshot)
+
+    def prepare_driver_trust(self, folder):
+        output = folder / ('driver_setup_' + uuid.uuid4().hex + '.json')
+        command = [str(PS), '-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File',
+                   str(CASE / 'driver_trust.ps1'), '-Output', str(output)]
+        result = subprocess.run(command, capture_output=True, encoding='utf-8-sig', errors='replace',
+                                creationflags=subprocess.CREATE_NO_WINDOW, env=powershell_environment())
+        atomic(folder / 'driver_setup_host.json', dict(returncode=result.returncode, stdout=result.stdout, stderr=result.stderr))
+        try:
+            report = read(output)
+        except FileNotFoundError:
+            report = {}
+        if report.get('phase') == 'DRIVER_TRUST_CANCELLED':
+            raise ValueError('尚未授权安装相机 USB 驱动证书，本次未切换驱动。')
+        require(result.returncode == 0 and report.get('phase') == 'DRIVER_TRUST_READY',
+                '相机 USB 驱动准备未完成：' + str(report.get('error') or result.stderr.strip()))
+        return bool(report.get('stores_added') or report.get('prior_signature_failure_reviewed'))
+
+    def communication_driver(self, row):
+        if row['service'] == 'USBSTOR' and row['inf'].lower() == 'usbstor.inf':
+            return 'storage'
+        require(row['service'] == 'WinUSB' and re.fullmatch(r'oem\d+\.inf', row['inf'], re.I),
+                '当前 USB 驱动不受支持，请先恢复普通 USB。')
+        installed = Path(os.environ['SystemRoot']) / 'INF' / row['inf']
+        reviewed = self.protected / 'driver/ilce-7m4.inf'
+        require(installed.is_file() and sha(installed) == sha(reviewed),
+                '当前 WinUSB 不是本工具已核对的驱动，请先恢复普通 USB。')
+        return 'winusb'
+
+    def wait_communication(self, folder, *, timeout=30, clock=time.monotonic, sleep=time.sleep):
+        """Wait for the bound normal PID; do not enumerate disks or change drivers."""
+        deadline = clock() + timeout
+        while True:
+            snapshot, state = self.snapshot(folder, connection_only=True)
+            if state['normal_count'] == 1 and state['service_count'] == 0:
+                self.same_body(state)
+                return snapshot, state
+            require(state['normal_count'] == 0 and state['service_count'] in (0, 1),
+                    '请只连接这一台 M4，相机 USB 身份不明确。')
+            if clock() >= deadline:
+                return None
+            sleep(0.5)
+
+    def wait_for_normal(self, folder, *, timeout=45, clock=time.monotonic, sleep=time.sleep):
+        return self.wait_communication(folder, timeout=timeout, clock=clock, sleep=sleep) is not None
+
+    def restore(self, folder, confirmation=False):
+        from driver_restart import check
+        def known_restart(result):
+            if result['phase'] == 'WINDOWS_RESTART_REQUIRED':
+                atomic(folder / 'windows_restart.json', result)
+                return 'WINDOWS_RESTART_REQUIRED'
+            if result['phase'] == 'DRIVER_RESTART_RECOVERY_VERIFIED':
+                atomic(folder / 'windows_restart_confirmed.json', result)
+                return 'VERIFIED'
+            return None
+        outcome = known_restart(check(confirm=True))
+        if outcome is not None:
+            return outcome
+        try:
+            return super().restore(folder, confirmation=confirmation)
+        except ValueError:
+            outcome = known_restart(check(confirm=False))
+            if outcome is not None:
+                return outcome
+            raise
 
     def check(self):
         from product_integrity import verify_release
@@ -59,6 +159,8 @@ class Provider(old.Provider):
         command = [str(PS), '-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File']
         if action == 'Snapshot':
             command += [str(CASE / 'windows_snapshot.ps1'), '-Name', name]
+            if mode == 'Communication':
+                command += ['-CommunicationOnly']
         else:
             require(action == 'Broker' and mode in ('SelfTest', 'StageBind', 'Restore'), '驱动动作无效')
             command += [str(BROKER / 'invoke_broker.ps1'), '-Mode', mode]
@@ -73,8 +175,8 @@ class Provider(old.Provider):
                 raise RuntimeError('Windows 连接状态读取失败，请查看本轮记录中的 host.json。此次状态读取未调度驱动任务。') from error
             raise RuntimeError('驱动结果未确认，请保留记录，不重复调度') from error
 
-    def snapshot(self, folder):
-        code, value = self.host('Snapshot', folder)
+    def snapshot(self, folder, *, connection_only=False):
+        code, value = self.host('Snapshot', folder, 'Communication' if connection_only else None)
         require(code == 0, 'Windows snapshot failed')
         name = value['snapshot']
         require(isinstance(name, str) and re.fullmatch('oneclick_[0-9a-f]{32}', name), 'Invalid snapshot name')
@@ -95,15 +197,38 @@ class Provider(old.Provider):
             path = snapshot / ('latest_' + mode + '.json')
             if path.exists():
                 value = read(path)
-                require(value['status'] not in ('RUNNING', 'FAILED', 'NEEDS_REVIEW', 'REFUSED_BEFORE_CHANGE'), '驱动任务需要检查：' + mode)
+                require(value['status'] not in ('RUNNING', 'FAILED', 'NEEDS_REVIEW', 'REFUSED_BEFORE_CHANGE'),
+                        '驱动任务需要检查：' + mode + ('；' + value['error'] if value.get('error') else ''))
+
+    def service_package_staged(self):
+        """Windows must find the service INF in its driver store, or it cannot
+        bind WinUSB when the camera re-enumerates as USB\\VID_054C&PID_0336
+        after authentication."""
+        pinned = sha(self.protected / 'driver/ilce-7m4-svc.inf')
+        windows = Path(os.environ['SystemRoot']) / 'INF'
+        return any(sha(path) == pinned for path in windows.glob('oem*.inf'))
 
     def bind(self, folder):
         require(ENROLLMENT.exists(), '请先完成首次配置')
-        code, result = self.host('Broker', folder, 'StageBind')
-        require(code == 0 and result['status'] == 'WINUSB_BOUND', '驱动切换未确认')
-        snapshot, state = self.snapshot(folder)
+        snapshot, state = self.snapshot(folder, connection_only=True)
         row = self.same_body(state)
-        require(row['service'] == 'WinUSB' and read(snapshot / 'latest_StageBind.json')['run_id'] == result['run_id'], '当前机身驱动结果不匹配')
+        self.tasks_clear(snapshot)
+        driver = self.communication_driver(row)
+        reuse = driver == 'winusb' and self.service_package_staged()
+        if not reuse:
+            code, result = self.host('Broker', folder, 'StageBind')
+            require(code == 0 and result['status'] == 'WINUSB_BOUND', '驱动切换未确认：' + str(result.get('error') or result.get('status')))
+            snapshot, state = self.snapshot(folder, connection_only=True)
+            row = self.same_body(state)
+            require(self.communication_driver(row) == 'winusb' and
+                    read(snapshot / 'latest_StageBind.json')['run_id'] == result['run_id'],
+                    '当前机身驱动结果不匹配')
+            require(self.service_package_staged(), '服务驱动包未就绪')
+        else:
+            print('复用已就绪的 USB 驱动。', flush=True)
+        atomic(folder / 'driver_readiness.json', dict(schema='m4-driver-readiness/1',
+               reused=reuse, storage_volume_required=False,
+               camera_instance_sha256=self.binding['camera_instance_sha256'], inf=row['inf']))
         backend_dir = ROOT / 'app/usb'
         sys.path.insert(0, str(backend_dir))
         module = importlib.import_module('usb_session')
@@ -130,7 +255,7 @@ def enroll():
     release_check()
     require(not ENROLLMENT.exists(), '此电脑已初始化，请先检查现有连接')
     script = CASE / 'enroll.ps1'
-    output = ROOT / 'state/workflow' / ('setup_' + uuid.uuid4().hex)
+    output = data_root(ROOT) / 'workflow' / ('setup_' + uuid.uuid4().hex)
     output.mkdir(parents=True)
     spec = importlib.util.spec_from_file_location('m4_setup_bundle', BROKER / 'prepare_bundle.py')
     module = importlib.util.module_from_spec(spec)
@@ -139,7 +264,35 @@ def enroll():
     command = [str(PS), '-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', str(script), '-Bundle', bundle['bundle'], '-BundleHash', bundle['manifest_sha256'], '-Installer', str(BROKER / 'install_broker.ps1'), '-Output', str(output / 'enrollment.json')]
     result = subprocess.run(command, capture_output=True, encoding='utf-8-sig', errors='replace', creationflags=subprocess.CREATE_NO_WINDOW, env=powershell_environment())
     atomic(output / 'host.json', dict(returncode=result.returncode, stdout=result.stdout, stderr=result.stderr))
-    require(result.returncode == 0, '初始化未完成，请查看记录：' + str(output))
+    detail = ''
+    try:
+        receipt = read(Path(bundle['bundle']) / 'installation.private.json')
+        if receipt.get('error'):
+            detail = str(receipt['error'])
+    except (FileNotFoundError, ValueError):
+        pass
+    combined = (detail + ' ' + result.stderr).lower()
+    if 'installation requires exactly one connected normal camera' in combined:
+        detail = '未检测到唯一的普通连接 M4；请将相机开机，设置 USB 海量存储模式并重新连接，再重新检查。'
+    elif 'camera is still in its service identity' in combined:
+        detail = '相机仍在服务连接模式；请先恢复普通 USB，再重新检查。'
+    elif 'restore ordinary usb before setup' in combined:
+        detail = '相机仍在工具的 WinUSB 驱动模式下；请先点击「恢复普通 USB」，等相机盘符回来后重新「首次使用」'
+    elif 'an existing m4 task is running' in combined:
+        detail = '已有 M4 后台任务正在运行；请等待当前操作结束，再重新检查。'
+    elif 'unexpected task definition' in combined:
+        detail = '已有后台任务配置未通过核对，已保留原状；具体差异见本次运行记录。'
+    elif 'existing driver setup differs' in combined:
+        detail = '本机已有的驱动组件与当前软件不一致，已停止覆盖，请保留运行记录。'
+    elif 'incomplete installation has operation records' in combined:
+        detail = '未完成的初始化目录中仍有操作记录，已保留，请先检查原任务结果。'
+    elif detail:
+        detail = '；原因：' + detail
+    else:
+        detail = ''
+    if detail and not detail.startswith('；'):
+        detail = '；' + detail
+    require(result.returncode == 0, '初始化未完成，请查看记录：' + str(output) + detail)
     binding = read(output / 'enrollment.json')
     require(binding['schema'] == 'm4-user-enrollment/1' and binding['model'] == 'ILCE-7M4', '初始化结果不完整')
     require(not ENROLLMENT.exists(), '初始化结果已存在')

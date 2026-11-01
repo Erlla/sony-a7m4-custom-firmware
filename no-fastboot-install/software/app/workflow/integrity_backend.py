@@ -32,6 +32,7 @@ def reader_integrity(job, *, unused=True):
     return meta
 
 class Backend(frozen.WorkspaceBackend):
+    driver_policy = 'retain'
 
     def __init__(self, lineage='auto'):
         super().__init__()

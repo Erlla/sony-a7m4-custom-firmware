@@ -57,3 +57,11 @@
 - Telnet/USB share the ULOGIO restoration recipe; SSH uses the existing normal-system daemon plus startup/NSS/configuration; Multi UART uses the independent p1/Cetus/RP2040 bridge. SFTP and Wi-Fi do not add separate shell methods.
 - Preserve the distinction between p1 and p15 libsencore offsets, the two-byte USB input/output payload, physical partition length and filesystem length, and persistent p10 paths. UART also changes p2 boot flags and cannot shoot in the updater environment.
 - Reference inputs and upstream resources remain separately obtained. Do not publish personal SSH keys, camera backups, research paths, raw device logs or derivative firmware binaries. Do not describe this documentation set as a one-click installer or an integrated validation of SSH plus ULOGIO.
+
+## Desktop tool maintenance
+
+- Task Scheduler may return an account name for a principal registered using a SID. Resolve both to SecurityIdentifier before comparison; retain action, arguments, directory, trigger and run-level checks. Record failed fields without adding account names or command-line data to diagnostics.
+- First-use setup reuses matching installations and existing empty task folders, and creates only missing tasks. Do not delete running tasks or unknown operation records as retry cleanup. Fresh-state substitutes must model account-name readback, not just echo registration inputs.
+- All six ordinary/service driver binding and coinstaller files belong to the separately supplied tools/driver asset group. Source builds must not depend on extra binaries in the checkout. Keep the exact per-file asset inventory and group fingerprint aligned.
+- Software version is 1.0.0. Keep launcher, manifest, integrity gates, workflow and interface identifiers consistent. This source synchronization does not create a Release or publish binary assets; retain evidence locally and do not claim a Defender false-positive review result.
+

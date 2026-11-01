@@ -1,3 +1,4 @@
+from data_paths import data_root
 from product_integrity import pinned, state_path
 from pathlib import Path
 import argparse
@@ -74,7 +75,7 @@ def prepare(output=None, nonce=None):
     require(app_anchor[APP_PATCH_OFFSET - APP_ANCHOR_OFFSET:APP_PATCH_OFFSET - APP_ANCHOR_OFFSET + 4] == APP_ORIGINAL4, 'App instruction changed')
     data = range(module_layout['bytes'])
     appdata = range(app_layout['bytes'])
-    out = new_dir(Path(output) if output else ROOT / 'state/menu_custom' / ('job_' + secrets.token_hex(16)))
+    out = new_dir(Path(output) if output else data_root(ROOT) / 'menu_custom' / ('job_' + secrets.token_hex(16)))
     nonce = secrets.token_bytes(16) if nonce is None else bytes.fromhex(nonce)
     require(len(nonce) == 16 and any(nonce), 'Invalid job nonce')
     directory = '/tmp_wbshd/m4dual_' + nonce.hex()
