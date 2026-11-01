@@ -68,6 +68,7 @@
 ## AWB priority method
 
 - The optional CP layer lives in methods/10-awb-priority and a7m4.awb_priority, with the exact profile a7m4/profiles/awb-priority.json. Default effective parameters are Ambience -1, Standard 0 and White 97; White 97 is a custom choice, not an FX2 factory value.
+- The bilingual AWB guides compare this recipe with official FX2 1.01: Ambience -1, Standard 0 and White 88, with local coefficients 254/256/432. The factory table describes checked upgrade defaults and the Standard code branch; keep it distinct from the custom White 97 value and from final image colour.
 - Apply this layer after the current custom-sound-handoff CP recipe. The integrated chain is 5c901780...61f640 -> 8f3061af...6cc939; preserve the preceding LUT/aspect/sound/AP/resource contracts. The LUT reference describes the preceding input-side component; this optional method does not replace that baseline.
 - Offsets 0x13293e/0x132948 are CP file offsets. Backup +0x930/+0x931 are record-relative and remain unchanged by this method. MOV.W preserves flags, and original SXTAB interprets 0xff as -1. Standard remains zero. Check complete input/output SHA-256, not camera labels.
 - Publish the reusable source, bilingual method, component identities and verification limits. Keep package labels, full firmware, researcher paths, raw inputs and per-round delivery records local. Native/host replay and full-package offline checks do not establish physical installation or improved image quality.

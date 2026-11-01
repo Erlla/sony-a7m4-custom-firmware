@@ -4,13 +4,27 @@
 
 Set **Ambience priority to −1, retain Standard at 0, and set White priority to 97**. The existing three camera settings remain available; this method adds no menu and does not change manual colour temperature.
 
+## Sony FX2 factory parameters and recipe comparison
+
+**Sony FX2 official firmware 1.01 factory parameters:**
+
+| Setting | FX2 factory parameter | Corresponding local coefficient |
+|---|---:|---:|
+| Ambience priority | −1 | 254 |
+| Standard | 0 | 256 |
+| White priority | 88 | 432 |
+
+The Ambience and White parameters come from 11 checked upgrade profiles in official FX2 firmware 1.01; the Standard branch uses 0 in code. See [parameter identity](IMPLEMENTATION.md#parameter-identity) and [validation scope](validation.md) for the fields and source.
+
+**This recipe's parameters:**
+
 | Setting | Recipe parameter | Corresponding local coefficient |
 |---|---:|---:|
 | Ambience priority | −1 | 254 |
 | Standard | 0 | 256 |
 | White priority | 97 | 450 |
 
-These are internal AWB parameters. Final colour depends on the light source, scene and other tuning. This method does not promise improved white balance in every scene.
+The recipe's Ambience and Standard parameters match the FX2 factory values above. **White priority 97 is a custom choice; the FX2 factory value is 88.** The listed coefficients belong to a local AWB operation, not final colour temperatures or overall warmth-removal percentages. Final colour depends on the light source, scene and other tuning. This method does not promise improved white balance in every scene.
 
 ## Produce the modified CP component
 
