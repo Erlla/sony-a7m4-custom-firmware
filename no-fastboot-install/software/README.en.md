@@ -45,6 +45,22 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tests\test_driver_trust.ps1 
 
 Full setup simulation starts without tool state, tasks, related driver packages or certificates. Its scheduler models Windows returning an account name after SID registration. The optional `test_task_user_readback.ps1 -Source <source-directory>` requires reference tasks and is read-only; it is not a clean-machine installation test. Actual UAC, ACLs, driver binding and camera behavior require separate physical acceptance.
 
+## Offline checks
+
+The offline runner checks source directly with Python 3.12+, without external runtime assets, a built package or a camera:
+
+```powershell
+py -3 -I -B tests\run_offline.py --source-only --report build\source-tests.json --junit build\source-tests.xml
+# With a complete trusted local build, also run package checks on isolated copies.
+py -3 -I -B tests\run_offline.py --package D:\M4-build --report build\package-tests.json
+```
+
+Source checks cover asset copying, USB identity retry policy with fake devices, session inheritance/isolation, state IO and the runner itself, including real Windows sharing checks. Directory asset outputs are re-hashed after a complete group is copied; dependency locks are unchanged.
+
+With neither `--source-only` nor `--package`, source checks run and package checks are individually `BLOCKED`, producing `PARTIAL`. Exit codes are `PASS=0`, `FAIL=1`, `PARTIAL=2`. A source-only PASS does not validate a release or camera installation. The runner supports per-check timeouts and JSON/JUnit reports, never fabricates a runtime or release manifest, and leaves original package state untouched. See [Offline testing](tests/OFFLINE.md).
+
+Run the package-level scripts under `tests/` with the built package's isolated Python and `--package D:\M4-build`, including `test_startup_session.py` for process-level restart isolation and Tk controls. `test_menu_seal.py` also needs `--lineage stock` or `--lineage user`. Use a disposable build: tests create fake enrollment and run state, so the tested directory must not be distributed.
+
 ## Acknowledgements and scope
 
 The approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools). Driver reuse and independent recovery draw on [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research). Other sources are in [REFERENCES.md](../../REFERENCES.md).
