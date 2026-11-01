@@ -1,0 +1,28 @@
+{
+  "schema": "a7m4.awb-priority.reference.v1",
+  "model": "ILCE-7M4",
+  "stock_firmware_basis": "6.02",
+  "purpose": "Component contracts and modification locations, not a firmware-package manifest",
+  "recipe": "../../a7m4/profiles/awb-priority.json",
+  "tool": "python -m a7m4.awb_priority",
+  "cp_address_convention": "file offset = linked VA - 0x108000",
+  "backup_record": {
+    "id": "0x02a40000",
+    "bytes": 4608,
+    "runtime_base": "0x01229218",
+    "white_offset": "0x930",
+    "ambience_offset": "0x931",
+    "action": "retain backup records; override the two CP parameter reads"
+  },
+  "target_parameters": {"ambience": -1, "standard": 0, "white": 97},
+  "target_local_coefficients": {"ambience": 254, "standard": 256, "white": 450},
+  "patch_file_offsets": ["0x13293e", "0x132948"],
+  "changed_bytes": 8,
+  "composition": {
+    "preceding_profile": "../../a7m4/profiles/custom-sound-handoff.json",
+    "preceding_CP_sha256": "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640",
+    "output_CP_sha256": "8f3061af864a86f49c03d62301af0dd193d493251b2058731149924d676cc939",
+    "other_components": "preserve the existing integrated AP, resources, NOR and updater contracts"
+  },
+  "physical_installation_and_image_quality": "not verified for this AWB recipe"
+}

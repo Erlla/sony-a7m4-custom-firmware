@@ -1,3 +1,4 @@
+from data_paths import data_root
 from operation_session import operation_path
 from state_io import read_json as read, atomic_json as atomic
 from product_integrity import pinned, state_path
@@ -21,7 +22,7 @@ FAST_CORE = ROOT / 'app/maintenance_custom'
 FAST_CASE = ROOT / 'app/receiver_custom'
 INSTALL_CASE = ROOT / 'app/workflow'
 LEGACY_RUNNER_SHA = '9164db8aaf334c91d935fee333c2be7ed5d8a2e7edac5b654ef25326769b3831'
-PRIVATE = ROOT / 'state/ui'
+PRIVATE = data_root(ROOT) / 'ui'
 CORE_SHA = 'a1dd5358d89fe321671d9fb76507cbfde590dfb89120d16ce2b888096cd7fe1d'
 PYTHON = Path(sys.executable).with_name('python.exe')
 ALLOWED = {'simple-start', 'simple-continue', 'simple-installed', 'simple-failure', 'simple-recover-usb', 'flow-setup'}
@@ -38,9 +39,8 @@ def verify_release():
 
 def state_snapshot():
     """Display-only snapshot. All operation authorization remains in the CLI."""
-    base = operation_path('maintenance')
-    if (ROOT / 'state/workflow/patch/current.json').exists():
-        base = operation_path('workflow/patch')
+    patch = operation_path('workflow/patch')
+    base = patch if (patch / 'current.json').exists() else operation_path('maintenance')
     if not (base / 'current.json').exists():
         return dict(phase='NO_RUN')
     try:

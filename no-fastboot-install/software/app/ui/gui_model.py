@@ -6,7 +6,7 @@ import re
 WAITING = {'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART'}
 TERMINAL = {'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE', 'NO_RUN'}
 DEVICE_ACTIONS = {'read', 'apply', 'restore', 'recover'}
-LABELS = {'simple-start': '写入补丁', 'simple-continue': '继续准备相机', 'simple-installed': '结束并恢复 USB', 'simple-failure': '保存异常结果', 'simple-recover-usb': '恢复普通 USB', 'flow-setup': '初始化此电脑', 'flow-begin': '准备安装包', 'flow-patch': '检查并准备相机', 'flow-open-menu': '准备更新菜单', 'flow-recover': '恢复普通连接', 'flow-menu-confirmed': '确认相机更新页', 'flow-installed': '记录安装结果', 'flow-failure': '保存异常结果', 'flow-cancel': '取消安装准备', 'read': '完整备份 p1', 'apply': '检查并补齐补丁', 'restore': '恢复备份原件', 'recover': '恢复普通 USB', 'check': '检查工具环境', 'connection': '检查连接', 'inspect': '检查 p1 文件', 'prepare-patch': '生成补丁材料', 'dat-check': '校验安装包', 'dat-label': '生成安装包'}
+LABELS = {'simple-start': '写入补丁', 'simple-continue': '继续准备相机', 'simple-installed': '更新已结束', 'simple-failure': '保存异常结果', 'simple-recover-usb': '恢复普通 USB', 'flow-setup': '初始化此电脑', 'flow-begin': '准备安装包', 'flow-patch': '检查并准备相机', 'flow-open-menu': '准备更新菜单', 'flow-recover': '恢复普通连接', 'flow-menu-confirmed': '确认相机更新页', 'flow-installed': '记录安装结果', 'flow-failure': '保存异常结果', 'flow-cancel': '取消安装准备', 'read': '完整备份 p1', 'apply': '检查并补齐补丁', 'restore': '恢复备份原件', 'recover': '恢复普通 USB', 'check': '检查工具环境', 'connection': '检查连接', 'inspect': '检查 p1 文件', 'prepare-patch': '生成补丁材料', 'dat-check': '校验安装包', 'dat-label': '生成安装包'}
 PHASES = {'PREPARING': '准备任务', 'PREFLIGHT': '核对相机连接', 'BINDING': '准备 USB 通道', 'BOUND': 'USB 通道已准备', 'READ_STARTING': '完整读取 p1', 'READ_VERIFIED': '备份核对通过', 'PATCH_PREPARING': '检查补丁与恢复材料', 'WRITE_STARTING': '正在写入 p1，请保持连接', 'WRITE_VERIFIED': '写入器校验通过', 'READBACK_STARTING': '独立完整回读 p1', 'SESSION_ENDED': '读取会话结束', 'RECOVERY_DISPATCHING': '恢复普通 USB', 'WAITING_FOR_RESTART': '请保持开机，重新插拔 USB 线后检查连接', 'WAITING_FOR_NORMAL': '等待普通 USB 连接', 'COMPLETE': '任务完成', 'REVIEW_REQUIRED': '结果需要核对，请保留日志', 'STOPPED_BEFORE_DRIVER_CHANGE': '连接准备未通过，未切换驱动'}
 
 def patch_label(state):
@@ -20,7 +20,8 @@ def patch_label(state):
     def obj(value):
         return value if isinstance(value, dict) else {}
     state = obj(state)
-    if state.get('schema') != 'm4-toolchain-read/1' or state.get('phase') not in {'COMPLETE', *WAITING} or state.get('read_verified') is not True or (state.get('session_ended') is not True) or (state.get('phase') == 'COMPLETE' and state.get('normal_recovery_verified') is not True):
+    from p1_completion import complete
+    if state.get('schema') != 'm4-toolchain-read/1' or (not complete(state) and state.get('phase') not in WAITING) or state.get('read_verified') is not True or (state.get('session_ended') is not True):
         return unknown
     digest = state.get('p1_sha256')
     report = obj(state.get('patch_state'))
@@ -109,11 +110,20 @@ def classify(action, code, payload):
         return ('waiting', PHASES[phase])
     if code != 0:
         return ('failed', '任务已停止，查看日志了解原因')
+    if phase in ('WINDOWS_RESTART_REQUIRED', 'USB_RESTORE_WINDOWS_RESTART') or payload.get('recovery') == 'WINDOWS_RESTART_REQUIRED':
+        return ('waiting', '请保存工作并重启电脑')
+    if action == 'simple-recover-usb':
+        if phase in ('USB_RESTORE_REPLUG', 'USB_RESTORE_WAITING', 'USB_RESTORE_RETRY', 'USB_RESTORE_CANCELLED'):
+            return ('waiting', payload.get('message', '等待普通 USB 连接'))
+        if phase == 'USB_RESTORE_COMPLETE':
+            return ('success', payload.get('message', '普通 USB 连接已恢复。'))
     if action.startswith(('flow-', 'simple-')):
         if payload.get('schema') == 'm4-user-flow/1' and payload.get('passed') is True:
             return ('success', '安装步骤已完成，请按安装页继续')
         return ('review', '请查看安装流程和本轮记录')
     if action in DEVICE_ACTIONS:
+        if phase == 'P1_COMPLETE':
+            return ('success', 'p1 操作已完成，USB 驱动保留')
         if phase == 'COMPLETE':
             if payload.get('outcome') == 'CANCELLED_BEFORE_WRITE_NORMAL_USB_VERIFIED':
                 return ('success', '写入前取消，普通 USB 已恢复')

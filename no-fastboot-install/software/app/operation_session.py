@@ -1,3 +1,4 @@
+from data_paths import data_root
 """A new operation workspace per GUI launch; history is never resumed on startup."""
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,7 +14,7 @@ ENVIRONMENT = 'M4_TOOL_SESSION'
 
 def operation_path(*parts):
     name = os.environ.get(ENVIRONMENT)
-    base = ROOT / 'state'
+    base = data_root(ROOT)
     if name is not None:
         if re.fullmatch('[0-9a-f]{32}', name) is None:
             raise ValueError('本次会话编号无效，请重新打开软件')
@@ -27,7 +28,7 @@ def new_session():
     folder = operation_path()
     folder.mkdir(parents=True, exist_ok=False)
     atomic_json(folder / 'session.json', dict(schema='m4-operation-session/1', session=name,
-                created_utc=datetime.now(timezone.utc).isoformat(), pid=os.getpid(), ui_version='1.00'))
+                created_utc=datetime.now(timezone.utc).isoformat(), pid=os.getpid(), ui_version='1.0.0'))
     return folder
 
 

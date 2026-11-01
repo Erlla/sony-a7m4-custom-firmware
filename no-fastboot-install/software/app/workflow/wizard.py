@@ -54,8 +54,10 @@ def sync_patch(value, result):
     if lineage is not None:
         require(lineage in ('stock', 'user'), '补丁结果的更新器类型无效')
         value.update(updater_lineage=lineage, menu_profile='content_' + lineage, expected_menu_version=None, version_policy='consistent_runtime_encodings')
-    if result['phase'] == 'COMPLETE':
-        return save(value, 'PATCH_READY', patch_run=result['run'])
+    from p1_completion import complete
+    if complete(result):
+        return save(value, 'PATCH_READY', patch_run=result['run'],
+                    p1_operation_complete=True, usb_recovery='NOT_REQUESTED')
     if result['phase'] in backend.frozen.RECOVERABLE:
         return save(value, 'PATCH_RECOVERY', patch_run=result['run'], recovery=result['phase'])
     return save(value, 'REVIEW_REQUIRED', patch_run=result['run'])

@@ -39,6 +39,7 @@ def main():
     good['normal'].update(service='USBSTOR', inf='usbstor.inf', reviewed_driver=False)
 
     class Windows:
+        def restart_state(self): return dict(phase='CLEAR')
         def __init__(self, *states, terminal=True, cancel=False, fail=False):
             self.states = list(states)
             self.launches = 0

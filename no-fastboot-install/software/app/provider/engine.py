@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 import re
 import uuid
-TOOL_VERSION = '1.00'
+TOOL_VERSION = '1.0.0'
 PATCH_SET = 'm4-updater-four-gates/1'
 
 def require(value, message):

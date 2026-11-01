@@ -22,9 +22,9 @@ CHUNKS = 766
 _LOADED_SHA = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 FULL_READ_VERIFIER = ROOT / 'app/reader_verify/full_read.py'
 FULL_READ_VERIFIER_SHA = pinned('app/reader_verify/full_read.py')
-PHASES = {'PREPARING', 'PREFLIGHT', 'BINDING', 'BOUND', 'READ_STARTING', 'READ_VERIFIED', 'SESSION_ENDED', 'RECOVERY_DISPATCHING', 'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART', 'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE', 'REVIEW_REQUIRED', 'PATCH_PREPARING', 'WRITE_STARTING', 'WRITE_VERIFIED', 'READBACK_STARTING'}
-TERMINAL = {'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE'}
-RECOVERABLE = {'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART'}
+PHASES = {'P1_COMPLETE', 'WINDOWS_RESTART_REQUIRED', 'PREPARING', 'PREFLIGHT', 'BINDING', 'BOUND', 'READ_STARTING', 'READ_VERIFIED', 'SESSION_ENDED', 'RECOVERY_DISPATCHING', 'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART', 'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE', 'REVIEW_REQUIRED', 'PATCH_PREPARING', 'WRITE_STARTING', 'WRITE_VERIFIED', 'READBACK_STARTING'}
+TERMINAL = {'P1_COMPLETE', 'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE'}
+RECOVERABLE = {'WINDOWS_RESTART_REQUIRED', 'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART'}
 
 def require(value, message):
     if not value:
@@ -120,8 +120,10 @@ class Engine:
         return self.journal.load()
 
     def finish_recovery(self, result):
-        require(result in ('VERIFIED', 'NORMAL_CONNECTION_PENDING', 'RESTART_REQUIRED'), 'Unknown recovery outcome')
-        if result == 'VERIFIED':
+        require(result in ('VERIFIED', 'NORMAL_CONNECTION_PENDING', 'RESTART_REQUIRED', 'WINDOWS_RESTART_REQUIRED'), 'Unknown recovery outcome')
+        if result == 'WINDOWS_RESTART_REQUIRED':
+            self.journal.update('WINDOWS_RESTART_REQUIRED', normal_recovery=result)
+        elif result == 'VERIFIED':
             self.journal.update('COMPLETE', normal_recovery_verified=True, outcome=self.journal.value.get('verified_outcome', 'P1_FULL_READ_AND_NORMAL_USB_VERIFIED'))
         else:
             self.journal.update('WAITING_FOR_RESTART' if result == 'RESTART_REQUIRED' else 'WAITING_FOR_NORMAL', normal_recovery=result)
@@ -136,7 +138,7 @@ class Engine:
             require(state.get('firmware_written') is True and state.get('verified_outcome') == 'PATCH_AND_INDEPENDENT_FULL_READBACK_VERIFIED' and ((state.get('writer_result') or {}).get('outcome') == 'P1_TARGET_VERIFIED') and (after.get('verdict') == 'P1_READBACK_VERIFIED') and (after.get('sha256') == state.get('target_sha256') == state.get('p1_sha256')) and (after.get('nonce') == (state.get('after_reader') or {}).get('nonce')) and (after.get('ram_chunks_cleaned') is True) and (after.get('bytes') == P1_BYTES) and (after.get('chunks') == CHUNKS), 'Complete independent write/readback evidence is missing')
         elif state.get('action') in ('apply', 'restore'):
             require(state.get('verified_outcome') == 'ALREADY_AT_TARGET_FULL_READ_NO_WRITE', 'No-change proof is missing')
-        confirmation = state['phase'] == 'WAITING_FOR_RESTART'
+        confirmation = state['phase'] in ('WAITING_FOR_RESTART', 'WINDOWS_RESTART_REQUIRED')
         if confirmation and (not self.backend.normal_ready(self.journal.folder)):
             return state
         self.journal.update('RECOVERY_DISPATCHING')
@@ -157,7 +159,8 @@ class Engine:
         folder = self.journal.folder
         self.emit('正在准备新的完整 p1 读取任务；本轮只读取，不写入固件。' if action == 'read' else '正在准备完整备份与独立回读；本轮会按当前 p1 状态决定是否写入，请保持供电和 USB 稳定。')
         try:
-            self.journal.update('PREPARING', action=action, restore_bundle=str(bundle) if bundle is not None else None)
+            self.journal.update('PREPARING', action=action, restore_bundle=str(bundle) if bundle is not None else None,
+                                driver_policy=getattr(self.backend, 'driver_policy', 'restore'))
             job = self.backend.prepare_reader(folder)
             after_job = self.backend.prepare_reader(folder, role='after') if action != 'read' else None
             self.journal.update('PREFLIGHT', reader=job, after_reader=after_job)
@@ -207,6 +210,12 @@ class Engine:
         except BaseException as error:
             self.journal.update('REVIEW_REQUIRED', outcome='READ_OR_SESSION_OUTCOME_REQUIRES_REVIEW', error=str(error))
             raise
+        if self.journal.value['driver_policy'] == 'retain':
+            self.journal.update('P1_COMPLETE', p1_operation_complete=True,
+                                normal_recovery='NOT_REQUESTED', normal_recovery_verified=False,
+                                outcome=self.journal.value.get('verified_outcome', 'P1_FULL_READ_VERIFIED'))
+            self.emit('p1 完整校验与服务会话已结束，保留 USB 驱动继续准备菜单。')
+            return self.journal.value
         self.journal.update('RECOVERY_DISPATCHING')
         try:
             self.finish_recovery(self.backend.restore(folder, confirmation=False))

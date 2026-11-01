@@ -1,0 +1,144 @@
+{
+  "camera": "Sony ILCE-7M4",
+  "normal_system_baseline": "Official 6.02",
+  "purpose": "Component identities and address types for offline integration; not a personal camera image manifest.",
+  "components": {
+    "ulogio_donor": {
+      "firmware": "Official 1.05",
+      "partition": "p15",
+      "path": "/lib/libosal_ulogio.so",
+      "sha256": "72f35296366640dceee98f378041f65d032fee3b1b8a2ce0d373c7bfe53f1efa",
+      "ranges_va_half_open": [
+        [
+          "0x4448",
+          "0x4490"
+        ],
+        [
+          "0x4490",
+          "0x44cc"
+        ],
+        [
+          "0x44cc",
+          "0x4884"
+        ],
+        [
+          "0x496c",
+          "0x49e0"
+        ],
+        [
+          "0x4ad4",
+          "0x4bbc"
+        ],
+        [
+          "0x4bbc",
+          "0x4e9c"
+        ],
+        [
+          "0x5afc",
+          "0x5da8"
+        ]
+      ]
+    },
+    "ulogio_target": {
+      "firmware": "Official 6.02",
+      "partition": "p15",
+      "path": "/lib/libosal_ulogio.so",
+      "sha256": "b31f6e90f37841ab0249a36cc4b3224610f77ae8bc2b9995f9268c2c0131f474",
+      "patch_sites_va": [
+        "0x50b4",
+        "0x4dac",
+        "0x4db0",
+        "0x4db4",
+        "0x48e8",
+        "0x4100",
+        "0x49b8",
+        "0x49d0"
+      ]
+    },
+    "normal_sencore": {
+      "firmware": "Official 6.02",
+      "partition": "p15",
+      "path": "/lib/libsencore.so",
+      "sha256": "f58b97548062b8c5ab819f109e7cd64b57b1724e7885ca066358a0dc4849f742",
+      "term_mode_patch": {
+        "address_type": "file offset",
+        "offset": "0x26e13",
+        "before": "80",
+        "after": "00"
+      }
+    },
+    "bootin": {
+      "firmware": "Official 6.02",
+      "partition": "p15",
+      "path": "/bin/bootin.elf",
+      "bytes": 23960,
+      "sha256": "82894d65312d1d854706589d369cbfc29d662895594d8c5b1755ad8cc9208390",
+      "main_va": "0x4017e0",
+      "cave_va": "0x404340",
+      "cave_file_offset": "0x4340",
+      "rx_load_end_file_offset": "0x4d58",
+      "original_main_instruction_le": "fd7bbca9"
+    },
+    "nss_ssh": {
+      "firmware": "Official 6.02",
+      "partition": "p15",
+      "path": "/lib/libnss_ssh.so.2",
+      "sha256": "21c29cad2acc9af2183f81512a2ebdbc729bbf643fc41fd0cd28635944f051e4",
+      "address_type": "file offset, equal to VA in this component",
+      "word_patches": {
+        "0x11b8": "0x52800000",
+        "0x11cc": "0x52800000",
+        "0x1348": "0x52800000",
+        "0x1264": "0x7100001f",
+        "0x11fc": "0xd28000a1",
+        "0x1384": "0xd28000a1",
+        "0x122c": "0xd28000e1",
+        "0x13b4": "0xd28000e1"
+      },
+      "string_slots": [
+        {
+          "offset": "0x1428",
+          "capacity": 8,
+          "value": "/root"
+        },
+        {
+          "offset": "0x1438",
+          "capacity": 11,
+          "value": "/bin/sh"
+        },
+        {
+          "offset": "0x1445",
+          "capacity": 35,
+          "value": "/usr/ssh/ssh_name_password"
+        }
+      ]
+    },
+    "updater_init": {
+      "partition": "p1 initrd",
+      "path": "/sbin/init",
+      "sha256": "223f642c9cc8eb3a53901263940d42905a3d57fc5a091459003719e216950ccd",
+      "note": "Original matching 1.05 and 6.02 init; extend conditionally for the bridge without dropping the updater path."
+    },
+    "updater_busybox": {
+      "partition": "p1 initrd",
+      "path": "/bin/busybox",
+      "sha256": "d9ac7d99d8a73695bcde25416c9506ea3261f1bab2d67fa60abc58a050c62308"
+    }
+  },
+  "protocol": {
+    "telnet_port": 23,
+    "ssh_port": 22,
+    "usb_terminal_in": "0x83",
+    "usb_terminal_out": "0x04",
+    "usb_enable_payload_hex": "0202",
+    "usb_disable_payload_hex": "0000",
+    "uart_baud": 115200,
+    "uart_format": "8N1",
+    "cp_ram_load_address": "0xfe020000",
+    "cp_rx_ring_bytes": 4096
+  },
+  "upstreams": [
+    "https://github.com/DavidBuchanan314/ILCE-7M4-RE",
+    "https://github.com/ma1co/Sony-PMCA-RE"
+  ]
+}

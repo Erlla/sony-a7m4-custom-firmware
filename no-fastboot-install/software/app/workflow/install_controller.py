@@ -1,5 +1,6 @@
 from operation_session import operation_path
 from product_integrity import pinned, state_path
+from p1_completion import complete as p1_complete
 from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -144,7 +145,7 @@ def verify_full_read(folder, reader, expected_sha=P1_SHA):
 def receiver_evidence():
     from integrity_backend import STATE, LOADED_SHA, reader_integrity, frozen
     status = frozen.Journal(STATE).load()
-    require(status is not None and status.get('phase') == 'COMPLETE' and (status.get('action') == 'apply') and (status.get('runner_sha256') == LOADED_SHA) and (status.get('read_verified') is True) and (status.get('session_ended') is True) and (status.get('normal_recovery_verified') is True), '需要本次完整补丁检查与普通连接恢复')
+    require(p1_complete(status) and (status.get('action') == 'apply') and (status.get('runner_sha256') == LOADED_SHA), '需要本次完整补丁检查与服务会话结束证明')
     digest = status['p1_sha256']
     require(digest == status['target_sha256'] and status['outcome'] == status['verified_outcome'], '本次补丁结果不一致')
     prep = status['preparation']
@@ -320,10 +321,15 @@ class Trial:
             provider.bind(folder)
         except BaseException as error:
             from normal_identity import DescriptorReadError
+            from user_provider import CommunicationNotReady
+            if isinstance(error, CommunicationNotReady):
+                self.save(status, 'USB_COMMUNICATION_PENDING', error=str(error),
+                          safe_to_restore=True, stopped_before_session=True)
+                return self.finish_without_storage_restore(status)
             if isinstance(error, DescriptorReadError):
                 self.save(status, 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.report,
                           safe_to_restore=True, stopped_before_session=True)
-                return self.restore(provider, folder, status)
+                return self.finish_without_storage_restore(status)
             self.save(status, 'BINDING_UNCONFIRMED', error=str(error))
             raise
         handoff = None
@@ -369,7 +375,7 @@ class Trial:
                           safe_to_restore=True, stopped_before_session=True)
             self.save(status, 'REVIEW_REQUIRED', session_error=str(error))
             if status['safe_to_restore']:
-                self.restore(provider, folder, status)
+                self.finish_without_storage_restore(status)
             return status
         try:
             normal = provider.wait_for_normal(folder, timeout=30)
@@ -390,9 +396,16 @@ class Trial:
         require(plan.get('patch_only') is True and (status['phase'] in ACTIVE_PHASES or status['phase'] in ('WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL')), 'No patch-only session awaits restart confirmation')
         value = observation(path, status)
         require(value.get('restarted') is True and value.get('returned_to_shooting') is True and (value.get('update_active') is False), 'Confirm restart into an inactive shooting UI first')
-        self.save(status, 'POST_RESTART_NORMAL_CHECK', restart_observation=value, camera_restarted=True, old_tmpfs_invalidated=True, collection_allowed=False, installation_may_be_running=False, receiver_current_known=False, installed_p1_state='NOT_READ_BACK_AFTER_RESTART', safe_to_restore=True, post_install_user_verified=False, installation_status='NOT_VERIFIED_BY_PATCH_TOOL', firmware_written=None, DAT_installed=None, ram_outcome='RESTART_REPORTED_NO_BYTEWISE_RESTORE_RECEIPT')
+        self.save(status, 'USER_INSTALL_FINISHED', restart_observation=value, camera_restarted=True, old_tmpfs_invalidated=True, collection_allowed=False, installation_may_be_running=False, receiver_current_known=False, installed_p1_state='NOT_READ_BACK_AFTER_RESTART', safe_to_restore=True, post_install_user_verified=False, installation_status='NOT_VERIFIED_BY_PATCH_TOOL', firmware_written=None, DAT_installed=None, ram_outcome='RESTART_REPORTED_NO_BYTEWISE_RESTORE_RECEIPT', normal_recovery='NOT_REQUESTED')
         return status
 
+
+    def finish_without_storage_restore(self, status):
+        require(status.get('safe_to_restore') is True and status.get('installation_may_be_running') is False,
+                '相机任务结束状态未确认')
+        self.save(status, 'MENU_CONNECTION_STOPPED', normal_recovery='NOT_REQUESTED',
+                  driver_retained=True, final_unplug_ready=False)
+        return status
 
     def restore(self, provider, folder, status, confirmation=False):
         require(status.get('safe_to_restore') is True and status.get('installation_may_be_running') is False, 'No safe normal-recovery boundary')
@@ -403,22 +416,22 @@ class Trial:
         except BaseException as error:
             self.save(status, 'RECOVERY_REVIEW_REQUIRED', recovery_error=str(error))
             raise
-        require(result in ('VERIFIED', 'RESTART_REQUIRED', 'NORMAL_CONNECTION_PENDING'), 'Unknown restoration outcome')
+        require(result in ('VERIFIED', 'RESTART_REQUIRED', 'NORMAL_CONNECTION_PENDING', 'WINDOWS_RESTART_REQUIRED'), 'Unknown restoration outcome')
         complete = 'INSTALL_USER_ACCEPTED_NORMAL_VERIFIED' if status.get('post_install_user_verified') else 'POST_RESTART_NORMAL_VERIFIED' if status.get('camera_restarted') else 'WINDOW_COMPLETE_NORMAL_VERIFIED'
         if status.get('window_started') is False and status.get('preread_completed_safe') is True:
             complete = 'PREREAD_REJECTED_NORMAL_VERIFIED'
         if status.get('stopped_before_session') is True and status.get('window_started') is False:
             complete = 'MENU_CONNECTION_STOPPED'
-        phase = {'VERIFIED': complete, 'RESTART_REQUIRED': 'WAITING_FOR_RESTART', 'NORMAL_CONNECTION_PENDING': 'WAITING_FOR_NORMAL'}[result]
+        phase = {'VERIFIED': complete, 'RESTART_REQUIRED': 'WAITING_FOR_RESTART', 'NORMAL_CONNECTION_PENDING': 'WAITING_FOR_NORMAL', 'WINDOWS_RESTART_REQUIRED': 'WINDOWS_RESTART_REQUIRED'}[result]
         self.save(status, phase, normal_recovery=result, pending_restore_confirmation=result == 'RESTART_REQUIRED')
         return status
 
     def recover(self):
         _, _, status = self.status()
-        require(status['phase'] in ('POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL') and status.get('safe_to_restore') is True and (status.get('installation_may_be_running') is False), 'No safe normal-recovery continuation')
+        require(status['phase'] in ('POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL', 'WINDOWS_RESTART_REQUIRED') and status.get('safe_to_restore') is True and (status.get('installation_may_be_running') is False), 'No safe normal-recovery continuation')
         provider = self.rt().Provider()
         provider.check()
-        confirmation = status['phase'] == 'WAITING_FOR_RESTART' or status.get('pending_restore_confirmation') is True
+        confirmation = status['phase'] in ('WAITING_FOR_RESTART', 'WINDOWS_RESTART_REQUIRED') or status.get('pending_restore_confirmation') is True
         folder = Path(status['recovery_folder']) if 'recovery_folder' in status else self.private / ('normal_' + uuid.uuid4().hex)
         folder.mkdir(exist_ok=True)
         return self.restore(provider, folder, status, confirmation)

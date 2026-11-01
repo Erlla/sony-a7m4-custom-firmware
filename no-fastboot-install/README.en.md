@@ -1,15 +1,17 @@
 # Install firmware without Fastboot
 
-[中文](README.md) · [Patch locations](IMPLEMENTATION.md) · [M4 Camera Tool 1.00](TOOL-1.00.md)
+[中文](README.md) · [Patch locations](IMPLEMENTATION.md) · [M4 Camera Tool 1.0.0](TOOL-1.0.0.md)
 
 A normal USB data cable prepares the Sony ILCE-7M4 updater; the camera then installs `BODYDATA.DAT` from its SD card. This route needs no Multi-port flashing cable, boot bridge or Fastboot session. The camera must boot normally and support USB mass-storage mode. It is not a recovery route for an unbootable camera.
+
+**Complete firmware packages are not available yet. They will be provided after all feature updates are complete.**
 
 The tool writes the p1 updater partition. Preserve your own backups, use an original battery, meet the updater's charge requirement and maintain stable power. The automatic p1 backup is not a complete eMMC, calibration or CP NOR backup.
 
 ## Use
 
 1. Manually place a suitable `BODYDATA.DAT` in the root of the card in **slot 1**. The tool does not bundle, read, validate or copy it.
-2. Extract the complete **1.00** Windows package to a short path, such as `D:\M4`. Turn on the camera and connect in USB mass-storage mode.
+2. Extract the complete **1.0.0** Windows package to a short path, such as `D:\M4`. Turn on the camera and connect in USB mass-storage mode.
 3. Open `M4相机工具.exe`, approve the Windows administrator prompt, then confirm readiness and select **写入补丁**.
 4. Wait for the full backup, compatibility checks, any required patch and independent full readback. If prompted, keep the camera on and unplug/replug USB, then continue. Do not start the update yet.
 5. Only when the tool explicitly permits it, unplug USB without turning off the camera. Return to shooting, open Version / Software Update, check the target and start installation.

@@ -14,13 +14,13 @@
 
 ## 一、免 Fastboot 安装固件
 
-使用普通 USB 数据线，通过 **M4 相机工具**准备更新环境，再由相机从 SD 卡安装固件。相机须能正常开机并进入 USB 海量存储模式。
+使用普通 USB 数据线，通过 **M4 相机工具 1.0.0**准备更新环境，再由相机从 SD 卡安装固件。相机须能正常开机并进入 USB 海量存储模式。
 
 1. 将适用的 `BODYDATA.DAT` 放入**卡槽 1 存储卡根目录**。
 2. 用普通 USB 数据线连接电脑，在 M4 相机工具中点击**写入补丁**。
 3. 等待工具明确提示可以开始更新，再拔下 USB，在相机“版本／软件更新”中安装。
 
-**[安装指南](no-fastboot-install/README.md)** · [软件说明](no-fastboot-install/TOOL-1.00.md) · [软件源码与构建](no-fastboot-install/software/README.md) · [原理与修改位置](no-fastboot-install/IMPLEMENTATION.md)
+**[安装指南](no-fastboot-install/README.md)** · [软件说明](no-fastboot-install/TOOL-1.0.0.md) · [软件源码与构建](no-fastboot-install/software/README.md) · [原理与修改位置](no-fastboot-install/IMPLEMENTATION.md)
 
 **当前暂不提供完整固件，待全部功能更新完毕后再提供。** 软件不附带或校验固件包，请按安装指南核对文件与操作条件。
 
@@ -39,6 +39,8 @@ Fastboot 路线需要 **Multi 接口刷机线与 RP2040-Zero 启动桥**，普�
 | 自定义声音 | 从 SD 卡导入 WAV，机械／电子快门均可播放；对焦声与快门声相互抢占，最后触发优先，音频和音量分别设置。 | [使用方法](methods/06-custom-sounds/README.md) |
 | 自定义纵横比 | 新增 17:6、65:24、5:4、7:6；JPEG / HEIF 裁切，RAW 保留原始幅面。 | [使用方法](methods/07-custom-aspect-ratios/README.md) |
 | 自定义 LUT | 从 SD 卡单独导入转换后的 JSON LUT；16 个槽位可随时替换，每个滤镜支持 8 项微调与 1 项强度，开机初次使用约 1 秒载入。 | [使用方法](methods/08-custom-lut/README.md) |
+| Shell / SSH | 网络 Telnet、USB Shell、SSH / SFTP 与 Multi UART root 终端的开启及集成方法。 | [使用方法](methods/09-shell-access/README.md) |
+| 白平衡优化 | 氛围优先 −1、标准 0、白色优先 97，沿用原有 AWB 优先设置。 | [使用方法](methods/10-awb-priority/README.md) |
 
 ### 文档导航
 
@@ -103,7 +105,7 @@ py -3 -m venv .venv
 | [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) | 免 Fastboot 安装方案的研究与实现思路。 |
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | 串行启动、RP2040 桥、Fastboot payload 与 eMMC 访问。 |
 | [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | FL2 / FL3 参数与安装研究。 |
-| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | 原生色彩参数、网格生命周期研究，以及 R5ColorLab 的 LUT 拟合思路。 |
+| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | 原生色彩参数、网格生命周期研究，以及 R5ColorLab 的 LUT 拟合思路；参考白平衡设置。 |
 | [DavidBuchanan314/fwtool.py](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) 与 [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | 固件容器格式与解包方法。 |
 | [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | 索尼相机协议与固件研究。 |
 | [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker) | 固件解密与密钥推导研究。 |
@@ -114,3 +116,4 @@ py -3 -m venv .venv
 ## 参与贡献
 
 欢迎通过 Issue 或 Pull Request 提交问题与改进。新增基线请附输入哈希、地址映射与修改依据；请勿提交个人私钥、机身校准、备份或完整固件。详见[贡献指南](CONTRIBUTING.md)。
+

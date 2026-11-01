@@ -1,51 +1,39 @@
-# M4 相机工具源码
+# M4 相机工具 1.0.0 源码
 
-[English](README.en.md) · [安装方法](../README.md) · [修改原理](../IMPLEMENTATION.md)
+[English](README.en.md) · [用户指南](../TOOL-1.0.0.md) · [安装方法](../README.md) · [修改原理](../IMPLEMENTATION.md)
 
-这是 **M4 相机工具 1.00** 的当前源码：简化桌面界面、Windows 驱动准备与独立 USB 恢复、完整 p1 读取、按内容生成补丁、单次写入与独立完整回读、两处限时 RAM 菜单窗口，以及中断任务的证据校验。
+通过普通 USB 为 Sony ILCE-7M4 准备更新环境，再由用户在相机菜单中安装 SD 卡上的固件。当前版本已获用户测试通过反馈。本次同步源码，**暂不发布 Release 分发包**。
 
-不附完整固件、相机库、预编译工作器、机身绑定、备份或运行状态。用户自行放置 SD 卡安装包，软件不检查或复制安装包。每次启动使用新会话，历史任务不影响新会话；备份与日志保留。参考方案致谢：[YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools)。
+软件提供“写入补丁”和独立的“恢复普通 USB”。用户自行放置安装包，软件不读取、检查、复制或绑定 DAT。完整固件暂不提供，待功能全部更新完毕后再提供。
 
-## 目录
+## 当前行为
 
-| 路径 | 内容 |
-|---|---|
-| `app/ui`、`app/workflow` | 单窗口界面、补丁／菜单流程、独立 USB 恢复和本地菜单准备续接 |
-| `app/driver`、`app/driver_restore` | Windows 管理员任务、普通驱动恢复 |
-| `app/reader`、`app/writer`、`app/native` | 每轮按随机数与摘要生成的原生读取／写入任务及引导 |
-| `app/receiver_stock`、`app/receiver_custom`、`app/receiver_shared` | 当前已审查更新器的兼容性和 p1 修改 |
-| `app/menu_stock`、`app/menu_custom`、`app/menu_transport` | 菜单任务、短指令锚点与协议；不包含完整固件库 |
-| `build.py`、`Launcher.cs` | 独立便携构建、发布完整性清单和 Windows 启动器 |
-| `dependencies.json` | 外部运行组件的版本与目录摘要锁 |
-| `tests` | 只使用本地材料和模拟 Windows 状态的开发检查 |
+- 首次使用按 Windows 用户和机身建立配置。匹配安装及空任务目录可复用，只补建缺失任务；运行中任务和未知操作不会作为残留删除。
+- 任务账户名和 SID 按解析后的身份比较。具体未通过字段写入私人安装收据。
+- 普通／服务 USB 身份均准备 WinUSB。信任 libwdi 自签名证书需要明确同意，默认取消；这些不是索尼或微软发布者证书。
+- 补丁与菜单期间复用驱动。完整 p1 备份、按内容匹配、单次写入和独立完整回读保留；未知布局停止，显示版本号不设白名单。
+- 固件操作完成与电脑盘符恢复分开记录。每次打开新界面会话，保留备份和日志，结果未知的任务不自动重发。
+- 日常操作只执行完整性校验，不运行 ARM64 仿真或故障注入。
 
-未使用的实验安装入口和固定实验版本分支不在公开源码中。当前界面可达流程、原生工作器和证据门禁保留；本仓库不引入研究日志作为运行依赖。
+## Windows x64 构建
 
-## 构建 Windows x64 便携目录
+需要 Python 3.12+ 和 Windows 自带的 .NET Framework C# 编译器。构建不提权、不访问相机、不安装驱动。运行组件独立提供，不作为源码二进制提交。
 
-需要 Windows x64、Python 3.12 或更新版本用于构建，以及 Windows 的 .NET Framework C# 编译器。构建过程不请求管理员权限、不接触相机，也不安装驱动。
+`assets-files.json` 锁定 **3257 个文件、9 个分组**。普通／服务的 INF、CAT 和共享共同安装器共 6 个文件，全部属于 `tools/driver` 资产分组；不再依赖研究目录或源码里的额外二进制。其余分组摘要保持。
 
-第三方运行组件独立提供，不随源码克隆。准备与 `dependencies.json` 完全匹配的干净运行目录或工具便携 ZIP，包含 `runtime/python`、四个 `vendor` 目录、`tools/zig`、`tools/squashfs`、`tools/driver` 和 `licenses`。各组的文件名与内容摘要必须匹配；版本字符串相同并不足够。来源和许可见 [THIRD_PARTY.md](THIRD_PARTY.md)。本次源码同步没有发布运行时二进制附件，也没有创建 GitHub Release。
-
-在本目录执行：
+在本目录使用另行取得的可信便携包：
 
 ```powershell
+py -3 prepare_assets.py --from-package D:\M4-portable.zip --output D:\M4-runtime
 py -3 build.py --assets D:\M4-runtime --output D:\M4-build
-# --assets 也可指向包含上述目录的干净便携 ZIP。
 D:\M4-build\M4相机工具.exe --verify
 ```
 
-输出目录必须不存在。构建器只从输入复制锁定的运行组件，始终使用本目录的 app 源码，不读取输入中的 app、state 或固件。它生成统一 `app/release.json`、编译启动器，并执行仅本地完整性检查。桌面图标属于可选资源，不影响操作。
+包含全部锁定文件的便携 ZIP 也可直接传给 `build.py --assets`。输入 app、state 和固件均忽略，app 始终来自当前源码；输出必须是新目录。来源和许可见 [THIRD_PARTY.md](THIRD_PARTY.md) 与 [assets-sources.json](assets-sources.json)。精确导出不是从每个上游归档下载重建的完整配方。
 
-完成后打开输出目录的 EXE。不要直接运行源码中的 entry.py：它需要构建时生成的完整性清单与运行组件。不要将构建覆盖到正在使用或存在未完成任务的目录。
+原生入口在 Python、CLR 和管理员授权前核对文件与导入目录；正常运行使用受保护的 ProgramData 副本，状态与缓存留在解压目录。只读句柄约束运行中的内容替换。`--verify` 只校验本地文件，不提权或建立设备会话。可信来源的启动 EXE 仍是信任起点；未提供 Authenticode 签名，完整性检查不能代替安全软件判定。
 
-正常启动 EXE 时会请求 Windows 管理员权限，取消授权则退出；已经具有管理员权限时直接打开。`--verify` 仅做本地完整性检查，不请求提升权限，也不建立操作会话。
-
-每次打开均回到“写入补丁”初始界面，“恢复普通 USB”可直接点击。每次启动在 `state/sessions/` 创建独立目录，同一窗口的后台子进程继承该会话。历史任务不再作为下次启动的流程入口或写入门禁；机身配置、备份和日志继续保留。全局进程锁和相机实时状态检查仍生效，每次新操作重新完整读取当前 p1。
-
-驱动重绑后的普通 USB 字符串检查最多等待约 8 秒，只重试标准描述符读取，并在每次失败后释放句柄、重新枚举。语言码取自设备实际返回的列表，型号、序列号和已绑定机身仍须一致；不使用固定语言码或 Windows 文本替代实际 USB 身份。底层 USB 错误单独记录。菜单准备阶段若在认证前持续读不到描述符，自动恢复普通驱动并停止该轮菜单；等待重新插拔时按提示确认，不会重发补丁或菜单任务。
-
-## 离线开发检查
+## 开发验证
 
 统一离线入口可以直接检查源码，不需要外部运行组件、完整便携包或相机：
 
@@ -62,17 +50,15 @@ py -3 -I -B tests\run_offline.py --package D:\M4-build --report build\package-te
 以下命令只用于新构建的测试目录，不能对用户运行目录执行；它们会生成虚拟任务和绑定。不会调用 Windows 驱动或相机，但会留下测试 state，测试目录不能直接分发。
 
 ```powershell
-D:\M4-build\runtime\python\python.exe -I -B tests\test_usb_recovery.py --package D:\M4-build
-D:\M4-build\runtime\python\python.exe -I -B tests\test_local_failure.py --package D:\M4-build
-D:\M4-build\runtime\python\python.exe -I -B tests\test_state_io.py --package D:\M4-build
-D:\M4-build\runtime\python\python.exe -I -B tests\test_startup_session.py --package D:\M4-build
-D:\M4-build\runtime\python\python.exe -I -B tests\test_usb_identity.py --package D:\M4-build
-D:\M4-build\runtime\python\python.exe -I -B tests\test_menu_seal.py --package D:\M4-build --lineage stock
-D:\M4-build\runtime\python\python.exe -I -B tests\test_menu_seal.py --package D:\M4-build --lineage user
+D:\M4-build\runtime\python\python.exe -I -B tests\run_clean_setup.py --package D:\M4-build
+D:\M4-build\runtime\python\python.exe -I -B tests\test_driver_reuse.py --package D:\M4-build
+powershell -NoProfile -ExecutionPolicy Bypass -File tests\test_driver_trust.ps1 -Package D:\M4-build
 ```
 
-检查覆盖初始恢复按钮、驱动状态与未决任务保护、菜单材料生成／封存／校验，以及本地失败的续接边界。菜单封存测试使用虚拟接收端证明，不能替代实机验证。构建成功或菜单出现也不等于 SD 固件安装成功。日常补丁只执行完整性校验，不运行 ARM64 仿真或故障回归。
+完整初始化替身从无工具配置、任务、相关驱动和证书状态开始，并模拟 Windows 把 SID 登记读回为账户名。可选 `test_task_user_readback.ps1 -Source <源码目录>` 需要已有真实参考任务，仅只读观察，不能当作空白安装测试。实际 UAC、ACL、驱动绑定和相机结果须另行现场验收。
 
-状态 JSON 在 Windows 使用可共享删除的读取句柄和 ReplaceFileW 原子替换；短暂占用只对本地发布做有时限重试。创建初始记录时失败，须先核对双份记录、事件和本轮时间，证明没有进入设备步骤后才能结案并使用独立 USB 恢复。此逻辑不会重试驱动派发、原生 START 或 COMMIT。
+## 致谢与范围
 
-本项目源码沿用仓库 [LICENSE](../../LICENSE)；第三方运行组件继续适用各自许可。完整固件暂不提供，待功能全部更新完毕后再提供。
+免 Fastboot 方案参考 [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools)；驱动复用和独立恢复参考 [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research)。其余来源见 [REFERENCES.md](../../REFERENCES.md)。
+
+源码不含机身绑定、备份、日志、私钥、完整固件或相机固件库。第三方组件沿用各自许可。

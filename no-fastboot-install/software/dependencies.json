@@ -1,6 +1,6 @@
 {
   "schema": "m4-source-runtime-dependencies/1",
-  "version": "1.00",
+  "version": "1.0.0",
   "groups": {
     "runtime/python": {
       "files": 1765,
@@ -31,8 +31,8 @@
       "tree_sha256": "d6ca4a72a9536c54f960cafe22c95521e75c7951e37141837e7ac8f820221c49"
     },
     "tools/driver": {
-      "files": 2,
-      "tree_sha256": "ef714ff2f1d2ae0bad932c540f7470a604e70582a7c2a0e80be963f9d16ea924"
+      "files": 6,
+      "tree_sha256": "ff0ae3fb1721c20fa0890e8b25062a25fc3b08d8cce6882ad8136f93da4be270"
     },
     "licenses": {
       "files": 12,

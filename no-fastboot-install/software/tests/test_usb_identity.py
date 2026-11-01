@@ -98,9 +98,9 @@ def main():
     rows.append('reenumeration_timeout_keeps_device_commands_zero')
     # Exercise the real Provider.bind integration, replacing only the host and USB backend.
     import user_provider, usb_session
-    provider = user_provider.Provider(); provider.binding = dict(identity=identity)
+    provider = user_provider.Provider(); provider.binding = dict(identity=identity, camera_instance_sha256='a' * 64)
     backend = Backend(failures=1)
-    row = dict(service='WinUSB', instance='USB\\VID_054C&PID_0DA5\\' + serial)
+    row = dict(service='WinUSB', inf='oem42.inf', instance='USB\\VID_054C&PID_0DA5\\' + serial)
     folder = root / 'state/source_tests/identity-bind'; folder.mkdir(parents=True, exist_ok=True)
     from state_io import atomic_json
     atomic_json(folder / 'latest_StageBind.json', {'run_id': 'offline'})
@@ -108,6 +108,9 @@ def main():
          patch.object(provider, 'host', return_value=(0, dict(status='WINUSB_BOUND', run_id='offline'))) as host, \
          patch.object(provider, 'snapshot', return_value=(folder, {})), \
          patch.object(provider, 'same_body', return_value=row), \
+         patch.object(provider, 'tasks_clear', return_value=None), \
+         patch.object(provider, 'service_package_staged', return_value=True), \
+         patch.object(provider, 'communication_driver', side_effect=['storage', 'winusb']), \
          patch.object(usb_session, 'load_backend', return_value=backend):
         provider.bind(folder)
         host.assert_called_once_with('Broker', folder, 'StageBind')

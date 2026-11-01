@@ -50,3 +50,25 @@
 
 - The integrated CP uses native/custom-sounds/handoff and a7m4.custom_sound_handoff for mutual focus/shutter preemption. Keep APP admission, PIN admission and common begin gates together: APP can reject before common begin. Dispatch delayed APP requests through their original APP path. Stop opcode 2 is not pending Start 1; never clear native busy flags to force playback.
 - Handoff state occupies 0x1564A84..0x1564F98, below Gamma fallback 0x1565000. Preserve BODY initialization, optional-page READY and CRC, the lens-AF helper at 0xBA5718 and the LUT/aspect code. The CP component chain in methods/08-custom-lut/reference-layout.json must match the handoff recipe. The frozen basic sound recipe uses a different CP layout and must retain its exact-input rejection.
+
+## Shell / SSH methods
+
+- Keep all terminal access recipes together in methods/09-shell-access, with one entry in both Fastboot method tables. Publish functional method names, component identities and activation details rather than internal candidate labels or the maintainer's current camera state.
+- Telnet/USB share the ULOGIO restoration recipe; SSH uses the existing normal-system daemon plus startup/NSS/configuration; Multi UART uses the independent p1/Cetus/RP2040 bridge. SFTP and Wi-Fi do not add separate shell methods.
+- Preserve the distinction between p1 and p15 libsencore offsets, the two-byte USB input/output payload, physical partition length and filesystem length, and persistent p10 paths. UART also changes p2 boot flags and cannot shoot in the updater environment.
+- Reference inputs and upstream resources remain separately obtained. Do not publish personal SSH keys, camera backups, research paths, raw device logs or derivative firmware binaries. Do not describe this documentation set as a one-click installer or an integrated validation of SSH plus ULOGIO.
+
+## Desktop tool maintenance
+
+- Task Scheduler may return an account name for a principal registered using a SID. Resolve both to SecurityIdentifier before comparison; retain action, arguments, directory, trigger and run-level checks. Record failed fields without adding account names or command-line data to diagnostics.
+- First-use setup reuses matching installations and existing empty task folders, and creates only missing tasks. Do not delete running tasks or unknown operation records as retry cleanup. Fresh-state substitutes must model account-name readback, not just echo registration inputs.
+- All six ordinary/service driver binding and coinstaller files belong to the separately supplied tools/driver asset group. Source builds must not depend on extra binaries in the checkout. Keep the exact per-file asset inventory and group fingerprint aligned.
+- Software version is 1.0.0. Keep launcher, manifest, integrity gates, workflow and interface identifiers consistent. This source synchronization does not create a Release or publish binary assets; retain evidence locally and do not claim a Defender false-positive review result.
+
+## AWB priority method
+
+- The optional CP layer lives in methods/10-awb-priority and a7m4.awb_priority, with the exact profile a7m4/profiles/awb-priority.json. Default effective parameters are Ambience -1, Standard 0 and White 97; White 97 is a custom choice, not an FX2 factory value.
+- The bilingual AWB guides compare this recipe with official FX2 1.01: Ambience -1, Standard 0 and White 88, with local coefficients 254/256/432. The factory table describes checked upgrade defaults and the Standard code branch; keep it distinct from the custom White 97 value and from final image colour.
+- Apply this layer after the current custom-sound-handoff CP recipe. The integrated chain is 5c901780...61f640 -> 8f3061af...6cc939; preserve the preceding LUT/aspect/sound/AP/resource contracts. The LUT reference describes the preceding input-side component; this optional method does not replace that baseline.
+- Offsets 0x13293e/0x132948 are CP file offsets. Backup +0x930/+0x931 are record-relative and remain unchanged by this method. MOV.W preserves flags, and original SXTAB interprets 0xff as -1. Standard remains zero. Check complete input/output SHA-256, not camera labels.
+- Publish the reusable source, bilingual method, component identities and verification limits. Keep package labels, full firmware, researcher paths, raw inputs and per-round delivery records local. Native/host replay and full-package offline checks do not establish physical installation or improved image quality.

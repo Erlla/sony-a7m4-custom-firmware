@@ -1,3 +1,4 @@
+from data_paths import data_root
 from product_integrity import pinned, state_path
 from pathlib import Path
 import os
@@ -17,8 +18,15 @@ USB_RECOVERY = {'PATCH_RECOVERY', 'PATCH_REJECTED_RECOVERY', 'REVIEW_REQUIRED', 
 
 def presentation(state):
     phase = state['phase']
+    if phase == 'WINDOWS_RESTART_REQUIRED' or (phase == 'PATCH_RECOVERY' and state.get('recovery') == 'WINDOWS_RESTART_REQUIRED'):
+        return ('请重启电脑', 'Windows 驱动变更需要重启电脑才能生效。\n请保存工作、重启电脑，再打开工具。', '重启电脑后再打开', None)
+    if phase == 'MENU_CONNECTION_RECOVERY':
+        return ('请恢复普通 USB', state.get('message') or 'p1 检查已完成，菜单尚未启动。重新插拔 USB 后确认普通连接。', '确认普通 USB', 'simple-recover-usb')
     if phase == 'MENU_CONNECTION_STOPPED':
-        return ('连接已恢复，可以重试', '本轮 p1 补丁已完成，USB 描述符检查未通过，更新菜单尚未准备。\n保持供电和连接，点击“写入补丁”重新检查当前相机。', '写入补丁', 'simple-start')
+        detail = ('本轮菜单尚未交接，USB 驱动已保留。\n可保持连接重新检查，或点击“恢复普通 USB”。'
+                  if state.get('driver_retained') else
+                  '本轮 p1 补丁已完成，连接已恢复，更新菜单尚未准备。\n保持供电和连接，重新检查当前相机。')
+        return ('菜单准备已停止', detail, '写入补丁', 'simple-start')
     if phase == 'PATCH_REJECTED_RECOVERY':
         return ('补丁未写入，请恢复连接', '完整备份已保存，但更新器兼容性检查未通过。\n保持相机开机，重新插拔 USB 后继续；本次只恢复连接。', '已重新插拔，恢复连接', 'simple-continue')
     if phase == 'USB_RECOVERY_WAITING':
@@ -35,6 +43,8 @@ def presentation(state):
         elif 'find_card.ps1' in detail and 'timed out' in detail:
             detail = '上次停在存储卡查找阶段，未开始补丁读写。当前版本已移除此步骤，可以重新操作。'
         return ('尚未开始补丁读写', detail, '重新检查并写入补丁', 'simple-start')
+    if phase == 'COMPLETE':
+        return ('本轮操作已结束', '需要恢复电脑的相机存储连接时，点击“恢复普通 USB”。', '写入补丁', 'simple-start')
     if phase in NEW:
         return ('写入补丁', '1  自行将要安装的 BODYDATA.DAT 放入卡槽 1 存储卡根目录。\n2  将 M4 开机，以 USB 海量存储模式连接电脑。\n3  保持电量充足，点击下方按钮，等待软件提示。', '写入补丁', 'simple-start')
     if phase == 'MENU_PREPARATION_RETRY':
@@ -44,7 +54,7 @@ def presentation(state):
     if phase in {'PATCH_PREPARED', 'PATCH_READY'}:
         return ('继续准备相机', '保持供电和 USB 连接，软件将自动完成后续准备。', '继续', 'simple-continue')
     if phase in HANDOFF:
-        return ('可以拔下 USB 开始更新', '保持相机开机，拔下 USB，先回拍摄界面，再进入“版本／软件更新”。\n自行核对目标版本并执行更新，等待相机自动重启。', '结束并恢复 USB', 'simple-installed')
+        return ('可以拔下 USB 开始更新', '保持相机开机，拔下 USB，先回拍摄界面，再进入“版本／软件更新”。\n自行核对目标版本并执行更新，等待相机自动重启。', '更新已结束', 'simple-installed')
     if phase == 'POST_RESTART_NORMAL_CHECK':
         return ('准备恢复普通 USB', '请以 USB 海量存储模式重新连接相机，完成普通连接检查。', '已重新连接，完成检查', 'simple-continue')
     if phase in {'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL'}:
@@ -63,6 +73,7 @@ class App:
         self.state = self.flow_reader()
         self.previous_phase = None
         self.usb_message = None
+        self.windows_restart = False
         root.title('M4 相机工具')
         root.configure(bg=BG)
         root.geometry('920x710+35+35')
@@ -80,7 +91,7 @@ class App:
         header = tk.Frame(outer, bg=BG)
         header.pack(fill='x', pady=(0, 20))
         tk.Label(header, text='M4 相机工具', font=('Microsoft YaHei UI', 23, 'bold'), bg=BG, fg=INK).pack(side='left')
-        tk.Label(header, text='1.00', bg=BG, fg=MUTED).pack(side='right')
+        tk.Label(header, text='1.0.0', bg=BG, fg=MUTED).pack(side='right')
         card = tk.Frame(outer, bg=WHITE, padx=26, pady=22)
         card.pack(fill='x')
         self.title, self.detail, self.timer, self.progress_text = (tk.StringVar() for _ in range(4))
@@ -134,7 +145,7 @@ class App:
 
     def refresh(self):
         self.state = self.flow_reader()
-        display = self.state
+        display = dict(phase='WINDOWS_RESTART_REQUIRED') if self.windows_restart else self.state
         if self.state['phase'] == 'COMPLETE' and self.previous_phase != 'COMPLETE':
             self.ready.set(False)
         self.previous_phase = self.state['phase']
@@ -163,7 +174,9 @@ class App:
             self.detail.set('菜单窗口已到期。如果尚未开始，请勿执行更新。\n如果更新已经开始，保持供电并等待完成；完成后再确认版本和拍摄保存。')
         self.timer.set((f'请在 {seconds // 60:02d}:{seconds % 60:02d} 内开始更新；已开始更新后请等待相机完成。' if seconds else '窗口已到期：尚未开始则请勿更新；若已开始更新，请等待相机完成。') if seconds is not None else '')
         if self.state['phase'] == 'COMPLETE':
-            self.result.set('本轮已结束，普通 USB 连接已恢复。')
+            self.result.set('本轮已结束。普通 USB 可按需单独恢复。'
+                            if self.state.get('usb_recovery') == 'NOT_REQUESTED'
+                            else '本轮已结束，普通 USB 连接已恢复。')
         if self.usb_message and not self.jobs.busy:
             self.result.set(self.usb_message)
 
@@ -193,7 +206,7 @@ class App:
         if self.action == 'simple-start':
             arguments = ['--ready']
         if self.action == 'simple-installed':
-            if not messagebox.askokcancel('恢复普通 USB', '请确认相机已完成更新并自动重启，或取消更新后正常重启。\n当前已进入拍摄界面，未在更新中。然后重新连接 USB。', parent=self.root):
+            if not messagebox.askokcancel('确认更新结束', '请确认相机已完成更新并自动重启，或取消更新后正常重启。\n当前已进入拍摄界面，未在更新中。', parent=self.root):
                 return
             arguments = ['--confirmed']
         self.run(self.action, arguments)
@@ -244,6 +257,11 @@ class App:
                 if value.get('action') == 'simple-recover-usb':
                     payload = value.get('result') or {}
                     self.usb_message = payload.get('message')
+                    self.windows_restart = payload.get('phase') in ('USB_RESTORE_WINDOWS_RESTART', 'WINDOWS_RESTART_REQUIRED')
+                    if self.windows_restart:
+                        self.progress_text.set('等待电脑重启')
+                    elif value['phase'] == 'WAITING':
+                        self.progress_text.set('等待连接或操作')
                     self.bar.configure(value=100 if payload.get('phase') == 'USB_RESTORE_COMPLETE' else 0)
                     if payload.get('folder'):
                         self.last_folder = payload['folder']
@@ -284,7 +302,7 @@ class App:
             os.startfile(str(path))
 
     def open_records(self):
-        self.open_path(self.last_folder or self.state.get('folder') or bridge.ROOT / 'state')
+        self.open_path(self.last_folder or self.state.get('folder') or data_root(bridge.ROOT))
 
     def close(self):
         if self.jobs.busy:
