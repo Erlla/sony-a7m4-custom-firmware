@@ -13,6 +13,8 @@
 
 组合布局另有独立链接的 [handoff 模块](handoff/README.md)，处理对焦／快门双向抢占、最新触发优先和连拍自然尾段。它使用单独的精确 CP 配方与构建命令，不改变这六个基础模块的固定 ABI。
 
+[持久缓存模块](../persistent-cache/README.md)在组合 AP 中保存两槽的声音转换结果，音频或音量变化时重新生成。它与 LUT 基础编译缓存共用独立 RX 模块；六个基础模块的源码与构建清单保持原固定布局。
+
 ## 复现编译
 
 已验证工具为外部 Zig 0.15.2 的 AArch64 freestanding 编译器和 ARM GNU GCC 16.1.0 / Binutils。工具不随源码打包；编译器版本不同可能改变代码布局，脚本会拒绝摘要不一致，不能忽略错误后安装。
@@ -43,3 +45,5 @@ output/sound-core-test.exe
 The six modules contain the project's own adaptation code, not original Sony source. Their fixed addresses and protocol/schema IDs describe the exact reference ABI, never a firmware display release. Use external Zig 0.15.2 and ARM GCC 16.1.0, run the build command above from the repository root, and select a fresh output directory. The builder validates the source inventory, complete compile/link arguments, section address/size/hash, unresolved symbols and explicit post-link corrections. `installed.elf` reproduces the final installed sections; it is not an installable firmware or partition image. The installed runtime includes mechanical/front-curtain support and the `PRIVATE/M4ROOT/GENERAL/SOUNDS/` directory through explicit post-link edits. Generate current-policy C with `tools/prepare_current_sound_sources.py` for the host harness; the fixed-layout compiler inputs remain intact. The C harness checks policy/persistence with synthetic PCM and no camera I/O.
 
 The integrated layout adds a separately linked [handoff module](handoff/README.md) for mutual focus/shutter preemption, latest-trigger priority and a natural final tail. Its own exact CP recipe and build command preserve the six base modules' fixed ABI.
+
+The separate [persistent-cache module](../persistent-cache/README.md) stores converted audio for both slots in the integrated AP and regenerates it when the audio or volume changes. It shares an RX module with base LUT compilation caching, preserving the six base modules' fixed source/build contract.

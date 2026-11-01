@@ -10,7 +10,7 @@
     {
       "component": "AP",
       "bytes": 99221508,
-      "sha256": "d61cf91f1457027c78b6e094ee3c87160e37523f4476b1b9b7bc1e101cd1aea4"
+      "sha256": "76cdb561ac459b5c0f6a0622e46f4b3cd2ecdff6b48a35f2d59f733712c5c6f1"
     },
     {
       "component": "CP",
@@ -99,8 +99,8 @@
     {
       "p_vaddr": 151191552,
       "p_offset": 99090432,
-      "p_filesz": 77436,
-      "p_memsz": 77436,
+      "p_filesz": 101855,
+      "p_memsz": 101855,
       "p_flags": 5
     },
     {
@@ -1132,6 +1132,13 @@
       "output_sha256": "d61cf91f1457027c78b6e094ee3c87160e37523f4476b1b9b7bc1e101cd1aea4",
       "tool": "python -m a7m4.custom_sound_policy",
       "profile": "a7m4/profiles/custom-sound-policy.json"
+    },
+    {
+      "purpose": "Persist compiled LUTs and converted custom audio; preserve original files and parameter controls",
+      "source_sha256": "d61cf91f1457027c78b6e094ee3c87160e37523f4476b1b9b7bc1e101cd1aea4",
+      "output_sha256": "76cdb561ac459b5c0f6a0622e46f4b3cd2ecdff6b48a35f2d59f733712c5c6f1",
+      "tool": "python -m a7m4.persistent_cache",
+      "profile": "a7m4/profiles/persistent-cache.json"
     }
   ],
   "CP_component_patches": [
@@ -1169,5 +1176,16 @@
     },
     "gamma_fallback_start": "0x1565000",
     "policy": "latest trigger wins; final sound finishes naturally"
+  },
+  "persistent_cache": {
+    "module_VA": "0x9048000",
+    "code_bytes": 3551,
+    "added_BSS_bytes": 0,
+    "LUT_directory": "/setting/clut/looks",
+    "sound_files": [
+      "/setting/csnd/f0_0.bin",
+      "/setting/csnd/f0_1.bin"
+    ],
+    "CP_unchanged": true
   }
 }

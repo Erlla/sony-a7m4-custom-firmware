@@ -28,6 +28,8 @@ PRIVATE/
 
 Imported audio and filenames are saved internally and restored after power-on. The original card need not remain inserted. Existing saved clips remain usable; files for a new import belong in the directory above.
 
+Converted playback data also persists internally for direct reuse after power-on. Changing the audio or volume regenerates that slot's data while retaining the original audio. See the separate [cache source and component integration](../../native/persistent-cache/README.md).
+
 | Item | Behaviour |
 |---|---|
 | Shutter sound | Available with mechanical, electronic front-curtain and electronic shutters; changing shutter type preserves its switch |

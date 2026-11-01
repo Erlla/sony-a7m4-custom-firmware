@@ -61,6 +61,12 @@ AP 新代码/状态的主要分区：
 
 不能直接把 WAV 文件头送给 Sysnd，也不能把录像/视频回放的 PCM 接口当成原厂短提示音接口。最终 `worker/src/convert.c` 把 PCM 混为单声道，用 Q24 FIR 重采样到 24 kHz，再编码成 format 0 的 f0 块：每 31 个样本用 1 B 块指数＋31 B 量化样本，尾部补齐并保留 64 B guard。输入、暂存和描述符不得重叠；转换不分配活动 DMA 资源、不使用浮点/SIMD。
 
+### 转换结果缓存
+
+组合 AP 使用[持久缓存模块](../../native/persistent-cache/README.md)包装 `convert_tick` 的 `csnd_pcm_f0_volume` 调用。两槽分别写入 `/setting/csnd/f0_0.bin`、`f0_1.bin`；身份包含 WAV SHA-256、音量、PCM 格式和转换 ABI。命中后复用 F0、guard 和转换信息，否则执行原转换并保存。原 WAV、PCM 拷贝、资源准备和下述 AP/CP 交易继续走原路径，缓存不参与播放抢占。
+
+这是 LUT／声音组合 AP 的单独组件补丁，使用 `python -m a7m4.persistent_cache`；不扩大基础声音配方的输入范围，也不移动六个基础模块的固定导出。精确身份和调用点见[缓存配方](../../a7m4/profiles/persistent-cache.json)。
+
 ## 5. AP/CP 资源交易与重启恢复
 
 CP 文件中 `0xBA5C80` 起的 owner 模块只处理私有协议；原回复消费、队列返回与资源注册表保持原调用合同。其 BSS 从 `0x1564840` 起。相关短音原入口包括播放 `0xA55998`、配置 `0xA55926`、停止 `0xA55F80` 与回调 `0x5DEB18`；所有跳板均需保留被覆盖原指令和 ARM/Thumb 状态。

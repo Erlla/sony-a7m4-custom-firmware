@@ -17,6 +17,8 @@ Contrast, highlights, shadows and saturation range from −9 to +9; fade, sharpn
 
 Each slot independently retains its eight adjustments and strength. Ordinary `.cube` or DCP files must first be converted to the native JSON contract; renaming a file is not conversion. Format validity does not establish color-match quality.
 
+Compiled base results persist internally for reuse after power-on. All eight adjustments and strength remain available and independently saved.
+
 ## Camera photographs
 
 Supplied and authorized by the maintainer. Displayed look names are examples, not distributed presets or claims of commercial-preset equivalence.
@@ -31,6 +33,6 @@ Supplied and authorized by the maintainer. Displayed look names are examples, no
 
 ## Implementation resources
 
-Includes implementation and modification locations, component identities, a [standalone atomic cache core](../../native/custom-lut/README.md), and camera UI photographs. It does not distribute complete manufacturer programs, color tables or firmware packages, and does not add a complete one-command firmware builder.
+Includes implementation and modification locations, component identities, a [CP atomic cache core](../../native/custom-lut/README.md), an [AP compiled-result cache](../../native/persistent-cache/README.md), and camera UI photographs. It does not distribute complete manufacturer programs, color tables or firmware packages, and does not add a complete one-command firmware builder.
 
 Follow the [integration notes](INTEGRATION.md) when combining methods.
