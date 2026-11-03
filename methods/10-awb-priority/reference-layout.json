@@ -14,14 +14,25 @@
     "ambience_offset": "0x931",
     "action": "retain backup records; override the two CP parameter reads"
   },
-  "target_parameters": {"ambience": -1, "standard": 0, "white": 97},
-  "target_local_coefficients": {"ambience": 254, "standard": 256, "white": 450},
-  "patch_file_offsets": ["0x13293e", "0x132948"],
+  "target_parameters": {
+    "ambience": -1,
+    "standard": 0,
+    "white": 97
+  },
+  "target_local_coefficients": {
+    "ambience": 254,
+    "standard": 256,
+    "white": 450
+  },
+  "patch_file_offsets": [
+    "0x13293e",
+    "0x132948"
+  ],
   "changed_bytes": 8,
   "composition": {
-    "preceding_profile": "../../a7m4/profiles/custom-sound-handoff.json",
-    "preceding_CP_sha256": "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640",
-    "output_CP_sha256": "8f3061af864a86f49c03d62301af0dd193d493251b2058731149924d676cc939",
+    "preceding_profile": "../../a7m4/profiles/custom-sound-lifecycle.json",
+    "preceding_CP_sha256": "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f",
+    "output_CP_sha256": "fa5941ea2dfda2d65faa6c844217f075a44e46cd38b8a23d9b731b6fc33dec23",
     "other_components": "preserve the existing integrated AP, resources, NOR and updater contracts"
   },
   "physical_installation_and_image_quality": "not verified for this AWB recipe"

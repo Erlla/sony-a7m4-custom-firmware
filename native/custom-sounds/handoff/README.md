@@ -9,6 +9,8 @@ python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --outpu
 
 编译器使用 ARM GNU GCC 16.1.0，参数、源码摘要、安装段与 CP 输入／输出身份见 [profile](../../../a7m4/profiles/custom-sound-handoff.json)。常驻门、包装和逻辑必须同时集成，BSS 必须由原 BODY 清零；新增段的 CRC 必须与原页预检一致。不同布局不能直接重放这些固定地址。
 
+当前组合继续应用[声音生命周期层](../lifecycle/README.md)，同时接入 AP 准备与 CP 播放／预约规则。本目录是该层之前的基础交接配方。
+
 基础声音模块保持其参考 ABI；本目录作为组合布局的独立链接模块构建。详细入口、空间归属和交接规则见[修改方法](../../../methods/06-custom-sounds/IMPLEMENTATION.md#8-对焦快门双向抢占与连拍)。这些工具只生成本地 ELF 或 CP 组件，完整固件仍需正确封装、校验和签名。
 
 The latest focus or shutter trigger preempts either active sound through native Stop and retirement. APP admission, PIN admission and common begin retain their distinct dispatch paths. Pending requests carry values only, superseded requests receive native cancellation replies, and the original Sysnd scheduler starts the latest request after release. The final sound finishes naturally.

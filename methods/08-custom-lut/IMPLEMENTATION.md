@@ -68,10 +68,11 @@ SD 目录为 `PRIVATE/M4ROOT/GENERAL/LUT/`，内部存储目录为 `/setting/clu
 
 微调与强度继续走原值快照，不修改基础缓存身份。缺少或失效的缓存调用原 JSON 读取与编译函数；原内容和双索引事务不变。缓存命中省去基础编译，但首次选择另一款内容仍需 CP 传输、资源准备和参数应用。
 
-该 AP 模块与声音转换缓存共用 `0x9048000` 起的 3551 字节 RX，无新增 BSS。精确调用点与完整输入／输出身份见[组件配方](../../a7m4/profiles/persistent-cache.json)。按 [AP 修改链](reference-layout.json)先完成关闭页与声音策略修订，再执行：
+该 AP 模块使用 `0x9048000` 起的 3551 字节 RX，无新增 BSS。固定模块保留声音包装导出，当前组合由声音生命周期层使用原 WAV 转换入口。精确调用点与完整输入／输出身份见[组件配方](../../a7m4/profiles/persistent-cache.json)。按 [AP 修改链](reference-layout.json)先完成关闭页与声音策略修订，再执行：
 
 ```powershell
 python -m a7m4.persistent_cache --input local/appFw.sound-policy.so --output output/appFw.cached.so
+python -m a7m4.custom_sound_lifecycle --component ap --input output/appFw.cached.so --output output/appFw.sound-lifecycle.so
 ```
 
 ## CP 参数快照与缓存回收

@@ -18,13 +18,13 @@
 
 AP 纵横比 RX `0x09010000`、RW `0x09020000` 与 LUT 控制 RX `0x09000000`、后台 RX `0x09030000` 分开。程序头、相对重定位和注册入口仍须按完整对象组合；地址分开不代表可以整文件覆盖。
 
-AP 的 [LUT／声音持久缓存](../../native/persistent-cache/README.md)共用 `0x9048000..0x9048DDF`，扩展后台 RX LOAD 至 `0x18DDF` 字节，没有新增 BSS。该层仅修改四个调用点与 LOAD 长度；原 worker、固定导出、GUI 和 CP 生命周期保留。按组件链应用 `a7m4.persistent_cache`，不能用基础声音 AP 覆盖其输出。它与 CP 的 LUT bank 回收分开，不改变其他 CP 方法的输入／输出身份。
+AP 的 [LUT 编译缓存](../../native/persistent-cache/README.md)使用 `0x9048000..0x9048DDF`，其基础配方扩展后台 RX LOAD 至 `0x18DDF` 字节，没有新增 BSS。该缓存接入层保留固定导出；当前组合随后应用声音生命周期层，将声音转换调用恢复到原 WAV 转换器。LUT 编译缓存继续有效。按组件链应用 `a7m4.persistent_cache`，不能用基础声音 AP 覆盖其输出。它与 CP 的 LUT bank 回收分开；当前 AP/CP 声音生命周期输出身份由组件链单独列明。
 
 CP 纵横比实际 RX 为 `0x11B000..0x11B67C`，BSS 在 `0x11D000`，独立 READY 为 `0x1565F0C`。LUT 网格/生命周期 RX 使用 `0x11C000..0x11D000`；不要继续将旧链接脚本的整个预留区当作当前比例代码长度。LUT 的 READY、Gamma 表、声音状态各自分区，详情见位置清单。
 
 声音状态的区间也必须保留：owner 为 `0x1564840..0x15648FC`，driver/gain 诊断合计到 `0x1564A84`，对焦／快门交接状态继续使用 `0x1564A84..0x1564F98`。原厂 Gamma 回退表从 `0x1565000` 开始，177 行动态 Gamma 表位于 LUT 引擎堆对象中，不能把扩展表放回声音 RAM。检查声音代码字节不变还不够；同一份 CP RAM 中应串接启动、声音绑定、LUT 发布/关闭与两种声音播放，避免单独清空 fixture 掩盖覆盖。
 
-对焦／快门交接在完整组合 CP 上应用，命令为 `python -m a7m4.custom_sound_handoff`。输入／输出身份和 `CP_component_patches` 见[组件链](reference-layout.json)。保留 `0xBA55E0..0xBA5640` 三个常驻门、`0x11EA10` 的交接逻辑、`0x11FB00` 包装、声音页 CRC 和原 BODY 的 BSS 清零范围。它们与 `0xBA5718` 镜头 AF 辅助函数、纵横比、LUT 引擎和 Gamma 回退表分开；不可用基础声音 CP 覆盖这个组合输出。
+对焦／快门交接在完整组合 CP 上应用，命令为 `python -m a7m4.custom_sound_handoff`。输入／输出身份和 `CP_component_patches` 见[组件链](reference-layout.json)。保留 `0xBA55E0..0xBA5640` 三个常驻门、`0x11EA10` 的交接逻辑、`0x11FB00` 包装、声音页 CRC 和原 BODY 的 BSS 清零范围。当前还须应用 `a7m4.custom_sound_lifecycle` 的 AP/CP 配方；新增预约常驻门为 `0xBA58C0`，AP 准备模块位于 `0x9049000`、`0x904A000`，LOAD 在既有预留内延长。它们与 `0xBA5718` 镜头 AF 辅助函数、纵横比、LUT 引擎和 Gamma 回退表分开；不可用基础声音 CP 覆盖这个组合输出。
 
 文字 ID `0x0200AB60..AB63` 属于声音对话框；比例在组合布局使用 `0x0200AB4C..AB4F`。修改只作用于所属功能的引用，不能全文件替换。68 个横/竖屏银行必须作为完整资源集进入最终文件系统；应保留其他功能记录，而不是从旧方法整套回拷覆盖。
 

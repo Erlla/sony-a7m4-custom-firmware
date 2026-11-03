@@ -6,7 +6,7 @@ Adds **Custom Shutter Sound** and **Custom Focus Sound** under Shooting → Shut
 
 AF-S / AF-A focus confirmation uses a separate clip or the stock default. Each sound slot stores its own switch, WAV and volume. Silent mode suppresses both custom sounds.
 
-Focus and shutter sounds **preempt each other, with the latest trigger taking priority**. Focus confirmation interrupts a playing shutter clip; taking a photo interrupts the focus clip. During a burst, each new exposure retriggers the sound. After activity stops, the final clip finishes naturally without replaying older requests.
+Focus and shutter sounds **preempt each other, with the latest trigger taking priority**. Focus confirmation interrupts a playing shutter clip; taking a photo interrupts the focus clip. Another focus confirmation can interrupt and restart the focus clip. During a burst, each new exposure retriggers the sound. After activity stops, the final clip finishes naturally without replaying older requests.
 
 ## Files and operation
 
@@ -28,7 +28,7 @@ PRIVATE/
 
 Imported audio and filenames are saved internally and restored after power-on. The original card need not remain inserted. Existing saved clips remain usable; files for a new import belong in the directory above.
 
-Converted playback data also persists internally for direct reuse after power-on. Changing the audio or volume regenerates that slot's data while retaining the original audio. See the separate [cache source and component integration](../../native/persistent-cache/README.md).
+**Custom sounds may not take effect immediately after power-on. Wait a few seconds before use.**
 
 | Item | Behaviour |
 |---|---|
@@ -79,6 +79,15 @@ python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --outpu
 ```
 
 The [handoff recipe](../../a7m4/profiles/custom-sound-handoff.json) lists exact input/output hashes. The basic sound recipe's CP is not interchangeable with this integrated input. See the [handoff module](../../native/custom-sounds/handoff/README.md) for source and reproducible section builds.
+
+After the base handoff, apply the current [sound lifecycle layer](../../native/custom-sounds/lifecycle/README.md) to both integrated components:
+
+```powershell
+python -m a7m4.custom_sound_lifecycle --component ap --input local/integrated/appFw.cached.so --output output/appFw.sound-lifecycle.so
+python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.handoff.bin --output output/cpapp-b.sound-lifecycle.bin
+```
+
+This layer covers startup preparation, idle focus-reservation cancellation, repeated focus playback and shared gain reads. Base LUT compilation caching stays enabled. Saved WAV audio is converted when playback resources are prepared; normal playback uses the prepared memory data. The [recipe](../../a7m4/profiles/custom-sound-lifecycle.json) pins complete component identities. Both AP and CP changes are required.
 
 For missing or incorrect menu text, see the [resource-only repair](menu-resource-repair.md). After full-package integration, extract the final filesystem and run:
 

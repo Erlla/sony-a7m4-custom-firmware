@@ -44,10 +44,11 @@ For the [integrated layout](../08-custom-lut/INTEGRATION.md), complete the exist
 
 ```powershell
 python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --output output/cpapp-b.handoff.bin
-python -m a7m4.awb_priority --input output/cpapp-b.handoff.bin --output output/cpapp-b.awb.bin
+python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.handoff.bin --output output/cpapp-b.sound-lifecycle.bin
+python -m a7m4.awb_priority --input output/cpapp-b.sound-lifecycle.bin --output output/cpapp-b.awb.bin
 ```
 
-These are alternative routes for the two supported inputs. A stock CP cannot replace a combined CP that already contains LUT, aspect-ratio and sound features. Any other combination needs a new complete identity and integration review.
+These are alternative routes for the listed supported inputs. A stock CP cannot replace a combined CP that already contains LUT, aspect-ratio and sound features. Any other combination needs a new complete identity and integration review.
 
 ## Firmware integration and use
 

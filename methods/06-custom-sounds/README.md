@@ -6,7 +6,7 @@
 
 AF-S / AF-A 合焦可使用单独的音频或恢复原厂默认提示。两类声音分别保存开关、WAV 和音量，静音模式同时控制两类自定义播放。
 
-对焦声与快门声按**最后触发优先**相互抢占：播放快门声时再次合焦会转为对焦声，播放对焦声时拍照会转为快门声。连拍时新拍摄重新触发声音；停止操作后，最后一段自然播完，较早的声音不再排队补播。
+对焦声与快门声按**最后触发优先**相互抢占：播放快门声时再次合焦会转为对焦声，播放对焦声时拍照会转为快门声。再次合焦可打断正在播放的对焦声并从头播放。连拍时新拍摄重新触发声音；停止操作后，最后一段自然播完，较早的声音不再排队补播。
 
 ## 文件放置与操作
 
@@ -28,7 +28,7 @@ PRIVATE/
 
 已导入的完整音频与文件名保存在机内，关机重启后恢复，不要求原 SD 卡一直留在机内。已有机内声音可继续使用；需要重新导入的 WAV 请放到上述目录。
 
-机内同时保存转换后的播放数据，开机可直接复用；更换音频或调整音量后重新生成。原音频保留，两个声音槽分别更新。[缓存源码与组件接入](../../native/persistent-cache/README.md)见独立模块说明。
+**刚开机时，自定义声音可能尚未生效，请等待数秒后再使用。**
 
 | 项目 | 行为 |
 |---|---|
@@ -79,6 +79,15 @@ python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --outpu
 ```
 
 输入／输出摘要见[交接配方](../../a7m4/profiles/custom-sound-handoff.json)。本工具只接受指定的组合 CP；基础声音配方的 CP 不能直接替代该输入。源码与从源码重建安装段的命令见[交接模块](../../native/custom-sounds/handoff/README.md)。
+
+完成基础交接层后，对组合 AP 和 CP 应用当前[声音生命周期模块](../../native/custom-sounds/lifecycle/README.md)：
+
+```powershell
+python -m a7m4.custom_sound_lifecycle --component ap --input local/integrated/appFw.cached.so --output output/appFw.sound-lifecycle.so
+python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.handoff.bin --output output/cpapp-b.sound-lifecycle.bin
+```
+
+该层包含开机资源准备、空闲对焦预约取消、连续对焦重播和共享音量读取，保留 LUT 编译缓存。原 WAV 在声音资源准备时转换，日常播放使用已准备的内存音频。精确输入／输出见[组件配方](../../a7m4/profiles/custom-sound-lifecycle.json)；不能省略 AP 或 CP 一侧。
 
 菜单空白或错名时可使用[文字资源独立修复](menu-resource-repair.md)。完整固件集成后，从最终包提取文件系统，再执行：
 

@@ -44,7 +44,8 @@ python -m a7m4.awb_priority --input local/cpapp-b.bin --output output/cpapp-b.aw
 
 ```powershell
 python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --output output/cpapp-b.handoff.bin
-python -m a7m4.awb_priority --input output/cpapp-b.handoff.bin --output output/cpapp-b.awb.bin
+python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.handoff.bin --output output/cpapp-b.sound-lifecycle.bin
+python -m a7m4.awb_priority --input output/cpapp-b.sound-lifecycle.bin --output output/cpapp-b.awb.bin
 ```
 
 这是两种受支持输入的不同使用路线。原厂 CP 不能代替已经包含 LUT、纵横比和声音的组合 CP；其他组合必须重新核对完整文件和修改合同。

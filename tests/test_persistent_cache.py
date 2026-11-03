@@ -48,6 +48,5 @@ def test_sources_and_lut_component_chain_match():
     for name, expected in profile["source_header_dependencies"].items():
         assert hashlib.sha256((root / name).read_bytes()).hexdigest() == expected
     layout = json.loads((root / "methods/08-custom-lut/reference-layout.json").read_text("utf-8"))
-    assert next(row["sha256"] for row in layout["components"] if row["component"] == "AP") == profile["output_sha256"]
-    chain = layout["AP_component_patches"][-1]
+    chain = next(row for row in layout["AP_component_patches"] if row.get("profile") == "a7m4/profiles/persistent-cache.json")
     assert (chain["source_sha256"], chain["output_sha256"]) == (profile["source_sha256"], profile["output_sha256"])

@@ -49,8 +49,7 @@ def test_published_native_sources_and_lut_component_chain_agree():
     for name, expected in profile["sources"].items():
         assert hashlib.sha256((root / "native/custom-sounds/handoff" / name).read_bytes()).hexdigest() == expected
     layout = json.loads((root / "methods/08-custom-lut/reference-layout.json").read_text("utf8"))
-    assert next(r["sha256"] for r in layout["components"] if r["component"] == "CP") == profile["output_sha256"]
-    chain = layout["CP_component_patches"][-1]
+    chain = next(r for r in layout["CP_component_patches"] if r.get("profile") == "a7m4/profiles/custom-sound-handoff.json")
     assert chain["source_sha256"] == profile["source_sha256"]
     assert chain["output_sha256"] == profile["output_sha256"]
     assert {r["va"] for r in profile["patches"] if r["purpose"].endswith("_gate")} == {"0x5ddc24", "0x5ddd08", "0x5dec74"}

@@ -13,7 +13,7 @@
 
 组合布局另有独立链接的 [handoff 模块](handoff/README.md)，处理对焦／快门双向抢占、最新触发优先和连拍自然尾段。它使用单独的精确 CP 配方与构建命令，不改变这六个基础模块的固定 ABI。
 
-[持久缓存模块](../persistent-cache/README.md)在组合 AP 中保存两槽的声音转换结果，音频或音量变化时重新生成。它与 LUT 基础编译缓存共用独立 RX 模块；六个基础模块的源码与构建清单保持原固定布局。
+当前组合在基础交接层之后应用[声音生命周期模块](lifecycle/README.md)，同时接入 AP 准备与 CP 播放、预约和增益规则。声音资源准备从已保存 WAV 转换，日常播放使用内存数据；[LUT 编译缓存](../persistent-cache/README.md)继续保留。刚开机时，自定义声音可能需等待数秒才生效。
 
 ## 复现编译
 
@@ -46,4 +46,4 @@ The six modules contain the project's own adaptation code, not original Sony sou
 
 The integrated layout adds a separately linked [handoff module](handoff/README.md) for mutual focus/shutter preemption, latest-trigger priority and a natural final tail. Its own exact CP recipe and build command preserve the six base modules' fixed ABI.
 
-The separate [persistent-cache module](../persistent-cache/README.md) stores converted audio for both slots in the integrated AP and regenerates it when the audio or volume changes. It shares an RX module with base LUT compilation caching, preserving the six base modules' fixed source/build contract.
+The current [sound lifecycle layer](lifecycle/README.md) composes AP resource preparation with CP reservation cancellation, shared gain reads and repeated focus playback. It restores conversion from the saved WAV when resources are prepared; the persistent audio-result wrapper is not active. [Base LUT compilation caching](../persistent-cache/README.md) remains enabled. Custom sounds may take a few seconds to become active after power-on.

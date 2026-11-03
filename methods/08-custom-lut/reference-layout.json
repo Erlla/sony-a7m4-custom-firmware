@@ -10,12 +10,12 @@
     {
       "component": "AP",
       "bytes": 99221508,
-      "sha256": "76cdb561ac459b5c0f6a0622e46f4b3cd2ecdff6b48a35f2d59f733712c5c6f1"
+      "sha256": "c299ff9abd9084ba54b0a1c188c975e95be8882d540b04fca255b066a1753d76"
     },
     {
       "component": "CP",
       "bytes": 16236816,
-      "sha256": "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640"
+      "sha256": "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f"
     },
     {
       "component": "MPR",
@@ -99,8 +99,8 @@
     {
       "p_vaddr": 151191552,
       "p_offset": 99090432,
-      "p_filesz": 101855,
-      "p_memsz": 101855,
+      "p_filesz": 106984,
+      "p_memsz": 106984,
       "p_flags": 5
     },
     {
@@ -1139,6 +1139,13 @@
       "output_sha256": "76cdb561ac459b5c0f6a0622e46f4b3cd2ecdff6b48a35f2d59f733712c5c6f1",
       "tool": "python -m a7m4.persistent_cache",
       "profile": "a7m4/profiles/persistent-cache.json"
+    },
+    {
+      "purpose": "Sound resource preparation, native reservation release, replay and shared gain access",
+      "source_sha256": "76cdb561ac459b5c0f6a0622e46f4b3cd2ecdff6b48a35f2d59f733712c5c6f1",
+      "output_sha256": "c299ff9abd9084ba54b0a1c188c975e95be8882d540b04fca255b066a1753d76",
+      "tool": "python -m a7m4.custom_sound_lifecycle --component ap",
+      "profile": "a7m4/profiles/custom-sound-lifecycle.json"
     }
   ],
   "CP_component_patches": [
@@ -1148,6 +1155,13 @@
       "output_sha256": "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640",
       "tool": "python -m a7m4.custom_sound_handoff",
       "profile": "a7m4/profiles/custom-sound-handoff.json"
+    },
+    {
+      "purpose": "Sound resource preparation, native reservation release, replay and shared gain access",
+      "source_sha256": "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640",
+      "output_sha256": "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f",
+      "tool": "python -m a7m4.custom_sound_lifecycle --component cp",
+      "profile": "a7m4/profiles/custom-sound-lifecycle.json"
     }
   ],
   "sound_handoff": {
@@ -1163,11 +1177,11 @@
     },
     "code": {
       "start": "0x11ea10",
-      "bytes": 880
+      "bytes": 1440
     },
     "hooks": {
       "start": "0x11fb00",
-      "bytes": 78
+      "bytes": 84
     },
     "BSS": {
       "start": "0x1564a84",
@@ -1186,6 +1200,134 @@
       "/setting/csnd/f0_0.bin",
       "/setting/csnd/f0_1.bin"
     ],
-    "CP_unchanged": true
+    "CP_unchanged": true,
+    "sound_conversion_active": false,
+    "sound_files_role": "Unused by the current sound conversion entry; original WAV remains authoritative"
+  },
+  "sound_lifecycle": {
+    "profile": "a7m4/profiles/custom-sound-lifecycle.json",
+    "modules": [
+      {
+        "name": "handoff",
+        "sections": [
+          {
+            "name": ".gates",
+            "VA": 12211680,
+            "bytes": 96,
+            "nobits": false,
+            "sha256": "daaf93744b4c98079104247424417ca8b52651be370568d91398e156980575e6"
+          },
+          {
+            "name": ".hooks",
+            "VA": 1178368,
+            "bytes": 84,
+            "nobits": false,
+            "sha256": "12143acc2d67b9a63093b32ce6f519f49f71f6b55ecf0202ff0fb770260b6e46"
+          },
+          {
+            "name": ".text",
+            "VA": 1174032,
+            "bytes": 1440,
+            "nobits": false,
+            "sha256": "bf0454bbcfbf9e088c0207de2b413fc8a9d34a93fdb4b970ca837ca9bfe088aa"
+          },
+          {
+            "name": ".resgate",
+            "VA": 12212416,
+            "bytes": 36,
+            "nobits": false,
+            "sha256": "677903af2cada4e755aaaee21df9e1663a62928294e15f06e2116ab5074e6e11"
+          },
+          {
+            "name": ".reservation",
+            "VA": 1178452,
+            "bytes": 164,
+            "nobits": false,
+            "sha256": "965ec54ba6ae0f49288decf300b0a21bb3a4fdbfc7dc56432b47ef986da58d5d"
+          },
+          {
+            "name": ".bss",
+            "VA": 22432388,
+            "bytes": 1300,
+            "nobits": true
+          }
+        ]
+      },
+      {
+        "name": "sound_boot_busy",
+        "sections": [
+          {
+            "name": ".text",
+            "VA": 1178624,
+            "bytes": 160,
+            "nobits": false,
+            "sha256": "87f33b78b94c0d1c25ccb0505e895c9ccf0667778491b8197e7b09ff0e0cbbcc"
+          }
+        ]
+      },
+      {
+        "name": "late_start",
+        "sections": [
+          {
+            "name": ".text",
+            "VA": 1178816,
+            "bytes": 232,
+            "nobits": false,
+            "sha256": "94ab2ba335ec8e65eb0322d0db6b1a8166e0c9429ba03a3f2773065ff7f3da8c"
+          }
+        ]
+      },
+      {
+        "name": "gain_reader",
+        "sections": [
+          {
+            "name": ".text",
+            "VA": 1179136,
+            "bytes": 112,
+            "nobits": false,
+            "sha256": "a12a2abdb8c5e8f64d7073666803c584e9f6db8cc164624d6fb6b57def0b9831"
+          }
+        ]
+      },
+      {
+        "name": "busy_reply",
+        "sections": [
+          {
+            "name": ".text",
+            "VA": 1179392,
+            "bytes": 168,
+            "nobits": false,
+            "sha256": "1b0aa7f6cd2c1708a2a6438797555fb9fb10faaff3e765893f3c1160b5364280"
+          }
+        ]
+      },
+      {
+        "name": "resource",
+        "sections": [
+          {
+            "name": ".text",
+            "VA": 151293952,
+            "bytes": 844,
+            "nobits": false,
+            "sha256": "1c657bf4b13de03b1defeebb07534571809930a55fb05eecd4e18ab6e32c3114"
+          }
+        ]
+      },
+      {
+        "name": "prepare",
+        "sections": [
+          {
+            "name": ".text",
+            "VA": 151298048,
+            "bytes": 488,
+            "nobits": false,
+            "sha256": "69d9f0e8140987e33417b2153a3d48c14a3cf2a95e166362d909782dea8f15dc"
+          }
+        ]
+      }
+    ],
+    "sound_conversion_cache_enabled": false,
+    "LUT_compilation_cache_preserved": true,
+    "additional_BSS_bytes": 0
   }
 }

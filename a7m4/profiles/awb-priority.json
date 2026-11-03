@@ -17,6 +17,10 @@
     "5c9017807e5b3787b8fedb3b9414e5430bf7bf223f0b31bfe404096aa061f640": {
       "kind": "integrated CP after custom-sound handoff",
       "output_sha256": "8f3061af864a86f49c03d62301af0dd193d493251b2058731149924d676cc939"
+    },
+    "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f": {
+      "kind": "integrated CP after sound lifecycle",
+      "output_sha256": "fa5941ea2dfda2d65faa6c844217f075a44e46cd38b8a23d9b731b6fc33dec23"
     }
   },
   "patches": [

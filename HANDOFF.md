@@ -69,12 +69,20 @@
 
 - The optional CP layer lives in methods/10-awb-priority and a7m4.awb_priority, with the exact profile a7m4/profiles/awb-priority.json. Default effective parameters are Ambience -1, Standard 0 and White 97; White 97 is a custom choice, not an FX2 factory value.
 - The bilingual AWB guides compare this recipe with official FX2 1.01: Ambience -1, Standard 0 and White 88, with local coefficients 254/256/432. The factory table describes checked upgrade defaults and the Standard code branch; keep it distinct from the custom White 97 value and from final image colour.
-- Apply this layer after the current custom-sound-handoff CP recipe. The integrated chain is 5c901780...61f640 -> 8f3061af...6cc939; preserve the preceding LUT/aspect/sound/AP/resource contracts. The LUT reference describes the preceding input-side component; this optional method does not replace that baseline.
+- Apply this optional AWB layer after the current sound lifecycle CP output. Keep the older handoff identity supported as a frozen input, and preserve the preceding LUT/aspect/sound/AP/resource contracts. The LUT reference describes the component before optional AWB.
 - Offsets 0x13293e/0x132948 are CP file offsets. Backup +0x930/+0x931 are record-relative and remain unchanged by this method. MOV.W preserves flags, and original SXTAB interprets 0xff as -1. Standard remains zero. Check complete input/output SHA-256, not camera labels.
 - Publish the reusable source, bilingual method, component identities and verification limits. Keep package labels, full firmware, researcher paths, raw inputs and per-round delivery records local. Native/host replay and full-package offline checks do not establish physical installation or improved image quality.
 
 ## Persistent LUT and audio caches
 
 - `native/persistent-cache` uses Zig 0.14.1 and a separate exact AP recipe. Preserve the original fixed modules and calls: the new RX wrapper occupies 0x9048000..0x9048DDF, extends the existing LOAD to 0x18DDF and adds no BSS. The AP chain continues from sound-policy output d61cf91f...1aea4 to 76cdb561...c5c6f1; CP, including its optional AWB layer, is untouched.
-- LUT base caches follow internal content records, independently of the 16 user slots and CP bank references. Keep eight adjustments/strength separate. Audio keys bind WAV identity, volume, PCM format and conversion ABI. Change the cache ABI with incompatible compiler-result or conversion changes; preserve original JSON/WAV and fallback.
+- LUT base caches follow internal content records, independently of the 16 user slots and CP bank references. Keep eight adjustments/strength separate. The frozen cache module retains its audio-result wrapper and ABI; the current lifecycle layer bypasses that wrapper. Preserve original JSON/WAV and fallback.
 - Public feature prose describes reusable cached results without per-round speed/acceptance reports. Do not promise faster first selection of another LUT: AP compilation caching does not remove CP transfer, resource preparation or parameter application. Keep measured stage timings and future optimization work in the research repository.
+
+## Sound lifecycle composition
+
+- Keep the base handoff and persistent-cache recipes frozen and append `a7m4.custom_sound_lifecycle` for both AP and CP. Its current output restores the original sound WAV conversion entry while preserving LUT compilation caching. Do not describe persistent F0 audio results as active in the current sound method.
+- CP admission publication and gain reads share the existing reader counter. Reservation checking and publication must remain in one reader section; use the original PIN cancellation for an idle focus reservation during preparation. Never clear busy or fake pending completion. Repeated focus restarts native DMA with the current waveform and gain.
+- Preserve the resident reservation gate at 0xBA58C0, optional-page READY/CRC, the relocated lens-AF helper and Gamma space. AP policy/preparation helpers remain within the existing RX reservation. Publish module source and component identities, not device traces or package records.
+- Keep startup guidance in both language guides: custom sounds may not take effect immediately after power-on; wait a few seconds. Do not promise an exact delay or complete resolution of all intermittent sound faults.
+- The current LUT layout CP identity precedes the optional AWB layer. Extend AWB's exact component identity map for the new sound output, retaining older supported identities and the unchanged two instruction patches.

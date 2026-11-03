@@ -63,9 +63,9 @@ AP 新代码/状态的主要分区：
 
 ### 转换结果缓存
 
-组合 AP 使用[持久缓存模块](../../native/persistent-cache/README.md)包装 `convert_tick` 的 `csnd_pcm_f0_volume` 调用。两槽分别写入 `/setting/csnd/f0_0.bin`、`f0_1.bin`；身份包含 WAV SHA-256、音量、PCM 格式和转换 ABI。命中后复用 F0、guard 和转换信息，否则执行原转换并保存。原 WAV、PCM 拷贝、资源准备和下述 AP/CP 交易继续走原路径，缓存不参与播放抢占。
+组合 AP 的 `convert_tick` 调用原 `csnd_pcm_f0_volume`，按各槽保存的 WAV 和音量准备播放数据；随后沿原 PCM 拷贝和 AP/CP 交易完成发布。
 
-这是 LUT／声音组合 AP 的单独组件补丁，使用 `python -m a7m4.persistent_cache`；不扩大基础声音配方的输入范围，也不移动六个基础模块的固定导出。精确身份和调用点见[缓存配方](../../a7m4/profiles/persistent-cache.json)。
+当前组合 AP 通过[声音生命周期层](../../native/custom-sounds/lifecycle/README.md)保留原 WAV 转换入口。取得 PREPARED 后执行转换，再沿 COPY／COMMIT 发布；日常播放复用已经准备的内存音频。持久 F0 缓存包装不在当前声音调用路径中，LUT 基础编译缓存继续有效。
 
 ## 5. AP/CP 资源交易与重启恢复
 
@@ -132,7 +132,7 @@ python -m a7m4.custom_sound_policy --input local/appFw.so --output output/appFw.
 | `0x5DEC74` | APP 请求入口，在原厂提前拒绝分支之前保存对焦请求 |
 | `0x5DDD08` | 公共 begin 入口，保留从其他原生调用者进入的合同 |
 | `0xBA55E0..0xBA5640` | 常驻门，只有声音可选页 READY 才进入新增代码 |
-| `0x11EA10` / `0x11FB00` | 交接逻辑与三个入口包装，分别为 880 / 78 字节 |
+| `0x11EA10` / `0x11FB00` | 交接逻辑与三个入口包装，当前分别为 1440 / 84 字节 |
 | `0x1564A84..0x1564F98` | 1300 字节交接状态，使用原 BODY 清零；不得覆盖 `0x1565000` 起的 Gamma 回退表 |
 
 kind 4 和 17 的新 Start 都取消较早等待的这两类请求，以原 E005 回包结算。若当前对焦／快门声仍为 Start，则发同类型原生 Stop；如果已进入 Stop，只等原生 actor、属性回调和忙状态释放。Sysnd 原线程的周期回调随后派发最新一次，最多保留一个待播请求。没有新的触发时，最后一段自然结束，既不补播历史声音，也不另加松键强停。
@@ -147,6 +147,26 @@ python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --outpu
 ```
 
 构建器核对公开源码、段布局、编译段摘要和未解析符号；组件工具核对完整输入、每个原字节范围、输出摘要及声音页预检 CRC。该入口仅用于配方列明的组合 CP，基础声音配方和其他布局必须先完成移植与原生生命周期核对。
+
+## 9. 启动资源交接、预约取消与共享增益
+
+当前组合在基础交接层之后应用 `a7m4.custom_sound_lifecycle`，同时修改 AP 与 CP，精确输入与输出见[配方](../../a7m4/profiles/custom-sound-lifecycle.json)。AP 的 `resource_policy.c` 保留临时策略读取失败时已有的资源租约，并通过原 OFF 事务取消已 PREPARED 的内容；每次实际播放的策略门继续使用原调用。
+
+AP `prepare_resource.c` 在 PREPARE 返回 BUSY 时发原异步 focus Stop，即使该槽尚为 OFF；原 pending 计数确认结束后才重试。原生播放 Stop 不等同于 PIN 预约取消。CP 对资源准备期间的空闲 kind4 预约（state1、active0、四个 AudioIO actor 均0）调用原取消入口 `0x5DF43E`，让原属性与回调完成退休。
+
+预约入口 `0x5DF3CE` 的检查到发布由共享 reader 覆盖；PREPARE writer 与它互斥，避免检查后再次发布预约。常驻门位于 `0xBA58C0`，只有声音可选页 READY 才进入新逻辑；未 READY 时走原厂函数。既有已接收 Start 在原属性回调中保持其资源租约，不因后到的准备动作而丢失完成路径。
+
+连续对焦重播使用原 DMA Stop/Start 重置首采样，不重新设定已在使用的 PCM 和增益。增益读取复用同一共享 reader，独立释放只减一，保留外层 reader；音量百分比仍由原 WAV 转换器应用。没有清原生 busy、伪造完成回包或覆盖活动波形。
+
+AP 扩展使用 `0x9049000`、`0x904A000`，原 `0x9030000` RX LOAD 在既有预留内延长。CP 交接逻辑、原生已接收回调、busy 检查与共享 reader 位于声音可选页的既有空间，新增 BSS 为0。`busy_reply.c` 只在 PREPARE/BUSY 回复中附带状态快照，不改变回复状态；标记覆盖 bit31，该位不能当成独立忙原因。不得占用 `0xBA5718` 的镜头 AF 辅助函数或 `0x1565000` 起的 Gamma 表。
+
+```powershell
+python tools/build_sound_lifecycle.py --arm-gcc C:/tools/arm/bin/arm-none-eabi-gcc.exe --zig C:/tools/zig/zig.exe --output output/sound-lifecycle
+python -m a7m4.custom_sound_lifecycle --component ap --input local/integrated/appFw.cached.so --output output/appFw.sound-lifecycle.so
+python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.handoff.bin --output output/cpapp-b.sound-lifecycle.bin
+```
+
+English: apply the AP/CP lifecycle layer after the base handoff. AP preparation retains existing leases through transient policy-read failures and waits for native Stop completion. An idle focus reservation is cancelled through the original PIN API, while a shared reader covers reservation admission through publication. Repeated focus restarts native DMA with the same immutable waveform and gain. Gain readers release their own share without clearing an outer reader. Saved WAV conversion remains active, persistent F0-result reuse is disabled, and base LUT caching is preserved. Custom sounds may take a few seconds to become active after power-on.
 
 ## 配方复核方法与验证边界
 
