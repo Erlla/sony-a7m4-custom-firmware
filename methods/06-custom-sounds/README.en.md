@@ -8,6 +8,10 @@ AF-S / AF-A focus confirmation uses a separate clip or the stock default. Each s
 
 Focus and shutter sounds **preempt each other, with the latest trigger taking priority**. Focus confirmation interrupts a playing shutter clip; taking a photo interrupts the focus clip. Another focus confirmation can interrupt and restart the focus clip. During a burst, each new exposure retriggers the sound. After activity stops, the final clip finishes naturally without replaying older requests.
 
+## Long sessions
+
+Addresses both custom sounds becoming unavailable after prolonged use or repeated power-switch cycles when background request identifiers are exhausted. Identifiers of completed requests are safely reused. Requests that may still receive a late reply remain isolated, and requests in progress retain their original identity.
+
 ## Files and operation
 
 Place WAV files in **`PRIVATE/M4ROOT/GENERAL/SOUNDS/`** from the SD card root:

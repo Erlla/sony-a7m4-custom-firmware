@@ -24,7 +24,7 @@ CP 纵横比实际 RX 为 `0x11B000..0x11B67C`，BSS 在 `0x11D000`，独立 REA
 
 声音状态的区间也必须保留：owner 为 `0x1564840..0x15648FC`，driver/gain 诊断合计到 `0x1564A84`，对焦／快门交接状态继续使用 `0x1564A84..0x1564F98`。原厂 Gamma 回退表从 `0x1565000` 开始，177 行动态 Gamma 表位于 LUT 引擎堆对象中，不能把扩展表放回声音 RAM。检查声音代码字节不变还不够；同一份 CP RAM 中应串接启动、声音绑定、LUT 发布/关闭与两种声音播放，避免单独清空 fixture 掩盖覆盖。
 
-对焦／快门交接在完整组合 CP 上应用，命令为 `python -m a7m4.custom_sound_handoff`。输入／输出身份和 `CP_component_patches` 见[组件链](reference-layout.json)。保留 `0xBA55E0..0xBA5640` 三个常驻门、`0x11EA10` 的交接逻辑、`0x11FB00` 包装、声音页 CRC 和原 BODY 的 BSS 清零范围。当前还须应用 `a7m4.custom_sound_lifecycle` 的 AP/CP 配方；新增预约常驻门为 `0xBA58C0`，AP 准备模块位于 `0x9049000`、`0x904A000`，LOAD 在既有预留内延长。它们与 `0xBA5718` 镜头 AF 辅助函数、纵横比、LUT 引擎和 Gamma 回退表分开；不可用基础声音 CP 覆盖这个组合输出。
+对焦／快门交接在完整组合 CP 上应用，命令为 `python -m a7m4.custom_sound_handoff`。输入／输出身份和 `CP_component_patches` 见[组件链](reference-layout.json)。保留 `0xBA55E0..0xBA5640` 三个常驻门、`0x11EA10` 的交接逻辑、`0x11FB00` 包装、声音页 CRC 和原 BODY 的 BSS 清零范围。当前还须应用 `a7m4.custom_sound_lifecycle` 的 AP/CP 配方；新增预约常驻门为 `0xBA58C0`，AP 准备模块位于 `0x9049000`、`0x904A000`，请求编号分配模块位于 `0x904B000`，LOAD 在既有预留内延长。它们与 `0xBA5718` 镜头 AF 辅助函数、纵横比、LUT 引擎和 Gamma 回退表分开；不可用基础声音 CP 覆盖这个组合输出。
 
 文字 ID `0x0200AB60..AB63` 属于声音对话框；比例在组合布局使用 `0x0200AB4C..AB4F`。修改只作用于所属功能的引用，不能全文件替换。68 个横/竖屏银行必须作为完整资源集进入最终文件系统；应保留其他功能记录，而不是从旧方法整套回拷覆盖。
 

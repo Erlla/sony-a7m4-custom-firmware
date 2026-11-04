@@ -168,6 +168,24 @@ python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.hand
 
 English: apply the AP/CP lifecycle layer after the base handoff. AP preparation retains existing leases through transient policy-read failures and waits for native Stop completion. An idle focus reservation is cancelled through the original PIN API, while a shared reader covers reservation admission through publication. Repeated focus restarts native DMA with the same immutable waveform and gain. Gain readers release their own share without clearing an outer reader. Saved WAV conversion remains active, persistent F0-result reuse is disabled, and base LUT caching is preserved. Custom sounds may take a few seconds to become active after power-on.
 
+## 10. 请求编号安全复用
+
+`token_reuse.c`接入实际资源control的私有请求构建入口。原协议只有一个资源worker，每个请求只发送一次；原回复被消费、消息释放完成且动态队列排空后，才能进入下一请求的READY状态。
+
+分配器只在READY且attempted为0时复用编号。已超时但逻辑退休的只读QUERY，其编号永久留在现有隔离表中，后续分配始终跳过；迟到回复继续由原消费路径识别并丢弃。正在进行或状态不确定的事务不改编号、不重发，原队列、会话、隔离表及资源租约不被清空。
+
+这修正了后台请求到达16位编号上界后，声音管理器进入全局暂停、两类声音一起失效且切回AF也无法恢复的问题。MF的正常播放策略保持：它抑制对焦提示，快门声音继续由曝光事件控制。
+
+| AP VA | 接入 |
+|---|---|
+| `0x8FB5B84` | 私有请求构建入口跳转 |
+| `0x904B000` | 212字节编号分配及原入口trampoline |
+| `0x8FB5B88` | 执行被保留的原栈指令后返回原函数 |
+
+此层沿用现有RX预留，不新增BSS，也不修改CP协议。完整AP输出身份及LUT共享LOAD长度见[组件配方](../../a7m4/profiles/custom-sound-lifecycle.json)与[组合布局](../08-custom-lut/reference-layout.json)。构建与应用沿用第9节命令，使用当前公开源码和配方一起生成组件。
+
+English: the allocator reuses identifiers only after the original ACK, free and queue-drain completion boundary. Timed-out read-only queries retain permanently excluded tokens, and late replies remain under the existing discard path. Pending and uncertain transactions retain their identity and are never resent. The AP-only change addresses both custom sounds entering a global pause when the private request counter reaches its boundary; it preserves the CP protocol and normal MF policy.
+
 ## 配方复核方法与验证边界
 
 `a7m4/custom_sound.py` 对每个输入先做完整 SHA-256，再重建 COPY/ADD 操作，核对完整输出 SHA-256。所有文件预检通过才建立新输出目录。`tools/build_custom_sound_native.py` 则从公开源码构建六个 ELF，检查已定义符号、每个分配段地址/长度与源编译摘要；应用已列明 post-link 细补丁后再核对最终安装段摘要。

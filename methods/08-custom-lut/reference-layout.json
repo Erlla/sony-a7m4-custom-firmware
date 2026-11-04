@@ -10,7 +10,7 @@
     {
       "component": "AP",
       "bytes": 99221508,
-      "sha256": "c299ff9abd9084ba54b0a1c188c975e95be8882d540b04fca255b066a1753d76"
+      "sha256": "1c07d147c847009b77feece3947728e5e2f9d3f72dd85709dd9a024a521d8c56"
     },
     {
       "component": "CP",
@@ -99,8 +99,8 @@
     {
       "p_vaddr": 151191552,
       "p_offset": 99090432,
-      "p_filesz": 106984,
-      "p_memsz": 106984,
+      "p_filesz": 110804,
+      "p_memsz": 110804,
       "p_flags": 5
     },
     {
@@ -1141,9 +1141,9 @@
       "profile": "a7m4/profiles/persistent-cache.json"
     },
     {
-      "purpose": "Sound resource preparation, native reservation release, replay and shared gain access",
+      "purpose": "Sound resource lifecycle, replay, gain and reuse of completed request tokens",
       "source_sha256": "76cdb561ac459b5c0f6a0622e46f4b3cd2ecdff6b48a35f2d59f733712c5c6f1",
-      "output_sha256": "c299ff9abd9084ba54b0a1c188c975e95be8882d540b04fca255b066a1753d76",
+      "output_sha256": "1c07d147c847009b77feece3947728e5e2f9d3f72dd85709dd9a024a521d8c56",
       "tool": "python -m a7m4.custom_sound_lifecycle --component ap",
       "profile": "a7m4/profiles/custom-sound-lifecycle.json"
     }
@@ -1324,10 +1324,31 @@
             "sha256": "69d9f0e8140987e33417b2153a3d48c14a3cf2a95e166362d909782dea8f15dc"
           }
         ]
+      },
+      {
+        "name": "token_reuse",
+        "sections": [
+          {
+            "name": ".text",
+            "VA": 151302144,
+            "bytes": 212,
+            "nobits": false,
+            "sha256": "22f7401c36f99430a42b6d97e5986806988105e6067662484c0ca3cfa1aa32dc"
+          }
+        ]
       }
     ],
     "sound_conversion_cache_enabled": false,
     "LUT_compilation_cache_preserved": true,
-    "additional_BSS_bytes": 0
+    "additional_BSS_bytes": 0,
+    "token_reuse": {
+      "entry_VA": "0x8fb5b84",
+      "module_VA": "0x904b000",
+      "module_bytes": 212,
+      "active_transaction_identity_preserved": true,
+      "retired_query_tokens_reused": false,
+      "CP_protocol_unchanged": true,
+      "added_BSS_bytes": 0
+    }
   }
 }

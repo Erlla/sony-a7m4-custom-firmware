@@ -86,3 +86,9 @@
 - Preserve the resident reservation gate at 0xBA58C0, optional-page READY/CRC, the relocated lens-AF helper and Gamma space. AP policy/preparation helpers remain within the existing RX reservation. Publish module source and component identities, not device traces or package records.
 - Keep startup guidance in both language guides: custom sounds may not take effect immediately after power-on; wait a few seconds. Do not promise an exact delay or complete resolution of all intermittent sound faults.
 - The current LUT layout CP identity precedes the optional AWB layer. Extend AWB's exact component identity map for the new sound output, retaining older supported identities and the unchanged two instruction patches.
+
+## Completed sound-request identifiers
+
+- The AP lifecycle recipe includes token_reuse.c at 0x904B000 and the preserved private-parts entry stack instruction. Update the complete AP identity and shared LOAD metadata together. The CP recipe and optional AWB identities are unaffected by this AP-only change.
+- Reuse is permitted only at the existing single-worker READY/attempted-zero boundary. Original ACK consumption, free and empty-queue checks define completion. Permanently skip all retired-query tokens, even after a late reply is consumed. Do not reset the endpoint, erase the ledger, change an in-flight identity or resend an uncertain mutation.
+- If transport gains concurrent producers, retries or duplicate replies, review this completion contract before reusing identifiers. Keep change descriptions focused on the long-session failure and its handling; omit simulation totals, per-round progress and experimental firmware labels from public prose.
