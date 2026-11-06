@@ -1,6 +1,6 @@
 {
   "schema": "a7m4.aspect-ratio.documentation-reference.v1",
-  "purpose": "Final-file identities and verified AP preview hooks; not a patch recipe or an input compatibility whitelist.",
+  "purpose": "Frozen capture/preview identities and verified AP preview hooks, with separate exact-input playback component links; not a stock-input patch recipe.",
   "model": "ILCE-7M4",
   "address_convention": {
     "AP": "ELF virtual address; map through matching PT_LOAD",
@@ -750,5 +750,30 @@
       "target_label": "aspect_fn38_ui_geometry"
     }
   ],
-  "reference": "accepted integrated aspect-ratio layout"
+  "reference": "accepted integrated aspect-ratio layout",
+  "playback_zoom": {
+    "component_recipe": "../../native/aspect-playback/layout.json",
+    "scope": "Separate exact-input overlay after the current AP/MPR component chain; capture and preview anchors above remain frozen.",
+    "components": {
+      "ap": {
+        "input_sha256": "1c07d147c847009b77feece3947728e5e2f9d3f72dd85709dd9a024a521d8c56",
+        "output_sha256": "adfe61178b57e8f4e7e6fa6102f8762f3d9fb74586dec46b71e4ab23c6db9ab1",
+        "file_bytes": 99221508,
+        "native_entry": "0x2e2922c",
+        "helper_VA": "0x904c000",
+        "code_bytes": 160
+      },
+      "mpr": {
+        "input_sha256": "e800ea9ecf3e399e4f5fbb42bfb329f3504ded737b6f142d192541814296ae55",
+        "output_sha256": "bbbf679d85b85432f87e7bacf5afd385e51de9af3d4493b9d952d0b0d062850a",
+        "file_bytes": 3670016,
+        "native_entry": "0x272130",
+        "helper_VA": "0x470400",
+        "code_bytes": 184
+      }
+    },
+    "native_JPEG_layout_hint": 0,
+    "actual_pixel_dimensions_preserved": true,
+    "RAW_class_unchanged": true
+  }
 }

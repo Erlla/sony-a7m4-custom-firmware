@@ -8,6 +8,9 @@ This page documents the final functionality, implementation and camera examples.
 
 For implementation or porting, [IMPLEMENTATION.md](IMPLEMENTATION.md) lists exact files and addresses, menu/resource IDs, private state, AP-to-CP transport, JPEG/HEIF cropping, RAW boundaries, and preview lifecycle/rotation handling. The [reference manifest](reference-layout.json) provides final-file SHA-256 identities and verified preview branches. It is documentation metadata, not an executable patch recipe.
 
+
+In-camera magnified playback also uses the [playback compatibility component](../../native/aspect-playback/README.md). Native size recognition and JPEG aspect classification are separate steps, both covered by this component. It includes authored native source, exact input/output identities and build commands, preserving cropped pixel dimensions and the original RAW area.
+
 ## Resulting behavior
 
 | Item | Behavior |
@@ -15,6 +18,7 @@ For implementation or porting, [IMPLEMENTATION.md](IMPLEMENTATION.md) lists exac
 | Added ratios | 17:6, 65:24, 5:4 and 7:6, alongside the four stock options |
 | JPEG / HEIF | Center-cropped output using the selected ratio and the encoder's pixel-alignment requirements |
 | RAW | Original image area retained; the JPEG in RAW+JPEG uses the selected crop |
+| In-camera album | Custom-ratio JPEG / RAW+JPEG photos support magnified playback using their actual cropped dimensions |
 | Labels and Fn icons | Display the selected custom ratio |
 | Aspect-ratio selection page | Preview follows the highlighted option; confirmation applies it, cancellation returns to the saved selection |
 | Fn menu and shooting view | Show the mask for the selected ratio |
@@ -32,6 +36,7 @@ Preview masking and photo cropping are separate processing paths. Masks guide co
 2. Select 17:6, 65:24, 5:4 or 7:6 after the stock options, then confirm.
 3. Compose within the visible mask in the shooting view. The mask follows display orientation when the camera rotates.
 4. Save JPEG / HEIF for cropped output; also save RAW when the original image area is needed.
+5. Open a JPEG / RAW+JPEG photo in the camera album and magnify the cropped image.
 
 ## Final implementation
 

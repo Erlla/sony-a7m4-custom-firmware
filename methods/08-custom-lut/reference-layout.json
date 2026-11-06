@@ -10,7 +10,7 @@
     {
       "component": "AP",
       "bytes": 99221508,
-      "sha256": "1c07d147c847009b77feece3947728e5e2f9d3f72dd85709dd9a024a521d8c56"
+      "sha256": "adfe61178b57e8f4e7e6fa6102f8762f3d9fb74586dec46b71e4ab23c6db9ab1"
     },
     {
       "component": "CP",
@@ -20,7 +20,7 @@
     {
       "component": "MPR",
       "bytes": 3670016,
-      "sha256": "e800ea9ecf3e399e4f5fbb42bfb329f3504ded737b6f142d192541814296ae55"
+      "sha256": "bbbf679d85b85432f87e7bacf5afd385e51de9af3d4493b9d952d0b0d062850a"
     },
     {
       "component": "AV",
@@ -1350,5 +1350,27 @@
       "CP_protocol_unchanged": true,
       "added_BSS_bytes": 0
     }
+  },
+  "aspect_playback": {
+    "component_recipe": "../../native/aspect-playback/layout.json",
+    "input_stage": "After sound_lifecycle for AP; after JPEG EXIF dimensions for MPR",
+    "components": {
+      "ap": {
+        "input_sha256": "1c07d147c847009b77feece3947728e5e2f9d3f72dd85709dd9a024a521d8c56",
+        "output_sha256": "adfe61178b57e8f4e7e6fa6102f8762f3d9fb74586dec46b71e4ab23c6db9ab1",
+        "native_entry": "0x2e2922c",
+        "helper_VA": "0x904c000",
+        "output_rx_bytes": 114960
+      },
+      "mpr": {
+        "input_sha256": "e800ea9ecf3e399e4f5fbb42bfb329f3504ded737b6f142d192541814296ae55",
+        "output_sha256": "bbbf679d85b85432f87e7bacf5afd385e51de9af3d4493b9d952d0b0d062850a",
+        "native_entry": "0x272130",
+        "helper_VA": "0x470400",
+        "output_rx_bytes": 1208
+      }
+    },
+    "CP_AV_and_resources_unchanged": true,
+    "added_BSS_bytes": 0
   }
 }

@@ -10,9 +10,9 @@
 | FL2/FL3 | 共用 CP 颜色消费者、Gamma 与网格。自定义代际只作用于私有标记，普通外观走原厂/既有移植路径；关闭恢复必须保留。不能把旧整份 CP 覆盖到新 LUT CP。 |
 | 副厂电池 | 已逐项核对现有电池补丁位置，补丁字节保留；没有改充电、温度或认证源规则。 |
 | 镜头 AF | **辅助函数已迁至 `0xBA5718`**；原独立配方 `0xBA4E00` 在组合布局中属于 LUT 常驻区。五个调用位置仍为 `0x3B3CB4/3B3006/3B321E/990ADC/990BAC`，均调用迁移后的函数；函数 34 字节与公开原配方一致。旧独立配方仅适用于其原输入哈希，不能对当前 CP 重放。未增加 AF 速度实测结论。 |
-| 自定义声音 | AP 共用注册链、GUI 生命周期、存储模型与语言资源；CP 共用启动/消息分派空间。必须保留声音 owner、队列、实际消息长度和 `libmpr.so` 扩展；不能只判断“菜单能显示”。本布局 `libmpr.so` 与公开 JPEG EXIF 修正输出完全一致。 |
+| 自定义声音 | AP 共用注册链、GUI 生命周期、存储模型与语言资源；CP 共用启动/消息分派空间。必须保留声音 owner、队列、实际消息长度和 `libmpr.so` 扩展；不能只判断“菜单能显示”。相册放大读取兼容层以JPEG EXIF修正输出为输入，保留原声音实现。 |
 | 自定义纵横比 | CP 冻结与复制入口要同时保留比例和 LUT。`0xA049B0`、`0xA03142` 的 LUT 包装先保留原比例适配目标，再绑定 LUT 值与引用；不用错误 LR 进入按返回地址分派的旧包装。AP 比例 RX/RW 与 CP 比例代码/常驻门逐字节保持；BOOT/READY 与调用入口由组合链管理。 |
-| JPEG EXIF 与 AVCAM | 本布局 `libmpr.so` 的声音/EXIF 输出哈希、`av-cam.bin` 的裁切输出哈希与已公开方法一致，无需再次修改。 |
+| JPEG EXIF 与 AVCAM | libmpr在声音/EXIF输出上追加JPEG回放布局兼容；av-cam.bin裁切输出保持已公开身份。 |
 
 ## 共享空间
 
@@ -32,6 +32,10 @@ CP 纵横比实际 RX 为 `0x11B000..0x11B67C`，BSS 在 `0x11D000`，独立 REA
 
 `a7m4.feature_integration` 保留为其列明输入的基础组合配方，不自动升级为 SD JSON/16 槽实现。`a7m4.custom_sound apply`、`repair-resources` 和 `verify-resources` 同样保持精确输入/目标合同：不同但合法的新组合资源可能无法通过旧目标哈希，拒绝本身不证明声音功能坏了。新组合需按当前组件/资源身份单独核对，不关闭检查或覆盖新 AP。
 
-`a7m4.jpeg_exif_dimensions` 的目标 MPR 在当前布局仍被保留。电池和 AF 的原独立方法仍可对其原精确输入执行；组合后应重新定位/重新链接，不能把“原补丁功能保留”理解成“原整文件配方接受新输入”。
+`a7m4.jpeg_exif_dimensions` 的目标 MPR 是相册读取兼容层的精确输入，其声音/EXIF实现保持；最终整库身份由追加的回放组件列明。电池和 AF 的原独立方法仍可对其原精确输入执行；组合后应重新定位/重新链接，不能把“原补丁功能保留”理解成“原整文件配方接受新输入”。
 
-English: current integration preserves the aspect bodies, battery patch sites, relocated lens-AF helper and the published sound/EXIF MPR and AVCAM identities. Shared AP metadata, CP boot/capture/dispatch paths and language resources require composition. The AF helper now occupies `0xBA5718`, not the old standalone `0xBA4E00`. Existing patch tools remain pinned to their original inputs; do not extend their allowlists or replay old whole-file outputs over this layout. These structural checks do not establish physical AF speed or universal camera acceptance.
+English: current integration preserves the aspect bodies, battery patch sites, relocated lens-AF helper and the published sound/EXIF MPR implementation and AVCAM identity. The aspect-playback component adds JPEG read-layout compatibility after the exact EXIF output; its final MPR identity is listed separately. Shared AP metadata, CP boot/capture/dispatch paths and language resources require composition. The AF helper now occupies `0xBA5718`, not the old standalone `0xBA4E00`. Existing patch tools remain pinned to their original inputs; do not extend their allowlists or replay old whole-file outputs over this layout. These structural checks do not establish physical AF speed or universal camera acceptance.
+
+## 相册放大组件
+
+在既有AP声音生命周期和MPR JPEG EXIF层之后应用[a7m4.aspect_playback](../../native/aspect-playback/README.md)，分别生成AP和MPR组件。AP使用0x904C000的本机尺寸识别代码，既有RX保留范围到0x904C110；libmpr使用0x470400..0x4704B8读取布局代码。原生已识别比例、RAW类、LUT缓存和声音代码保持。当前输出身份见reference-layout.json的components及aspect_playback；前述各独立配方继续保留原输入/输出身份。

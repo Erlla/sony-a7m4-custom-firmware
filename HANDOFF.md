@@ -110,3 +110,10 @@
 - Embed Python under runtime/python and include the package root using ../../ with the trailing separator in the _pth file. Bare ../.. resolved to the runtime parent in the tested Windows embed build. Preserve isolation from PYTHONHOME, PYTHONPATH and a system interpreter. Both regular and recovery launchers must use the bundled interpreter; explicit A7M4_PYTHON overrides remain supported for development.
 - Portable WinUSB uses signed, unmodified Zadig plus A7M4-Fastboot.cfg with VID 18D1, PID 4EE0 and Android's interface GUID F72FE0D4-CBCB-407D-8814-9ED673D0DD6B. Zadig does not automatically load a device preset from a command-line filename; ask the user to use Device > Load Preset Device and install WinUSB. Preserve the original INF path for separately registered legacy resource packs.
 - Do not run the installer or recovery against a real device during packaging checks. Validate runtime imports, native tool operation, demo guards and dispatch with stubs. Bundle third-party license texts and matching SquashFS/compression/libwdi source archives; do not label the whole portable distribution MIT.
+
+## Custom-ratio magnified playback
+
+- Apply a7m4.aspect_playback after the current AP sound/lifecycle chain and the MPR JPEG EXIF component. Keep both exact input identities; do not replace the main AP or sound-enabled libmpr with old standalone libraries.
+- Native STILL size recognition and JPEG aspect-valid classification are independent. Preserve the common matcher's 17 arguments and all existing callers; modify the JPEG-specific read getter only for known custom dimensions with invalid native layout.
+- Layout value 0 is a native compatibility hint. Keep actual pixel dimensions, RAW geometry, known native ratios and unknown non-project inputs unchanged. JPEG/RAW+JPEG magnification was confirmed by the maintainer; do not expand that confirmation to HEIF or every display route.
+- Public component metadata contains source/output hashes and stable entry locations. Keep private samples, complete firmware, research paths and iteration/package histories outside this repository.

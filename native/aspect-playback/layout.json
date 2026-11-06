@@ -1,0 +1,103 @@
+{
+  "schema": "a7m4.aspect-playback.component.v1",
+  "compiler": "Zig 0.14.1 Windows x86_64",
+  "compiler_sha256": "1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd",
+  "components": {
+    "ap": {
+      "input_sha256": "1c07d147c847009b77feece3947728e5e2f9d3f72dd85709dd9a024a521d8c56",
+      "output_sha256": "adfe61178b57e8f4e7e6fa6102f8762f3d9fb74586dec46b71e4ab23c6db9ab1",
+      "file_bytes": 99221508,
+      "source": "still_size.S",
+      "linker_script": "still_size.ld",
+      "entry_symbol": "aspect_native_still_size",
+      "native_entry": "0x2e2922c",
+      "helper_VA": "0x904c000",
+      "rx_VA": "0x9030000",
+      "input_rx_bytes": 110804,
+      "output_rx_bytes": 114960,
+      "reserved_helper_bytes": 272,
+      "code_bytes": 160,
+      "code_sha256": "27f1fede9dc132def77af7e74ac084ff1f816d28c70e27840d375f92a6fa6932",
+      "sources": {
+        "still_size.S": "9b6d3b62893fe09d755849cc4052b2b103925dfd9933439059309010dc1dc657",
+        "still_size.ld": "06457afac9dc2e5c2f1ab0322762ccde58ee3aa682b26e401187340876828244",
+        "dimensions.inc": "3e82171072863a543296ffcdb00559f15576c2daf11ebcde4af6ba88b2dba59f"
+      }
+    },
+    "mpr": {
+      "input_sha256": "e800ea9ecf3e399e4f5fbb42bfb329f3504ded737b6f142d192541814296ae55",
+      "output_sha256": "bbbf679d85b85432f87e7bacf5afd385e51de9af3d4493b9d952d0b0d062850a",
+      "file_bytes": 3670016,
+      "source": "jpeg_layout.S",
+      "linker_script": "jpeg_layout.ld",
+      "entry_symbol": "aspect_jpeg_layout",
+      "native_entry": "0x272130",
+      "helper_VA": "0x470400",
+      "rx_VA": "0x470000",
+      "input_rx_bytes": 688,
+      "output_rx_bytes": 1208,
+      "reserved_helper_bytes": 184,
+      "code_bytes": 184,
+      "code_sha256": "60dae5183ad92f7fe5ee2c7d106b92857284fca87265acbfbec6772caeead51a",
+      "sources": {
+        "jpeg_layout.S": "f487b3543728121ca400fb0662daa932e2fa2eb16861b16a682db83ec546be2d",
+        "jpeg_layout.ld": "de63a9096be5a1caf87b5b5d277eb2cd306fdb676437a8d65d04e33819ecac3c",
+        "dimensions.inc": "3e82171072863a543296ffcdb00559f15576c2daf11ebcde4af6ba88b2dba59f"
+      }
+    }
+  },
+  "distinct_dimensions": [
+    [
+      2720,
+      2336
+    ],
+    [
+      2928,
+      2336
+    ],
+    [
+      3504,
+      1240
+    ],
+    [
+      3504,
+      1296
+    ],
+    [
+      3584,
+      3072
+    ],
+    [
+      3840,
+      3072
+    ],
+    [
+      4608,
+      1624
+    ],
+    [
+      4608,
+      1704
+    ],
+    [
+      5456,
+      4672
+    ],
+    [
+      5840,
+      4672
+    ],
+    [
+      7008,
+      2472
+    ],
+    [
+      7008,
+      2584
+    ]
+  ],
+  "BSS_bytes": 0,
+  "heap_bytes": 0,
+  "exact_pixel_dimensions_preserved": true,
+  "native_JPEG_layout_hint": 0
+}
