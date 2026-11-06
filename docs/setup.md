@@ -13,6 +13,8 @@ py -3 -m venv .venv
 
 ## 资源准备
 
+使用完整 Windows x64 便携包时，Python、依赖库、Fastboot、SquashFS 工具和 WinUSB 安装器已包含并登记，无需执行下面的下载及登记步骤。首次驱动安装见 [Fastboot 便携版说明](../fastboot/README.md#便携版)。下方适用于从源码自行准备环境。
+
 仓库已提供历史 [fastboot.bin 和 RP2040 UF2](../fastboot/README.md)。使用 `tools/prepare_fastboot_resources.py` 可将这两个文件与自行准备的 Platform Tools、驱动和 SquashFS 工具组合登记，具体命令见 Fastboot 工具说明。
 
 按如下相对布局准备 `local/resources/`，不是相机分区镜像：

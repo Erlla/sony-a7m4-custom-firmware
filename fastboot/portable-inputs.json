@@ -1,0 +1,95 @@
+{
+  "platform": "Windows x64",
+  "python_abi": "cp313",
+  "versions": {
+    "python": "3.13.12",
+    "pyserial": "3.5",
+    "pyelftools": "0.32",
+    "cryptography": "46.0.3",
+    "cffi": "2.1.1",
+    "pycparser": "3.12"
+  },
+  "upstream_assets": [
+    {
+      "file": "python-3.13.12-embed-amd64.zip",
+      "url": "https://www.python.org/ftp/python/3.13.12/python-3.13.12-embed-amd64.zip",
+      "bytes": 10941233,
+      "sha256": "76f238f606250c87c6beac75dccd35ee99070a13490555936abb6cb64ecce3d0"
+    },
+    {
+      "file": "zadig-2.9.exe",
+      "url": "https://github.com/pbatard/libwdi/releases/download/v1.5.1/zadig-2.9.exe",
+      "bytes": 5334088,
+      "sha256": "4ecaa95df3da3621486a043aef8b3050b8bafe7c901402871e816229ef82039b"
+    },
+    {
+      "file": "libwdi-1.5.1.zip",
+      "url": "https://codeload.github.com/pbatard/libwdi/zip/refs/tags/v1.5.1",
+      "bytes": 338305,
+      "sha256": "746547aaf927cae44c75512d763941805928427f4ba4df3dbb40c3f7f561821e"
+    },
+    {
+      "file": "squashfs-tools-ng-1.3.2.tar.xz",
+      "url": "https://infraroot.at/pub/squashfs/squashfs-tools-ng-1.3.2.tar.xz",
+      "bytes": 585380,
+      "sha256": "0d907ac3e735c351e47c867fb51d94bffa3b05fb95bec01f31e848b7c44215a9"
+    },
+    {
+      "file": "lzo-2.10.tar.gz",
+      "url": "https://deb.debian.org/debian/pool/main/l/lzo2/lzo2_2.10.orig.tar.gz",
+      "bytes": 600622,
+      "sha256": "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072"
+    },
+    {
+      "file": "xz-5.2.5.tar.xz",
+      "url": "https://tukaani.org/xz/xz-5.2.5.tar.xz",
+      "bytes": 1148824,
+      "sha256": "3e1e518ffc912f86608a8cb35e4bd41ad1aec210df2a47aaa1f95e7f5576ef56"
+    },
+    {
+      "file": "lz4-1.9.4.tar.gz",
+      "url": "https://codeload.github.com/lz4/lz4/tar.gz/refs/tags/v1.9.4",
+      "bytes": 354063,
+      "sha256": "0b0e3aa07c8c063ddf40b082bdf7e37a1562bda40a0ff5272957f3e987e0e54b"
+    },
+    {
+      "file": "zstd-1.5.2.tar.gz",
+      "url": "https://codeload.github.com/facebook/zstd/tar.gz/refs/tags/v1.5.2",
+      "bytes": 1950967,
+      "sha256": "f7de13462f7a82c29ab865820149e778cbfe01087b3a55b5332707abf9db4a6e"
+    },
+    {
+      "file": "zlib-1.2.12.tar.gz",
+      "url": "https://zlib.net/fossils/zlib-1.2.12.tar.gz",
+      "bytes": 1490071,
+      "sha256": "91844808532e5ce316b3c010929493c0244f3d37593afd6de04f71821d5136d9"
+    }
+  ],
+  "dependency_wheels": [
+    {
+      "file": "cffi-2.1.1-cp313-cp313-win_amd64.whl",
+      "sha256": "1aa5645c30469b09530c4ebca77ebf8f17618293c58f8549cb1a543a50236e7d"
+    },
+    {
+      "file": "cryptography-46.0.3-cp311-abi3-win_amd64.whl",
+      "sha256": "a9a3008438615669153eb86b26b61e09993921ebdd75385ddd748702c5adfddb"
+    },
+    {
+      "file": "pycparser-3.12-py3-none-any.whl",
+      "sha256": "a076f3f489b39b43ed13563a1dafe42447445bec2e294154ec5c57fcdda4c85e"
+    },
+    {
+      "file": "pyelftools-0.32-py3-none-any.whl",
+      "sha256": "013df952a006db5e138b1edf6d8a68ecc50630adbd0d83a2d41e7f846163d738"
+    },
+    {
+      "file": "pyserial-3.5-py2.py3-none-any.whl",
+      "sha256": "c4451db6ba391ca6ca299fb3ec7bae67a5c55dde170964c7a14ceefec02f2cf0"
+    }
+  ],
+  "platform_tools": {
+    "file": "platform-tools.zip",
+    "sha256": "45f4d63113e895ebde0c90f194099a4676b6ac653bd28d54314a9e022bbc1a99",
+    "source": "https://developer.android.com/tools/releases/platform-tools"
+  }
+}

@@ -2,7 +2,7 @@
 
 **刷写可能损坏相机或丢失数据。仅适用于 Sony ILCE-7M4（A7 IV / A7M4），以官方 V6.02 为修改基线。先备份本机，使用原厂电池，写入期间保持供电。**
 
-需要 Windows 10/11、Python 3.11+、Multi 接口刷机线和 RP2040-Zero。[接线说明](../docs/wiring.md)。
+便携版支持 Windows 10/11 x64，自带 Python 及依赖。仍需 Multi 接口刷机线和 RP2040-Zero。[接线说明](../docs/wiring.md)。源码运行需要 Python 3.11+。
 
 ## 文件与操作
 
@@ -18,10 +18,21 @@
 | [恢复官方验签公钥.bat](../advanced/恢复官方验签公钥.bat) | 从同机官方原始备份恢复更新器公钥及验签代码 |
 | [一键救砖_从SD卡恢复.bat](../advanced/一键救砖_从SD卡恢复.bat) | 相机已进入 Fastboot 时，准备恢复标志并重启，由机内更新器读取卡槽1的 BODYDATA.DAT |
 | [只检查fastboot连接.bat](../advanced/只检查fastboot连接.bat) | 只枚举设备和查询型号，不读写分区或重启 |
+| [安装Fastboot驱动.bat](../advanced/安装Fastboot驱动.bat) | 打开随包 WinUSB 安装器，新电脑首次安装需管理员确认 |
 
 “全部数据”指此 payload 能读取的 eMMC 分区；独立 CP NOR、其他 MCU 和全部硬件状态不在该备份范围内。版本修改只改变报告版本，不安装其他固件功能。自有公钥用于更新包 RSA 验签，verifyKey 补丁不会取消该 RSA 验签。
 
 ## 准备环境
+
+### 便携版
+
+完整解压便携版 ZIP，直接双击对应 BAT；无需安装系统 Python、下载库或配置 PATH。包内已有电脑端 Fastboot、配套 DLL、SquashFS 工具、Python 及依赖库，并登记好资源清单。`setup.bat` 在便携包中仅作资源检查。
+
+已有正确驱动可直接运行。新电脑在相机进入 Fastboot 后，运行“安装Fastboot驱动”；在 Zadig 中选择 **Device → Load Preset Device**，载入包内 `vendor/local/driver/A7M4-Fastboot.cfg`，确认 **VID 18D1 / PID 4EE0** 和 **WinUSB** 后安装。安装需要管理员授权；完成后运行只读连接检查。预设包含 Fastboot 所需的设备接口 GUID，无需关闭驱动签名检查。
+
+便携包携带组件许可和 GPL/LGPL 工具的对应源码。源码包仍按下方步骤自行准备资源。
+
+### 源码包
 
 1. 完整解压 Release 压缩包，双击根目录 `setup.bat` 安装 Python 依赖。
 2. 自行准备 [Android Platform Tools](https://developer.android.com/tools/releases/platform-tools)、[Google USB Driver](https://developer.android.com/studio/run/win-usb) 和 [squashfs-tools-ng 1.3.2](https://github.com/AgentD/squashfs-tools-ng/tree/v1.3.2) 的 Windows 工具及许可文件。这些外部发行包未重新打包。
@@ -51,6 +62,7 @@ SquashFS 目录可直接包含 EXE/DLL，或使用其原发行包的 `bin/` 结�
 ## 命令行
 
 ```powershell
+python -m a7m4 install-driver
 python -m a7m4 enter
 python -m a7m4 maintain --action backup --already-fastboot
 python -m a7m4 maintain --action set_version --already-fastboot
@@ -58,3 +70,5 @@ python -m a7m4 maintain --action unlock --already-fastboot
 python -m a7m4 maintain --action restore_official --already-fastboot
 python -m a7m4 exit
 ```
+
+便携包使用 `runtime/python/python.exe` 代替上面的 `python`。

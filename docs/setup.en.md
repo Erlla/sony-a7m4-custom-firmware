@@ -2,6 +2,8 @@
 
 [中文](setup.md) · [Back](../README.en.md)
 
+The complete Windows x64 portable archive already contains Python, dependencies, Fastboot, SquashFS and a WinUSB installer with registered resources. Run its BAT entries directly; only first-time driver installation needs administrator confirmation. The steps below apply to a source checkout.
+
 The host needs Python 3.11+, pySerial, pyelftools and cryptography. It does not need a GUI, the original research workspace or a UART console. BAT files use UTF-8/CRLF; Python, Markdown and JSON use UTF-8.
 
 ```powershell

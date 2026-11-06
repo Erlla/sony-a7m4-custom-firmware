@@ -7,6 +7,7 @@ set "demo_flag="
 if "%A7M4_DEMO%"=="1" set "demo_flag=--demo"
 if exist "%CD%\a7m4.exe" goto packaged
 if defined A7M4_PYTHON if exist "%A7M4_PYTHON%" goto custom_python
+if exist "%CD%\runtime\python\python.exe" goto portable
 if exist "%CD%\.venv\Scripts\python.exe" goto source
 echo Runtime missing. Extract the full offline bundle or install source dependencies.
 set "result=1"
@@ -17,6 +18,10 @@ set "result=%errorlevel%"
 goto finished
 :custom_python
 "%A7M4_PYTHON%" -m a7m4 %demo_flag% %*
+set "result=%errorlevel%"
+goto finished
+:portable
+"%CD%\runtime\python\python.exe" -B -X utf8 -m a7m4 %demo_flag% %*
 set "result=%errorlevel%"
 goto finished
 :source

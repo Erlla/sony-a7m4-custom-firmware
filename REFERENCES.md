@@ -62,3 +62,7 @@
 - [Zig](https://github.com/ziglang/zig),0.15.2: external AArch64 freestanding compiler using its Clang/LLVM toolchain; used to reproduce the project's native adapters. Compiler/toolchain files are not bundled. Zig and bundled LLVM/Clang components retain their respective upstream licenses.
 - ARM GNU GCC16.1.0 / Binutils: external ARMv7-A Thumb soft-float compilation for the project's CP owner and gain adapters. No compiler binaries or Sony native programs are redistributed.
 - Sound C/assembly adapters, SHA-bound file recipes and the PCM/Q24/F0 converter are project-authored code under the root MIT license. Fixed source addresses, wire layouts and validation results are research facts, not original Sony source. Existing references above remain applicable to firmware extraction and offline ELF/native verification.
+
+## Portable WinUSB installer
+
+[Zadig / pbatard/libwdi](https://github.com/pbatard/libwdi) supplies WinUSB installation in the runtime-inclusive Fastboot archive. The official Zadig 2.9 executable is distributed unchanged with license texts and the v1.5.1 source archive. Device preset format is documented in the [upstream guide](https://github.com/pbatard/libwdi/wiki/Zadig). The preset retains the Fastboot VID/PID and Android device-interface GUID. Other bundled runtime and source inputs are recorded in [portable-inputs.json](fastboot/portable-inputs.json).

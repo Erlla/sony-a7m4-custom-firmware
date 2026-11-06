@@ -6,6 +6,9 @@ The MIT grant does not relicense Sony firmware, extracted libraries, donor color
 
 ## Research upstreams and external executables
 
+- The Windows x64 portable Release archive includes the official CPython embeddable runtime and dependency wheels with their license files, selected Fastboot binaries with the Platform Tools NOTICE, and SquashFS tools with their library licenses and corresponding source archives. These runtime files remain outside the source repository.
+- Portable WinUSB setup uses the unmodified signed Zadig installer from pbatard/libwdi, its project license texts, a Fastboot device preset and the corresponding source archive. The Google SDK USB-driver package is not bundled in this portable variant. New-PC installation requires the user's administrator confirmation; driver-signature enforcement remains enabled.
+
 - ILCE-7M4-RE: the historical checkout had no explicit license. The current upstream top-level notice refers to per-directory terms; its Fastboot notice discusses MIT practice and possible GPL-2.0 reference content without providing a single clear license. The historical bridge has no separate license. Preserve original notices and the source record in [fastboot/SOURCES.md](fastboot/SOURCES.md); this repository makes no MIT grant for those components. The host protocol implementation remains independently authored.
 - AOSP fastboot source: Apache-2.0 and component-specific notices. Do not assume an SDK-packaged executable and its DLLs can be redistributed merely because source exists elsewhere.
 - Google USB Driver: supplied under Android SDK terms, not presented as open source. No INF/catalog/DLL bundle is published here; no driver-signature-enforcement bypass is provided.

@@ -57,6 +57,8 @@ Fastboot 路线需要 **Multi 接口刷机线与 RP2040-Zero 启动桥**，普�
 
 相机端启动文件、RP2040 UF2、对应源码资料及进入／退出／维护／一键救砖脚本见 **[Fastboot 维护工具](fastboot/README.md)**。运行 `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip` 可生成独立上传 Release 的压缩包。
 
+**Windows x64 便携版自带 Python、依赖库、Fastboot、SquashFS 工具和 WinUSB 安装器，完整解压后直接运行 BAT。** 新电脑首次安装驱动需管理员授权，并按[驱动说明](fastboot/README.md#便携版)载入 Fastboot 预设。便携版构建器为 `tools/build_fastboot_portable.py`；运行时和工具只进入 Release ZIP。
+
 支持完整备份、版本查看与设置、自签更新器构建、同机备份恢复和恢复官方验签。环境要求：**Windows 10 / 11、Python 3.11+**。
 
 克隆仓库后，运行 `setup.bat` 安装依赖，再运行 `advanced/进阶维护菜单.bat`。外部工具与驱动按[环境说明](docs/setup.md)准备。

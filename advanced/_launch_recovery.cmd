@@ -5,6 +5,7 @@ pushd "%~dp0.."
 if errorlevel 1 exit /b 2
 if "%A7M4_DEMO%"=="1" goto no_demo
 if defined A7M4_PYTHON if exist "%A7M4_PYTHON%" goto custom_python
+if exist "%CD%\runtime\python\python.exe" goto portable
 if exist "%CD%\.venv\Scripts\python.exe" goto source
 echo Python 3.11+ missing. Run setup.bat or set A7M4_PYTHON.
 set "result=2"
@@ -15,6 +16,10 @@ set "result=2"
 goto finished
 :custom_python
 "%A7M4_PYTHON%" -B -X utf8 -m a7m4.recover_sd %*
+set "result=%errorlevel%"
+goto finished
+:portable
+"%CD%\runtime\python\python.exe" -B -X utf8 -m a7m4.recover_sd %*
 set "result=%errorlevel%"
 goto finished
 :source

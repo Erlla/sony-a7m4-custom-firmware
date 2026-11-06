@@ -10,7 +10,7 @@ MODULES = ('__init__', '__main__', 'cli', 'common', 'transport', 'hardware', 'en
            'patching', 'fat', 'maintenance', 'demo', 'recover_sd', 'sd_recovery')
 ENTRIES = ('进入fastboot', '退出fastboot开机', '备份全部数据', '查看或设置固件版本',
            '刷入验签跳过版更新器', '恢复官方验签公钥', '一键救砖_从SD卡恢复',
-           '只检查fastboot连接')
+           '只检查fastboot连接', '安装Fastboot驱动')
 
 
 def build(output):
@@ -19,7 +19,7 @@ def build(output):
                  'a7m4/profiles/updater.json', 'a7m4/profiles/sd-recovery.json',
                  'advanced/_launch.cmd', 'advanced/_launch_recovery.cmd',
                  'tools/register_resources.py', 'tools/prepare_fastboot_resources.py',
-                 'tools/build_fastboot_release.py', 'docs/setup.md', 'docs/setup.en.md',
+                 'tools/build_fastboot_release.py', 'tools/build_fastboot_portable.py', 'docs/setup.md', 'docs/setup.en.md',
                  'docs/wiring.md', 'docs/wiring.en.md',
                  'methods/00-sd-recovery/README.md', 'methods/00-sd-recovery/README.en.md'):
         files[name] = (ROOT / name).read_bytes()

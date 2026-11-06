@@ -90,7 +90,9 @@ class Assets:
     def check(self):
         manifest = read_json(self.base / "manifest.local.json") if (self.base / "manifest.local.json").exists() else {"files": {}}
         errors = []
-        required = ["bin/fastboot.exe", "bin/fastboot.bin", "bin/uart_boot.ino.uf2", "driver/android_winusb.inf", "squashfs/sqfs2tar.exe", "squashfs/tar2sqfs.exe"]
+        required = ["bin/fastboot.exe", "bin/fastboot.bin", "bin/uart_boot.ino.uf2", "squashfs/sqfs2tar.exe", "squashfs/tar2sqfs.exe"]
+        required += (["driver/zadig.exe", "driver/zadig.ini", "driver/A7M4-Fastboot.cfg"]
+                     if "driver/zadig.exe" in manifest["files"] else ["driver/android_winusb.inf"])
         for name in set(required) | set(manifest["files"]):
             try:
                 self.get(name)

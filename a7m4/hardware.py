@@ -148,6 +148,19 @@ def install_driver(assets, callback):
     # Validate every driver file, including signed catalogs, before elevation.
     from .common import read_json
     files = read_json(assets.base / "manifest.local.json")["files"]
+    if "driver/zadig.exe" in files:
+        executable = assets.get("driver/zadig.exe")
+        assets.get("driver/zadig.ini")
+        preset = assets.get("driver/A7M4-Fastboot.cfg")
+        event(callback, "driver", message="在驱动窗口选择 Device → Load Preset Device，载入 " + str(preset) +
+              "；确认 VID 18D1 / PID 4EE0 与 WinUSB 后点击安装。 / Load the bundled A7M4-Fastboot.cfg preset, then install WinUSB.")
+        exe = str(executable).replace("'", "''")
+        folder = str(executable.parent).replace("'", "''")
+        script = ("$ErrorActionPreference='Stop'; $p=Start-Process -FilePath '" + exe +
+                  "' -WorkingDirectory '" + folder +
+                  "' -Verb RunAs -WindowStyle Normal -Wait -PassThru; exit $p.ExitCode")
+        run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script], timeout=600)
+        return
     for name in files:
         if name.startswith("driver/"):
             assets.get(name)
@@ -179,7 +192,7 @@ def enter_fastboot(transport, assets, callback):
                 if transport.devices():
                     return transport.select()
                 time.sleep(1)
-            raise ToolError("DRIVER_BINDING", "Fastboot USB device exists but the driver is not bound", "Reconnect the camera USB cable. In Device Manager, select the bundled signed WinUSB INF; then retry.")
+            raise ToolError("DRIVER_BINDING", "Fastboot USB device exists but the driver is not bound", "Reconnect the camera USB cable and install the Fastboot WinUSB driver, then run the read-only connection check.")
     prepare_rp(assets, callback)
     event(callback, "usb", message="Connect the camera USB cable / 请接入相机 USB 数据线")
     deadline, installed = time.monotonic()+60, False

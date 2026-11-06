@@ -68,6 +68,7 @@ def main():
     sub.add_parser("agent")
     sub.add_parser("doctor")
     sub.add_parser("enter", help="Enter Fastboot without reading or writing partitions")
+    sub.add_parser("install-driver", help="Open the Fastboot driver installer with administrator confirmation")
     sub.add_parser("exit", aliases=["reboot"], help="Leave Fastboot and reboot the camera")
     backup = sub.add_parser("backup")
     backup.add_argument("--destination", type=Path)
@@ -105,6 +106,13 @@ def main():
                 result = enter_fastboot(engine.transport, engine.assets, engine.callback)
         elif args.command in ("exit", "reboot"):
             result = engine.reboot()
+        elif args.command == "install-driver":
+            if args.demo:
+                raise ToolError("DEMO", "Driver installation is unavailable in demo mode")
+            from .hardware import install_driver
+            engine.callback = lambda data: print(json.dumps(data, ensure_ascii=False), flush=True)
+            install_driver(engine.assets, engine.callback)
+            result = {"message": "驱动窗口已关闭；连接相机后运行只检查fastboot连接。 / Run the read-only connection check after connecting the camera."}
         elif args.command == "verify-backup":
             result = validate_backup(args.folder)
         else:
