@@ -60,6 +60,7 @@
 
 ## Desktop tool maintenance
 
+- The installation guides use five maintainer-supplied screenshots in workflow order: initial screen, unplug/update prompt, camera confirmation, operation ended, and USB recovery pending. The last two states are distinct; a pending-recovery screenshot does not show a restored connection. Keep both language guides and image numbering aligned.
 - Task Scheduler may return an account name for a principal registered using a SID. Resolve both to SecurityIdentifier before comparison; retain action, arguments, directory, trigger and run-level checks. Record failed fields without adding account names or command-line data to diagnostics.
 - First-use setup reuses matching installations and existing empty task folders, and creates only missing tasks. Do not delete running tasks or unknown operation records as retry cleanup. Fresh-state substitutes must model account-name readback, not just echo registration inputs.
 - All six ordinary/service driver binding and coinstaller files belong to the separately supplied tools/driver asset group. Source builds must not depend on extra binaries in the checkout. Keep the exact per-file asset inventory and group fingerprint aligned.
