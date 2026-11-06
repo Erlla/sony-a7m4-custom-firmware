@@ -120,6 +120,13 @@ try {
  $taskChecks.Add('complete_installer_from_no_data_no_tasks_no_driver_packages_no_certificates')
  $base=Join-Path (Get-SetupContext).common $taskSid
  $cfg=Join-Path $base 'deployment.private.json';$before=(Get-FileHash -LiteralPath $cfg).Hash
+ $config=Get-Content -LiteralPath $cfg -Raw | ConvertFrom-Json
+ $storageFiles=@($config.files | Where-Object name -EQ 'camera_storage.ps1')
+ if($storageFiles.Count -ne 1 -or
+    (Get-FileHash -LiteralPath (Join-Path $base 'camera_storage.ps1')).Hash -ne $storageFiles[0].sha256 -or
+    (Get-FileHash -LiteralPath (Join-Path $base 'camera_storage.ps1')).Hash -ne
+    (Get-FileHash -LiteralPath (Join-Path $Package 'app/driver_restore/camera_storage.ps1')).Hash){throw 'Storage helper was not copied and pinned in the protected bundle'}
+ $taskChecks.Add('storage_helper_is_included_hashed_and_installed_before_restore')
  $cleanTasks=$global:m4Clean_folders['\M4CameraTool\'+$taskSid].Tasks
  if($cleanTasks.SelfTest.Definition.Principal.UserId -eq $taskSid){throw 'Fixture failed to emulate real Windows account-name readback'}
  $r=Invoke-Attempt;Require-Installed $r

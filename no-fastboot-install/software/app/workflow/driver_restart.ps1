@@ -63,21 +63,9 @@ try {
  if(@($detail.PSObject.Properties|Where-Object Name -EQ 'svc_package').Count -and $detail.svc_package){
   $packageAbsent=$packageAbsent -and -not(Test-Path -LiteralPath (Join-Path (Join-Path $env:SystemRoot 'INF') $detail.svc_package))
  }
- $pmhome=@(Get-Volume | Where-Object{$_.FileSystemLabel -eq 'PMHOME' -and $_.DriveLetter} | ForEach-Object {
-  $volume=$_;$parts=@(Get-Partition -DriveLetter $volume.DriveLetter)
-  if($parts.Count -eq 1 -and (Test-Path -LiteralPath ($volume.DriveLetter+':\') -PathType Container)){
-   $disk=$parts[0]|Get-Disk;$rows=@(Get-CimInstance Win32_DiskDrive|Where-Object Index -EQ $disk.Number)
-   if($rows.Count -eq 1){
-    $node=$rows[0].PNPDeviceID
-    for($depth=0;$depth -lt 10 -and $node;$depth++){
-     if($node -eq $instance){[pscustomobject]@{drive_letter=[string]$volume.DriveLetter;accessible=$true;belongs_to_camera=$true};break}
-     $parent=Get-PnpDeviceProperty -InstanceId $node -KeyName DEVPKEY_Device_Parent -ErrorAction SilentlyContinue
-     if($parent){$node=$parent.Data}else{$node=$null}
-    }
-   }
-  }
- })
- if($driver -ne 'USBSTOR' -or $inf -ne 'usbstor.inf' -or $camera[0].Status -ne 'OK' -or -not $packageAbsent -or $pmhome.Count -ne 1){
+ . (Join-Path (Split-Path -Parent $PSScriptRoot) 'driver_restore\camera_storage.ps1')
+ $storage=@(Get-CameraStorageVolumes -InstanceId $instance | Where-Object root_accessible -EQ $true)
+ if($driver -ne 'USBSTOR' -or $inf -ne 'usbstor.inf' -or $camera[0].Status -ne 'OK' -or -not $packageAbsent -or $storage.Count -eq 0){
   Reply 'RESTARTED_CONNECTION_PENDING' $facts;exit 0
  }
  $run=[Guid]::NewGuid().ToString('N')
@@ -92,7 +80,8 @@ try {
   device_operations=0;firmware_operations=0;camera_commands=0;
   recovery_confirmation=@{source_run=$prior.run_id;source_task_sha256=$originalHash;
    source_detail_sha256=(Get-FileHash -LiteralPath $detailPath -Algorithm SHA256).Hash;
-   original_failure_preserved=$true;windows_restarted=$true;boot_utc=$boot.ToString('o');package_absent=$true;pmhome=$pmhome}}
+   original_failure_preserved=$true;windows_restarted=$true;boot_utc=$boot.ToString('o');package_absent=$true;
+   storage_volumes=$storage;pmhome=@($storage | Where-Object label -EQ 'PMHOME')}}
  Publish-Json (Join-Path $folder 'task_result.json') $result
  Publish-Json $index $result
  $facts.confirmation_run=$run

@@ -23,6 +23,9 @@ HERE = Path(__file__).resolve().parent
 SOFTWARE = HERE.parent
 SOURCE_CASES = (
     ('build-assets', 'test_build_assets.py'),
+    ('release-build', 'test_release_build.py'),
+    ('asset-export', 'test_asset_export.py'),
+    ('camera-storage', 'test_camera_storage_unit.py'),
     ('normal-identity', 'test_normal_identity_unit.py'),
     ('operation-session', 'test_operation_session_unit.py'),
     ('state-io', 'test_state_io_unit.py'),
@@ -31,12 +34,14 @@ SOURCE_CASES = (
 PACKAGE_CASES = (
     ('native-verify', None, ()),
     ('usb-recovery', 'test_usb_recovery.py', ()),
+    ('driver-setup', 'run_clean_setup.py', ()),
     ('local-failure', 'test_local_failure.py', ()),
     ('state-io', 'test_state_io.py', ()),
     ('startup-session', 'test_startup_session.py', ()),
     ('usb-identity', 'test_usb_identity.py', ()),
     ('menu-stock', 'test_menu_seal.py', ('--lineage', 'stock')),
     ('menu-user', 'test_menu_seal.py', ('--lineage', 'user')),
+    ('issue9-boundaries', 'test_issue9.py', ()),
 )
 COPY_DIRS = ('app', 'runtime', 'vendor', 'tools', 'licenses')
 ROOT_DOCS = ('README.md', 'THIRD_PARTY.md', '使用说明.md')
@@ -81,7 +86,7 @@ def stop_process_tree(child):
 
 def run_process(command, timeout):
     environment = dict(os.environ)
-    for name in ('PYTHONPATH', 'PYTHONHOME', 'M4_TOOL_SESSION'):
+    for name in ('PYTHONPATH', 'PYTHONHOME', 'M4_TOOL_SESSION', 'M4_TOOL_DATA_ROOT'):
         environment.pop(name, None)
     started = time.monotonic()
     # A file avoids unbounded in-memory capture when a failing test is noisy.
@@ -161,7 +166,9 @@ def package_preflight(package):
     manifest = json.loads((package/'app/release.json').read_text('utf-8'))
     if (manifest.get('schema') != 'm4-clean-product-release/1' or
             manifest.get('version') != dependencies['version']):
-        raise ValueError('Unsupported release manifest')
+        raise ValueError('Unsupported release manifest: package version ' + repr(manifest.get('version')) +
+                         ', checkout expects ' + repr(dependencies['version']) +
+                         '. Rebuild from this checkout with the locked assets; do not edit release.json or dependency hashes.')
     for group in COPY_DIRS:
         folder = package/group
         if folder.is_symlink() or getattr(folder, 'is_junction', lambda:False)():
@@ -224,6 +231,17 @@ def package_workspace():
         shutil.rmtree(path)
 
 
+@contextmanager
+def isolated_programdata(directory):
+    previous = os.environ.get('ProgramData')
+    os.environ['ProgramData'] = str(directory/'mock-programdata')
+    try:
+        yield
+    finally:
+        if previous is None: os.environ.pop('ProgramData', None)
+        else: os.environ['ProgramData'] = previous
+
+
 def run_package_cases(package, timeout):
     rows = []
     try:
@@ -247,7 +265,8 @@ def run_package_cases(package, timeout):
                     command = ([disposable/'M4相机工具.exe', '--verify'] if script is None else
                                [disposable/'runtime/python/python.exe', '-I', '-B', '-X', 'utf8',
                                 HERE/script, '--package', disposable, *extra])
-                    result = run_process(command, timeout)
+                    with isolated_programdata(directory):
+                        result = run_process(command, timeout)
                     passed = result['exit_code'] == 0 and not result['timed_out']
                     row = dict(id='package.'+name, status='PASS' if passed else 'FAIL', **result)
                 except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:

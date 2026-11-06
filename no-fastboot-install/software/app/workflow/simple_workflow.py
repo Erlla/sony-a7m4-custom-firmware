@@ -1,4 +1,5 @@
 from product_integrity import pinned, state_path
+from product_version import VERSION
 from pathlib import Path
 import argparse
 import json
@@ -82,7 +83,7 @@ def begin(ready):
         require(old is None or old['phase'] in backend.frozen.TERMINAL, '有尚未完成的相机操作，请保留记录并先处理')
     if prior['phase'] == 'PATCH_READY':
         state.save(prior, 'ABANDONED_BEFORE_MENU', reason='new_user_run', menu_window_started=False)
-    value = dict(schema='m4-user-flow/1', flow=uuid.uuid4().hex, route='project', phase='PREPARING', current_version=None, target_version=None, created_utc=state.utc(), device_started=False, card_writes=0, user_confirmed_stable_power=True, package_validation='not_performed', purpose='patch_and_menu_only', card_reads=0, installation_by_user_only=True, automatic_retry=False, ui_version='1.0.0')
+    value = dict(schema='m4-user-flow/1', flow=uuid.uuid4().hex, route='project', phase='PREPARING', current_version=None, target_version=None, created_utc=state.utc(), device_started=False, card_writes=0, user_confirmed_stable_power=True, package_validation='not_performed', purpose='patch_and_menu_only', card_reads=0, installation_by_user_only=True, automatic_retry=False, ui_version=VERSION)
     state.folder(value).mkdir(parents=True, exist_ok=False)
     state.save(value, 'PREPARING')
     atomic(state.POINTER, dict(flow=value['flow']))

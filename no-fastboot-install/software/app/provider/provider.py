@@ -23,6 +23,13 @@ SNAPSHOTS = data_root(ROOT) / 'snapshots'
 
 class Provider:
 
+    @staticmethod
+    def storage_accessible(state):
+        # A present but empty new snapshot must not fall back to stale PMHOME.
+        volumes = state.get('storage', state.get('pmhome', []))
+        return any(v.get('accessible') is True and v.get('belongs_to_camera') is True
+                   for v in volumes)
+
     def load_legacy(self):
         path = ROOT / 'app/reader/current_reader.py'
         spec = importlib.util.spec_from_file_location('m4_current_reader', path)
@@ -41,7 +48,7 @@ class Provider:
     def preflight(self, folder):
         snapshot, state = self.snapshot(folder)
         row = self.same_body(state)
-        require(row['service'] == 'USBSTOR' and row['inf'] == 'usbstor.inf' and any((v['accessible'] and v['belongs_to_camera'] for v in state['pmhome'])), '普通 USBSTOR/PMHOME 尚未恢复，未切换驱动。')
+        require(row['service'] == 'USBSTOR' and row['inf'] == 'usbstor.inf' and self.storage_accessible(state), '普通 USBSTOR/相机存储卡尚未恢复，未切换驱动。')
         self.tasks_clear(snapshot)
 
     @contextmanager
@@ -66,7 +73,7 @@ class Provider:
         if state['normal_count'] == 0 and state['service_count'] == 0:
             return False
         row = self.same_body(state)
-        return row['service'] == 'USBSTOR' and row['inf'] == 'usbstor.inf' and any((v['accessible'] and v['belongs_to_camera'] for v in state['pmhome']))
+        return row['service'] == 'USBSTOR' and row['inf'] == 'usbstor.inf' and self.storage_accessible(state)
 
     def wait_for_normal(self, folder, *, timeout=45, clock=time.monotonic, sleep=time.sleep):
         """Only poll PnP; do not dispatch Restore while normal USB is absent."""
@@ -88,7 +95,7 @@ class Provider:
         if confirmation:
             snapshot, state = self.snapshot(folder)
             row = self.same_body(state)
-            require(row['service'] == 'USBSTOR' and row['inf'] == 'usbstor.inf' and any((v['accessible'] and v['belongs_to_camera'] for v in state['pmhome'])), 'Normal connection is not ready for confirmation')
+            require(row['service'] == 'USBSTOR' and row['inf'] == 'usbstor.inf' and self.storage_accessible(state), 'Normal connection is not ready for confirmation')
             prior = read(snapshot / 'latest_Restore.json')
             if prior['status'] in ('RECOVERY_CONFIRMED', 'USBSTOR_RESTORED'):
                 self.tasks_clear(snapshot)
@@ -102,7 +109,7 @@ class Provider:
         row = self.same_body(state)
         require(read(snapshot / 'latest_Restore.json')['run_id'] == result['run_id'], 'Restore task run changed')
         if code == 0 and result['status'] in ('USBSTOR_RESTORED', 'RECOVERY_CONFIRMED'):
-            require(row['service'] == 'USBSTOR' and row['inf'] == 'usbstor.inf' and any((v['accessible'] and v['belongs_to_camera'] for v in state['pmhome'])), 'Restore postcondition failed')
+            require(row['service'] == 'USBSTOR' and row['inf'] == 'usbstor.inf' and self.storage_accessible(state), 'Restore postcondition failed')
             self.tasks_clear(snapshot)
             if confirmation:
                 final = read(snapshot / 'Restore_task_result.json')
@@ -110,6 +117,10 @@ class Provider:
             return 'VERIFIED'
         final = read(snapshot / 'Restore_task_result.json')
         detail = read(snapshot / 'Restore_auto_restore_result.private.json')
-        require(not confirmation and code == 1 and (result['status'] == 'NEEDS_REVIEW') and (final['run_id'] == result['run_id']) and (final['status'] == 'NEEDS_REVIEW') and (final['error'] == 'Restore helper returned 1') and (final['device_mutation_started'] is True) and (detail['error'] == 'USBSTOR/PMHOME did not become accessible within the postcondition deadline.') and (row['service'] == 'USBSTOR') and (row['inf'] == 'usbstor.inf'), '驱动恢复结果需要人工核对，未重复操作。')
+        storage_deadline_errors = (
+            'USBSTOR/PMHOME did not become accessible within the postcondition deadline.',
+            'USBSTOR/camera storage did not become accessible within the postcondition deadline.',
+        )
+        require(not confirmation and code == 1 and (result['status'] == 'NEEDS_REVIEW') and (final['run_id'] == result['run_id']) and (final['status'] == 'NEEDS_REVIEW') and (final['error'] == 'Restore helper returned 1') and (final['device_mutation_started'] is True) and (detail['error'] in storage_deadline_errors) and (row['service'] == 'USBSTOR') and (row['inf'] == 'usbstor.inf'), '驱动恢复结果需要人工核对，未重复操作。')
         atomic(folder / 'recovery_pending.json', dict(run_id=result['run_id']))
         return 'RESTART_REQUIRED'

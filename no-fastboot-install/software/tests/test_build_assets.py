@@ -8,6 +8,8 @@ import hashlib
 import importlib.util
 import tempfile
 import unittest
+import os
+import stat
 from unittest.mock import patch
 import zipfile
 
@@ -113,6 +115,55 @@ class BuildAssetsTests(unittest.TestCase):
         with patch.object(builder.shutil, 'copyfile', side_effect=OSError('simulated disk failure')):
             with self.assertRaisesRegex(OSError, 'simulated disk failure'):
                 builder.copy_assets(self.assets, self.output, self.dependencies)
+
+    def test_zip_duplicate_and_windows_case_aliases_are_rejected(self):
+        for alias in ('a.txt','A.txt'):
+            with self.subTest(alias=alias):
+                archive=self.root/'duplicate.zip'
+                with zipfile.ZipFile(archive,'w') as stream:
+                    for name,data in self.files.items():stream.writestr('portable/'+name,data)
+                    stream.writestr('portable/vendor/example/'+alias,b'original text A\n')
+                with self.assertRaisesRegex(ValueError,'Duplicate or case-aliased'):
+                    builder.copy_assets(archive,self.output,self.dependencies)
+                self.assertEqual(list(self.output.iterdir()),[])
+
+    def test_zip_traversal_backslash_ads_and_windows_alias_names_are_rejected(self):
+        for name in ('portable/vendor/example/../outside','portable/vendor/example/a.txt:stream',
+                     'portable/vendor/example/NUL.txt','portable/vendor/example/name.','portable\\vendor\\bad'):
+            with self.subTest(name=name):
+                archive=self.root/'unsafe.zip'
+                with zipfile.ZipFile(archive,'w') as stream:
+                    for relative,data in self.files.items():stream.writestr('portable/'+relative,data)
+                    info=zipfile.ZipInfo(name)
+                    info.filename=name  # Preserve raw backslashes that Windows ZipInfo normally normalizes.
+                    stream.writestr(info,b'inert')
+                with self.assertRaisesRegex(ValueError,'Invalid asset path'):
+                    builder.copy_assets(archive,self.output,self.dependencies)
+                self.assertEqual(list(self.output.iterdir()),[])
+
+    def test_zip_link_member_is_rejected_before_extraction(self):
+        archive=self.root/'linked.zip'
+        with zipfile.ZipFile(archive,'w') as stream:
+            for name,data in self.files.items():stream.writestr('portable/'+name,data)
+            info=zipfile.ZipInfo('portable/vendor/example/link.txt');info.create_system=3
+            info.external_attr=(stat.S_IFLNK|0o777)<<16
+            stream.writestr(info,'a.txt')
+        with self.assertRaisesRegex(ValueError,'Linked or encrypted'):
+            builder.copy_assets(archive,self.output,self.dependencies)
+        self.assertEqual(list(self.output.iterdir()),[])
+
+    @unittest.skipUnless(os.name=='nt','Windows directory junction')
+    def test_directory_group_junction_is_rejected_without_reading_target(self):
+        import _winapi
+        linked=self.assets/'vendor/linked'
+        _winapi.CreateJunction(str(self.assets/'vendor/example'),str(linked))
+        self.addCleanup(lambda:os.rmdir(linked))
+        digests={name.replace('vendor/example/','vendor/linked/'):hashlib.sha256(data).hexdigest()
+                 for name,data in self.files.items()}
+        lock={'groups':{'vendor/linked':{'files':len(digests),'tree_sha256':builder.fingerprint(digests)}}}
+        with self.assertRaisesRegex(ValueError,'Linked assets'):
+            builder.copy_assets(self.assets,self.output,lock)
+        self.assertTrue((self.assets/'vendor/example/a.txt').is_file())
 
 
 if __name__ == '__main__':

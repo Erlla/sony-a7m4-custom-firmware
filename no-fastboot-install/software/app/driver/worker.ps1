@@ -10,13 +10,16 @@ if ([IO.Path]::GetFullPath($PSScriptRoot) -ne [IO.Path]::GetFullPath($brokerBase
 $brokerConfig = Get-Content -LiteralPath (Join-Path $brokerBase 'deployment.private.json') -Raw | ConvertFrom-Json
 if ($brokerConfig.user_sid -ne $brokerSid) { throw 'Registered user differs.' }
 $brokerExpectedNames = @('worker.ps1','restore_camera_driver.ps1','camera_port.cs','camera_driver_native.dll','driver\ilce-7m4.inf','driver\ILCE-7M4.cat','driver\ilce-7m4-svc.inf','driver\ILCE-7M4-SVC.cat','driver\amd64\WdfCoInstaller01011.dll','driver\amd64\WinUSBCoInstaller2.dll')
-if (@($brokerConfig.files).Count -ne $brokerExpectedNames.Count) { throw 'Unexpected trusted file set.' }
+$brokerExpectedNames += 'camera_storage.ps1'
+if ((@($brokerConfig.files.name | Sort-Object) -join ',') -ne (@($brokerExpectedNames | Sort-Object) -join ',')) { throw 'Unexpected trusted file set.' }
 foreach ($brokerFile in $brokerConfig.files) {
     if ($brokerFile.name -notin $brokerExpectedNames) { throw 'Unexpected executable dependency.' }
     $brokerPath = Join-Path $brokerBase $brokerFile.name
     if ((Get-Item -LiteralPath $brokerPath).Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Linked executable dependency refused.' }
     if ((Get-FileHash -LiteralPath $brokerPath -Algorithm SHA256).Hash -ne $brokerFile.sha256) { throw 'Installed executable/driver hash differs.' }
 }
+
+. (Join-Path $brokerBase 'camera_storage.ps1')
 
 function New-BrokerDirectory([string]$Path) {
     $security = New-Object Security.AccessControl.DirectorySecurity
@@ -57,9 +60,10 @@ function Test-BrokerRecoveredFacts($Facts) {
     return ($Facts.original_task_matches_index -and $Facts.original_status -eq 'NEEDS_REVIEW' -and
         $Facts.original_mode -eq 'Restore' -and $Facts.original_error -eq 'Restore helper returned 1' -and
         $Facts.original_mutation_started -eq $true -and $Facts.detail_status -eq 'failed' -and
-        $Facts.detail_error -eq 'USBSTOR/PMHOME did not become accessible within the postcondition deadline.' -and
+        $Facts.detail_error -in @('USBSTOR/PMHOME did not become accessible within the postcondition deadline.',
+            'USBSTOR/camera storage did not become accessible within the postcondition deadline.') -and
         $Facts.uninstall_exit_code -eq 0 -and $Facts.port_cycle_attempts -eq 1 -and $Facts.port_cycle_count -eq 1 -and
-        $Facts.same_body -and $Facts.current_storage -and $Facts.package_absent -and $Facts.camera_pmhome_count -eq 1)
+        $Facts.same_body -and $Facts.current_storage -and $Facts.package_absent -and $Facts.camera_storage_count -gt 0)
 }
 
 function Get-BrokerRecoveredRestore($Previous,[string]$IndexPath) {
@@ -72,22 +76,7 @@ function Get-BrokerRecoveredRestore($Previous,[string]$IndexPath) {
     if ($originalHash -notmatch '^[A-F0-9]{64}$' -or $detailHash -notmatch '^[A-F0-9]{64}$') { throw 'Original restoration records are not hashed files.' }
     $detail=Get-Content -LiteralPath $detailPath -Raw | ConvertFrom-Json
     $camera=Get-BrokerCamera
-    $pmhome=@(Get-Volume | Where-Object { $_.FileSystemLabel -eq 'PMHOME' -and $_.DriveLetter } | ForEach-Object {
-        $volume=$_
-        $partitions=@(Get-Partition -DriveLetter $volume.DriveLetter)
-        if ($partitions.Count -eq 1 -and (Test-Path -LiteralPath ($volume.DriveLetter+':\') -PathType Container)) {
-            $disk=$partitions[0] | Get-Disk
-            $diskDevice=@(Get-CimInstance Win32_DiskDrive | Where-Object Index -EQ $disk.Number)
-            if ($diskDevice.Count -eq 1) {
-                $node=$diskDevice[0].PNPDeviceID;$belongs=$false
-                for ($depth=0;$depth -lt 8 -and $node;$depth++) {
-                    if ($node -eq $camera.instance) { $belongs=$true;break }
-                    $node=(Get-PnpDeviceProperty -InstanceId $node -KeyName DEVPKEY_Device_Parent -ErrorAction SilentlyContinue).Data
-                }
-                if ($belongs) { [pscustomobject]@{drive_letter=[string]$volume.DriveLetter;root_accessible=$true;belongs_to_camera=$true} }
-            }
-        }
-    })
+    $storage=@(Get-CameraStorageVolumes -InstanceId $camera.instance | Where-Object root_accessible -EQ $true)
     $windowsDirectory=[IO.Path]::GetDirectoryName([Environment]::SystemDirectory)
     $packageAbsent=($detail.package -match '^oem[0-9]+\.inf$' -and -not (Test-Path -LiteralPath (Join-Path (Join-Path $windowsDirectory 'INF') $detail.package)))
     $facts=[pscustomobject]@{
@@ -97,11 +86,11 @@ function Get-BrokerRecoveredRestore($Previous,[string]$IndexPath) {
         uninstall_exit_code=$detail.uninstall_exit_code;port_cycle_attempts=$detail.port_cycle_attempts;port_cycle_count=$detail.port_cycle_count
         same_body=($detail.before.instance -eq $camera.instance -and $Previous.before.instance -eq $camera.instance)
         current_storage=($camera.service -eq 'USBSTOR' -and $camera.inf -eq 'usbstor.inf' -and $camera.status -eq 'OK')
-        package_absent=$packageAbsent;camera_pmhome_count=$pmhome.Count
+        package_absent=$packageAbsent;camera_storage_count=$storage.Count
     }
     if (-not (Test-BrokerRecoveredFacts $facts)) { throw 'Failed restoration is not a completed uninstall/cycle with freshly verified camera storage.' }
     return [ordered]@{original_failed_run=$Previous.run_id;original_task_sha256=$originalHash;original_detail_sha256=$detailHash
-        original_failure_preserved=$true;after=$camera;pmhome=$pmhome;package_absent=$true;device_mutations=0;externally_restored=$true}
+        original_failure_preserved=$true;after=$camera;storage_volumes=$storage;pmhome=@($storage | Where-Object label -EQ 'PMHOME');package_absent=$true;device_mutations=0;externally_restored=$true}
 }
 
 $brokerRunId = [Guid]::NewGuid().ToString('N')
@@ -189,7 +178,7 @@ try {
         & (Join-Path $brokerBase 'restore_camera_driver.ps1') -EvidenceDirectory $brokerOutput -Apply
         if ($LASTEXITCODE -ne 0) { throw "Restore helper returned $LASTEXITCODE" }
         $restored = Get-Content -LiteralPath (Join-Path $brokerOutput 'auto_restore_result.private.json') -Raw | ConvertFrom-Json
-        if ($restored.status -ne 'USBSTOR_PMHOME_AND_PACKAGE_REMOVAL_VERIFIED') { throw 'Restoration postcondition failed.' }
+        if ($restored.status -notin @('USBSTOR_STORAGE_AND_PACKAGE_REMOVAL_VERIFIED','USBSTOR_PMHOME_AND_PACKAGE_REMOVAL_VERIFIED')) { throw 'Restoration postcondition failed.' }
         $brokerResult.restoration=$restored
         $brokerResult.status='USBSTOR_RESTORED'
     }

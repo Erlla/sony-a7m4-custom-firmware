@@ -24,7 +24,8 @@
 在本目录使用另行取得的可信便携包：
 
 ```powershell
-py -3 prepare_assets.py --from-package D:\M4-portable.zip --output D:\M4-runtime
+py -3 prepare_assets.py --download --cache D:\M4-downloads --output D:\M4-runtime
+# 已有可信 ZIP 时可改用 --from-package D:\M4-portable.zip，完全离线导出。
 py -3 build.py --assets D:\M4-runtime --output D:\M4-build
 D:\M4-build\M4相机工具.exe --verify
 ```
@@ -32,6 +33,10 @@ D:\M4-build\M4相机工具.exe --verify
 包含全部锁定文件的便携 ZIP 也可直接传给 `build.py --assets`。输入 app、state 和固件均忽略，app 始终来自当前源码；输出必须是新目录。来源和许可见 [THIRD_PARTY.md](THIRD_PARTY.md) 与 [assets-sources.json](assets-sources.json)。精确导出不是从每个上游归档下载重建的完整配方。
 
 原生入口在 Python、CLR 和管理员授权前核对文件与导入目录；正常运行使用受保护的 ProgramData 副本，状态与缓存留在解压目录。只读句柄约束运行中的内容替换。`--verify` 只校验本地文件，不提权或建立设备会话。可信来源的启动 EXE 仍是信任起点；未提供 Authenticode 签名，完整性检查不能代替安全软件判定。
+
+下载器只获取锁定摘要的 USB ZIP，支持断点续传、有限重试和缓存复用；不下载 DAT 或其他路线的组件，不执行远程脚本，不修改代理或 TLS 验证。导出和构建先在独立临时目录完成，失败不留下已发布的半成品，可以使用同一输出路径重试；已存在的安装目录和状态不会被覆盖。两个资产入口共同拒绝 ZIP 重复项、Windows 名称别名、符号链接和目录联接。
+
+**版本区别：** 作者已发布的 ZIP 标记为 `1.00`，本源码为 `1.0.0`。ZIP 中 3257 个运行资产与原锁匹配，可用于重建本源码，其 app 不会被复制。不要把 `1.00` 成品直接当作当前源码的包级验收输入，也不要修改清单或哈希使其通过。运行版本集中于 `app/product_version.py`，构建要求其与依赖元数据一致，并在发布输出前确认 Python 与原生 `--verify` 的版本和完整性。发布前流程见 [RELEASING.md](RELEASING.md)。
 
 ## 开发验证
 
