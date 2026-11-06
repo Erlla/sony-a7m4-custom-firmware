@@ -16,7 +16,7 @@ Provides installation without Fastboot, Fastboot maintenance tools and source fo
 
 ## 1. Install firmware without Fastboot
 
-Use a normal USB data cable and **M4 Camera Tool 1.0.0** to prepare the updater, then install firmware from the camera SD card. The camera must boot normally and enter USB mass-storage mode.
+Use a normal USB data cable and **M4 Camera Tool** to prepare the updater, then install firmware from the camera SD card. The camera must boot normally and enter USB mass-storage mode.
 
 1. Place a compatible `BODYDATA.DAT` in the **root of the card in slot 1**.
 2. Connect the camera to the computer with a normal USB cable and select **写入补丁** in M4 Camera Tool.

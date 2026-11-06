@@ -2,9 +2,9 @@
 
 [English](README.en.md) · [用户指南](../TOOL-1.0.0.md) · [安装方法](../README.md) · [修改原理](../IMPLEMENTATION.md)
 
-通过普通 USB 为 Sony ILCE-7M4 准备更新环境，再由用户在相机菜单中安装 SD 卡上的固件。当前版本已获用户测试通过反馈。本次同步源码，**暂不发布 Release 分发包**。
+通过普通 USB 为 Sony ILCE-7M4 准备更新环境，再由用户在相机菜单中安装 SD 卡上的固件。当前版本已获用户测试通过反馈。本目录提供源码；直接使用请从 [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) 下载便携包。
 
-软件提供“写入补丁”和独立的“恢复普通 USB”。用户自行放置安装包，软件不读取、检查、复制或绑定 DAT。完整固件暂不提供，待功能全部更新完毕后再提供。
+软件提供“写入补丁”和独立的“恢复普通 USB”。用户自行放置安装包，软件不读取、检查、复制或绑定 DAT。固件 `BODYDATA.DAT` 从 Release 单独下载。
 
 ## 当前行为
 

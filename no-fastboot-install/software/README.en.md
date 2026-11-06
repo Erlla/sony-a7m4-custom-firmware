@@ -2,9 +2,9 @@
 
 [中文](README.md) · [User guide](../TOOL-1.0.0.md) · [Installation](../README.en.md) · [Implementation](../IMPLEMENTATION.md)
 
-Prepare the Sony ILCE-7M4 update environment over ordinary USB, then let its owner install firmware from the SD card using the camera menu. The current build has received a successful user-test report. This update publishes source only; **no binary Release is published yet**.
+Prepare the Sony ILCE-7M4 update environment over ordinary USB, then let its owner install firmware from the SD card using the camera menu. The current build has received a successful user-test report. This directory provides source; download the portable package from [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) for direct use.
 
-The UI provides patch preparation and standalone ordinary-USB recovery. Users place the package on the card themselves. The tool does not read, validate, copy or bind DAT files. Complete firmware will be provided after all feature updates are finished.
+The UI provides patch preparation and standalone ordinary-USB recovery. Users place the package on the card themselves. The tool does not read, validate, copy or bind DAT files. Download the firmware's `BODYDATA.DAT` separately from the Release.
 
 ## Behavior
 

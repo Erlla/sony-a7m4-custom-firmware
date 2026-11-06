@@ -1,6 +1,6 @@
 # Install firmware without Fastboot
 
-[中文](README.md) · [Patch locations](IMPLEMENTATION.md) · [M4 Camera Tool 1.0.0](TOOL-1.0.0.md)
+[中文](README.md) · [Patch locations](IMPLEMENTATION.md) · [M4 Camera Tool guide](TOOL-1.0.0.md)
 
 A normal USB data cable prepares the Sony ILCE-7M4 updater; the camera then installs `BODYDATA.DAT` from its SD card. This route needs no Multi-port flashing cable, boot bridge or Fastboot session. The camera must boot normally and support USB mass-storage mode. It is not a recovery route for an unbootable camera.
 
@@ -12,7 +12,7 @@ The tool writes the p1 updater partition. Preserve your own backups, use an orig
 
 ### 1. Put the firmware on the card
 
-Extract the firmware package from the Release and place `BODYDATA.DAT` in the **root of the card in slot 1**, outside any subfolder. Download the tool and firmware separately; the tool does not read, validate or copy the card's installation package.
+Download `BODYDATA.DAT` from the Release and copy it directly to the **root of the card in slot 1**, outside any subfolder. The DAT does not need extraction. Download and extract the tool separately; it does not read, validate or copy the card's installation package.
 
 ### 2. Open the tool and write the patch
 
@@ -40,7 +40,7 @@ The menu window lasts approximately **ten minutes**; start within the remaining 
 
 ### 4. Reconnect USB after installation
 
-After installation and a normal boot, check the version, shooting, saving and playback. Reconnect the camera to the computer and click **更新已结束** (Update finished) on the screen in Figure 2.
+After installation and a normal boot, check the version, shooting, saving and playback. Reconnect the camera to the computer and click **更新已结束** (Update finished) on the screen in Figure 2. In the dialog, confirm that the update has ended and the camera has returned to shooting.
 
 The tool shows **本轮操作已结束** (This operation has ended), as in Figure 4. To restore the camera's storage connection to the computer, click **恢复普通 USB** (Restore normal USB) and follow the instructions.
 
@@ -50,7 +50,7 @@ If **恢复任务仍在处理** (Recovery is still being processed) appears as i
 
 ![Figure 5: USB recovery pending; reconnect USB and select Restore normal USB again as instructed](images/usb-reconnect.png)
 
-The operation-ended screen and normal USB recovery are separate states; follow the subsequent status messages to confirm the connection is restored. Restore normal USB only handles the computer connection; it does not restore official firmware.
+Update finished only records your confirmation. It requires no USB connection and does not automatically verify firmware installation. Reconnecting USB is for the subsequent storage-connection recovery; follow the status messages to confirm it has finished. Restore normal USB does not restore official firmware.
 
 ## Return to official firmware
 
