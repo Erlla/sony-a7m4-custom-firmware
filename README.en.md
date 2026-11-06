@@ -5,6 +5,8 @@
 > Writing or modifying firmware can permanently brick the camera, prevent booting or destroy calibration and settings. Incorrect wiring can damage the camera and computer. You assume the risks of these operations.
 >
 > **Back up your own camera before any write. Use an original Sony battery for firmware updates.** Maintain stable power and connections throughout writes. Never restore another camera's backup onto your body.
+>
+> **We strongly recommend having working Fastboot tools, a Multi-port flashing cable and an RP2040-Zero boot bridge ready before updating firmware**, so maintenance and recovery are available if something goes wrong. Seek **AI assistance** when needed to investigate unclear errors or recovery issues, using the project documentation, error messages and logs.
 
 English · [中文](README.md)
 
@@ -22,7 +24,7 @@ Use a normal USB data cable and **M4 Camera Tool 1.0.0** to prepare the updater,
 
 **[Installation guide](no-fastboot-install/README.en.md)** · [Software guide](no-fastboot-install/TOOL-1.0.0.md) · [Source and build](no-fastboot-install/software/README.en.md) · [Principle and patch locations](no-fastboot-install/IMPLEMENTATION.md)
 
-**Complete firmware packages are not available yet. They will be provided after all feature updates are complete.** The tool neither supplies nor validates the package; follow the installation guide to check files and prerequisites.
+Download firmware packages, M4 Camera Tool and the Fastboot toolkit from [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases). The camera tool does not validate the firmware package on the card; follow the installation guide to check files and prerequisites.
 
 ## 2. Fastboot modification methods
 

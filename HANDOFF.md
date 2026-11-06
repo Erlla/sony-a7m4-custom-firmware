@@ -34,6 +34,7 @@
 
 ## README layout
 
+- Both root READMEs strongly recommend having working Fastboot tools and the required cable/bridge ready before firmware updates, and seeking AI assistance when needed with documentation, errors and logs. Download links now point to Releases; do not restore the obsolete notice that complete firmware is not yet provided.
 - Keep the opening flashing warning, then no-Fastboot installation, then a concise Fastboot method table and navigation, followed by declarations and acknowledgements. Keep detailed reports linked rather than reproducing test conclusions on the homepage.
 - Credit Hearts-Ace/sony-a7r5-custom-firmware for native colour parameters, grid lifecycle research and R5ColorLab LUT fitting. The user explicitly excluded menu attribution; retain the custom LUT method entry.
 - State the supported camera and official firmware prominently near the top: Sony ILCE-7M4 (A7 IV / A7M4), official V6.02. This is the supported stock baseline, not an internal development version.

@@ -5,6 +5,8 @@
 > 刷写或修改固件可能导致永久变砖、无法开机、校准或配置丢失；接线错误可能损坏相机与电脑。请自行承担操作风险。
 >
 > **任何写入前先备份自己的相机；固件更新必须使用索尼原厂电池。** 写入期间保持稳定供电与连接，不拔线、不关机，不使用其他机身的备份恢复本机。
+>
+> **强烈建议在备妥可用的 Fastboot 工具、Multi 接口刷机线及 RP2040-Zero 启动桥后，再进行固件更新**，以便异常时进行维护与恢复。遇到不明确的报错或恢复问题时，必要时寻求 **AI 协助**，结合本项目文档、报错信息和日志分析处理。
 
 [English](README.en.md) · 中文
 
@@ -22,7 +24,7 @@
 
 **[安装指南](no-fastboot-install/README.md)** · [软件说明](no-fastboot-install/TOOL-1.0.0.md) · [软件源码与构建](no-fastboot-install/software/README.md) · [原理与修改位置](no-fastboot-install/IMPLEMENTATION.md)
 
-**当前暂不提供完整固件，待全部功能更新完毕后再提供。** 软件不附带或校验固件包，请按安装指南核对文件与操作条件。
+固件安装包、M4 相机工具及 Fastboot 工具包请前往 [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) 下载。相机工具不校验卡上的固件包，请按安装指南核对文件与操作条件。
 
 ## 二、Fastboot 修改方法
 
