@@ -10,7 +10,7 @@ from tkinter import messagebox, ttk
 import backend_bridge as bridge
 import install_view
 BG, WHITE, INK, MUTED, GREEN = ('#f3f5f1', '#ffffff', '#203b2d', '#627367', '#28654f')
-NEW = {'MENU_CONNECTION_STOPPED', 'NO_FLOW', 'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
+NEW = {'CONNECTION_STOPPED', 'MENU_CONNECTION_STOPPED', 'NO_FLOW', 'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
 RECOVERY = {'PATCH_RECOVERY', 'POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL', 'PATCH_REJECTED_RECOVERY'}
 HANDOFF = {'AWAITING_MENU_OBSERVATION', 'WAITING_FOR_USER_INSTALL_RESULT'}
 ALLOWED = {'simple-start', 'simple-continue', 'simple-installed', 'simple-failure', 'simple-recover-usb'}
@@ -21,6 +21,9 @@ def presentation(state):
     phase = state['phase']
     if phase == 'WINDOWS_RESTART_REQUIRED' or (phase == 'PATCH_RECOVERY' and state.get('recovery') == 'WINDOWS_RESTART_REQUIRED'):
         return ('请重启电脑', 'Windows 驱动变更需要重启电脑才能生效。\n请保存工作、重启电脑，再打开工具。', '重启电脑后再打开', None)
+    if phase == 'CONNECTION_STOPPED':
+        return ('补丁未写入', (state.get('error') or '连接准备已停止。') + '\n' +
+                (state.get('message') or '点击“恢复普通 USB”恢复连接。'), '重新检查并写入补丁', 'simple-start')
     if phase == 'MENU_CONNECTION_RECOVERY':
         return ('请恢复普通 USB', state.get('message') or 'p1 检查已完成，菜单尚未启动。重新插拔 USB 后确认普通连接。', '确认普通 USB', 'simple-recover-usb')
     if phase == 'MENU_CONNECTION_STOPPED':
@@ -147,7 +150,7 @@ class App:
     def refresh(self):
         self.state = self.flow_reader()
         display = dict(phase='WINDOWS_RESTART_REQUIRED') if self.windows_restart else self.state
-        if self.state['phase'] == 'COMPLETE' and self.previous_phase != 'COMPLETE':
+        if self.state['phase'] in ('COMPLETE', 'CONNECTION_STOPPED') and self.previous_phase != self.state['phase']:
             self.ready.set(False)
         self.previous_phase = self.state['phase']
         title, detail, label, self.action = presentation(display)

@@ -34,6 +34,6 @@
 
 ## 分发状态
 
-当前 [Release](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) 便携包的界面显示 **1.00**；仓库源码使用 **1.0.0** 版本标识。直接使用时下载 Release 便携包；[软件源码与构建说明](software/README.md) 供审查或自行构建，第三方运行组件另行准备。
+当前 [Release](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) 便携包的界面显示 **1.00**；仓库源码使用 **1.0.1** 版本标识。直接使用时下载 Release 便携包；[软件源码与构建说明](software/README.md) 供审查或自行构建，第三方运行组件另行准备。
 
 纯本地菜单准备失败时，完整补丁与回读证据仍保留，界面提供“继续准备更新菜单”；已经形成菜单计划或开始执行时不自动重发。重新开始补丁与继续菜单是不同操作。

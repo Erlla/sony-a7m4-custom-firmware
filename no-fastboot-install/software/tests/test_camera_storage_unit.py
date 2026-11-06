@@ -18,7 +18,7 @@ class CameraStorageTests(unittest.TestCase):
                               timeout=30,creationflags=subprocess.CREATE_NO_WINDOW)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         report=json.loads(result.stdout)
-        self.assertTrue(report['passed']);self.assertEqual(report['cases'],10)
+        self.assertTrue(report['passed']);self.assertEqual(report['cases'],11)
         self.assertEqual(report['device_operations'],0)
 
 

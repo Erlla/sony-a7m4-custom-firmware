@@ -21,6 +21,27 @@ function Publish-Json([string]$path,$value) {
  [IO.File]::WriteAllText($temporary,($value|ConvertTo-Json -Depth 12)+"`n",(New-Object Text.UTF8Encoding($false)))
  if(Test-Path -LiteralPath $path){[IO.File]::Replace($temporary,$path,[NullString]::Value)}else{[IO.File]::Move($temporary,$path)}
 }
+function Test-StageBindRestartRequired($Stage,[datetime]$Boot) {
+ return ($Stage.mode -eq 'StageBind' -and $Stage.status -eq 'WINUSB_BOUND' -and
+  $Stage.reboot_required -eq $true -and $Boot.ToUniversalTime() -le [DateTimeOffset]::Parse($Stage.finished_utc).UtcDateTime)
+}
+$stageIndex=Join-Path $base 'latest_StageBind.json'
+if(Test-Path -LiteralPath $stageIndex){
+ $stage=Get-Content -LiteralPath $stageIndex -Raw | ConvertFrom-Json
+ if(Test-StageBindRestartRequired $stage $boot){
+  if($stage.run_id -notmatch '^[0-9a-f]{32}$'){throw 'Invalid StageBind restart record.'}
+  $stageOriginal=Join-Path (Join-Path (Join-Path $base 'state') $stage.run_id) 'task_result.json'
+  $stageConfig=Get-Content -LiteralPath (Join-Path $base 'deployment.private.json') -Raw | ConvertFrom-Json
+  if((Get-FileHash -LiteralPath $stageIndex -Algorithm SHA256).Hash -ne (Get-FileHash -LiteralPath $stageOriginal -Algorithm SHA256).Hash -or
+   $stageConfig.user_sid -ne $sid -or $stage.elevated -ne $true -or
+   $stage.before.instance -ne $stage.after.instance -or
+   (Hash-Body $stage.after.instance) -ne $stageConfig.camera_instance_sha256.ToLowerInvariant()){
+   throw 'StageBind restart does not match its protected task and body.'
+  }
+  Reply 'WINDOWS_RESTART_REQUIRED' @{source_run=$stage.run_id;driver_mode='StageBind';finished_utc=$stage.finished_utc}
+  exit 0
+ }
+}
 $index=Join-Path $base 'latest_Restore.json'
 if(-not(Test-Path -LiteralPath $index)){Reply 'CLEAR';exit 0}
 $prior=Get-Content -LiteralPath $index -Raw | ConvertFrom-Json

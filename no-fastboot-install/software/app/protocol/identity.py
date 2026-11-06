@@ -6,6 +6,8 @@ import importlib.util
 import json
 import sys
 import time
+from connection_stop import UnsupportedFirmwareError
+from state_io import atomic_json
 HERE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[2]
 BACKEND = ROOT / 'app/usb'
@@ -56,5 +58,7 @@ def libraries(session, output):
         (output / Path(path).name).write_bytes(data)
         result[path] = {'bytes': len(data), 'sha256': digest, 'matches': digest == expected}
         if digest != expected:
-            raise RuntimeError(f'Current library differs from offline binding: {path}')
+            detail = dict(path=path, expected_sha256=expected, actual_sha256=digest, bytes=len(data))
+            atomic_json(output / 'library_compatibility.json', dict(passed=False, **detail))
+            raise UnsupportedFirmwareError(detail)
     return result

@@ -120,6 +120,12 @@ def recover_write_race(value):
     return flow.save(value, 'PATCH_READY', patch_run=record['run'], updater_lineage=lineage, menu_profile='content_' + lineage, usb_recovery='VERIFIED', recovery_folder=str(folder), error=None)
 
 def recover(value, confirmed=False):
+    if value['phase'] in ('REVIEW_REQUIRED', 'CONNECTION_STOPPED') or (
+            value['phase'] == 'WINDOWS_RESTART_REQUIRED' and value.get('prewrite_stop')):
+        from prewrite_recovery import recover as prewrite_recover
+        recovered = prewrite_recover(value)
+        if recovered is not None:
+            return recovered
     if value['phase'] in ('REVIEW_REQUIRED', 'MENU_CONNECTION_RECOVERY', 'WINDOWS_RESTART_REQUIRED'):
         from menu_connection_recovery import recover as menu_recover
         recovered = menu_recover(value)

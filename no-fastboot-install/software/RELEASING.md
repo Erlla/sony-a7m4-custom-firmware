@@ -21,7 +21,7 @@ and HTTP status/reasons in the cache's `.download.json`. Incorrect range or hash
 responses are refused. No certificate-verification or system-proxy exceptions
 are used.
 
-The published author ZIP has a `1.00` app, while this source uses `1.0.0`. Its
+The published author ZIP has a `1.00` app, while this source uses `1.0.1`. Its
 app is not a test package for this checkout. Export its locked assets and rebuild
 as above. Do not edit its manifest, accept a version alias or change any locked
 hash to pass the tests. `app/product_version.py` supplies the version used by
@@ -60,7 +60,7 @@ uploaded by the maintainer; a source PR does not change the already hosted ZIP.
 
 以上命令只进行电脑端准备、编译及离线验收。先下载／复用可信 USB ZIP，
 核对原摘要并精确导出资产，再由当前源码构建新的候选目录。现有 `1.00`
-发布包只作为资产来源，不能通过改版本字符串或清单来冒充 `1.0.0` 候选。
+发布包只作为资产来源，不能通过改版本字符串或清单来冒充 `1.0.1` 候选。
 
 源码共用一个运行版本，构建前核对依赖元数据，构建后核对 Python 和原生校验。
 失败的导出／构建不留下发布半成品，也不会覆盖旧安装或未完成任务。源码回归、

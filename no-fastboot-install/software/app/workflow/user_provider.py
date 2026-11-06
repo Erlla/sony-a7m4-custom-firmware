@@ -218,6 +218,10 @@ class Provider(old.Provider):
         if not reuse:
             code, result = self.host('Broker', folder, 'StageBind')
             require(code == 0 and result['status'] == 'WINUSB_BOUND', '驱动切换未确认：' + str(result.get('error') or result.get('status')))
+            if result.get('reboot_required') is True:
+                atomic(folder / 'stage_bind_restart.json', result)
+                from driver_restart import WindowsRestartRequired
+                raise WindowsRestartRequired(result)
             snapshot, state = self.snapshot(folder, connection_only=True)
             row = self.same_body(state)
             require(self.communication_driver(row) == 'winusb' and

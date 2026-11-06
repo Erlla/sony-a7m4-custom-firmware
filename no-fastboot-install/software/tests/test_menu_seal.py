@@ -161,6 +161,24 @@ def main():
             result = attempt.restore(runtime.Provider(), attempt.private / 'start', result)
             assert result['phase'] == phase and activity == ['bind', 'restore']
         checks.append('descriptor_failure_keeps_driver_until_explicit_restore')
+        from driver_restart import WindowsRestartRequired
+        for stage in ('preflight', 'bind'):
+            activity = []
+            class StageRestartProvider(DescriptorFailureProvider):
+                def preflight(self, folder):
+                    if stage == 'preflight':
+                        activity.append(stage); raise WindowsRestartRequired()
+                def bind(self, folder):
+                    activity.append(stage); raise WindowsRestartRequired()
+                restore = session = forbidden
+            runtime.Provider = StageRestartProvider
+            attempt = controller.Trial(private / ('stage_restart_' + stage), services=runtime)
+            attempt.seal(job, reader, patch_only=True)
+            result = attempt.execute(stable_power=True, patch_only=True)
+            assert result['phase'] == 'WINDOWS_RESTART_REQUIRED' and result['stopped_before_session']
+            assert result['safe_to_restore'] and not result['preread_started'] and not result['window_started']
+            assert not result['firmware_written'] and activity == [stage]
+        checks.append('stagebind_restart_stops_menu_before_session_and_preread')
         activity = []
         class SessionDescriptorFailure(DescriptorFailureProvider):
             bind = lambda self, folder: None

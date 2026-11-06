@@ -101,4 +101,13 @@ $script:accessible['I:\']=$false
 . ([scriptblock]::Create($assignment[0].Extent.Text))
 if(-not (& ([scriptblock]::Create($condition[0].Clauses[0].Item1.Extent.Text)))){throw 'Restart accepted unreadable card'}
 $checks.Add('post_restart_accepts_camera_storage_without_label_and_rejects_unreadable_root')
+$stagePredicate=@($restartAst.FindAll({param($n)$n -is [Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq 'Test-StageBindRestartRequired'},$true))
+if($stagePredicate.Count -ne 1){throw 'StageBind restart predicate missing'}
+. ([scriptblock]::Create($stagePredicate[0].Extent.Text))
+$stage=@{mode='StageBind';status='WINUSB_BOUND';reboot_required=$true;finished_utc='2026-01-02T12:00:00Z'}
+if(-not (Test-StageBindRestartRequired $stage ([datetime]'2026-01-02T10:00:00Z'))){throw 'Pending StageBind restart ignored'}
+if(Test-StageBindRestartRequired $stage ([datetime]'2026-01-02T13:00:00Z')){throw 'Completed Windows restart ignored'}
+$stage.reboot_required=$false
+if(Test-StageBindRestartRequired $stage ([datetime]'2026-01-02T10:00:00Z')){throw 'Unneeded restart requested'}
+$checks.Add('stagebind_restart_wait_survives_reopen_and_clears_after_windows_boot')
 @{passed=$true;cases=$checks.Count;tests=@($checks);device_operations=0;driver_tasks_dispatched=0} | ConvertTo-Json -Compress

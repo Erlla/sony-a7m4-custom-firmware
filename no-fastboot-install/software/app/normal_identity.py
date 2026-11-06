@@ -1,13 +1,15 @@
 """Read normal-mode identity after driver binding; retry descriptor reads only."""
 import hashlib
 import time
+from connection_stop import ConnectionStop
 
 
-class DescriptorReadError(RuntimeError):
+class DescriptorReadError(ConnectionStop):
     """No authentication or camera command was sent by this identity check."""
     def __init__(self, report):
         self.report = report
-        super().__init__('USB 描述符暂时无法读取；更新菜单尚未准备，请按提示恢复普通 USB 后重试。')
+        super().__init__('USB 描述符暂时无法读取；更新菜单尚未准备，请按提示恢复普通 USB 后重试。',
+                         'USB_IDENTITY_UNAVAILABLE', report)
 
 
 class _NotReady(Exception):

@@ -27,6 +27,7 @@ SOURCE_CASES = (
     ('asset-export', 'test_asset_export.py'),
     ('camera-storage', 'test_camera_storage_unit.py'),
     ('normal-identity', 'test_normal_identity_unit.py'),
+    ('connection-stop', 'test_connection_stop_unit.py'),
     ('operation-session', 'test_operation_session_unit.py'),
     ('state-io', 'test_state_io_unit.py'),
     ('runner', 'test_offline_runner.py'),
@@ -34,6 +35,7 @@ SOURCE_CASES = (
 PACKAGE_CASES = (
     ('native-verify', None, ()),
     ('usb-recovery', 'test_usb_recovery.py', ()),
+    ('connection-recovery', 'test_connection_recovery.py', ()),
     ('driver-setup', 'run_clean_setup.py', ()),
     ('local-failure', 'test_local_failure.py', ()),
     ('state-io', 'test_state_io.py', ()),

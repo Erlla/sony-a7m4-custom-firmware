@@ -4,6 +4,8 @@ from types import SimpleNamespace
 import hashlib
 import importlib.util
 import unittest
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'app'))
 
 spec = importlib.util.spec_from_file_location(
     'source_normal_identity', Path(__file__).resolve().parents[1] / 'app/normal_identity.py')

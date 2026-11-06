@@ -1,8 +1,8 @@
-# M4 Camera Tool 1.0.0 source
+# M4 Camera Tool 1.0.1 source
 
 [中文](README.md) · [User guide](../TOOL-1.0.0.md) · [Installation](../README.en.md) · [Implementation](../IMPLEMENTATION.md)
 
-Prepare the Sony ILCE-7M4 update environment over ordinary USB, then let its owner install firmware from the SD card using the camera menu. The current build has received a successful user-test report. This directory provides source; download the portable package from [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) for direct use.
+Prepare the Sony ILCE-7M4 update environment over ordinary USB, then let its owner install firmware from the SD card using the camera menu. An earlier build of the installation flow received a successful user-test report. This directory provides source; download the portable package from [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) for direct use.
 
 The UI provides patch preparation and standalone ordinary-USB recovery. Users place the package on the card themselves. The tool does not read, validate, copy or bind DAT files. Download the firmware's `BODYDATA.DAT` separately from the Release.
 
@@ -14,6 +14,8 @@ The UI provides patch preparation and standalone ordinary-USB recovery. Users pl
 - Patch and menu stages reuse the driver. Full p1 backup, content matching, one write and independent complete readback remain; unknown layouts stop. Displayed firmware labels are not a whitelist.
 - Operation completion is separate from storage recovery. Each launch opens a fresh UI session, preserving backups and logs. Unknown tasks are not automatically dispatched again.
 - Normal operations use integrity checks without ARM64 simulation or fault injection.
+- A library that differs from the supported 6.02 baseline stops with `当前相机固件非6.02版本`, preserving its actual digest without patching. Compatibility is determined by library content, not the displayed firmware label.
+- If StageBind requires a Windows restart, stop before USB authentication or p1 reading. Reopening the app or reconnecting the camera does not clear that requirement. Failures proven to precede reader start can use driver-only recovery without nonexistent writer material.
 
 ## Build on Windows x64
 
@@ -36,7 +38,7 @@ The native launcher verifies files and imports before Python, CLR or elevation. 
 
 Downloads fetch only the hash-pinned USB ZIP, with validated range resumption, bounded retries and cache reuse. They do not fetch DAT or alternate installation tools, run remote scripts, change proxies or disable TLS checks. Export/build validate a temporary sibling before publishing it, leave failed outputs unpublished and never replace an existing installation. Both asset entry points reject duplicate/Windows-aliased ZIP paths and linked files/directories.
 
-**Version distinction:** the author's published ZIP reports `1.00`; this checkout reports `1.0.0`. Its 3257 runtime files match the original locks and can rebuild this checkout without copying its app. Do not pass that app as a source-aligned package or edit manifests/hashes to make it pass. Runtime consumers share `app/product_version.py`; the builder requires agreement with dependency metadata and checks Python/native version and integrity before publishing output. See [RELEASING.md](RELEASING.md).
+**Version distinction:** the author's published ZIP reports `1.00`; this checkout reports `1.0.1`. Its 3257 runtime files match the original locks and can rebuild this checkout without copying its app. Do not pass that app as a source-aligned package or edit manifests/hashes to make it pass. Runtime consumers share `app/product_version.py`; the builder requires agreement with dependency metadata and checks Python/native version and integrity before publishing output. See [RELEASING.md](RELEASING.md).
 
 ## Development checks
 

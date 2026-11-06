@@ -11,6 +11,7 @@ from pathlib import Path
 import re
 import sys
 import uuid
+from connection_stop import ConnectionStop
 CASE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(CASE))
@@ -22,8 +23,8 @@ CHUNKS = 766
 _LOADED_SHA = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 FULL_READ_VERIFIER = ROOT / 'app/reader_verify/full_read.py'
 FULL_READ_VERIFIER_SHA = pinned('app/reader_verify/full_read.py')
-PHASES = {'P1_COMPLETE', 'WINDOWS_RESTART_REQUIRED', 'PREPARING', 'PREFLIGHT', 'BINDING', 'BOUND', 'READ_STARTING', 'READ_VERIFIED', 'SESSION_ENDED', 'RECOVERY_DISPATCHING', 'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART', 'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE', 'REVIEW_REQUIRED', 'PATCH_PREPARING', 'WRITE_STARTING', 'WRITE_VERIFIED', 'READBACK_STARTING'}
-TERMINAL = {'P1_COMPLETE', 'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE'}
+PHASES = {'CONNECTION_STOPPED', 'P1_COMPLETE', 'WINDOWS_RESTART_REQUIRED', 'PREPARING', 'PREFLIGHT', 'BINDING', 'BOUND', 'READ_STARTING', 'READ_VERIFIED', 'SESSION_ENDED', 'RECOVERY_DISPATCHING', 'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART', 'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE', 'REVIEW_REQUIRED', 'PATCH_PREPARING', 'WRITE_STARTING', 'WRITE_VERIFIED', 'READBACK_STARTING'}
+TERMINAL = {'CONNECTION_STOPPED', 'P1_COMPLETE', 'COMPLETE', 'STOPPED_BEFORE_DRIVER_CHANGE'}
 RECOVERABLE = {'WINDOWS_RESTART_REQUIRED', 'WAITING_FOR_NORMAL', 'WAITING_FOR_RESTART'}
 
 def require(value, message):
@@ -119,6 +120,10 @@ class Engine:
     def state(self):
         return self.journal.load()
 
+    def connection_stopped(self, error):
+        self.journal.update('CONNECTION_STOPPED', outcome=error.reason, error=str(error),
+                            connection_stop=error.detail, session_ended=True)
+
     def finish_recovery(self, result):
         require(result in ('VERIFIED', 'NORMAL_CONNECTION_PENDING', 'RESTART_REQUIRED', 'WINDOWS_RESTART_REQUIRED'), 'Unknown recovery outcome')
         if result == 'WINDOWS_RESTART_REQUIRED':
@@ -165,6 +170,9 @@ class Engine:
             after_job = self.backend.prepare_reader(folder, role='after') if action != 'read' else None
             self.journal.update('PREFLIGHT', reader=job, after_reader=after_job)
             self.backend.preflight(folder)
+        except ConnectionStop as error:
+            self.connection_stopped(error)
+            raise
         except BaseException as error:
             self.journal.update('STOPPED_BEFORE_DRIVER_CHANGE', outcome='LOCAL_OR_PREFLIGHT_FAILED', error=str(error))
             raise
@@ -172,6 +180,9 @@ class Engine:
         try:
             self.backend.bind(folder)
             self.journal.update('BOUND')
+        except ConnectionStop as error:
+            self.connection_stopped(error)
+            raise
         except BaseException as error:
             self.journal.update('REVIEW_REQUIRED', outcome='DRIVER_BIND_OUTCOME_UNKNOWN', error=str(error))
             raise
@@ -207,6 +218,12 @@ class Engine:
                     self.backend.hold_session(session)
                     raise
             self.journal.update('SESSION_ENDED', session_ended=True)
+        except ConnectionStop as error:
+            if self.journal.value['phase'] == 'BOUND':
+                self.connection_stopped(error)
+            else:
+                self.journal.update('REVIEW_REQUIRED', outcome='READ_OR_SESSION_OUTCOME_REQUIRES_REVIEW', error=str(error))
+            raise
         except BaseException as error:
             self.journal.update('REVIEW_REQUIRED', outcome='READ_OR_SESSION_OUTCOME_REQUIRES_REVIEW', error=str(error))
             raise

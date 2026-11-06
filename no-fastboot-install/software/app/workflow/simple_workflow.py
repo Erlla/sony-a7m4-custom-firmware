@@ -24,6 +24,14 @@ def patch_receiver(value):
         result = backend.frozen.Engine(worker, backend.STATE).read('apply')
         return state.sync_patch(value, result)
     except BaseException as error:
+        try:
+            stopped_record = backend.frozen.Journal(backend.STATE).load()
+        except (OSError, ValueError):
+            stopped_record = None
+        if stopped_record and stopped_record['run'] != prior_run and stopped_record['phase'] == 'CONNECTION_STOPPED':
+            state.save(value, 'WINDOWS_RESTART_REQUIRED' if stopped_record['outcome'] == 'WINDOWS_RESTART_REQUIRED' else 'CONNECTION_STOPPED',
+                       prewrite_stop=True, patch_run=stopped_record['run'], error=str(error), firmware_written=False)
+            raise
         stopped = safe_predriver_stop(prior_run)
         if not stopped:
             from rejected_read import pending

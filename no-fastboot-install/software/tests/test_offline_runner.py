@@ -69,7 +69,7 @@ class PackagePreflightTests(unittest.TestCase):
         (self.package/'app/release.json').write_text(json.dumps(self.manifest, ensure_ascii=False), 'utf-8')
 
     def test_current_manifest_with_root_documents_passes_real_preflight(self):
-        self.assertEqual(self.manifest['version'], '1.0.0')
+        self.assertEqual(self.manifest['version'], self.dependencies['version'])
         self.assertEqual(runner.package_preflight(self.package)['status'], 'PASS')
 
     def test_version_comes_from_checkout_dependency_metadata(self):

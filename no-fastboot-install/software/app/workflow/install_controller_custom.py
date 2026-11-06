@@ -320,15 +320,17 @@ class Trial:
             self.save(status, 'BINDING')
             provider.bind(folder)
         except BaseException as error:
-            from normal_identity import DescriptorReadError
+            from connection_stop import ConnectionStop
             from user_provider import CommunicationNotReady
             if isinstance(error, CommunicationNotReady):
                 self.save(status, 'USB_COMMUNICATION_PENDING', error=str(error),
                           safe_to_restore=True, stopped_before_session=True)
                 return self.finish_without_storage_restore(status)
-            if isinstance(error, DescriptorReadError):
-                self.save(status, 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.report,
+            if isinstance(error, ConnectionStop):
+                self.save(status, 'WINDOWS_RESTART_REQUIRED' if error.reason == 'WINDOWS_RESTART_REQUIRED' else 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.detail,
                           safe_to_restore=True, stopped_before_session=True)
+                if error.reason == 'WINDOWS_RESTART_REQUIRED':
+                    return status
                 return self.finish_without_storage_restore(status)
             self.save(status, 'BINDING_UNCONFIRMED', error=str(error))
             raise
@@ -369,9 +371,9 @@ class Trial:
                         status['safe_to_restore'] = True
                     raise
         except BaseException as error:
-            from normal_identity import DescriptorReadError
-            if isinstance(error, DescriptorReadError) and not status['preread_started'] and not status['window_started']:
-                self.save(status, 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.report,
+            from connection_stop import ConnectionStop
+            if isinstance(error, ConnectionStop) and not status['preread_started'] and not status['window_started']:
+                self.save(status, 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.detail,
                           safe_to_restore=True, stopped_before_session=True)
             self.save(status, 'REVIEW_REQUIRED', session_error=str(error))
             if status['safe_to_restore']:

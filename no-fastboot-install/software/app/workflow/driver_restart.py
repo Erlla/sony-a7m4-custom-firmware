@@ -3,12 +3,14 @@ from pathlib import Path
 import json
 import os
 import subprocess
+from connection_stop import ConnectionStop
 
-MESSAGE = 'Windows 驱动变更需要重启电脑才能生效。请保存工作并重启电脑，再打开工具；本步骤不需要再次写入补丁。'
+MESSAGE = 'Windows 驱动变更需要重启电脑才能生效。请保存工作并重启 Windows，然后重新打开工具。当前操作已停止。'
 
 
-class WindowsRestartRequired(RuntimeError):
-    pass
+class WindowsRestartRequired(ConnectionStop):
+    def __init__(self, detail=None):
+        super().__init__(MESSAGE, 'WINDOWS_RESTART_REQUIRED', detail)
 
 
 def check(*, confirm=False):
@@ -25,7 +27,7 @@ def check(*, confirm=False):
 
 def require_ready():
     result = check(confirm=True)
-    if result['phase'] == 'WINDOWS_RESTART_REQUIRED': raise WindowsRestartRequired(MESSAGE)
+    if result['phase'] == 'WINDOWS_RESTART_REQUIRED': raise WindowsRestartRequired(result)
     if result['phase'] == 'RESTARTED_CONNECTION_PENDING':
         raise RuntimeError('电脑已重启，请保持相机开机，重新插拔 USB 后先确认普通连接。')
     return result
