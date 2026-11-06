@@ -152,6 +152,14 @@ class DownloadTests(unittest.TestCase):
         record=json.loads((self.cache/'runtime.zip.download.json').read_text('utf-8'))
         self.assertEqual(record['attempts'][-1]['http_status'],503)
 
+    def test_api_rate_limit_uses_verified_public_archive_fallback(self):
+        api='https://api.github.com/repos/Erlla/sony-a7m4-custom-firmware/releases/assets/1'
+        self.metadata['input']['api_asset_url']=api;self.write_metadata()
+        error=assets.urllib.error.HTTPError(api,403,'rate limit fixture',{},None)
+        with patch.object(assets,'open_https',side_effect=[error,self.response(self.data)]) as request,patch.object(assets.time,'sleep'):
+            self.assertEqual(assets.download_package(self.cache).read_bytes(),self.data)
+        self.assertEqual([call.args[0].full_url for call in request.call_args_list],[api,self.url])
+
     def test_https_redirect_cannot_downgrade_transport(self):
         request=assets.urllib.request.Request(self.url)
         with self.assertRaisesRegex(ValueError,'Non-HTTPS'):

@@ -13,12 +13,12 @@ class CameraStorageTests(unittest.TestCase):
         script=Path(__file__).with_suffix('.ps1')
         shell=Path(os.environ['SystemRoot'])/'System32/WindowsPowerShell/v1.0/powershell.exe'
         environment=dict(os.environ);environment.pop('PSModulePath',None)
-        result=subprocess.run([str(shell),'-NoProfile','-NonInteractive','-File',str(script),'-Source',str(source)],
+        result=subprocess.run([str(shell),'-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',str(script),'-Source',str(source)],
                               capture_output=True,encoding='utf-8-sig',errors='replace',env=environment,
                               timeout=30,creationflags=subprocess.CREATE_NO_WINDOW)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         report=json.loads(result.stdout)
-        self.assertTrue(report['passed']);self.assertEqual(report['cases'],9)
+        self.assertTrue(report['passed']);self.assertEqual(report['cases'],10)
         self.assertEqual(report['device_operations'],0)
 
 

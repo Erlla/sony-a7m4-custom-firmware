@@ -83,4 +83,22 @@ if(Test-BrokerRecoveredFacts $facts){throw 'Missing camera storage accepted'}
 $facts.camera_storage_count=1;$facts.detail_error='unrelated failure'
 if(Test-BrokerRecoveredFacts $facts){throw 'Unrelated failure accepted'}
 $checks.Add('broker_preserves_identity_package_original_evidence_and_failure_guards')
+$restart=Join-Path (Split-Path -Parent (Split-Path -Parent $Source)) 'workflow\driver_restart.ps1'
+$restartAst=[Management.Automation.Language.Parser]::ParseFile($restart,[ref]$tokens,[ref]$errors)
+if($errors.Count){throw 'Restart helper parse failed'}
+$assignment=@($restartAst.FindAll({param($n)$n -is [Management.Automation.Language.AssignmentStatementAst] -and $n.Left.Extent.Text -eq '$storage'},$true))
+$condition=@($restartAst.FindAll({param($n)$n -is [Management.Automation.Language.IfStatementAst] -and $n.Clauses[0].Item1.Extent.Text -like '*$storage.Count -eq 0*'},$true))
+if($assignment.Count -ne 1 -or $condition.Count -ne 1){throw 'Restart storage check missing'}
+$instance=$camera;$camera=@([pscustomobject]@{Status='OK'})
+$driver='USBSTOR';$inf='usbstor.inf';$packageAbsent=$true;$script:ambiguous=$false
+$script:parents['USBSTOR\CAMERA\INERT']=$instance
+foreach($label in @('PMHOME','','MY-CARD')){
+ $script:volumes=@([pscustomobject]@{DriveLetter='I';FileSystemLabel=$label})
+ . ([scriptblock]::Create($assignment[0].Extent.Text))
+ if(& ([scriptblock]::Create($condition[0].Clauses[0].Item1.Extent.Text))){throw 'Restart refused readable same-body card'}
+}
+$script:accessible['I:\']=$false
+. ([scriptblock]::Create($assignment[0].Extent.Text))
+if(-not (& ([scriptblock]::Create($condition[0].Clauses[0].Item1.Extent.Text)))){throw 'Restart accepted unreadable card'}
+$checks.Add('post_restart_accepts_camera_storage_without_label_and_rejects_unreadable_root')
 @{passed=$true;cases=$checks.Count;tests=@($checks);device_operations=0;driver_tasks_dispatched=0} | ConvertTo-Json -Compress
