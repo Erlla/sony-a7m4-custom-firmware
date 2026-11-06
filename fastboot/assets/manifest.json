@@ -1,0 +1,14 @@
+{
+  "upstream": "https://github.com/DavidBuchanan314/ILCE-7M4-RE",
+  "historical_commit": "2328d18ce640e6c8cd9341efcf0043ce9042a135",
+  "assets": {
+    "fastboot.bin": {
+      "bytes": 29900,
+      "sha256": "330ac322bd0e40a7bb4974f69a2667e7d59a25e59c1322339690f30a3ceadbdc"
+    },
+    "uart_boot.ino.uf2": {
+      "bytes": 153600,
+      "sha256": "c004d752536981aee731a5211dc4b631959a3f98f5c9a0426e89c4791aad2fb1"
+    }
+  }
+}

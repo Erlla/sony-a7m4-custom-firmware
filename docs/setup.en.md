@@ -13,6 +13,8 @@ Use this environment's interpreter for subsequent `python` commands. Activate it
 
 ## Obtain external binaries separately
 
+The historical camera payload and RP2040 UF2 are included in [fastboot/](../fastboot/README.md). `tools/prepare_fastboot_resources.py` combines them with your separately supplied Windows tools and drivers.
+
 Create this user-supplied tree under `local/resources/`:
 
 ```text

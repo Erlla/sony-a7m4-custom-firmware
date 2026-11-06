@@ -1,0 +1,10 @@
+{
+  "board": "rp2040:rp2040:waveshare_rp2040_zero",
+  "core": "6.3.0",
+  "flags": [
+    "-DOPEN_DRAIN",
+    "-DUART_TX"
+  ],
+  "source": "archived compiler input; #line paths normalized",
+  "binary_sha256": "c004d752536981aee731a5211dc4b631959a3f98f5c9a0426e89c4791aad2fb1"
+}

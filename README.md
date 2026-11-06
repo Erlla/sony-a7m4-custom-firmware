@@ -55,6 +55,8 @@ Fastboot 路线需要 **Multi 接口刷机线与 RP2040-Zero 启动桥**，普�
 
 ### Fastboot 工具入口
 
+相机端启动文件、RP2040 UF2、对应源码资料及进入／退出／维护脚本见 **[Fastboot 维护工具](fastboot/README.md)**。运行 `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip` 可生成独立上传 Release 的压缩包。
+
 支持完整备份、版本查看与设置、自签更新器构建、同机备份恢复和恢复官方验签。环境要求：**Windows 10 / 11、Python 3.11+**。
 
 克隆仓库后，运行 `setup.bat` 安装依赖，再运行 `advanced/进阶维护菜单.bat`。外部工具与驱动按[环境说明](docs/setup.md)准备。
@@ -93,7 +95,7 @@ py -3 -m venv .venv
 
 维护者明确授权发布自己此前使用的 [RSA 密钥对](keys/published/README.md)。**私钥已公开，任何人都能用它签名；使用此公钥的更新器不再能通过签名辨认发布者。** 请自行审核包内容；如需独立信任身份，生成自己的密钥并离线保存私钥。
 
-本仓库公开原创主机源码、补丁配方、说明、指定公开密钥，以及用户授权公开的[三个 WAV 参考音频](examples/custom-sounds/README.md)。索尼固件、供体曲线/矩阵、个人校准、机身备份和外部驱动应由使用者自行取得。源码采用 [MIT](LICENSE)，第三方内容依其原许可，见 [第三方说明](THIRD_PARTY_NOTICES.md)。上游部分公开研究仓库没有明确再分发许可，因此这里只链接来源，不把其 payload 重新打包为本项目的 MIT 软件。
+本仓库公开原创主机源码、补丁配方、说明、指定公开密钥，以及用户授权公开的[三个 WAV 参考音频](examples/custom-sounds/README.md)。索尼固件、供体曲线/矩阵、个人校准、机身备份和外部驱动应由使用者自行取得。源码采用 [MIT](LICENSE)，第三方内容依其原许可，见 [第三方说明](THIRD_PARTY_NOTICES.md)。启动文件及对应历史源码单独列明[来源与许可范围](fastboot/SOURCES.md)，不重新标为本项目 MIT 软件。
 
 
 ## 致谢

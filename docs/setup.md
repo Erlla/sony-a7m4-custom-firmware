@@ -11,7 +11,9 @@ py -3 -m venv .venv
 
 以后命令中的 `python` 指这个虚拟环境的解释器，可先运行 `.\.venv\Scripts\Activate.ps1`，或始终使用完整相对路径。BAT 自动寻找仓库 `.venv`；也可设 `A7M4_PYTHON` 为其他合适的 Python。
 
-## 自行取得的二进制
+## 资源准备
+
+仓库已提供历史 [fastboot.bin 和 RP2040 UF2](../fastboot/README.md)。使用 `tools/prepare_fastboot_resources.py` 可将这两个文件与自行准备的 Platform Tools、驱动和 SquashFS 工具组合登记，具体命令见 Fastboot 工具说明。
 
 按如下相对布局准备 `local/resources/`，不是相机分区镜像：
 

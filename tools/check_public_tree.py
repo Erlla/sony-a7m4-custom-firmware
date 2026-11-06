@@ -7,6 +7,10 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_KEYS = {"keys/published/A7M4_updater_private.pem", "keys/published/A7M4_updater_public.pem"}
+PUBLIC_BOOT = {
+    "fastboot/assets/fastboot.bin": "330ac322bd0e40a7bb4974f69a2667e7d59a25e59c1322339690f30a3ceadbdc",
+    "fastboot/assets/uart_boot.ino.uf2": "c004d752536981aee731a5211dc4b631959a3f98f5c9a0426e89c4791aad2fb1",
+}
 BLOCKED = {".bin", ".img", ".uf2", ".dat", ".exe", ".dll", ".cat", ".pfx", ".p12", ".zip", ".7z", ".tar", ".so", ".key"}
 
 
@@ -26,6 +30,10 @@ def check():
             errors.append(f"Missing publication file: {relative}")
             continue
         data = path.read_bytes()
+        if relative in PUBLIC_BOOT:
+            if hashlib.sha256(data).hexdigest() != PUBLIC_BOOT[relative]:
+                errors.append(f"Published boot asset changed: {relative}")
+            continue
         if path.is_symlink() or getattr(path, "is_junction", lambda: False)():
             errors.append(f"Linked publication file: {relative}")
         if path.suffix.lower() in BLOCKED or "sessions" in path.parts or relative.startswith(("vendor/local/", "local/", "runtime/", "backups/", "output/")):

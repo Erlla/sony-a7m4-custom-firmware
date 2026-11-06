@@ -55,6 +55,8 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 
 ### Fastboot tools
 
+The [Fastboot toolkit](fastboot/README.md) includes the camera payload, RP2040 UF2, historical source material and standalone entry/exit scripts. Build the focused Release archive with `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip`.
+
 Includes complete backups, version inspection and editing, custom updater preparation, same-camera restoration and restoration of official verification. Requires **Windows 10 / 11 and Python 3.11+**.
 
 After cloning, run `setup.bat` to install dependencies, then `advanced/进阶维护菜单.bat`. Prepare external tools and drivers using the [setup guide](docs/setup.en.md).
@@ -93,7 +95,7 @@ This community project is not affiliated with Sony. Most recipes derive from **o
 
 The maintainer explicitly authorized publication of their previously used [RSA key pair](keys/published/README.md). **The private key is public. Anyone can sign with it, so signatures accepted by this key cannot authenticate the publisher.** Inspect and build packages yourself. Generate a new private identity if you need independent signing authority.
 
-This repository publishes original host code, patch recipes, documentation, the specified public keys and [three user-authorized WAV samples](examples/custom-sounds/README.en.md). Obtain Sony firmware, donor curves/matrices, camera calibration, backups and external drivers separately. Original source uses [MIT](LICENSE); third-party material retains its own terms, described in [third-party notices](THIRD_PARTY_NOTICES.md). Some public research upstreams have no explicit redistribution license; they are linked instead of rebundled as MIT payloads.
+This repository publishes original host code, patch recipes, documentation, the specified public keys and [three user-authorized WAV samples](examples/custom-sounds/README.en.md). Obtain Sony firmware, donor curves/matrices, camera calibration, backups and external drivers separately. Original source uses [MIT](LICENSE); third-party material retains its own terms, described in [third-party notices](THIRD_PARTY_NOTICES.md). Boot assets and historical source material have separate [source and licensing notes](fastboot/SOURCES.md); they are not relicensed as this project’s MIT software.
 
 
 ## Acknowledgements

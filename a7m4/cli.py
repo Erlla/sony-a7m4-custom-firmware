@@ -67,6 +67,8 @@ def main():
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("agent")
     sub.add_parser("doctor")
+    sub.add_parser("enter", help="Enter Fastboot without reading or writing partitions")
+    sub.add_parser("exit", aliases=["reboot"], help="Leave Fastboot and reboot the camera")
     backup = sub.add_parser("backup")
     backup.add_argument("--destination", type=Path)
     backup.add_argument("--already-fastboot", action="store_true")
@@ -94,6 +96,15 @@ def main():
             return
         if args.command == "doctor":
             result = engine.assets.check()
+        elif args.command == "enter":
+            if args.demo:
+                result = engine.transport.select()
+            else:
+                from .hardware import enter_fastboot
+                engine.callback = lambda data: print(json.dumps(data, ensure_ascii=False), flush=True)
+                result = enter_fastboot(engine.transport, engine.assets, engine.callback)
+        elif args.command in ("exit", "reboot"):
+            result = engine.reboot()
         elif args.command == "verify-backup":
             result = validate_backup(args.folder)
         else:

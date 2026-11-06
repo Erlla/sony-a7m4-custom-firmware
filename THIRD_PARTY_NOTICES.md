@@ -2,11 +2,11 @@
 
 Original host code, offline builders, patch recipes and documentation in this repository are distributed under [MIT](LICENSE). Existing author notices are retained. The complete attribution register is [REFERENCES.md](REFERENCES.md).
 
-The MIT grant does not relicense Sony firmware, extracted libraries, donor color/gamma data, camera personalization, Google SDK components, external payloads or other third-party software. This source repository contains no full camera images, Sony libraries, donor curves/matrices, USB driver package, host executables or RP2040 UF2. Users supply these locally; `.gitignore` and `tools/check_public_tree.py` enforce the publication boundary.
+The MIT grant does not relicense Sony firmware, extracted libraries, donor color/gamma data, camera personalization, Google SDK components, external payloads or other third-party software. The maintainer requested publication of exactly the two historical boot assets under `fastboot/assets/`, with their source material and identities. These external components retain the licensing status described in [fastboot/SOURCES.md](fastboot/SOURCES.md), rather than this project’s MIT grant. Full camera images, Sony libraries, donor data, SDK drivers and host executables remain outside the source tree. The publication checker allows only the two named, hash-pinned boot assets.
 
 ## Research upstreams and external executables
 
-- ILCE-7M4-RE: no explicit license was found in the reviewed source tree. Public availability and attribution are not treated as a redistribution license. Obtain/build the payload and bridge externally; this repository publishes an independent host implementation of the documented wire protocol.
+- ILCE-7M4-RE: the historical checkout had no explicit license. The current upstream top-level notice refers to per-directory terms; its Fastboot notice discusses MIT practice and possible GPL-2.0 reference content without providing a single clear license. The historical bridge has no separate license. Preserve original notices and the source record in [fastboot/SOURCES.md](fastboot/SOURCES.md); this repository makes no MIT grant for those components. The host protocol implementation remains independently authored.
 - AOSP fastboot source: Apache-2.0 and component-specific notices. Do not assume an SDK-packaged executable and its DLLs can be redistributed merely because source exists elsewhere.
 - Google USB Driver: supplied under Android SDK terms, not presented as open source. No INF/catalog/DLL bundle is published here; no driver-signature-enforcement bypass is provided.
 - squashfs-tools-ng 1.3.2: CLI tools GPL-3.0-or-later, libsquashfs LGPL-3.0-or-later. External local binaries must retain their license material. If you distribute such binaries, satisfy corresponding-source and dependency-notice requirements; a link alone may be insufficient. Compression/library dependencies keep their own licenses.
@@ -26,7 +26,7 @@ The owner explicitly authorized publication of exactly the existing two PEM file
 
 ## 中文说明
 
-MIT 仅覆盖本仓库原创主机代码、构建器、补丁配方和文档。完整索尼固件、供体颜色数据、个人备份、第三方驱动与 payload 未纳入发行。外部组件按原许可自行取得，公开参考仓库不自动具有再分发许可。指定的一对实验 PEM 经所有者授权公开，可自由用于实验；私钥已不具备任何保密性或发布者身份保证，不能据此提交其他凭据。
+MIT 仅覆盖本仓库原创主机代码、构建器、补丁配方和文档。完整索尼固件、供体颜色数据、个人备份和第三方驱动未纳入发行。维护者指定公开的两个历史启动文件及源码资料单列于 fastboot/，不改为本项目 MIT 许可；上游许可现状及构建来源见该目录说明。指定的一对实验 PEM 经所有者授权公开，可自由用于实验；私钥已不具备任何保密性或发布者身份保证，不能据此提交其他凭据。
 
 ## Native sound adapters
 

@@ -32,3 +32,5 @@ sessions/
 *.env
 !keys/published/A7M4_updater_private.pem
 !keys/published/A7M4_updater_public.pem
+!fastboot/assets/fastboot.bin
+!fastboot/assets/uart_boot.ino.uf2
