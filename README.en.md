@@ -55,7 +55,7 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 
 ### Fastboot tools
 
-The [Fastboot toolkit](fastboot/README.md) includes the camera payload, RP2040 UF2, historical source material and standalone entry/exit scripts. Build the focused Release archive with `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip`.
+The [Fastboot toolkit](fastboot/README.md) includes the camera payload, RP2040 UF2, historical source material, standalone entry/exit scripts and SD-recovery entry. Build the focused Release archive with `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip`.
 
 Includes complete backups, version inspection and editing, custom updater preparation, same-camera restoration and restoration of official verification. Requires **Windows 10 / 11 and Python 3.11+**.
 

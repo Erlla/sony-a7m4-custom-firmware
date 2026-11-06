@@ -55,7 +55,7 @@ Fastboot 路线需要 **Multi 接口刷机线与 RP2040-Zero 启动桥**，普�
 
 ### Fastboot 工具入口
 
-相机端启动文件、RP2040 UF2、对应源码资料及进入／退出／维护脚本见 **[Fastboot 维护工具](fastboot/README.md)**。运行 `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip` 可生成独立上传 Release 的压缩包。
+相机端启动文件、RP2040 UF2、对应源码资料及进入／退出／维护／一键救砖脚本见 **[Fastboot 维护工具](fastboot/README.md)**。运行 `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip` 可生成独立上传 Release 的压缩包。
 
 支持完整备份、版本查看与设置、自签更新器构建、同机备份恢复和恢复官方验签。环境要求：**Windows 10 / 11、Python 3.11+**。
 
