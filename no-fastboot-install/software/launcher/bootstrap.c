@@ -193,7 +193,7 @@ void WinMainCRTStartup(void){
  H self=CreateFileW(root,0x80000000,1,0,3,0x80,0);if(self==(H)-1)error();leases[lease_count++]=self;
  W*p=root;W*slash=0;while(*p){if(*p=='\\')slash=p;p++;}if(!slash)error();*slash=0;
  if(!hold_parents(root)||!verify_source()){if(verify)ExitProcess(1);error();}
- if(verify){const char json[]="{\"version\":\"1.0.0\",\"integrity\":true,\"native_verification\":true,\"device_operations\":0}\n";u32 written;WriteFile(GetStdHandle((u32)-11),json,sizeof(json)-1,&written,0);ExitProcess(0);}
+ if(verify){const char json[]="{\"version\":\"" PRODUCT_VERSION "\",\"integrity\":true,\"native_verification\":true,\"device_operations\":0}\n";u32 written;WriteFile(GetStdHandle((u32)-11),json,sizeof(json)-1,&written,0);ExitProcess(0);}
  typedef int(*AdminCheck)(void);AdminCheck isadmin=(AdminCheck)GetProcAddress(shell,"IsUserAnAdmin");
  if(!isadmin)error();
  if(!isadmin()){

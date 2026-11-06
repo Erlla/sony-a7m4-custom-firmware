@@ -18,8 +18,9 @@ if ($Mode -ne 'SelfTest') {
     if ($recoveryCandidate) {
      $currentService=(Get-PnpDeviceProperty -InstanceId $normal[0].InstanceId -KeyName DEVPKEY_Device_Service).Data
      $currentInf=(Get-PnpDeviceProperty -InstanceId $normal[0].InstanceId -KeyName DEVPKEY_Device_DriverInfPath).Data
-     $visiblePmhome=@(Get-Volume | Where-Object { $_.FileSystemLabel -eq 'PMHOME' -and $_.DriveLetter -and (Test-Path -LiteralPath ($_.DriveLetter+':\') -PathType Container) })
-     $recoveryCandidate=($currentService -eq 'USBSTOR' -and $currentInf -eq 'usbstor.inf' -and $visiblePmhome.Count -gt 0)
+     . (Join-Path (Split-Path -Parent $PSScriptRoot) 'driver_restore\camera_storage.ps1')
+     $visibleStorage=@(Get-CameraStorageVolumes -InstanceId $normal[0].InstanceId | Where-Object root_accessible -EQ $true)
+     $recoveryCandidate=($currentService -eq 'USBSTOR' -and $currentInf -eq 'usbstor.inf' -and $visibleStorage.Count -gt 0)
     }
     if (-not $recoveryCandidate) { throw 'Prior outcome needs review; no privileged task was dispatched.' }
    }

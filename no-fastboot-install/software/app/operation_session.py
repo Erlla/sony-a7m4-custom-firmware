@@ -1,6 +1,7 @@
 from data_paths import data_root
 """A new operation workspace per GUI launch; history is never resumed on startup."""
 from datetime import datetime, timezone
+from product_version import VERSION
 from pathlib import Path
 import os
 import re
@@ -28,7 +29,7 @@ def new_session():
     folder = operation_path()
     folder.mkdir(parents=True, exist_ok=False)
     atomic_json(folder / 'session.json', dict(schema='m4-operation-session/1', session=name,
-                created_utc=datetime.now(timezone.utc).isoformat(), pid=os.getpid(), ui_version='1.0.0'))
+                created_utc=datetime.now(timezone.utc).isoformat(), pid=os.getpid(), ui_version=VERSION))
     return folder
 
 

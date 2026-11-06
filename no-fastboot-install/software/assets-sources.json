@@ -3,8 +3,10 @@
   "input": {
     "type": "previous clean portable package",
     "sha256": "059df157eef9d1fea454fdf9119884426af01d5d7429131bd0474fea17c5f84d",
-    "archive_url": null,
-    "availability": "supplied locally; no binary Release published by this source update"
+    "archive_url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/download/Fastboot-ToolKit/M4._1.00_Windows_x64.zip",
+    "availability": "Public author USB portable archive; its app is labelled 1.00. Export only pinned runtime assets and rebuild the current source version.",
+    "api_asset_url": "https://api.github.com/repos/Erlla/sony-a7m4-custom-firmware/releases/assets/717187593",
+    "bytes": 84775539
   },
   "export": {
     "script": "prepare_assets.py",

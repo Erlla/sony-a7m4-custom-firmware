@@ -1,9 +1,11 @@
-﻿param(
+param(
     [Parameter(Mandatory=$true)][string]$EvidenceDirectory,
     [switch]$Apply,
     [ValidateRange(3,20)][int]$CycleAfterSeconds = 5
 )
 $ErrorActionPreference = 'Stop'
+# Resolve the read-only postcondition dependency before any driver mutation.
+. (Join-Path $PSScriptRoot 'camera_storage.ps1')
 $taskResearchRoot = [IO.Path]::GetFullPath((Split-Path $PSScriptRoot -Parent)).TrimEnd('\') + '\'
 $taskEvidence = [IO.Path]::GetFullPath($EvidenceDirectory)
 $taskSid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
@@ -40,12 +42,8 @@ function Get-OneCamera {
         status=$devices[0].Status}
 }
 
-function Get-Pmhome {
-    @((Get-Volume -ErrorAction Stop | Where-Object FileSystemLabel -EQ 'PMHOME') | ForEach-Object {
-        $rootPath = '{0}:\' -f $_.DriveLetter
-        [pscustomobject]@{drive_letter=[string]$_.DriveLetter;label=$_.FileSystemLabel;
-            health=[string]$_.HealthStatus;root_accessible=(Test-Path -LiteralPath $rootPath -PathType Container)}
-    })
+function Get-CameraVolumes {
+    @(Get-CameraStorageVolumes -InstanceId $taskBefore.instance)
 }
 
 try {
@@ -170,20 +168,21 @@ try {
     if ($taskResult.port_cycle_count -eq 0) { Invoke-OnePortCycle }
     $taskDeadline = [DateTime]::UtcNow.AddSeconds(30)
     do {
-        try { $taskAfter = Get-OneCamera; $taskPmhome = @(Get-Pmhome) } catch { $taskAfter=$null; $taskPmhome=@() }
+        try { $taskAfter = Get-OneCamera; $taskVolumes = @(Get-CameraVolumes) } catch { $taskAfter=$null; $taskVolumes=@() }
         $taskReady = ($taskAfter -and $taskAfter.instance -eq $taskBefore.instance -and
             $taskAfter.service -eq 'USBSTOR' -and $taskAfter.inf -eq 'usbstor.inf' -and
-            @($taskPmhome | Where-Object root_accessible -EQ $true).Count -gt 0)
+            @($taskVolumes | Where-Object root_accessible -EQ $true).Count -gt 0)
         if ($taskReady) { break }
         Start-Sleep -Milliseconds 500
     } while ([DateTime]::UtcNow -lt $taskDeadline)
-    if (-not $taskReady) { throw 'USBSTOR/PMHOME did not become accessible within the postcondition deadline.' }
+    if (-not $taskReady) { throw 'USBSTOR/camera storage did not become accessible within the postcondition deadline.' }
     if (Test-Path -LiteralPath (Join-Path (Join-Path $env:SystemRoot 'INF') $taskPackage)) { throw 'Reviewed OEM package still remains in INF after deletion.' }
     if ($taskSvcPackage -and (Test-Path -LiteralPath (Join-Path (Join-Path $env:SystemRoot 'INF') $taskSvcPackage))) { throw 'Reviewed service OEM package still remains in INF after deletion.' }
     $taskResult.after = $taskAfter
-    $taskResult.pmhome = $taskPmhome
+    $taskResult.storage_volumes = $taskVolumes
+    $taskResult.pmhome = @($taskVolumes | Where-Object label -EQ 'PMHOME')
     $taskResult.elapsed_seconds = $taskWatch.Elapsed.TotalSeconds
-    $taskResult.status = 'USBSTOR_PMHOME_AND_PACKAGE_REMOVAL_VERIFIED'
+    $taskResult.status = 'USBSTOR_STORAGE_AND_PACKAGE_REMOVAL_VERIFIED'
 } catch {
     $taskResult.status = 'failed'
     $taskResult.error = $_.Exception.Message

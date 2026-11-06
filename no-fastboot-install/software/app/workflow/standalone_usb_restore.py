@@ -94,6 +94,7 @@ class Windows:
     def launch(self, folder, body, nonce):
         sources = [Path(__file__).with_suffix('.ps1'),
                    ROOT / 'app/driver_restore/restore_camera_driver.ps1',
+                   ROOT / 'app/driver_restore/camera_storage.ps1',
                    ROOT / 'app/driver_restore/camera_port.cs']
         hashes = {source.name: hashlib.sha256(source.read_bytes()).hexdigest() for source in sources}
         atomic(folder / 'helper_hashes.json', hashes)
@@ -104,6 +105,12 @@ def reply(phase, message, **fields):
     print(message, flush=True)
     return dict(phase=phase, message=message, scope='windows_driver_only', firmware_operations=0,
                 camera_commands=0, automatic_retry=False, passed=phase not in ('USB_RESTORE_REVIEW_REQUIRED', 'USB_RESTORE_WINDOWS_RESTART'), **fields)
+
+
+def storage_accessible(snapshot):
+    # Older injected/recorded snapshots used the PMHOME-only field. Production
+    # probes now report exact-camera storage access independently of its label.
+    return snapshot.get('camera_storage_accessible', snapshot.get('camera_pmhome_accessible', False)) is True
 
 
 def save(record, phase, **fields):
@@ -143,7 +150,7 @@ def _recover(windows=None, *, wait_seconds=35, sleep=time.sleep, clock=time.mono
     else:
         record = None
     ordinary = row['service'] == 'USBSTOR' and row['inf'].lower() == 'usbstor.inf'
-    ready = ordinary and row['status'] == 'OK' and snapshot['camera_pmhome_accessible']
+    ready = ordinary and row['status'] == 'OK' and storage_accessible(snapshot)
     if ready and not record:
         return reply('USB_RESTORE_COMPLETE', '普通 USB 连接已正常，无需修改驱动。')
     if ordinary and not record:
@@ -190,7 +197,7 @@ def _recover(windows=None, *, wait_seconds=35, sleep=time.sleep, clock=time.mono
                 after = current['normal']
                 require(after['body_sha256'] == record['body_sha256'], '连接机身已改变')
                 good = (after['service'] == 'USBSTOR' and after['inf'].lower() == 'usbstor.inf'
-                        and after['status'] == 'OK' and current['camera_pmhome_accessible']
+                        and after['status'] == 'OK' and storage_accessible(current)
                         and current['reviewed_package_absent'])
                 if good:
                     save(record, 'VERIFIED', after=current, worker=result)

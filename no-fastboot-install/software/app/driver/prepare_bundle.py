@@ -25,6 +25,7 @@ def prepare():
     native = (OLD / 'camera_port.cs').read_text('utf-8') + '\npublic static class M4CameraToolBind {\n [System.Runtime.InteropServices.DllImport("newdev.dll",CharSet=System.Runtime.InteropServices.CharSet.Unicode,SetLastError=true)]\n [return:System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]\n public static extern bool UpdateDriverForPlugAndPlayDevicesW(System.IntPtr hwnd,string id,string inf,uint flags,[System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]out bool reboot);\n}\n'
     content = {'worker.ps1': (CASE / 'worker.ps1').read_bytes(), 'restore_camera_driver.ps1': restored.encode('utf-8'), 'camera_port.cs': native.encode('utf-8'), 'driver/ilce-7m4.inf': (PACKAGE / 'ilce-7m4.inf').read_bytes(), 'driver/ILCE-7M4.cat': (PACKAGE / 'ILCE-7M4.cat').read_bytes(), 'driver/ilce-7m4-svc.inf': (PACKAGE / 'ilce-7m4-svc.inf').read_bytes(), 'driver/ILCE-7M4-SVC.cat': (PACKAGE / 'ILCE-7M4-SVC.cat').read_bytes(), 'driver/amd64/WdfCoInstaller01011.dll': (PACKAGE / 'amd64/WdfCoInstaller01011.dll').read_bytes(), 'driver/amd64/WinUSBCoInstaller2.dll': (PACKAGE / 'amd64/WinUSBCoInstaller2.dll').read_bytes()}
     files = []
+    content['camera_storage.ps1'] = (OLD / 'camera_storage.ps1').read_bytes()
     for name, data in content.items():
         path = folder / name
         path.parent.mkdir(parents=True, exist_ok=True)

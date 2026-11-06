@@ -10,9 +10,9 @@ using System.Security.Principal;
 using System.Text;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0")]
+[assembly: AssemblyVersion("@ASSEMBLY_VERSION@")]
+[assembly: AssemblyFileVersion("@ASSEMBLY_VERSION@")]
+[assembly: AssemblyInformationalVersion("@VERSION@")]
 internal static class Launcher {
  const string ReleaseHash="@RELEASE@";
  static readonly SecurityIdentifier Admin=new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid,null);
@@ -67,7 +67,7 @@ internal static class Launcher {
   var result=new Checked();result.Root=root;
   try {
    NoLink(root);var manifest=Manifest(root);
-   if((string)manifest["schema"]!="m4-clean-product-release/1"||(string)manifest["version"]!="1.0.0")throw new Exception("软件清单不匹配。");
+   if((string)manifest["schema"]!="m4-clean-product-release/1"||(string)manifest["version"]!="@VERSION@")throw new Exception("软件清单不匹配。");
    result.Files=(Dictionary<string,object>)manifest["files"];result.Read("app/release.json",ReleaseHash);
    foreach(var pair in result.Files)result.Read(pair.Key,(string)pair.Value);
    foreach(string group in Groups) {

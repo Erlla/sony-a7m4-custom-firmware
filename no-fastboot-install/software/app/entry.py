@@ -10,6 +10,7 @@ for relative in ('app', 'vendor/python', 'vendor/squashfs', 'vendor/usb', 'app/c
 from data_paths import data_root
 os.environ['ZIG_GLOBAL_CACHE_DIR'] = str(data_root(ROOT) / 'cache/zig-global')
 os.environ['ZIG_LOCAL_CACHE_DIR'] = str(data_root(ROOT) / 'cache/zig-local')
+from product_version import VERSION
 from product_integrity import verify_release
 verify_release()
 from operation_session import new_session, ensure_session
@@ -26,7 +27,7 @@ if len(sys.argv) > 1:
         print(json.dumps(wizard.act('setup'), ensure_ascii=False))
     elif action == '--check':
         import json
-        print(json.dumps(dict(version='1.0.0', integrity=True, device_operations=0)))
+        print(json.dumps(dict(version=VERSION, integrity=True, device_operations=0)))
     else:
         raise SystemExit('Unsupported operation')
 else:

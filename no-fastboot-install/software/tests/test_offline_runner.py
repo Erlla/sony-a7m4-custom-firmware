@@ -179,11 +179,22 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(specs['usb-identity'][0], 'test_usb_identity.py')
         self.assertEqual(specs['menu-stock'][1], ('--lineage','stock'))
         self.assertEqual(specs['menu-user'][1], ('--lineage','user'))
+        self.assertEqual(specs['issue9-boundaries'][0], 'test_issue9.py')
+        self.assertEqual(specs['driver-setup'][0], 'run_clean_setup.py')
 
     def test_blocked_checks_are_partial_and_failure_takes_precedence(self):
         self.assertEqual(runner.overall_status([{'status':'PASS'}]), 'PASS')
         self.assertEqual(runner.overall_status([{'status':'PASS'},{'status':'BLOCKED'}]), 'PARTIAL')
         self.assertEqual(runner.overall_status([{'status':'FAIL'},{'status':'BLOCKED'}]), 'FAIL')
+
+    def test_programdata_override_is_local_and_restored_after_failure(self):
+        original=os.environ.get('ProgramData')
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaisesRegex(RuntimeError,'fixture'):
+                with runner.isolated_programdata(Path(temporary)):
+                    self.assertEqual(os.environ['ProgramData'],str(Path(temporary)/'mock-programdata'))
+                    raise RuntimeError('fixture')
+        self.assertEqual(os.environ.get('ProgramData'),original)
 
     def test_successful_exit_without_worker_record_is_failure(self):
         with patch.object(runner, 'run_process', return_value=completed()):

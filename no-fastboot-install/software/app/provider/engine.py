@@ -5,10 +5,11 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import os
+from product_version import VERSION
 from pathlib import Path
 import re
 import uuid
-TOOL_VERSION = '1.0.0'
+TOOL_VERSION = VERSION
 PATCH_SET = 'm4-updater-four-gates/1'
 
 def require(value, message):

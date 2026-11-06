@@ -1,3 +1,4 @@
+from product_version import VERSION
 from pathlib import Path
 import hashlib
 import json
@@ -39,7 +40,7 @@ def state_path(component):
 
 def verify_release():
     manifest = _manifest()
-    if manifest.get('schema') != 'm4-clean-product-release/1' or manifest.get('version') != '1.0.0':
+    if manifest.get('schema') != 'm4-clean-product-release/1' or manifest.get('version') != VERSION:
         raise ValueError('软件清单不匹配')
     for relative, expected in manifest['files'].items():
         path = ROOT / relative

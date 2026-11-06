@@ -25,7 +25,7 @@ function Probe-Connection {
  $devices=@(Get-PnpDevice -PresentOnly)
  $normal=@($devices | Where-Object { $_.InstanceId -like 'USB\VID_054C&PID_0DA5\*' })
  $service=@($devices | Where-Object { $_.InstanceId -like 'USB\VID_054C&PID_0336\*' })
- $camera=$null;$accessible=$false
+ $camera=$null;$accessible=$false;$pmhomeAccessible=$false
  if($normal.Count -eq 1) {
   $id=$normal[0].InstanceId
   $inf=[string](Get-PnpDeviceProperty -InstanceId $id -KeyName DEVPKEY_Device_DriverInfPath).Data
@@ -36,20 +36,10 @@ function Probe-Connection {
   }
   $camera=[ordered]@{body_sha256=(Body-Digest $id);service=$driver;inf=$inf;status=[string]$normal[0].Status;reviewed_driver=$reviewed}
   if($driver -eq 'USBSTOR') {
-   foreach($volume in @(Get-Volume | Where-Object { $_.FileSystemLabel -eq 'PMHOME' -and $_.DriveLetter })) {
-    $parts=@(Get-Partition -DriveLetter $volume.DriveLetter)
-    if($parts.Count -ne 1) { continue }
-    $disk=$parts[0] | Get-Disk
-    $rows=@(Get-CimInstance Win32_DiskDrive | Where-Object Index -EQ $disk.Number)
-    if($rows.Count -ne 1) { continue }
-    $node=$rows[0].PNPDeviceID
-    for($depth=0;$depth -lt 10 -and $node;$depth++) {
-     if($node -eq $id) { $accessible=(Test-Path -LiteralPath ($volume.DriveLetter+':\') -PathType Container);break }
-     $parent=Get-PnpDeviceProperty -InstanceId $node -KeyName DEVPKEY_Device_Parent -ErrorAction SilentlyContinue
-     if($parent) { $node=$parent.Data } else { $node=$null }
-    }
-    if($accessible) { break }
-   }
+   . (Join-Path (Split-Path -Parent $PSScriptRoot) 'driver_restore\camera_storage.ps1')
+   $volumes=@(Get-CameraStorageVolumes -InstanceId $id)
+   $accessible=@($volumes | Where-Object root_accessible -EQ $true).Count -gt 0
+   $pmhomeAccessible=@($volumes | Where-Object { $_.root_accessible -and $_.label -eq 'PMHOME' }).Count -gt 0
   }
  }
  $packages=@(Get-ChildItem -LiteralPath (Join-Path $windowsRoot 'INF') -Filter 'oem*.inf' -File | Where-Object {
@@ -57,7 +47,8 @@ function Probe-Connection {
   $hash -eq $knownInf -or $hash -eq $knownSvcInf
  })
  [ordered]@{normal_count=$normal.Count;service_count=$service.Count;normal=$camera;
-  camera_pmhome_accessible=$accessible;reviewed_package_absent=($packages.Count -eq 0);firmware_operations=0;camera_commands=0}
+  camera_storage_accessible=$accessible;camera_pmhome_accessible=$pmhomeAccessible;
+  reviewed_package_absent=($packages.Count -eq 0);firmware_operations=0;camera_commands=0}
 }
 if($Mode -eq 'Probe') { Probe-Connection | ConvertTo-Json -Depth 8 -Compress;exit 0 }
 if(-not $Folder -or -not $BodyHash -or -not $Nonce) { throw 'Recovery parameters missing.' }

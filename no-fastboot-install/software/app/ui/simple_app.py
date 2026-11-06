@@ -1,3 +1,4 @@
+from product_version import VERSION
 from data_paths import data_root
 from product_integrity import pinned, state_path
 from pathlib import Path
@@ -91,7 +92,7 @@ class App:
         header = tk.Frame(outer, bg=BG)
         header.pack(fill='x', pady=(0, 20))
         tk.Label(header, text='M4 相机工具', font=('Microsoft YaHei UI', 23, 'bold'), bg=BG, fg=INK).pack(side='left')
-        tk.Label(header, text='1.0.0', bg=BG, fg=MUTED).pack(side='right')
+        tk.Label(header, text=VERSION, bg=BG, fg=MUTED).pack(side='right')
         card = tk.Frame(outer, bg=WHITE, padx=26, pady=22)
         card.pack(fill='x')
         self.title, self.detail, self.timer, self.progress_text = (tk.StringVar() for _ in range(4))

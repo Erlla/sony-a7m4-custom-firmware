@@ -36,13 +36,13 @@ def main():
         folder=Path(temp);app=folder/'app';app.mkdir()
         file=app/'fixture.bin';file.write_bytes(b'AAAABBBB')
         manifest=app/'release.json'
-        raw=json.dumps(dict(schema='m4-clean-product-release/1',version='1.0.0',files={'app/fixture.bin':sha(file)})).encode()
+        raw=json.dumps(dict(schema='m4-clean-product-release/1',version=integrity.VERSION,files={'app/fixture.bin':sha(file)})).encode()
         manifest.write_bytes(raw)
         with patch.object(integrity,'ROOT',folder),patch.object(integrity,'_loaded',{}), \
              patch.object(integrity,'_release_digest',None),patch.dict(os.environ,{},clear=False):
             os.environ.pop('M4_RUNTIME_MANIFEST_SHA256',None)
             integrity.verify_release();lease=integrity._loaded['app/fixture.bin'][0]
-            assert integrity.verify_release()['version']=='1.0.0'
+            assert integrity.verify_release()['version']==integrity.VERSION
             rejected(lambda:file.write_bytes(b'BBBBAAAA'))
             tests.append('A1_open_read_lease_blocks_same_size_write')
             lease.close();stamp=file.stat();file.write_bytes(b'BBBBAAAA')
@@ -50,7 +50,7 @@ def main():
             rejected(integrity.verify_release)
             tests.append('A1_closed_lease_forces_hash_despite_restored_mtime')
             file.write_bytes(b'AAAABBBB');integrity.verify_release()
-            stamp=manifest.stat();changed=raw.replace(b'1.0.0',b'1.0.1');manifest.write_bytes(changed)
+            stamp=manifest.stat();changed=raw.replace(integrity.VERSION.encode(),b'X'*len(integrity.VERSION));manifest.write_bytes(changed)
             os.utime(manifest,ns=(stamp.st_atime_ns,stamp.st_mtime_ns))
             rejected(integrity.verify_release)
             tests.append('A1_manifest_rehashed_despite_restored_metadata')
@@ -76,7 +76,7 @@ def main():
             path=folder/name;path.parent.mkdir(parents=True,exist_ok=True)
             path.write_bytes(('INERT:'+name+'\n').encode());files[name]=sha(path)
         value=dict(files=files,gui_runtime_sha256=files['runtime/python/pythonw.exe'],
-                   python_sha256=files['runtime/python/python.exe'],schema='m4-clean-product-release/1',version='1.0.0')
+                   python_sha256=files['runtime/python/python.exe'],schema='m4-clean-product-release/1',version=integrity.VERSION)
         (folder/'app/release.json').write_text(json.dumps(value),'utf8')
         original_run=subprocess.run
         def compile_run(command,**kwargs):

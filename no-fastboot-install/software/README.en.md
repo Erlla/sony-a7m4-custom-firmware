@@ -24,7 +24,8 @@ Use Python 3.12+ and the Windows .NET Framework C# compiler. Building does not e
 From this directory, with a separately supplied trusted portable package:
 
 ```powershell
-py -3 prepare_assets.py --from-package D:\M4-portable.zip --output D:\M4-runtime
+py -3 prepare_assets.py --download --cache D:\M4-downloads --output D:\M4-runtime
+# For offline export, use --from-package D:\M4-portable.zip instead.
 py -3 build.py --assets D:\M4-runtime --output D:\M4-build
 D:\M4-build\M4相机工具.exe --verify
 ```
@@ -32,6 +33,10 @@ D:\M4-build\M4相机工具.exe --verify
 A portable ZIP containing all locked assets can also be passed directly to `build.py --assets`. Input app, state and firmware are ignored; app source comes from this checkout. The output must be new. See [THIRD_PARTY.md](THIRD_PARTY.md) and [assets-sources.json](assets-sources.json). Exact export is not a complete recipe for independently reconstructing every component from upstream archives.
 
 The native launcher verifies files and imports before Python, CLR or elevation. Normal execution uses a protected ProgramData runtime; state and caches stay in the extracted folder. Read handles constrain replacement while running. `--verify` is local-only without elevation or a device session. A trusted launcher EXE remains the starting assumption; no Authenticode signature or antivirus verdict is provided.
+
+Downloads fetch only the hash-pinned USB ZIP, with validated range resumption, bounded retries and cache reuse. They do not fetch DAT or alternate installation tools, run remote scripts, change proxies or disable TLS checks. Export/build validate a temporary sibling before publishing it, leave failed outputs unpublished and never replace an existing installation. Both asset entry points reject duplicate/Windows-aliased ZIP paths and linked files/directories.
+
+**Version distinction:** the author's published ZIP reports `1.00`; this checkout reports `1.0.0`. Its 3257 runtime files match the original locks and can rebuild this checkout without copying its app. Do not pass that app as a source-aligned package or edit manifests/hashes to make it pass. Runtime consumers share `app/product_version.py`; the builder requires agreement with dependency metadata and checks Python/native version and integrity before publishing output. See [RELEASING.md](RELEASING.md).
 
 ## Development checks
 

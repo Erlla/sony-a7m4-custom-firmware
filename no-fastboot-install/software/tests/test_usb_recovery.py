@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from pathlib import Path
 import argparse
 import copy
+import hashlib
 import json
 import queue
 import sys
@@ -78,6 +79,27 @@ def main():
         assert direct.recover(windows)['phase'] == 'USB_RESTORE_COMPLETE'
         assert windows.launches == 0 and not direct.POINTER.exists()
         tests.append('already_normal_does_not_elevate_or_enroll')
+    with isolated():
+        state = copy.deepcopy(good)
+        state.update(camera_pmhome_accessible=False, camera_storage_accessible=True)
+        windows = Windows(state)
+        assert direct.recover(windows)['phase'] == 'USB_RESTORE_COMPLETE'
+        assert windows.launches == 0
+        tests.append('accessible_camera_card_without_pmhome_is_already_restored')
+    with isolated():
+        state = copy.deepcopy(good)
+        state.update(camera_pmhome_accessible=True, camera_storage_accessible=False)
+        windows = Windows(state)
+        assert direct.recover(windows)['phase'] == 'USB_RESTORE_REPLUG'
+        assert windows.launches == 0
+        tests.append('explicit_storage_failure_cannot_fall_back_to_legacy_pmhome_flag')
+    with isolated():
+        state = copy.deepcopy(good)
+        state.update(camera_pmhome_accessible=False, camera_storage_accessible=True)
+        windows = Windows(bad, state)
+        assert direct.recover(windows, wait_seconds=0)['phase'] == 'USB_RESTORE_COMPLETE'
+        assert direct.pending()['phase'] == 'VERIFIED' and windows.launches == 1
+        tests.append('pending_restore_completes_on_the_same_camera_card_without_pmhome')
     with isolated():
         windows = Windows(bad, good)
         assert direct.recover(windows, wait_seconds=0)['phase'] == 'USB_RESTORE_COMPLETE'
@@ -169,6 +191,56 @@ def main():
         assert old.call_count == 1
     tests.append('existing_write_and_menu_evidence_not_bypassed')
     assert usb_recovery.ROOT == root
+
+    # The enrollment provider must use the same storage postcondition as the
+    # standalone route. All Windows and broker dispatch boundaries are mocks.
+    import provider as enrolled
+    camera_row = dict(instance=r'USB\VID_054C&PID_0DA5\INERT-CAMERA', status='OK',
+                      service='USBSTOR', inf='usbstor.inf')
+    camera_state = dict(normal_count=1, service_count=0, normal=[camera_row], pmhome=[],
+                        storage=[dict(accessible=True, belongs_to_camera=True, label='')])
+    class EnrolledFixture(enrolled.Provider):
+        # The base class receives these Windows/broker interfaces from its
+        # concrete provider; this fixture forbids them unless explicitly mocked.
+        snapshot = tasks_clear = host = forbidden
+    instance = EnrolledFixture()
+    instance.binding = dict(camera_instance_sha256=hashlib.sha256(camera_row['instance'].upper().encode()).hexdigest())
+    with tempfile.TemporaryDirectory() as temporary:
+        folder = Path(temporary)
+        with patch.object(instance, 'snapshot', return_value=(folder, camera_state)), \
+             patch.object(instance, 'tasks_clear'), patch.object(instance, 'host', forbidden):
+            assert instance.normal_ready(folder)
+            instance.preflight(folder)
+            direct.atomic(folder / 'latest_Restore.json', dict(status='USBSTOR_RESTORED'))
+            assert instance.restore(folder, confirmation=True) == 'VERIFIED'
+        tests.append('enrolled_preflight_ready_and_confirmation_accept_unlabelled_camera_card')
+        for volumes in ([], [dict(accessible=True, belongs_to_camera=False)],
+                        [dict(accessible=False, belongs_to_camera=True)]):
+            state = dict(camera_state, storage=volumes,
+                         pmhome=[dict(accessible=True, belongs_to_camera=True)])
+            with patch.object(instance, 'snapshot', return_value=(folder, state)), \
+                 patch.object(instance, 'tasks_clear'), patch.object(instance, 'host', forbidden):
+                assert not instance.normal_ready(folder)
+                reject(lambda: instance.preflight(folder))
+                reject(lambda: instance.restore(folder, confirmation=True))
+        tests.append('enrolled_storage_failure_foreign_volume_and_unreadable_root_fail_closed')
+        legacy = dict(camera_state)
+        legacy.pop('storage'); legacy['pmhome'] = [dict(accessible=True, belongs_to_camera=True)]
+        assert instance.storage_accessible(legacy)
+        tests.append('legacy_snapshot_remains_readable_without_rewriting_old_evidence')
+        result = dict(run_id='a' * 32, status='NEEDS_REVIEW')
+        direct.atomic(folder / 'latest_Restore.json', result)
+        direct.atomic(folder / 'Restore_task_result.json', dict(result, error='Restore helper returned 1', device_mutation_started=True))
+        for error in ('USBSTOR/PMHOME did not become accessible within the postcondition deadline.',
+                      'USBSTOR/camera storage did not become accessible within the postcondition deadline.'):
+            path = folder / 'Restore_auto_restore_result.private.json'
+            path.write_text(json.dumps(dict(error=error)))
+            with patch.object(instance, 'snapshot', return_value=(folder, camera_state)), \
+                 patch.object(instance, 'wait_for_normal', return_value=True), \
+                 patch.object(instance, 'host', return_value=(1, result)) as dispatch:
+                assert instance.restore(folder) == 'RESTART_REQUIRED'
+                assert dispatch.call_count == 1
+        tests.append('enrolled_restore_classifies_old_and_new_storage_deadline_without_retry')
 
     import tkinter as tk
     class Jobs:

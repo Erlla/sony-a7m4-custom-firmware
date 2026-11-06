@@ -82,7 +82,8 @@ try {
  if ((Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash -ne $ManifestSha256) { throw 'Reviewed installation manifest changed.' }
  $manifest=Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
  $names=@('worker.ps1','restore_camera_driver.ps1','camera_port.cs','driver\ilce-7m4.inf','driver\ILCE-7M4.cat','driver\ilce-7m4-svc.inf','driver\ILCE-7M4-SVC.cat','driver\amd64\WdfCoInstaller01011.dll','driver\amd64\WinUSBCoInstaller2.dll')
- if (@($manifest.files).Count -ne 9 -or @($manifest.triggers).Count -ne 0 -or
+ $names += 'camera_storage.ps1'
+ if ((@($manifest.files.name | Sort-Object) -join ',') -ne (@($names | Sort-Object) -join ',') -or @($manifest.triggers).Count -ne 0 -or
      (($manifest.allowed_modes -join ',') -ne 'SelfTest,StageBind,Restore')) { throw 'Installation scope differs.' }
  foreach ($file in $manifest.files) {
   if ($file.name -notin $names -or (Get-FileHash -LiteralPath (Join-Path $bundle $file.name) -Algorithm SHA256).Hash -ne $file.sha256) { throw 'Installation dependency differs.' }
@@ -212,14 +213,15 @@ try {
        $detail=Get-Content -LiteralPath $detailPath -Raw | ConvertFrom-Json
        $currentService=(Get-PnpDeviceProperty -InstanceId $camera[0].InstanceId -KeyName DEVPKEY_Device_Service).Data
        $currentInf=(Get-PnpDeviceProperty -InstanceId $camera[0].InstanceId -KeyName DEVPKEY_Device_DriverInfPath).Data
-       $pmhome=@(Get-Volume | Where-Object { $_.FileSystemLabel -eq 'PMHOME' -and $_.DriveLetter -and (Test-Path -LiteralPath ($_.DriveLetter+':\')) })
+       . (Join-Path $bundle 'camera_storage.ps1')
+       $storage=@(Get-CameraStorageVolumes -InstanceId $camera[0].InstanceId | Where-Object root_accessible -EQ $true)
        $packageGone=($detail.package -match '^oem[0-9]+\.inf$' -and -not (Test-Path -LiteralPath (Join-Path (Join-Path ([IO.Path]::GetDirectoryName([Environment]::SystemDirectory)) 'INF') $detail.package)))
        $known=($detail.status -eq 'failed' -and $detail.uninstall_exit_code -eq 0 -and $detail.port_cycle_count -eq 1 -and
          $detail.error -eq 'USBSTOR/PMHOME did not become accessible within the postcondition deadline.' -and
-         $camera[0].InstanceId -eq $detail.before.instance -and $currentService -eq 'USBSTOR' -and $currentInf -eq 'usbstor.inf' -and $pmhome.Count -gt 0 -and $packageGone)
+         $camera[0].InstanceId -eq $detail.before.instance -and $currentService -eq 'USBSTOR' -and $currentInf -eq 'usbstor.inf' -and $storage.Count -gt 0 -and $packageGone)
        if ($known) {
         $knownHash=(Get-FileHash -LiteralPath $oldIndex -Algorithm SHA256).Hash
-        $outcome.reviewed_volume_recovery=[ordered]@{original_failed_run=$reviewedCase.run;original_failure_preserved=$true;fresh_driver='USBSTOR/usbstor.inf';pmhome_accessible=$true;package_absent=$true;user_restored_normal_usb=$true;additional_driver_mutations=0}
+        $outcome.reviewed_volume_recovery=[ordered]@{original_failed_run=$reviewedCase.run;original_failure_preserved=$true;fresh_driver='USBSTOR/usbstor.inf';storage_volumes=$storage;camera_storage_accessible=$true;package_absent=$true;user_restored_normal_usb=$true;additional_driver_mutations=0}
        }
       }
      }
@@ -235,7 +237,7 @@ try {
   New-Item -ItemType Directory -Path $backup | Out-Null
   Copy-Item -LiteralPath (Join-Path $base 'deployment.private.json') -Destination $backup
   foreach ($oldFile in $oldConfig.files) {
-   if ($oldFile.name -notin @('worker.ps1','restore_camera_driver.ps1','camera_port.cs','camera_driver_native.dll','driver\ilce-7m4.inf','driver\ILCE-7M4.cat','driver\ilce-7m4-svc.inf','driver\ILCE-7M4-SVC.cat','driver\amd64\WdfCoInstaller01011.dll','driver\amd64\WinUSBCoInstaller2.dll')) { throw 'Unexpected installed dependency prevents repair.' }
+   if ($oldFile.name -notin @('worker.ps1','restore_camera_driver.ps1','camera_port.cs','camera_storage.ps1','camera_driver_native.dll','driver\ilce-7m4.inf','driver\ILCE-7M4.cat','driver\ilce-7m4-svc.inf','driver\ILCE-7M4-SVC.cat','driver\amd64\WdfCoInstaller01011.dll','driver\amd64\WinUSBCoInstaller2.dll')) { throw 'Unexpected installed dependency prevents repair.' }
    $oldPath=Join-Path $base $oldFile.name
    if ((Get-FileHash -LiteralPath $oldPath -Algorithm SHA256).Hash -ne $oldFile.sha256) { throw 'Installed code differs; preserve it for review.' }
    $backupPath=Join-Path $backup $oldFile.name

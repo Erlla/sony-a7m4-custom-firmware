@@ -15,18 +15,9 @@ $rows=@($camera | ForEach-Object {
  [pscustomobject]@{instance=$_.InstanceId;status=$_.Status;service=(Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_Service).Data;inf=(Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_DriverInfPath).Data}
 })
 $volumes=@()
-if (-not $CommunicationOnly) {
-$volumes=@(Get-Volume | Where-Object { $_.FileSystemLabel -eq 'PMHOME' } | ForEach-Object {
- $rootPath=$_.DriveLetter+':\'
- $disk=Get-Partition -DriveLetter $_.DriveLetter | Get-Disk
- $diskDevice=Get-CimInstance Win32_DiskDrive | Where-Object Index -EQ $disk.Number
- $ancestors=@();$node=$diskDevice.PNPDeviceID
- for ($depth=0;$depth -lt 8 -and $node;$depth++) {
-  $ancestors+=@($node)
-  $node=(Get-PnpDeviceProperty -InstanceId $node -KeyName DEVPKEY_Device_Parent -ErrorAction SilentlyContinue).Data
- }
- [pscustomobject]@{drive_letter=[string]$_.DriveLetter;accessible=(Test-Path -LiteralPath $rootPath -PathType Container);disk_number=$disk.Number;ancestors=$ancestors;belongs_to_camera=(@($camera | Where-Object { $_.InstanceId -in $ancestors }).Count -eq 1)}
-})
+if (-not $CommunicationOnly -and $camera.Count -eq 1 -and $active.Count -eq 0) {
+ . (Join-Path (Split-Path -Parent $PSScriptRoot) 'driver_restore\camera_storage.ps1')
+ $volumes=@(Get-CameraStorageVolumes -InstanceId $camera[0].InstanceId)
 }
 $sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 $base=Join-Path $env:ProgramData ('M4CameraTool\'+$sid)
@@ -50,6 +41,7 @@ foreach ($mode in @('SelfTest','StageBind','Restore')) {
   }
  }
 }
-$value=[ordered]@{checked_utc=[DateTime]::UtcNow.ToString('o');normal=$rows;normal_count=$camera.Count;service_count=$active.Count;pmhome=$volumes;storage_checked=(-not $CommunicationOnly);protected_dependencies_verified=$config.files.Count}
+$pmhome=@($volumes | Where-Object label -EQ 'PMHOME')
+$value=[ordered]@{checked_utc=[DateTime]::UtcNow.ToString('o');normal=$rows;normal_count=$camera.Count;service_count=$active.Count;storage=$volumes;pmhome=$pmhome;storage_checked=(-not $CommunicationOnly);protected_dependencies_verified=$config.files.Count}
 $value | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $folder 'windows_state.private.json') -Encoding UTF8
-[pscustomobject]@{normal_count=$camera.Count;service_count=$active.Count;normal_storage=(@($rows | Where-Object { $_.service -eq 'USBSTOR' -and $_.inf -eq 'usbstor.inf' }).Count -eq 1);camera_pmhome_accessible=(@($volumes | Where-Object { $_.accessible -and $_.belongs_to_camera }).Count -eq 1);dependencies_verified=$config.files.Count;snapshot=$Name} | ConvertTo-Json
+[pscustomobject]@{normal_count=$camera.Count;service_count=$active.Count;normal_storage=(@($rows | Where-Object { $_.service -eq 'USBSTOR' -and $_.inf -eq 'usbstor.inf' }).Count -eq 1);camera_storage_accessible=(@($volumes | Where-Object accessible -EQ $true).Count -gt 0);camera_pmhome_accessible=(@($pmhome | Where-Object accessible -EQ $true).Count -gt 0);dependencies_verified=$config.files.Count;snapshot=$Name} | ConvertTo-Json

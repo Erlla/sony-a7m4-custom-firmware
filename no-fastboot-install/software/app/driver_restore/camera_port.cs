@@ -50,7 +50,9 @@ public static class SonyCameraPortRecovery {
                 uint vendor=(ushort)Marshal.ReadInt16(info,12), product=(ushort)Marshal.ReadInt16(info,14);
                 uint status=(uint)Marshal.ReadInt32(info,31);
                 if (bytes<35 || vendor!=0x054c || product!=0x0da5 || Marshal.ReadByte(info,24)!=0 || status!=1)
-                    throw new InvalidOperationException("This port is not the connected normal-mode Sony camera");
+                    throw new InvalidOperationException(String.Format(
+                        "This port is not the connected normal-mode Sony camera (port={0}, bytes={1}, vendor=0x{2:x4}, product=0x{3:x4}, hub={4}, status={5})",
+                        port, bytes, vendor, product, Marshal.ReadByte(info,24), status));
                 uint returned=0;
                 if (cycle) {
                     Marshal.Copy(new byte[8],0,info,8);Marshal.WriteInt32(info,(int)port);
