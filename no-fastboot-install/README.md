@@ -2,6 +2,11 @@
 
 [English](README.en.md) · [修改原理与位置](IMPLEMENTATION.md) · [M4 相机工具说明](TOOL-1.0.0.md) · [软件源码与构建](software/README.md)
 
+> [!IMPORTANT]
+> **安装前请确认适用范围：本固件仅适用于中国大陆销售的国行 Sony ILCE-7M4（A7 IV / A7M4），安装前固件版本须为索尼官方 V6.02。**
+>
+> **其他地区销售的机身及其他固件版本均未经实机测试，不在本次支持范围内。**
+
 使用普通 USB 数据线准备 Sony ILCE-7M4 的更新环境，再由相机从 SD 卡安装 `BODYDATA.DAT`。此流程无需 Multi 接口刷机线、启动桥或进入 Fastboot。相机须能正常开机并进入 USB 海量存储模式；它不替代无法开机时的救砖工具。
 
 从项目 [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) 下载适用于本机的固件安装包和 **M4 相机工具**。
