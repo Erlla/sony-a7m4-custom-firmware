@@ -10,7 +10,9 @@
 
 English · [中文](README.md)
 
-**Supported firmware: official V6.02 for Sony ILCE-7M4 (A7 IV / A7M4).**
+**Supported configuration: this firmware is only for mainland-China-market Sony ILCE-7M4 (A7 IV / A7M4) cameras officially sold in mainland China, running official Sony firmware V6.02 before installation.**
+
+**Cameras sold in other regions and other firmware versions have not been tested on hardware and are outside this release's supported scope.**
 
 Provides installation without Fastboot, Fastboot maintenance tools and source for firmware modifications. Supported input hashes are documented in each method guide.
 
