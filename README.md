@@ -54,7 +54,7 @@ Fastboot 路线需要 **Multi 接口刷机线与 RP2040-Zero 启动桥**，普�
 | 备份、恢复与日常维护 | [进阶维护入口](advanced/) · [SD 更新救砖](methods/00-sd-recovery/README.md) |
 | 组合功能与迁移安装 | [自定义 LUT 集成](methods/08-custom-lut/INTEGRATION.md) · [FL2 / FL3 的 SD 迁移](methods/03-fl2-fl3/sd-colour-preservation.md) |
 | 查看界面与示例文件 | [LUT 界面](methods/08-custom-lut/README.md#实机界面) · [声音与示例音频](examples/custom-sounds/README.md) · [纵横比说明](methods/07-custom-aspect-ratios/README.md) |
-| 查看精选滤镜训练结果 | [十二款评分与 RGB 对比](docs/custom-lut-training/README.md) |
+| 训练与评估自定义滤镜 | [AI Agent 训练方法](docs/custom-lut-training/AGENT_TRAINING.md) · [十二款评分与 RGB 对比](docs/custom-lut-training/README.md) |
 | 查阅技术资料 | [色彩对比报告](docs/fl23-colour-comparison-20261018/README.md) · [验证说明](docs/validation.md) · [参考清单](REFERENCES.md) |
 | 参与开发 | [贡献指南](CONTRIBUTING.md) · [第三方说明](THIRD_PARTY_NOTICES.md) |
 

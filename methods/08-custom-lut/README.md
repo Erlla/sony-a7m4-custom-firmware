@@ -1,6 +1,6 @@
 # 自定义 LUT：SD 卡导入与独立微调
 
-[English](README.en.md) · [修改位置与实现](IMPLEMENTATION.md) · [JSON 格式](FORMAT.md) · [与其他方法组合](INTEGRATION.md) · [训练结果](../../docs/custom-lut-training/README.md)
+[English](README.en.md) · [修改位置与实现](IMPLEMENTATION.md) · [JSON 格式](FORMAT.md) · [与其他方法组合](INTEGRATION.md) · [训练结果](../../docs/custom-lut-training/README.md) · [Agent 训练方法](../../docs/custom-lut-training/AGENT_TRAINING.md)
 
 在 Sony A7 IV（ILCE-7M4）的“曝光/颜色 → 颜色/色调”中增加“自定义 LUTS”。每个滤镜保存独立参数，可直接在机内预览、调整、替换和删除。
 
