@@ -6,7 +6,9 @@
 >
 > **Back up your own camera before any write. Use an original Sony battery for firmware updates.** Maintain stable power and connections throughout writes. Never restore another camera's backup onto your body.
 >
-> **We strongly recommend having working Fastboot tools, a Multi-port flashing cable and an RP2040-Zero boot bridge ready before updating firmware**, so maintenance and recovery are available if something goes wrong. Seek **AI assistance** when needed to investigate unclear errors or recovery issues, using the project documentation, error messages and logs.
+> **We strongly recommend having working Fastboot tools, a Multi-port flashing cable and an RP2040-Zero boot bridge ready before updating firmware**, so maintenance and recovery are available if something goes wrong.
+>
+> **We recommend installing the firmware with assistance from an AI Agent.** For most common installation, driver and USB connection issues, an AI Agent can help investigate and address the problem using the project documentation, complete error messages and runtime logs.
 
 English · [中文](README.md)
 
