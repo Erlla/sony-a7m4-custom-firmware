@@ -19,6 +19,19 @@ Each slot independently retains its eight adjustments and strength. Ordinary `.c
 
 Compiled base results persist internally for reuse after power-on. All eight adjustments and strength remain available and independently saved.
 
+## File size and count requirements
+
+| Item | Current requirement |
+| --- | --- |
+| Each look file | A valid, nonempty UTF-8 native JSON, **at most 128 KiB (131,072 bytes, inclusive)**; measured per extracted file, not by archive size |
+| SD import directory | **At most 256 directory entries** in `PRIVATE/M4ROOT/GENERAL/LUT/`; non-JSON files and subdirectories count too. Subdirectories are not scanned recursively |
+| Stored in camera | **16 custom-look slots**, replaceable or deletable; Off does not occupy a look slot |
+| Filename | **At most 63 UTF-8 bytes including `.json`**; multibyte names are limited by bytes, not character count. Extension matching is case-insensitive |
+
+Extract the look package first and place the desired JSON files directly in that directory. Exceeding the entry limit **fails the scan rather than showing only the first 256 entries**. Add files in batches and keep archives, documentation and unnecessary subdirectories elsewhere. The camera still stores at most 16 looks at once; the card can hold more import candidates.
+
+An oversized or invalid JSON can also fail the current list scan/import. If a file is missing, check its name, native format and location. These are separate limits for each file, the designated import directory and camera slots—not a limit on the total files on the SD card.
+
 ## Camera photographs
 
 Supplied and authorized by the maintainer. Displayed look names are examples, not distributed presets or claims of commercial-preset equivalence.

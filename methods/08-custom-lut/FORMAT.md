@@ -2,7 +2,19 @@
 
 [使用方法](README.md) · [实现](IMPLEMENTATION.md)
 
-每个滤镜使用一个 UTF-8 JSON 文件。文件放入 `PRIVATE/M4ROOT/GENERAL/LUT/`；当前机内读取上限为 131,072 字节，扫描候选有界，用户槽位为 16 个。
+每个滤镜使用一个 UTF-8 JSON 文件，直接放入 `PRIVATE/M4ROOT/GENERAL/LUT/`。
+
+| 限制对象 | 上限／规则 |
+| --- | --- |
+| 单个 JSON 文件 | **131,072 字节（128 KiB，含等号）**，不能是空文件；空白与来源说明等内容也占文件字节 |
+| SD 导入目录 | **256 个目录项**，非 JSON 文件和子目录也计数；不递归扫描子目录，第257项使扫描失败，不是截取前256项 |
+| 机内用户槽位 | **16 个滤镜**，可替换／删除；“关”单独存在，内部缓存记录数不是用户槽位数 |
+| 文件名 | 含 `.json` 最多 **63 个 UTF-8 字节**，不以点开头；扩展名不区分大小写 |
+| JSON 内 `name` | 独立的最多 **63 个 UTF-8 字节**限制；不是磁盘文件名 |
+
+名称限制按字节计算，不能把63字节理解为63个汉字。压缩包需先解压；超限或无效JSON可能使本次扫描／导入失败。建议导入目录只放本批有效JSON，其余文件放在该目录之外。文件大小、SD候选数量和机内保存数量是三个不同限制。
+
+上限常量见公开头文件：[`P4_JSON_MAX_BYTES`](../../native/persistent-cache/include/p4_json.h) 与 [`P4L_CANDIDATES` / `P4L_SLOTS`](../../native/persistent-cache/include/p4_library.h)。
 
 这里的 `version: 2` 是**文件格式版本**，`engine_abi: 131072` 是接口合同，不是固件开发版本。核心字段如下：
 
@@ -27,3 +39,6 @@
 通用 `.cube` LUT 和 DCP 描述的是另一种颜色映射；需要拟合/转换为该相机原生参数，再分别验证照片与取景。文件格式通过只能说明可读取和满足数值合同，不能说明与输入预设颜色完全一致。本方法不附带商业预设、厂商颜色表，也不把仍在研究的色彩标定流程作为已完成的通用转换器发布。
 
 English: this is a native camera-look JSON contract, not a renamed Cube/DCP file. Format/ABI revisions are independent of firmware labels. Conversion and measured color agreement must be evaluated separately; the camera validates structure, capabilities, native numeric constraints and runtime identity before import.
+
+
+Import limits: each extracted native JSON must be nonempty and no larger than **131,072 bytes (128 KiB), inclusive**. The designated SD directory accepts at most **256 entries**, counting non-JSON files and subdirectories; it is not recursive, and a 257th entry fails the scan rather than truncating the list. The camera has **16 user look slots**, independently of internal cache records. Filenames, including `.json`, are limited to **63 UTF-8 bytes** and must not begin with a dot; extension matching is case-insensitive. The JSON `name` field has its own separate 63-byte limit. These are byte limits, not multibyte-character counts. See the [user-facing requirements](README.en.md#file-size-and-count-requirements).
