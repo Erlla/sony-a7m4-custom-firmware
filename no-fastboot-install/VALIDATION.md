@@ -1,6 +1,10 @@
 # 验证结论与适用范围
 
-以下结论来自同一台 M4 的实机操作、保存的完整读取结果及用户功能确认，不代表所有机身、Windows 环境或固件布局都已验证。本目录只保留结果和可识别样本，不附机身日志或研究时间线。
+下表的分项结论来自同一台 M4 的实机操作、保存的完整读取结果及用户功能确认，不代表所有机身、Windows 环境或固件布局都已验证。本目录只保留结果和可识别样本，不附机身日志或研究时间线。
+
+**2026-11-09 补充安装反馈：已有多台香港销售的港版 A7M4 成功刷入本项目固件。当前适用范围为国行及港版，安装前仍须为索尼官方 V6.02；其他地区版本及其他固件版本尚未经实机测试。** 港版多机安装成功作为补充用户反馈记录，不改变下表各分项的原有验证范围。
+
+Additional installation feedback, 2026-11-09: successful flashing has been reported on multiple Hong Kong-market A7M4 cameras. The supported scope now covers mainland-China and Hong Kong variants, with official Sony V6.02 required before installation. Other regional variants and firmware versions remain untested. These installation reports do not extend the individual test claims in the table below.
 
 | 验证项目 | 当前结论 | 范围 |
 |---|---|---|
