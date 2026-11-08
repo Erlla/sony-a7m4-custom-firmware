@@ -54,6 +54,7 @@ Fastboot 路线需要 **Multi 接口刷机线与 RP2040-Zero 启动桥**，普�
 | 备份、恢复与日常维护 | [进阶维护入口](advanced/) · [SD 更新救砖](methods/00-sd-recovery/README.md) |
 | 组合功能与迁移安装 | [自定义 LUT 集成](methods/08-custom-lut/INTEGRATION.md) · [FL2 / FL3 的 SD 迁移](methods/03-fl2-fl3/sd-colour-preservation.md) |
 | 查看界面与示例文件 | [LUT 界面](methods/08-custom-lut/README.md#实机界面) · [声音与示例音频](examples/custom-sounds/README.md) · [纵横比说明](methods/07-custom-aspect-ratios/README.md) |
+| 查看精选滤镜训练结果 | [十二款评分与 RGB 对比](docs/custom-lut-training/README.md) |
 | 查阅技术资料 | [色彩对比报告](docs/fl23-colour-comparison-20261018/README.md) · [验证说明](docs/validation.md) · [参考清单](REFERENCES.md) |
 | 参与开发 | [贡献指南](CONTRIBUTING.md) · [第三方说明](THIRD_PARTY_NOTICES.md) |
 
@@ -114,6 +115,7 @@ py -3 -m venv .venv
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | 串行启动、RP2040 桥、Fastboot payload 与 eMMC 访问。 |
 | [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | FL2 / FL3 参数与安装研究。 |
 | [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | 原生色彩参数、网格生命周期研究，以及 R5ColorLab 的 LUT 拟合思路，Lut滤镜数值参考；参考白平衡设置。 |
+| [751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) | Sony Edit 的 RAW 显影算子与创意外观矩阵/Gamma 实现，为 M4 电脑模型的原生处理前段提供运算基础。 |
 | [DavidBuchanan314/fwtool.py](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) 与 [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | 固件容器格式与解包方法。 |
 | [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | 索尼相机协议与固件研究。 |
 | [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker) | 固件解密与密钥推导研究。 |
@@ -124,4 +126,3 @@ py -3 -m venv .venv
 ## 参与贡献
 
 欢迎通过 Issue 或 Pull Request 提交问题与改进。新增基线请附输入哈希、地址映射与修改依据；请勿提交个人私钥、机身校准、备份或完整固件。详见[贡献指南](CONTRIBUTING.md)。
-

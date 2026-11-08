@@ -1,0 +1,1130 @@
+{
+  "schema": "public-lut-training-results/1",
+  "evaluated_on": "2026-11-08",
+  "scope": "Offline explicit-M4 model versus same-source RAF/RFCEX targets",
+  "new_camera_acceptance": false,
+  "reference_films": 12,
+  "RAWs": 42,
+  "target_pairs": 240,
+  "conditions_per_look": 20,
+  "ROI_means_per_look": 2194,
+  "macro_film_mean_DeltaE00": {
+    "before": 2.013829103414874,
+    "after": 1.1902336522529968,
+    "reduction_percent": 40.89698821837943
+  },
+  "films": [
+    {
+      "film": "CC",
+      "name": "CLASSIC CHROME",
+      "before": {
+        "pooled": {
+          "mean": 1.8814613985516004,
+          "p95": 4.191905468936771,
+          "maximum": 10.97487509724682
+        },
+        "train": {
+          "mean": 1.866722380981007,
+          "p95": 4.108160003468842,
+          "maximum": 10.97487509724682
+        },
+        "validation": {
+          "mean": 1.919218167587959,
+          "p95": 4.401226867243079,
+          "maximum": 9.84885279058361
+        },
+        "dark": {
+          "mean": 1.7334111165773678,
+          "p95": 3.9400697434148255,
+          "maximum": 6.023572231539273
+        },
+        "face_shadow": {
+          "mean": 1.7129962195290718,
+          "p95": 2.3223097598457576,
+          "maximum": 2.3814109019446152
+        },
+        "RGB_RMSE": 3.4696464341861772,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.007579376933104953,
+        "correction_curvature_p95": 2.3844357976653665,
+        "correction_curvature_max": 42.1556420233463
+      },
+      "after": {
+        "pooled": {
+          "mean": 1.228026207582151,
+          "p95": 2.9134132116356906,
+          "maximum": 7.1320025249249355
+        },
+        "train": {
+          "mean": 1.2064562716974283,
+          "p95": 2.80948721238192,
+          "maximum": 6.301306159326279
+        },
+        "validation": {
+          "mean": 1.2832816602219117,
+          "p95": 3.1668070421048724,
+          "maximum": 7.1320025249249355
+        },
+        "dark": {
+          "mean": 1.075464460672809,
+          "p95": 2.5679179485013455,
+          "maximum": 6.068617958241422
+        },
+        "face_shadow": {
+          "mean": 0.7199609177540057,
+          "p95": 0.9855504648928967,
+          "maximum": 1.0409182034409459
+        },
+        "RGB_RMSE": 2.5710814910095334,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.010637624748479624,
+        "correction_curvature_p95": 2.1894941634241456,
+        "correction_curvature_max": 41.31906614785993
+      },
+      "changed_grid_nodes": 878,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66625797,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          1.4723039898818095,
+          1.2998287375019846,
+          1.8301100573026048
+        ],
+        "after": [
+          1.289668114705719,
+          1.1764055485602674,
+          1.0706104408330845
+        ]
+      }
+    },
+    {
+      "film": "PROVIA",
+      "name": "PROVIA",
+      "before": {
+        "pooled": {
+          "mean": 1.8999676180053668,
+          "p95": 4.887007516584917,
+          "maximum": 13.511934398529318
+        },
+        "train": {
+          "mean": 1.7635220399182567,
+          "p95": 4.266356295040062,
+          "maximum": 10.304126552884355
+        },
+        "validation": {
+          "mean": 2.249498660572671,
+          "p95": 5.861284797328919,
+          "maximum": 13.511934398529318
+        },
+        "dark": {
+          "mean": 1.4448662465597044,
+          "p95": 3.1246159639990077,
+          "maximum": 10.628715810590371
+        },
+        "face_shadow": {
+          "mean": 1.3931557503947782,
+          "p95": 2.1597355817156405,
+          "maximum": 2.315916743474588
+        },
+        "RGB_RMSE": 5.287984930054773,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.0030916492404031715,
+        "correction_curvature_p95": 2.476264591439695,
+        "correction_curvature_max": 49.86381322957198
+      },
+      "after": {
+        "pooled": {
+          "mean": 1.0483985888322653,
+          "p95": 2.829458268255954,
+          "maximum": 8.99751858388293
+        },
+        "train": {
+          "mean": 0.9705747155107413,
+          "p95": 2.4542097817263504,
+          "maximum": 5.812608522394495
+        },
+        "validation": {
+          "mean": 1.2477590954903246,
+          "p95": 4.077375817261194,
+          "maximum": 8.99751858388293
+        },
+        "dark": {
+          "mean": 0.7208013300768858,
+          "p95": 1.7074028161578316,
+          "maximum": 4.977292423142051
+        },
+        "face_shadow": {
+          "mean": 0.422250576587988,
+          "p95": 0.7073203007899818,
+          "maximum": 0.7325291041020741
+        },
+        "RGB_RMSE": 3.3180814017910123,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.005935340232451125,
+        "correction_curvature_p95": 2.268482490272367,
+        "correction_curvature_max": 50.56809338521401
+      },
+      "changed_grid_nodes": 1071,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66631353,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          2.0998773707859995,
+          1.1649375931469899,
+          2.1566758483334136
+        ],
+        "after": [
+          1.059728435994721,
+          0.6914332928053684,
+          0.69551403389295
+        ]
+      }
+    },
+    {
+      "film": "VELVIA",
+      "name": "Velvia",
+      "before": {
+        "pooled": {
+          "mean": 2.5593160077780706,
+          "p95": 6.30577948013228,
+          "maximum": 19.06279692518899
+        },
+        "train": {
+          "mean": 2.398801781003529,
+          "p95": 5.628400020141214,
+          "maximum": 15.211050578027287
+        },
+        "validation": {
+          "mean": 2.970503426366101,
+          "p95": 7.349807071772741,
+          "maximum": 19.06279692518899
+        },
+        "dark": {
+          "mean": 2.0622036351610378,
+          "p95": 4.788857458028702,
+          "maximum": 10.0014495725747
+        },
+        "face_shadow": {
+          "mean": 2.384074017616871,
+          "p95": 2.905158078982193,
+          "maximum": 2.9449058256012015
+        },
+        "RGB_RMSE": 6.872139051454192,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.0007634696019671594,
+        "correction_curvature_p95": 2.6163424124513557,
+        "correction_curvature_max": 64.6964980544747
+      },
+      "after": {
+        "pooled": {
+          "mean": 1.2145071441561601,
+          "p95": 3.302276802728994,
+          "maximum": 11.888305855574115
+        },
+        "train": {
+          "mean": 1.104313636748444,
+          "p95": 2.8129539752574364,
+          "maximum": 10.252309265983017
+        },
+        "validation": {
+          "mean": 1.496788564106445,
+          "p95": 4.239502134352102,
+          "maximum": 11.888305855574115
+        },
+        "dark": {
+          "mean": 0.913590143324263,
+          "p95": 2.1426413683438326,
+          "maximum": 6.0525314680810345
+        },
+        "face_shadow": {
+          "mean": 0.4867546075227078,
+          "p95": 0.9325567192785331,
+          "maximum": 0.9922357670036155
+        },
+        "RGB_RMSE": 4.907156081585792,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.003866353714887083,
+        "correction_curvature_p95": 2.284046692607016,
+        "correction_curvature_max": 62.31517509727627
+      },
+      "changed_grid_nodes": 1115,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66629363,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          4.2549917020235375,
+          1.4542498098174645,
+          1.8887419815607487
+        ],
+        "after": [
+          2.541393538843232,
+          1.7262505053062382,
+          1.4381768372567354
+        ]
+      }
+    },
+    {
+      "film": "ASTIA",
+      "name": "ASTIA",
+      "before": {
+        "pooled": {
+          "mean": 1.9181030440038713,
+          "p95": 4.547713990485187,
+          "maximum": 11.972016095355038
+        },
+        "train": {
+          "mean": 1.8074351375130506,
+          "p95": 4.143680160482291,
+          "maximum": 9.037782059571796
+        },
+        "validation": {
+          "mean": 2.201599726540423,
+          "p95": 5.624964793693943,
+          "maximum": 11.972016095355038
+        },
+        "dark": {
+          "mean": 1.5436376567327965,
+          "p95": 3.6846808166272336,
+          "maximum": 6.757237906756164
+        },
+        "face_shadow": {
+          "mean": 1.445741648942491,
+          "p95": 2.281551190067248,
+          "maximum": 2.3416536241696844
+        },
+        "RGB_RMSE": 4.826252500030724,
+        "gray_reversals": 1,
+        "gray_min_delta_L": -0.006604420625475171,
+        "correction_curvature_p95": 2.6046692607003563,
+        "correction_curvature_max": 33.206225680933855
+      },
+      "after": {
+        "pooled": {
+          "mean": 1.1224092844966045,
+          "p95": 2.710530540795231,
+          "maximum": 9.225729129183701
+        },
+        "train": {
+          "mean": 1.0680310830723294,
+          "p95": 2.5531450595535996,
+          "maximum": 5.761373108591945
+        },
+        "validation": {
+          "mean": 1.2617092874958022,
+          "p95": 3.4242967546750753,
+          "maximum": 9.225729129183701
+        },
+        "dark": {
+          "mean": 0.8856451026015224,
+          "p95": 2.092615272644368,
+          "maximum": 4.864027084596977
+        },
+        "face_shadow": {
+          "mean": 0.6038801037548059,
+          "p95": 1.0777246387784005,
+          "maximum": 1.1637642482269945
+        },
+        "RGB_RMSE": 3.094957376710564,
+        "gray_reversals": 0,
+        "gray_min_delta_L": -0.0016958526440653543,
+        "correction_curvature_p95": 2.2801556420233466,
+        "correction_curvature_max": 31.914396887159548
+      },
+      "changed_grid_nodes": 1081,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66625253,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          2.642554136925555,
+          1.1824263721959238,
+          1.751271604763644
+        ],
+        "after": [
+          1.416028135623098,
+          1.0710038417022778,
+          0.9979459404718868
+        ]
+      }
+    },
+    {
+      "film": "REALA_ACE",
+      "name": "REALA ACE",
+      "before": {
+        "pooled": {
+          "mean": 2.893698073541274,
+          "p95": 7.47768133004616,
+          "maximum": 15.095139344827608
+        },
+        "train": {
+          "mean": 2.7154533804756364,
+          "p95": 6.753504781689496,
+          "maximum": 13.200935849577807
+        },
+        "validation": {
+          "mean": 3.3503054203879894,
+          "p95": 9.481014086556327,
+          "maximum": 15.095139344827608
+        },
+        "dark": {
+          "mean": 2.017756991441879,
+          "p95": 5.440952650557709,
+          "maximum": 13.341028829418631
+        },
+        "face_shadow": {
+          "mean": 1.126382686401717,
+          "p95": 1.7040522432532883,
+          "maximum": 1.8148940681136474
+        },
+        "RGB_RMSE": 6.625603672732878,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.005919470632299806,
+        "correction_curvature_p95": 1.022178988326846,
+        "correction_curvature_max": 12.385214007782082
+      },
+      "after": {
+        "pooled": {
+          "mean": 2.152137785985631,
+          "p95": 5.70337882232514,
+          "maximum": 10.556778279187059
+        },
+        "train": {
+          "mean": 2.0989265406613002,
+          "p95": 5.36287175404338,
+          "maximum": 10.556778279187059
+        },
+        "validation": {
+          "mean": 2.2884484111833485,
+          "p95": 6.475060642391248,
+          "maximum": 10.330679765527858
+        },
+        "dark": {
+          "mean": 1.539469206719716,
+          "p95": 4.192813715455334,
+          "maximum": 9.341692207844966
+        },
+        "face_shadow": {
+          "mean": 0.967238783242283,
+          "p95": 1.6598315212053865,
+          "maximum": 1.786807034482487
+        },
+        "RGB_RMSE": 4.766865257908932,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.002637878424550877,
+        "correction_curvature_p95": 0.9533073929961073,
+        "correction_curvature_max": 12.140077821011658
+      },
+      "changed_grid_nodes": 1159,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66627549,
+      "constraint_refinement": true,
+      "regression_targets_entered_gradient": true,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          3.4474135941778643,
+          2.8893901404990014,
+          3.4619954196483276
+        ],
+        "after": [
+          2.9522291176394093,
+          2.1444893348243053,
+          2.618345739298597
+        ]
+      }
+    },
+    {
+      "film": "PRO_NEG_HI",
+      "name": "PRO Neg. Hi",
+      "before": {
+        "pooled": {
+          "mean": 1.7774945887534261,
+          "p95": 4.383542118475103,
+          "maximum": 13.820481153519445
+        },
+        "train": {
+          "mean": 1.6798434653479506,
+          "p95": 4.051965122598873,
+          "maximum": 11.410740746007919
+        },
+        "validation": {
+          "mean": 2.027646330204466,
+          "p95": 5.228995139558511,
+          "maximum": 13.820481153519445
+        },
+        "dark": {
+          "mean": 1.4359686351170642,
+          "p95": 3.570763900634318,
+          "maximum": 8.853709611376553
+        },
+        "face_shadow": {
+          "mean": 1.9304672332097048,
+          "p95": 3.0832095035820495,
+          "maximum": 3.296958035415034
+        },
+        "RGB_RMSE": 4.186179981455548,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.003485569297644986,
+        "correction_curvature_p95": 2.3505836575875327,
+        "correction_curvature_max": 44.86381322957198
+      },
+      "after": {
+        "pooled": {
+          "mean": 0.9533043858053348,
+          "p95": 2.4664812380293424,
+          "maximum": 8.942416948836724
+        },
+        "train": {
+          "mean": 0.890216964536509,
+          "p95": 2.26226480499509,
+          "maximum": 4.874707491597967
+        },
+        "validation": {
+          "mean": 1.1149146954842424,
+          "p95": 3.1570110525230644,
+          "maximum": 8.942416948836724
+        },
+        "dark": {
+          "mean": 0.6640375363873154,
+          "p95": 1.6013786270951023,
+          "maximum": 4.69504313473483
+        },
+        "face_shadow": {
+          "mean": 0.36630471272519843,
+          "p95": 0.6150107627124667,
+          "maximum": 0.6999522313724111
+        },
+        "RGB_RMSE": 2.629451832197782,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.010108035959103034,
+        "correction_curvature_p95": 2.081712062256806,
+        "correction_curvature_max": 43.793774319066145
+      },
+      "changed_grid_nodes": 1101,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66623718,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          1.875633075312729,
+          1.3671763065197267,
+          1.911698960156606
+        ],
+        "after": [
+          1.0640054718350667,
+          0.8970725012952674,
+          1.3154779270380592
+        ]
+      }
+    },
+    {
+      "film": "PRO_NEG_STD",
+      "name": "PRO Neg. Std",
+      "before": {
+        "pooled": {
+          "mean": 2.151938374375157,
+          "p95": 6.011412393680774,
+          "maximum": 10.370737584013419
+        },
+        "train": {
+          "mean": 2.025500048861267,
+          "p95": 5.7033500756525,
+          "maximum": 9.72203312802531
+        },
+        "validation": {
+          "mean": 2.4758339549935324,
+          "p95": 7.090698470090336,
+          "maximum": 10.370737584013419
+        },
+        "dark": {
+          "mean": 1.2456646432638487,
+          "p95": 3.3581675713673174,
+          "maximum": 8.649619224355755
+        },
+        "face_shadow": {
+          "mean": 1.056062988217797,
+          "p95": 1.8605560606225082,
+          "maximum": 1.9668418543207633
+        },
+        "RGB_RMSE": 4.493342501945585,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.011248321378097614,
+        "correction_curvature_p95": 1.0066147859922219,
+        "correction_curvature_max": 13.023346303501938
+      },
+      "after": {
+        "pooled": {
+          "mean": 1.4258998910108953,
+          "p95": 3.9765480009097294,
+          "maximum": 7.156249006023579
+        },
+        "train": {
+          "mean": 1.428718139115852,
+          "p95": 3.953947116732851,
+          "maximum": 7.156249006023579
+        },
+        "validation": {
+          "mean": 1.4186804177809889,
+          "p95": 4.084459234112375,
+          "maximum": 6.647679706756754
+        },
+        "dark": {
+          "mean": 0.8993105315515916,
+          "p95": 2.5292527188484204,
+          "maximum": 6.647679706756754
+        },
+        "face_shadow": {
+          "mean": 0.6100676689983319,
+          "p95": 1.2838683485444289,
+          "maximum": 1.4955543133824856
+        },
+        "RGB_RMSE": 2.863618135510048,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.008493388770041577,
+        "correction_curvature_p95": 0.9754863813229515,
+        "correction_curvature_max": 12.330739299610912
+      },
+      "changed_grid_nodes": 1098,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66623614,
+      "constraint_refinement": true,
+      "regression_targets_entered_gradient": true,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          2.4369803149481037,
+          1.3603215825705508,
+          2.310641032815629
+        ],
+        "after": [
+          1.8487680320510813,
+          1.4682979112443335,
+          1.3870346172396313
+        ]
+      }
+    },
+    {
+      "film": "CLASSIC_NEG",
+      "name": "CLASSIC Neg.",
+      "before": {
+        "pooled": {
+          "mean": 1.7504090550889677,
+          "p95": 4.640044049442248,
+          "maximum": 13.087214986594992
+        },
+        "train": {
+          "mean": 1.6449943265621412,
+          "p95": 3.9005992412776407,
+          "maximum": 10.464633793695144
+        },
+        "validation": {
+          "mean": 2.020448733035935,
+          "p95": 6.042315106977506,
+          "maximum": 13.087214986594992
+        },
+        "dark": {
+          "mean": 1.3226029082538069,
+          "p95": 2.9490803395862546,
+          "maximum": 10.464633793695144
+        },
+        "face_shadow": {
+          "mean": 1.509448671733823,
+          "p95": 3.525719751644387,
+          "maximum": 3.7037857634569984
+        },
+        "RGB_RMSE": 3.607571590080313,
+        "gray_reversals": 0,
+        "gray_min_delta_L": -0.0030171958465921023,
+        "correction_curvature_p95": 2.40622568093385,
+        "correction_curvature_max": 66.284046692607
+      },
+      "after": {
+        "pooled": {
+          "mean": 1.0114376917074803,
+          "p95": 2.488493525815549,
+          "maximum": 12.522665979097887
+        },
+        "train": {
+          "mean": 0.9125591858710908,
+          "p95": 2.0097685368712987,
+          "maximum": 8.962639762529726
+        },
+        "validation": {
+          "mean": 1.264733604385764,
+          "p95": 3.4661312891347014,
+          "maximum": 12.522665979097887
+        },
+        "dark": {
+          "mean": 0.7923304989308091,
+          "p95": 1.6456905767271652,
+          "maximum": 4.899465999445111
+        },
+        "face_shadow": {
+          "mean": 0.41459325435473016,
+          "p95": 0.6725564437219262,
+          "maximum": 0.7172424699228264
+        },
+        "RGB_RMSE": 2.628195183553252,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.004847352643079006,
+        "correction_curvature_p95": 2.17003891050586,
+        "correction_curvature_max": 65.80933852140078
+      },
+      "changed_grid_nodes": 1044,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66634964,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          1.2347724769892041,
+          0.9163255961479276,
+          2.051982786805193
+        ],
+        "after": [
+          1.1272486560051937,
+          0.6711381411161941,
+          0.9350685179472531
+        ]
+      }
+    },
+    {
+      "film": "NOSTALGIC_NEG",
+      "name": "NOSTALGIC Neg.",
+      "before": {
+        "pooled": {
+          "mean": 2.487156376976075,
+          "p95": 6.026286592640913,
+          "maximum": 11.452618252543287
+        },
+        "train": {
+          "mean": 2.390921916791635,
+          "p95": 5.467741474643532,
+          "maximum": 9.95086840938808
+        },
+        "validation": {
+          "mean": 2.7336790688121906,
+          "p95": 7.200460967277509,
+          "maximum": 11.452618252543287
+        },
+        "dark": {
+          "mean": 1.9059344231157422,
+          "p95": 4.569769966791044,
+          "maximum": 8.76606109641863
+        },
+        "face_shadow": {
+          "mean": 1.3540758589898594,
+          "p95": 2.633869170528584,
+          "maximum": 2.664330614509623
+        },
+        "RGB_RMSE": 6.836047186237903,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.009515526293448318,
+        "correction_curvature_p95": 1.0428015564202417,
+        "correction_curvature_max": 12.198443579766575
+      },
+      "after": {
+        "pooled": {
+          "mean": 1.5231071228729394,
+          "p95": 3.459036396048307,
+          "maximum": 7.799000895141794
+        },
+        "train": {
+          "mean": 1.4943394435828432,
+          "p95": 3.3264051243062185,
+          "maximum": 6.8043931077255095
+        },
+        "validation": {
+          "mean": 1.5968009506647773,
+          "p95": 3.8646453877859526,
+          "maximum": 7.799000895141794
+        },
+        "dark": {
+          "mean": 1.2791142513521851,
+          "p95": 2.7435366701300246,
+          "maximum": 5.956017342779976
+        },
+        "face_shadow": {
+          "mean": 0.5766992957299526,
+          "p95": 1.1114795643944686,
+          "maximum": 1.2428951137462
+        },
+        "RGB_RMSE": 3.846175435913009,
+        "gray_reversals": 0,
+        "gray_min_delta_L": -0.002129687644785605,
+        "correction_curvature_p95": 1.0287937743190667,
+        "correction_curvature_max": 12.190661478599253
+      },
+      "changed_grid_nodes": 1157,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66638533,
+      "constraint_refinement": true,
+      "regression_targets_entered_gradient": true,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          3.649533978317006,
+          3.164194273106751,
+          3.8718835382340697
+        ],
+        "after": [
+          1.9240988817131206,
+          1.0846674598266772,
+          1.8665631176805233
+        ]
+      }
+    },
+    {
+      "film": "ETERNA",
+      "name": "ETERNA",
+      "before": {
+        "pooled": {
+          "mean": 1.8105091007312204,
+          "p95": 4.331281876519794,
+          "maximum": 9.202504772080616
+        },
+        "train": {
+          "mean": 1.8225971720405725,
+          "p95": 4.399500111125093,
+          "maximum": 9.202504772080616
+        },
+        "validation": {
+          "mean": 1.7795432297471983,
+          "p95": 4.1278465845642875,
+          "maximum": 7.680364479171704
+        },
+        "dark": {
+          "mean": 1.634502958538527,
+          "p95": 3.975955572272481,
+          "maximum": 7.752165910795356
+        },
+        "face_shadow": {
+          "mean": 1.4050161587102268,
+          "p95": 1.9363700893424018,
+          "maximum": 2.0669427442967727
+        },
+        "RGB_RMSE": 2.7116470138820237,
+        "gray_reversals": 0,
+        "gray_min_delta_L": -0.002943126724233025,
+        "correction_curvature_p95": 2.1155642023346397,
+        "correction_curvature_max": 39.36575875486382
+      },
+      "after": {
+        "pooled": {
+          "mean": 1.0461532460252125,
+          "p95": 2.47415472055282,
+          "maximum": 6.674704842586433
+        },
+        "train": {
+          "mean": 1.0140320296158685,
+          "p95": 2.281896044197589,
+          "maximum": 6.674704842586433
+        },
+        "validation": {
+          "mean": 1.128437790658241,
+          "p95": 3.0046906387410686,
+          "maximum": 6.643556722052829
+        },
+        "dark": {
+          "mean": 0.8382630206918519,
+          "p95": 1.9361356349176748,
+          "maximum": 4.239228898675799
+        },
+        "face_shadow": {
+          "mean": 0.40202463935112137,
+          "p95": 0.6310988515170157,
+          "maximum": 0.6391416369659074
+        },
+        "RGB_RMSE": 1.993392581415049,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.0003502255554614919,
+        "correction_curvature_p95": 1.9560311284046663,
+        "correction_curvature_max": 38.319066147859935
+      },
+      "changed_grid_nodes": 1033,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66634209,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          1.4167645637314004,
+          1.636090011071058,
+          1.652978495965534
+        ],
+        "after": [
+          1.0238690210275196,
+          1.0862808739091558,
+          0.92095266476292
+        ]
+      }
+    },
+    {
+      "film": "ETERNA_BLEACH_BYPASS",
+      "name": "ETERNA BLEACH BYPASS",
+      "before": {
+        "pooled": {
+          "mean": 1.4466956134435003,
+          "p95": 3.599593169521094,
+          "maximum": 9.884677975751348
+        },
+        "train": {
+          "mean": 1.3954457969553815,
+          "p95": 3.2739937914306165,
+          "maximum": 8.119936110595395
+        },
+        "validation": {
+          "mean": 1.5779816693172855,
+          "p95": 4.551629674135353,
+          "maximum": 9.884677975751348
+        },
+        "dark": {
+          "mean": 1.14092150852465,
+          "p95": 2.7862225883154035,
+          "maximum": 7.609414457009712
+        },
+        "face_shadow": {
+          "mean": 1.1323908127872475,
+          "p95": 1.5373567893582925,
+          "maximum": 1.5381205999403498
+        },
+        "RGB_RMSE": 2.4920660696839843,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.006088725030668485,
+        "correction_curvature_p95": 2.4669260700389004,
+        "correction_curvature_max": 25.43968871595331
+      },
+      "after": {
+        "pooled": {
+          "mean": 0.8423565164020697,
+          "p95": 2.0351662869097495,
+          "maximum": 7.759573430231665
+        },
+        "train": {
+          "mean": 0.7903456000638573,
+          "p95": 1.7373558153698236,
+          "maximum": 7.646736211919855
+        },
+        "validation": {
+          "mean": 0.9755922728658671,
+          "p95": 2.859100723719482,
+          "maximum": 7.759573430231665
+        },
+        "dark": {
+          "mean": 0.6663647794719381,
+          "p95": 1.3035563035949613,
+          "maximum": 4.643241981495436
+        },
+        "face_shadow": {
+          "mean": 0.49469230018040705,
+          "p95": 0.7913971543924447,
+          "maximum": 0.8435999302237316
+        },
+        "RGB_RMSE": 1.7087210549054708,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.013336106685493121,
+        "correction_curvature_p95": 2.3256809338521416,
+        "correction_curvature_max": 25.610894941634243
+      },
+      "changed_grid_nodes": 910,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66619975,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          1.1581680072031513,
+          1.4409813351025496,
+          1.6222122447806029
+        ],
+        "after": [
+          0.9734278999772538,
+          1.0499432025634405,
+          0.9886448011862136
+        ]
+      }
+    },
+    {
+      "film": "ACROS",
+      "name": "ACROS",
+      "before": {
+        "pooled": {
+          "mean": 1.58919998972996,
+          "p95": 5.6192046348839995,
+          "maximum": 13.823840359316057
+        },
+        "train": {
+          "mean": 1.4288753518524415,
+          "p95": 5.3804610358905025,
+          "maximum": 11.43078929454189
+        },
+        "validation": {
+          "mean": 1.9999017406564608,
+          "p95": 6.750383081554856,
+          "maximum": 13.823840359316057
+        },
+        "dark": {
+          "mean": 0.6550706538161445,
+          "p95": 1.5233121186865746,
+          "maximum": 12.892500749350098
+        },
+        "face_shadow": {
+          "mean": 2.1551828623593576,
+          "p95": 5.338159080912234,
+          "maximum": 5.371786076066106
+        },
+        "RGB_RMSE": 7.043115783525986,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.004859112715031699,
+        "correction_curvature_p95": 0.9715953307393033,
+        "correction_curvature_max": 12.400778210116755
+      },
+      "after": {
+        "pooled": {
+          "mean": 0.7150659621592165,
+          "p95": 2.027047396778139,
+          "maximum": 7.652476205444547
+        },
+        "train": {
+          "mean": 0.6326730197965549,
+          "p95": 1.7518496797964722,
+          "maximum": 5.676710616043901
+        },
+        "validation": {
+          "mean": 0.9261309995752559,
+          "p95": 3.1141153219516386,
+          "maximum": 7.652476205444547
+        },
+        "dark": {
+          "mean": 0.3471597672795243,
+          "p95": 0.8953221353615669,
+          "maximum": 6.2616325543768445
+        },
+        "face_shadow": {
+          "mean": 0.522467771267307,
+          "p95": 1.1428384055220295,
+          "maximum": 1.2014249750440218
+        },
+        "RGB_RMSE": 2.306711679522559,
+        "gray_reversals": 0,
+        "gray_min_delta_L": 0.0066794858451544314,
+        "correction_curvature_p95": 0.8910505836576021,
+        "correction_curvature_max": 12.47081712062257
+      },
+      "changed_grid_nodes": 1144,
+      "all_guards_passed": true,
+      "original_ROI_pixels": 66622589,
+      "constraint_refinement": false,
+      "regression_targets_entered_gradient": false,
+      "representative_RGB_CDF_W1": {
+        "before": [
+          4.075705386258366,
+          3.9061780783199738,
+          3.886657297725585
+        ],
+        "after": [
+          1.0717486880962968,
+          1.1127664303755487,
+          1.103729668187941
+        ]
+      }
+    }
+  ],
+  "excluded_looks": [
+    "Ricoh Positive",
+    "Ricoh Negative",
+    "Portra400NB"
+  ],
+  "parameter_files_included": false,
+  "historical_controls": [
+    {
+      "film": "CC",
+      "mean": 0.8214625520689278,
+      "p95": 1.976439280816518,
+      "maximum": 4.470750190937174,
+      "RGB_ROI_mean_RMSE": 1.5711097535883816
+    },
+    {
+      "film": "PROVIA",
+      "mean": 1.185105995492625,
+      "p95": 3.6737231651811757,
+      "maximum": 12.361226505594102,
+      "RGB_ROI_mean_RMSE": 3.7517398156723862
+    },
+    {
+      "film": "VELVIA",
+      "mean": 1.4624540164761122,
+      "p95": 4.267090688276698,
+      "maximum": 12.961446331394285,
+      "RGB_ROI_mean_RMSE": 4.882563895806382
+    },
+    {
+      "film": "ASTIA",
+      "mean": 1.0846484923946325,
+      "p95": 3.1282026418845783,
+      "maximum": 12.578841216625376,
+      "RGB_ROI_mean_RMSE": 3.1878512662704
+    },
+    {
+      "film": "REALA_ACE",
+      "mean": 0.6504596182634752,
+      "p95": 1.2304259123093175,
+      "maximum": 2.142880558193759,
+      "RGB_ROI_mean_RMSE": 1.3172175852767312
+    },
+    {
+      "film": "PRO_NEG_HI",
+      "mean": 0.9834831828030066,
+      "p95": 2.8223228854692275,
+      "maximum": 4.600389890600469,
+      "RGB_ROI_mean_RMSE": 2.1290924686066552
+    },
+    {
+      "film": "PRO_NEG_STD",
+      "mean": 0.7298074336445264,
+      "p95": 1.460718359611058,
+      "maximum": 1.8784599692691804,
+      "RGB_ROI_mean_RMSE": 1.3061637430857937
+    },
+    {
+      "film": "CLASSIC_NEG",
+      "mean": 0.905316672164999,
+      "p95": 1.5685307455037838,
+      "maximum": 9.281933899780409,
+      "RGB_ROI_mean_RMSE": 2.4493142693071337
+    },
+    {
+      "film": "NOSTALGIC_NEG",
+      "mean": 0.7100828750481409,
+      "p95": 1.2852894044239702,
+      "maximum": 3.270208345390823,
+      "RGB_ROI_mean_RMSE": 1.8960108680945362
+    },
+    {
+      "film": "ETERNA",
+      "mean": 0.7487994020597234,
+      "p95": 1.6076102772357435,
+      "maximum": 2.535824154154667,
+      "RGB_ROI_mean_RMSE": 1.2887417583057015
+    },
+    {
+      "film": "ETERNA_BLEACH_BYPASS",
+      "mean": 0.7473297145205967,
+      "p95": 1.4069286655680502,
+      "maximum": 2.4748544070536993,
+      "RGB_ROI_mean_RMSE": 1.3100512115518026
+    },
+    {
+      "film": "ACROS",
+      "mean": 1.1209428369351209,
+      "p95": 2.4308614236392754,
+      "maximum": 3.9148685047763525,
+      "RGB_ROI_mean_RMSE": 1.583053827074687
+    }
+  ]
+}

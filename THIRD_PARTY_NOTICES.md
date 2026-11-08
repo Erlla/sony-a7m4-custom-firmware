@@ -46,3 +46,11 @@ The user supplied and explicitly authorized public distribution of exactly `YEAH
 The maintainer supplied and explicitly authorized public display of the two camera photographs in [method7](methods/07-custom-aspect-ratios/README.en.md). Public copies remove location and other metadata while preserving compressed image data and decoded pixels. The project's code license does not automatically relicense these photographs; existing rights remain with their respective holders.
 
 [方法7](methods/07-custom-aspect-ratios/README.md)中的两张相机照片由维护者提供并授权公开展示。公开副本去除了定位等元数据，压缩图像与解码像素保持不变。原创代码的MIT许可不自动适用于照片，原有权利归相应权利人所有。
+
+## LUT training results / LUT训练结果
+
+The maintainer authorized publication of the numerical evaluations and generated RGB diagnostic plots in [the training report](docs/custom-lut-training/README.en.md). This update includes no look parameter JSONs, source photographs, reference TIFFs, model weights, Sony programs or extracted constants. Look JSON files will be handled separately through Releases.
+
+[751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) supplies research and MIT-licensed implementations used by the local M4 model's native frontend. This publication vendors no upstream code. Its MIT license does not extend to Sony executables or constants. [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) remains credited for native-parameter references and fitting research.
+
+维护者授权公开[训练报告](docs/custom-lut-training/README.md)中的数值评估和生成的RGB统计图。本次不包含滤镜参数JSON、原片、目标TIFF、权重、Sony程序或常量；滤镜文件由维护者后续通过Releases提供。751K项目为本地模型原生前段提供研究与实现参考；报告公开不改变相关第三方内容的原有权利。

@@ -54,6 +54,7 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 | Back up, restore and maintain | [Advanced maintenance](advanced/) · [SD update recovery](methods/00-sd-recovery/README.en.md) |
 | Combine features and migrate installs | [Custom LUT integration](methods/08-custom-lut/INTEGRATION.md) · [FL2 / FL3 SD migration](methods/03-fl2-fl3/sd-colour-preservation.md) |
 | View interfaces and sample files | [LUT interface](methods/08-custom-lut/README.en.md) · [Sound samples](examples/custom-sounds/README.en.md) · [Aspect ratios](methods/07-custom-aspect-ratios/README.en.md) |
+| Review selected-look training | [Twelve-look scores and RGB comparisons](docs/custom-lut-training/README.en.md) |
 | Read technical references | [Colour comparison](docs/fl23-colour-comparison-20261018/README.md) · [Validation notes](docs/validation.md) · [Reference register](REFERENCES.md) |
 | Contribute | [Contribution guide](CONTRIBUTING.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) |
 
@@ -114,6 +115,7 @@ Thanks to the following projects for sharing the research referenced here:
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | Serial boot, RP2040 bridge, Fastboot payload and eMMC access. |
 | [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | FL2 / FL3 parameters and installation research. |
 | [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | Native colour parameters, grid lifecycle research and R5ColorLab's LUT-fitting approach. |
+| [751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) | Sony Edit RAW-development operators and Creative Look matrix/Gamma implementation, used for the native frontend of the M4 computer model. |
 | [DavidBuchanan314/fwtool.py](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) and [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | Firmware container formats and extraction. |
 | [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | Sony camera protocols and firmware research. |
 | [q19032/Sony-firmware-unpacker](https://github.com/q19032/Sony-firmware-unpacker) | Firmware decryption and key derivation research. |
@@ -124,4 +126,3 @@ Thanks also to the open-source tools and dependencies used by this project. Full
 ## Contributing
 
 Issues and pull requests are welcome. For new baselines, include input hashes, address maps and the basis for changes. Do not submit personal private keys, camera calibration, backups or complete firmware. See the [contribution guide](CONTRIBUTING.md).
-
