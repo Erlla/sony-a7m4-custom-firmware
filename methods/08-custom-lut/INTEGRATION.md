@@ -20,7 +20,7 @@ AP 纵横比 RX `0x09010000`、RW `0x09020000` 与 LUT 控制 RX `0x09000000`、
 
 AP 的 [LUT 编译缓存](../../native/persistent-cache/README.md)使用 `0x9048000..0x9048DDF`，其基础配方扩展后台 RX LOAD 至 `0x18DDF` 字节，没有新增 BSS。该缓存接入层保留固定导出；当前组合随后应用声音生命周期层，将声音转换调用恢复到原 WAV 转换器。LUT 编译缓存继续有效。按组件链应用 `a7m4.persistent_cache`，不能用基础声音 AP 覆盖其输出。它与 CP 的 LUT bank 回收分开；当前 AP/CP 声音生命周期输出身份由组件链单独列明。
 
-CP 纵横比实际 RX 为 `0x11B000..0x11B67C`，BSS 在 `0x11D000`，独立 READY 为 `0x1565F0C`。LUT 网格/生命周期 RX 使用 `0x11C000..0x11D000`；不要继续将旧链接脚本的整个预留区当作当前比例代码长度。LUT 的 READY、Gamma 表、声音状态各自分区，详情见位置清单。
+CP 纵横比原有 RX 为 `0x11B000..0x11B67C`，追加任务复制helper为 `0x11B700..0x11B754`，BSS 在 `0x11D000`，独立 READY 为 `0x1565F0C`。LUT 网格/生命周期 RX 使用 `0x11C000..0x11D000`；不要继续将旧链接脚本的整个预留区当作当前比例代码长度。LUT 的 READY、Gamma 表、声音状态各自分区，详情见位置清单。
 
 声音状态的区间也必须保留：owner 为 `0x1564840..0x15648FC`，driver/gain 诊断合计到 `0x1564A84`，对焦／快门交接状态继续使用 `0x1564A84..0x1564F98`。原厂 Gamma 回退表从 `0x1565000` 开始，177 行动态 Gamma 表位于 LUT 引擎堆对象中，不能把扩展表放回声音 RAM。检查声音代码字节不变还不够；同一份 CP RAM 中应串接启动、声音绑定、LUT 发布/关闭与两种声音播放，避免单独清空 fixture 掩盖覆盖。
 
@@ -39,3 +39,11 @@ English: current integration preserves the aspect bodies, battery patch sites, r
 ## 相册放大组件
 
 在既有AP声音生命周期和MPR JPEG EXIF层之后应用[a7m4.aspect_playback](../../native/aspect-playback/README.md)，分别生成AP和MPR组件。AP使用0x904C000的本机尺寸识别代码，既有RX保留范围到0x904C110；libmpr使用0x470400..0x4704B8读取布局代码。原生已识别比例、RAW类、LUT缓存和声音代码保持。当前输出身份见reference-layout.json的components及aspect_playback；前述各独立配方继续保留原输入/输出身份。
+
+## 拍摄任务复制中的比例
+
+声音生命周期CP之后应用[a7m4.aspect_capture_clone](../../native/aspect-capture-clone/README.md)，补全原生复制构造A03612旁路初次锁存的问题。它只继承源照片已冻结ID，不改变LUT原生task参数或读取当前菜单；0也覆盖目标旧状态。BA5508复用的是已被LUT直调取代的旧冻结dispatch行；BA55E0声音门、BA5718镜头AF helper、原A049B0/A03142包装和启动映射保持。当前CP身份及该层的独立输入/输出见reference-layout.json。
+
+可选AWB在这一层之后执行；列明的AWB先执行输入也可用，结果一致。AP/MPR回放放大组件仍按自己的顺序集成。
+
+English: apply the capture-copy aspect layer after the current sound lifecycle CP and before optional AWB. It inherits the source task's frozen ID, including zero, through the native copy constructor without altering LUT task fields or rereading the menu. Its resident dispatch row was superseded by the LUT freeze wrapper; existing sound and lens-AF gates remain intact. The listed AWB-first input converges to the same complete CP output. AP/MPR magnified playback remains a separate component chain.

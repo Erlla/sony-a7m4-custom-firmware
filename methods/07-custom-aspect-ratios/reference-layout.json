@@ -775,5 +775,23 @@
     "native_JPEG_layout_hint": 0,
     "actual_pixel_dimensions_preserved": true,
     "RAW_class_unchanged": true
+  },
+  "capture_task_inheritance": {
+    "component_recipe": "../../native/aspect-capture-clone/layout.json",
+    "input_scope": "Current integrated CP after sound lifecycle, with or without the listed AWB priority layer",
+    "helper_VA": "0x11b700",
+    "helper_bytes": 84,
+    "identities": {
+      "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f": {
+        "AWB_priority_applied": false,
+        "output_sha256": "28f3e21710ee4af035fa4c2f8661a43b5de6a23d017b5b4dabcd89b2f2a466d1"
+      },
+      "fa5941ea2dfda2d65faa6c844217f075a44e46cd38b8a23d9b731b6fc33dec23": {
+        "AWB_priority_applied": true,
+        "output_sha256": "c9399d46f231639d467f73316243bfae2620195502c8cc21fc2779ce810211aa"
+      }
+    },
+    "native_task_bytes_unchanged": true,
+    "RAW_geometry_unchanged": true
   }
 }

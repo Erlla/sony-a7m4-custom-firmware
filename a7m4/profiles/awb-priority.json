@@ -21,6 +21,10 @@
     "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f": {
       "kind": "integrated CP after sound lifecycle",
       "output_sha256": "fa5941ea2dfda2d65faa6c844217f075a44e46cd38b8a23d9b731b6fc33dec23"
+    },
+    "28f3e21710ee4af035fa4c2f8661a43b5de6a23d017b5b4dabcd89b2f2a466d1": {
+      "kind": "integrated CP after capture-copy aspect inheritance",
+      "output_sha256": "c9399d46f231639d467f73316243bfae2620195502c8cc21fc2779ce810211aa"
     }
   },
   "patches": [

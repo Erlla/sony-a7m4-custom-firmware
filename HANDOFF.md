@@ -117,3 +117,10 @@
 - Native STILL size recognition and JPEG aspect-valid classification are independent. Preserve the common matcher's 17 arguments and all existing callers; modify the JPEG-specific read getter only for known custom dimensions with invalid native layout.
 - Layout value 0 is a native compatibility hint. Keep actual pixel dimensions, RAW geometry, known native ratios and unknown non-project inputs unchanged. JPEG/RAW+JPEG magnification was confirmed by the maintainer; do not expand that confirmation to HEIF or every display route.
 - Public component metadata contains source/output hashes and stable entry locations. Keep private samples, complete firmware, research paths and iteration/package histories outside this repository.
+
+## Aspect inheritance in Capture task copies
+
+- Apply a7m4.aspect_capture_clone after sound lifecycle CP and before optional AWB. Preserve all earlier exact-input recipes. The listed AWB-first input converges to the same output; keep AWB's identity map and the current LUT CP reference aligned.
+- Native A03612 copies the task without A03142. After its A03650 memcpy, inherit the source task's frozen sidecar ID, including zero for ordinary photos; do not reread current menu state. Native task bytes and RAW geometry remain unchanged.
+- Helper RX is 11B700..11B754 with no additional BSS/heap. Reuse the superseded freeze row at BA5508 through the existing aspect-ready gate; A049B0 already enters the LUT wrapper and calls the aspect freeze directly. Preserve cold ARM memcpy, current prefix CRC at BA5A10, sound gates and lens-AF helper. Old standalone addresses and unused-looking resident space are not portable allocations.
+- The maintainer confirmed the face/eye-priority AF capture issue is resolved. Native replay does not observe the physical AF scheduler; do not extend that confirmation to every capture mode or HEIF sample. Publish authored source and component identities only, without firmware or private photos.

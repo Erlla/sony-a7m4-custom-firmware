@@ -28,7 +28,7 @@ The recipe's Ambience and Standard parameters match the FX2 factory values above
 
 ## Produce the modified CP component
 
-The supported layout derives from official Sony ILCE-7M4 firmware 6.02. The tool accepts two complete input identities: stock CP and the reference CP with LUT, aspect-ratio and sound-handoff integration. See the full hashes in the [patch profile](../../a7m4/profiles/awb-priority.json); the displayed camera version is insufficient to identify a compatible input.
+The supported layout derives from official Sony ILCE-7M4 firmware 6.02. The tool accepts the listed complete stock and integrated CP identities, including the sound lifecycle and Capture-copy aspect layers. See the full hashes in the [patch profile](../../a7m4/profiles/awb-priority.json); the displayed camera version is insufficient to identify a compatible input.
 
 Run from the repository root:
 
@@ -40,12 +40,13 @@ Obtain the supported input separately. Create the output parent directory first.
 
 ## Combine with existing features
 
-For the [integrated layout](../08-custom-lut/INTEGRATION.md), complete the existing features and [mutual sound handoff](../06-custom-sounds/README.en.md) first, then apply this recipe to its CP output:
+For the [integrated layout](../08-custom-lut/INTEGRATION.md), complete the existing features and [mutual sound handoff](../06-custom-sounds/README.en.md) first, then add [Capture-copy aspect inheritance](../../native/aspect-capture-clone/README.md) and apply AWB to that CP output:
 
 ```powershell
 python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --output output/cpapp-b.handoff.bin
 python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.handoff.bin --output output/cpapp-b.sound-lifecycle.bin
-python -m a7m4.awb_priority --input output/cpapp-b.sound-lifecycle.bin --output output/cpapp-b.awb.bin
+python -m a7m4.aspect_capture_clone --input output/cpapp-b.sound-lifecycle.bin --compiler path/to/arm-none-eabi-gcc.exe --output output/cpapp-b.aspect-copy.bin
+python -m a7m4.awb_priority --input output/cpapp-b.aspect-copy.bin --output output/cpapp-b.awb.bin
 ```
 
 These are alternative routes for the listed supported inputs. A stock CP cannot replace a combined CP that already contains LUT, aspect-ratio and sound features. Any other combination needs a new complete identity and integration review.

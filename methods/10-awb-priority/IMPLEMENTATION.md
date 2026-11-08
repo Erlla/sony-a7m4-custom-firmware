@@ -49,7 +49,7 @@ Other fields, including `+0x932/+0x933`, mode gates and the remaining AWB fusion
 
 [The profile](../../a7m4/profiles/awb-priority.json) lists the complete stock and integrated CP input/output pairs. The tool hashes the full input before editing, verifies each original span, and checks the complete expected result before creating a new output file.
 
-Apply AWB after the current sound-handoff CP layer. The integrated input is the output of [custom-sound-handoff.json](../../a7m4/profiles/custom-sound-handoff.json); the AWB output is the next component in that chain. The existing LUT reference remains the input-side reference for this optional method. Preserve its AP, resource, Gamma, sound and aspect components rather than replacing them with older standalone versions.
+Apply AWB after sound lifecycle and [Capture-copy aspect inheritance](../../native/aspect-capture-clone/README.md). The current LUT CP reference is the input-side identity for this optional method. Earlier listed sound-handoff and lifecycle identities remain supported by their exact hashes. Preserve its AP, resource, Gamma, sound and aspect components rather than replacing them with older standalone versions.
 
 For other CP variants, review the containing functions, instruction boundaries, signed arithmetic, backup/snapshot layout and modifications from every feature. Recompute full hashes and review boot/mapping behavior before adding support. The camera's displayed firmware label does not establish layout compatibility.
 

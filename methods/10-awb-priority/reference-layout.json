@@ -30,10 +30,16 @@
   ],
   "changed_bytes": 8,
   "composition": {
+    "preceding_profile": "../../native/aspect-capture-clone/layout.json",
+    "preceding_CP_sha256": "28f3e21710ee4af035fa4c2f8661a43b5de6a23d017b5b4dabcd89b2f2a466d1",
+    "output_CP_sha256": "c9399d46f231639d467f73316243bfae2620195502c8cc21fc2779ce810211aa",
+    "other_components": "preserve the existing integrated AP, resources, NOR and updater contracts"
+  },
+  "physical_installation_and_image_quality": "not verified for this AWB recipe",
+  "also_supported_composition": {
     "preceding_profile": "../../a7m4/profiles/custom-sound-lifecycle.json",
     "preceding_CP_sha256": "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f",
     "output_CP_sha256": "fa5941ea2dfda2d65faa6c844217f075a44e46cd38b8a23d9b731b6fc33dec23",
     "other_components": "preserve the existing integrated AP, resources, NOR and updater contracts"
-  },
-  "physical_installation_and_image_quality": "not verified for this AWB recipe"
+  }
 }

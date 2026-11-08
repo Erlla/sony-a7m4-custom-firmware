@@ -12,7 +12,7 @@ The recipe is supported by exact component identities and bounded execution evid
 | Original integrated BOOT/BODY/MMU replay | Register/flag/page-map results and existing optional-module readiness retained | Modeled RAM; no physical cache, DMA or boot observation |
 | Local full-package audit | FAT replacement/readback, plaintext complement, partition CRCs, full decode comparison and user-key signature | No physical installation or current-receiver compatibility claim |
 
-The published patcher is separately checked against the listed complete inputs. Its integrated output must equal the locally audited component `fa5941ea2dfda2d65faa6c844217f075a44e46cd38b8a23d9b731b6fc33dec23` after the current sound lifecycle layer. Neither complete manufacturer inputs nor derivative firmware binaries are distributed here.
+The published patcher is separately checked against the listed complete inputs. Its current integrated output must equal `c9399d46f231639d467f73316243bfae2620195502c8cc21fc2779ce810211aa` after sound lifecycle and Capture-copy aspect inheritance. The listed lifecycle-only output remains `fa5941ea2dfda2d65faa6c844217f075a44e46cd38b8a23d9b731b6fc33dec23`; applying the capture-copy layer afterward converges to the same current output. Neither complete manufacturer inputs nor derivative firmware binaries are distributed here.
 
 Host-side fixture tests cover rejected unknown input, incorrect original bytes, overlapping edits, incorrect output identity and refusal to overwrite an existing output. Those tests exercise tool contracts; they do not stand in for native firmware execution.
 

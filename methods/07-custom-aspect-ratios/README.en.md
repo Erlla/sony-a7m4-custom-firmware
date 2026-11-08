@@ -11,6 +11,8 @@ For implementation or porting, [IMPLEMENTATION.md](IMPLEMENTATION.md) lists exac
 
 In-camera magnified playback also uses the [playback compatibility component](../../native/aspect-playback/README.md). Native size recognition and JPEG aspect classification are separate steps, both covered by this component. It includes authored native source, exact input/output identities and build commands, preserving cropped pixel dimensions and the original RAW area.
 
+The capture chain also includes [frozen-ratio inheritance for task copies](../../native/aspect-capture-clone/README.md), so copied photo tasks retain the selected crop while face/eye-priority AF is enabled.
+
 ## Resulting behavior
 
 | Item | Behavior |
@@ -18,6 +20,7 @@ In-camera magnified playback also uses the [playback compatibility component](..
 | Added ratios | 17:6, 65:24, 5:4 and 7:6, alongside the four stock options |
 | JPEG / HEIF | Center-cropped output using the selected ratio and the encoder's pixel-alignment requirements |
 | RAW | Original image area retained; the JPEG in RAW+JPEG uses the selected crop |
+| Face/eye-priority AF | JPEG and RAW+JPEG retain the selected custom crop with AF enabled; RAW keeps its original frame |
 | In-camera album | Custom-ratio JPEG / RAW+JPEG photos support magnified playback using their actual cropped dimensions |
 | Labels and Fn icons | Display the selected custom ratio |
 | Aspect-ratio selection page | Preview follows the highlighted option; confirmation applies it, cancellation returns to the saved selection |

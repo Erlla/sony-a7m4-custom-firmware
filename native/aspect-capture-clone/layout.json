@@ -1,0 +1,72 @@
+{
+  "schema": "a7m4.aspect-capture-clone.component.v1",
+  "model": "ILCE-7M4",
+  "cp_base": "0x108000",
+  "file_bytes": 16236816,
+  "compiler": "arm-none-eabi-gcc (exact executable identity below)",
+  "compiler_sha256": "40df08ce8d40bfe8f24b10cfaf9f53becd812fd0f222b9ac81a99b9533fd70e9",
+  "compiler_flags": [
+    "-mcpu=cortex-a5",
+    "-mthumb",
+    "-mfloat-abi=soft",
+    "-Os",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ffreestanding",
+    "-fno-builtin",
+    "-fno-stack-protector",
+    "-fno-unwind-tables",
+    "-fno-asynchronous-unwind-tables",
+    "-nostdlib",
+    "-Wl,--build-id=none"
+  ],
+  "sources": {
+    "clone.c": "5b2feb2843c6dc07c7d39b304ff4d42dc94c6a6e0ef10a6711e5c923a72e7fcd",
+    "clone.ld": "46b1ec2facea9d0732da9f9415a7654452fc9aba59f278dd9179c22ec9d601ec"
+  },
+  "helper_VA": "0x11b700",
+  "helper_entry": "0x11b701",
+  "helper_bytes": 84,
+  "helper_sha256": "3db75f9d468363048406eb2bb94b9a4a5f6f2b5f7a222f3714d95f1129be3d1a",
+  "identities": {
+    "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f": {
+      "AWB_priority_applied": false,
+      "output_sha256": "28f3e21710ee4af035fa4c2f8661a43b5de6a23d017b5b4dabcd89b2f2a466d1"
+    },
+    "fa5941ea2dfda2d65faa6c844217f075a44e46cd38b8a23d9b731b6fc33dec23": {
+      "AWB_priority_applied": true,
+      "output_sha256": "c9399d46f231639d467f73316243bfae2620195502c8cc21fc2779ce810211aa"
+    }
+  },
+  "patches": [
+    {
+      "VA": "0xa03650",
+      "before": "82f7b2e4",
+      "after": "a1f12eff",
+      "reason": "Existing aspect-ready resident dispatcher"
+    },
+    {
+      "VA": "0xba5508",
+      "before": "b549a000c1b21100",
+      "after": "5536a00001b71100",
+      "reason": "Reuse superseded freeze row; original ARM memcpy stays cold target"
+    }
+  ],
+  "prefix_crc": {
+    "start_VA": "0x118000",
+    "end_VA": "0x11e000",
+    "literal_VA": "0xba5a10"
+  },
+  "native_entries": {
+    "task_index": "0x11b1f9",
+    "aspect_task_id": "0x11b261",
+    "task_ids": "0x11d00c",
+    "aspect_ready": "0x1565f0c",
+    "resident_gate": "0xba54b0",
+    "clone_memcpy": "0xa03650"
+  },
+  "new_BSS_bytes": 0,
+  "new_heap_bytes": 0
+}

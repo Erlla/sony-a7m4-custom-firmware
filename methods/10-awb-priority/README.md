@@ -28,7 +28,7 @@
 
 ## 生成修改后的 CP
 
-适用于 Sony ILCE-7M4 官方 6.02 对应的 CP 布局。工具接受两种完整文件身份：原厂 CP，以及已完成 LUT／纵横比／声音交接集成的参考 CP。具体摘要列于[补丁配方](../../a7m4/profiles/awb-priority.json)，不能仅按相机显示版本选择输入。
+适用于 Sony ILCE-7M4 官方 6.02 对应的 CP 布局。工具接受配方列明的原厂及组合 CP 完整文件身份，包含声音生命周期与拍摄任务比例复制后的输入。具体摘要列于[补丁配方](../../a7m4/profiles/awb-priority.json)，不能仅按相机显示版本选择输入。
 
 在仓库根目录运行：
 
@@ -40,15 +40,16 @@ python -m a7m4.awb_priority --input local/cpapp-b.bin --output output/cpapp-b.aw
 
 ## 与已有功能组合
 
-对于[当前组合布局](../08-custom-lut/INTEGRATION.md)，先完成原有功能和[声音双向交接](../06-custom-sounds/README.md#生成修改后的组件)，再将其 CP 输出交给本工具：
+对于[当前组合布局](../08-custom-lut/INTEGRATION.md)，先完成原有功能和[声音双向交接](../06-custom-sounds/README.md#生成修改后的组件)，随后完成[拍摄任务比例传递](../../native/aspect-capture-clone/README.md)，再将其 CP 输出交给本工具：
 
 ```powershell
 python -m a7m4.custom_sound_handoff --input local/integrated/cpapp-b.bin --output output/cpapp-b.handoff.bin
 python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.handoff.bin --output output/cpapp-b.sound-lifecycle.bin
-python -m a7m4.awb_priority --input output/cpapp-b.sound-lifecycle.bin --output output/cpapp-b.awb.bin
+python -m a7m4.aspect_capture_clone --input output/cpapp-b.sound-lifecycle.bin --compiler path/to/arm-none-eabi-gcc.exe --output output/cpapp-b.aspect-copy.bin
+python -m a7m4.awb_priority --input output/cpapp-b.aspect-copy.bin --output output/cpapp-b.awb.bin
 ```
 
-这是两种受支持输入的不同使用路线。原厂 CP 不能代替已经包含 LUT、纵横比和声音的组合 CP；其他组合必须重新核对完整文件和修改合同。
+这些是配方列明输入的不同使用路线。原厂 CP 不能代替已经包含 LUT、纵横比和声音的组合 CP；其他组合必须重新核对完整文件和修改合同。
 
 ## 完整固件与使用
 

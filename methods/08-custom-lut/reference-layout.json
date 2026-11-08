@@ -15,7 +15,7 @@
     {
       "component": "CP",
       "bytes": 16236816,
-      "sha256": "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f"
+      "sha256": "28f3e21710ee4af035fa4c2f8661a43b5de6a23d017b5b4dabcd89b2f2a466d1"
     },
     {
       "component": "MPR",
@@ -1162,6 +1162,13 @@
       "output_sha256": "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f",
       "tool": "python -m a7m4.custom_sound_lifecycle --component cp",
       "profile": "a7m4/profiles/custom-sound-lifecycle.json"
+    },
+    {
+      "purpose": "Inherit the frozen custom aspect ratio across native Capture task copies",
+      "source_sha256": "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f",
+      "output_sha256": "28f3e21710ee4af035fa4c2f8661a43b5de6a23d017b5b4dabcd89b2f2a466d1",
+      "tool": "python -m a7m4.aspect_capture_clone",
+      "profile": "native/aspect-capture-clone/layout.json"
     }
   ],
   "sound_handoff": {
@@ -1372,5 +1379,16 @@
     },
     "CP_AV_and_resources_unchanged": true,
     "added_BSS_bytes": 0
+  },
+  "aspect_capture_clone": {
+    "recipe": "../../native/aspect-capture-clone/layout.json",
+    "input_stage": "After sound lifecycle; before optional AWB (the listed AWB-first input is also supported)",
+    "source_sha256": "715df096ae18d08f836df5833830f567ca4685ddee1861be14e019036362682f",
+    "output_sha256": "28f3e21710ee4af035fa4c2f8661a43b5de6a23d017b5b4dabcd89b2f2a466d1",
+    "helper_VA": "0x11b700",
+    "helper_bytes": 84,
+    "new_BSS_bytes": 0,
+    "new_heap_bytes": 0,
+    "AP_MPR_AV_and_resources_unchanged": true
   }
 }
