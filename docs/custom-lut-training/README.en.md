@@ -1,88 +1,191 @@
-# Selected custom looks: training results
+# Selected custom looks: current training results and errors
 
-[中文](README.md) · [Custom LUT operation](../../methods/08-custom-lut/README.en.md) · [Scores CSV](scores.csv) · [Machine-readable results](results.json) · [AI Agent training method](AGENT_TRAINING.en.md)
+[中文](README.md) · [Using LUTs](../../methods/08-custom-lut/README.en.md) · [Scores CSV](scores.csv) · [Results JSON](results.json) · [Agent training guide](AGENT_TRAINING.en.md)
 
-To fit your own look, give an AI Agent the [execution guide](AGENT_TRAINING.en.md) and same-RAW target pairs. Ordinary photographs are supported; a professional chart is optional. Model/code/chart organisation is described in the [training entry](../../training/README.en.md).
+**Updated 2026-11-09. This page replaces the earlier-stage report and identifies the current 15 JSON looks by SHA-256. Twelve Fujifilm simulations have paired RFCEX targets; the other three retain their original parameters and remain unassessed.**
 
-Twelve Fujifilm-style looks were refined through the M4 computer model. The equally weighted mean of their average ΔE00 scores fell from **2.014 to 1.190, a 40.9% reduction**. Shadow and face/neck-shadow means improved for every look. This is the offline evaluation dated 2026-11-08; **the new parameters have not yet been validated in fresh camera captures**.
+**These scores compare M4 model output from existing real-camera RAWs with Fujifilm RFCEX TIFFs produced from the same RAWs via RAF conversion. They are not new on-camera acceptance results for this 15-look package.** The data have been used for training, selection and protection, rather than independent blind testing.
 
-This update publishes results and diagnostic plots only. The maintainer will provide look JSON files separately through [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases). Ricoh Positive, Ricoh Negative and Portra400NB were excluded from this optimization.
+The macro-average of the twelve chart mean ΔE00 values is **1.0445**. **9/12** meet both mean≤2 and P95≤3 on that chart set. This does not bound the maximum or establish whole-gamut or unseen-scene accuracy.
 
-## Per-look scores
+![Current parameter error ranges](images/scores.png)
 
-Each look uses 20 conditions and 2,194 ROI means: 42 existing RAW files provide 240 look/condition target pairs, covering exposure, three light/WB settings, ISO and materials. ΔE00 uses sRGB→D65 CIELAB, kL=kC=kH=1. RGB RMSE is across ROI mean RGB values in 0–255 units.
+## 1. Existing real-camera chart data: 15 × 140 patches per look
 
-| Look | Mean ΔE00 | P95 | Maximum ΔE00 | RGB ROI-mean RMSE |
-|---|---:|---:|---:|---:|
-| CLASSIC CHROME | 1.881 → 1.228 | 4.192 → 2.913 | 10.975 → 7.132 | 3.470 → 2.571 |
-| PROVIA | 1.900 → 1.048 | 4.887 → 2.829 | 13.512 → 8.998 | 5.288 → 3.318 |
-| Velvia | 2.559 → 1.215 | 6.306 → 3.302 | 19.063 → 11.888 | 6.872 → 4.907 |
-| ASTIA | 1.918 → 1.122 | 4.548 → 2.711 | 11.972 → 9.226 | 4.826 → 3.095 |
-| REALA ACE | 2.894 → 2.152 | 7.478 → 5.703 | 15.095 → 10.557 | 6.626 → 4.767 |
-| PRO Neg. Hi | 1.777 → 0.953 | 4.384 → 2.466 | 13.820 → 8.942 | 4.186 → 2.629 |
-| PRO Neg. Std | 2.152 → 1.426 | 6.011 → 3.977 | 10.371 → 7.156 | 4.493 → 2.864 |
-| CLASSIC Neg. | 1.750 → 1.011 | 4.640 → 2.488 | 13.087 → 12.523 | 3.608 → 2.628 |
-| NOSTALGIC Neg. | 2.487 → 1.523 | 6.026 → 3.459 | 11.453 → 7.799 | 6.836 → 3.846 |
-| ETERNA | 1.811 → 1.046 | 4.331 → 2.474 | 9.203 → 6.675 | 2.712 → 1.993 |
-| ETERNA BLEACH BYPASS | 1.447 → 0.842 | 3.600 → 2.035 | 9.885 → 7.760 | 2.492 → 1.709 |
-| ACROS | 1.589 → 0.715 | 5.619 → 2.027 | 13.824 → 7.652 | 7.043 → 2.307 |
+Each patch has equal weight. The 15 images include repeats and are not 15 independent lighting/exposure conditions.
 
-![Twelve-look scores](images/scores.png)
+| Look | Mean ΔE00 | P95 | Maximum ΔE00 | RGB RMSE / 255 |
+|---|---|---|---|---|
+| CLASSIC CHROME | 0.9645 | 2.3573 | 6.1007 | 1.7499 |
+| PROVIA | 0.8903 | 2.2424 | 6.2052 | 1.9655 |
+| Velvia | 0.9443 | 2.4081 | 7.1202 | 2.9805 |
+| ASTIA | 0.9985 | 2.4020 | 7.4676 | 2.2410 |
+| REALA ACE | 2.1529 | 5.7070 | 10.5504 | 4.6945 |
+| PRO Neg. Hi | 0.7879 | 1.9922 | 5.2166 | 1.5182 |
+| PRO Neg. Std | 1.3928 | 4.0175 | 7.1586 | 2.7467 |
+| CLASSIC Neg. | 0.8158 | 1.8683 | 9.5838 | 1.6115 |
+| NOSTALGIC Neg. | 1.4873 | 3.4655 | 6.9480 | 3.6640 |
+| ETERNA | 0.9359 | 2.2722 | 6.4762 | 1.5281 |
+| ETERNA BLEACH BYPASS | 0.6498 | 1.6760 | 7.1108 | 1.3558 |
+| ACROS | 0.5140 | 1.3836 | 4.7759 | 1.6862 |
+| 理光正片 | — | — | — | — |
+| 理光负片 | — | — | — | — |
+| Portra400NB | — | — | — | — |
 
-## Shadows and regression conditions
+## 2. Historical ROIs, including materials and skin shadows
 
-| Look | Shadow mean | Face/neck-shadow mean | Seven-condition mean |
-|---|---:|---:|---:|
-| CLASSIC CHROME | 1.733 → 1.075 | 1.713 → 0.720 | 1.919 → 1.283 |
-| PROVIA | 1.445 → 0.721 | 1.393 → 0.422 | 2.249 → 1.248 |
-| Velvia | 2.062 → 0.914 | 2.384 → 0.487 | 2.971 → 1.497 |
-| ASTIA | 1.544 → 0.886 | 1.446 → 0.604 | 2.202 → 1.262 |
-| REALA ACE | 2.018 → 1.539 | 1.126 → 0.967 | 3.350 → 2.288 |
-| PRO Neg. Hi | 1.436 → 0.664 | 1.930 → 0.366 | 2.028 → 1.115 |
-| PRO Neg. Std | 1.246 → 0.899 | 1.056 → 0.610 | 2.476 → 1.419 |
-| CLASSIC Neg. | 1.323 → 0.792 | 1.509 → 0.415 | 2.020 → 1.265 |
-| NOSTALGIC Neg. | 1.906 → 1.279 | 1.354 → 0.577 | 2.734 → 1.597 |
-| ETERNA | 1.635 → 0.838 | 1.405 → 0.402 | 1.780 → 1.128 |
-| ETERNA BLEACH BYPASS | 1.141 → 0.666 | 1.132 → 0.495 | 1.578 → 0.976 |
-| ACROS | 0.655 → 0.347 | 2.155 → 0.522 | 2.000 → 0.926 |
+There are 2,194 ROIs per measured look, including the 2,100 chart patches above. These sets overlap and must not be added as independent samples.
 
-The first pass fits 13 conditions and uses seven historical conditions for candidate selection. The second pass for REALA ACE, PRO Neg. Std and NOSTALGIC Neg. directly includes those targets in constraint optimization. All data were previously observed; these are not blind-test scores. Acceptance permits small individual regressions: 0.015 in group means, 0.04 in P95 and 0.08 in maxima; those limits were retained.
+| Look | Mean ΔE00 | P95 | Maximum ΔE00 | RGB RMSE / 255 |
+|---|---|---|---|---|
+| CLASSIC CHROME | 0.9557 | 2.3406 | 6.1007 | 1.7318 |
+| PROVIA | 0.8815 | 2.2038 | 6.2052 | 1.9536 |
+| Velvia | 0.9390 | 2.3913 | 7.1202 | 2.9543 |
+| ASTIA | 0.9849 | 2.3673 | 7.4676 | 2.2207 |
+| REALA ACE | 2.1213 | 5.6488 | 10.5504 | 4.6661 |
+| PRO Neg. Hi | 0.7808 | 1.9720 | 5.2166 | 1.5022 |
+| PRO Neg. Std | 1.3757 | 3.9795 | 7.1586 | 2.7357 |
+| CLASSIC Neg. | 0.8062 | 1.8488 | 9.5838 | 1.6378 |
+| NOSTALGIC Neg. | 1.4646 | 3.4480 | 6.9480 | 3.6463 |
+| ETERNA | 0.9264 | 2.2502 | 6.4762 | 1.5333 |
+| ETERNA BLEACH BYPASS | 0.6427 | 1.6462 | 7.1108 | 1.3441 |
+| ACROS | 0.5124 | 1.3846 | 4.7759 | 1.6774 |
+| 理光正片 | — | — | — | — |
+| 理光负片 | — | — | — | — |
+| Portra400NB | — | — | — | — |
 
-## RGB distributions
+Shadow subsets also overlap the historical set:
 
-These use all original chart-interior pixels at 6500K/EV0, weighted equally per ROI. Pale lines show selected baselines, solid lines the refined integer JSON, and black dashed lines the Fuji-software targets. The actual RGB16 CUDA renderer produced the pixels; distribution distances match the full evaluation receipts.
+| Look | Shadow mean ΔE00 | Shadow P95 | Skin-shadow mean ΔE00 | Skin-shadow P95 |
+|---|---|---|---|---|
+| CLASSIC CHROME | 0.8533 | 2.1908 | 0.6307 | 0.9821 |
+| PROVIA | 0.6770 | 1.5874 | 0.3413 | 0.5890 |
+| Velvia | 0.8450 | 1.8978 | 0.4695 | 0.5421 |
+| ASTIA | 0.8135 | 1.9211 | 0.5679 | 0.8876 |
+| REALA ACE | 1.5247 | 4.0878 | 0.9461 | 1.6490 |
+| PRO Neg. Hi | 0.5853 | 1.4320 | 0.3309 | 0.4859 |
+| PRO Neg. Std | 0.8731 | 2.4247 | 0.5233 | 1.2410 |
+| CLASSIC Neg. | 0.7079 | 1.4890 | 0.3459 | 0.5929 |
+| NOSTALGIC Neg. | 1.2346 | 2.6542 | 0.6129 | 1.0099 |
+| ETERNA | 0.7689 | 1.7041 | 0.3536 | 0.4903 |
+| ETERNA BLEACH BYPASS | 0.4677 | 1.0963 | 0.4142 | 0.5755 |
+| ACROS | 0.2928 | 0.6584 | 0.3159 | 0.5424 |
 
-[CLASSIC CHROME](images/CC_RGB.png) · [PROVIA](images/PROVIA_RGB.png) · [Velvia](images/VELVIA_RGB.png) · [ASTIA](images/ASTIA_RGB.png) · [REALA ACE](images/REALA_ACE_RGB.png) · [PRO Neg. Hi](images/PRO_NEG_HI_RGB.png) · [PRO Neg. Std](images/PRO_NEG_STD_RGB.png) · [CLASSIC Neg.](images/CLASSIC_NEG_RGB.png) · [NOSTALGIC Neg.](images/NOSTALGIC_NEG_RGB.png) · [ETERNA](images/ETERNA_RGB.png) · [ETERNA BLEACH BYPASS](images/ETERNA_BLEACH_BYPASS_RGB.png) · [ACROS](images/ACROS_RGB.png)
+## 3. Synthetic RAW gamut: 99,372 inputs per look
 
-![CC RGB distributions](images/CC_RGB.png)
+The input is the actual CFA/metadata mapping of SONY-v4.5-100MP-5300K.ARW, not design RGB substituted for RAW. Saturated and extreme colours make this set harder than the physical chart. CC uses the controlled as-shot target; other looks retain their registered historical targets.
 
-## Method and scope
+| Look | Mean ΔE00 | P95 | Maximum ΔE00 | RGB RMSE / 255 |
+|---|---|---|---|---|
+| CLASSIC CHROME | 2.8046 | 7.3476 | 19.1481 | 10.6475 |
+| PROVIA | 3.3146 | 7.9295 | 20.4745 | 15.5007 |
+| Velvia | 3.9038 | 9.0551 | 18.0233 | 19.2034 |
+| ASTIA | 3.4994 | 8.8990 | 20.8054 | 15.7822 |
+| REALA ACE | 7.2661 | 18.7451 | 48.3892 | 38.0997 |
+| PRO Neg. Hi | 3.0030 | 7.1796 | 20.8319 | 13.2410 |
+| PRO Neg. Std | 5.6686 | 14.3092 | 29.1963 | 26.1704 |
+| CLASSIC Neg. | 3.2538 | 8.5207 | 26.6263 | 12.2964 |
+| NOSTALGIC Neg. | 7.3319 | 21.6897 | 48.5536 | 34.6109 |
+| ETERNA | 2.7971 | 6.7730 | 17.9767 | 11.0336 |
+| ETERNA BLEACH BYPASS | 2.9750 | 8.6811 | 20.2845 | 7.8125 |
+| ACROS | 4.2562 | 15.1437 | 25.5836 | 16.1519 |
+| 理光正片 | — | — | — | — |
+| 理光负片 | — | — | — | — |
+| Portra400NB | — | — | — | — |
 
-- Same-source Sony ARWs were converted to RAF and developed with the matching film simulation in Fujifilm RAW FILE CONVERTER EX, exporting 16-bit sRGB TIFF. These are software-pipeline targets, not side-by-side physical Fujifilm camera captures.
-- The actual selected collection supplies the starting parameters: eight adapted R5 references and four project-derived looks. Explicit Edit operators form the native frontend; a V4 zero-grid bridge and a frozen, measured neural response model handle the color grid. Response-network weights were not retrained in this run.
-- Optimization changes 1,215 signed7 grid values (3×5×9×9, −64…63, within ±16 of the starting point). Gamma, matrices, base coefficients and menu defaults remain fixed, with identical photo/preview grids. Two 1,800-step starts are followed, for three rejected looks, by two 1,200-step constrained starts.
-- All original ROI pixels are aggregated at the actual 129³ renderer-LUT nodes. A 12-pixel-halo atlas matched 3,200,072 full-render pixels exactly. Reloaded integer JSONs were replayed through the real kernel over 799,536,917 ROI pixels; the largest score difference from optimization was 1.83×10⁻⁵.
-- No additional lens correction or exposure/WB normalization was applied on the computer. Original capture settings remain unchanged.
+Hue errors are in degrees, not ΔE00, across 24 fixed-input-hue brightness tracks. Fixed target-valid masks and candidate loss-of-chroma penalties are retained. Hue is not meaningful for ACROS.
 
-## Model versus historical camera output
+| Look | Hue MAE / degrees | Hue P95 / degrees |
+|---|---|---|
+| CLASSIC CHROME | 2.5430 | 7.3944 |
+| PROVIA | 3.0981 | 9.1003 |
+| Velvia | 3.6665 | 11.5158 |
+| ASTIA | 3.8997 | 10.8786 |
+| REALA ACE | 17.4905 | 63.2287 |
+| PRO Neg. Hi | 2.0627 | 5.8786 |
+| PRO Neg. Std | 13.5863 | 44.8531 |
+| CLASSIC Neg. | 2.5076 | 6.9262 |
+| NOSTALGIC Neg. | 14.8001 | 64.6468 |
+| ETERNA | 1.8432 | 5.1834 |
+| ETERNA BLEACH BYPASS | 1.5948 | 4.8345 |
+| ACROS | N/A | N/A |
 
-Twelve RAW/JPEG pairs outside this fitting set compare the original selected looks at 140 chart centers, each 24×24 pixels. They measure baseline model-reproduction error, not fresh camera accuracy for the new candidates. Some extreme-condition maxima remain high; not every patch is below ΔE00=3.
+REALA ACE, NOSTALGIC Neg. and PRO Neg. Std still have substantial gamut and hue tails. The current looks do not achieve mean≤2 or maximum≤3 throughout this gamut.
 
-| Look | Model/camera mean ΔE00 | P95 | RGB ROI-mean RMSE |
-|---|---:|---:|---:|
-| CC | 0.821 | 1.976 | 1.571 |
-| PROVIA | 1.185 | 3.674 | 3.752 |
-| VELVIA | 1.462 | 4.267 | 4.883 |
-| ASTIA | 1.085 | 3.128 | 3.188 |
-| REALA_ACE | 0.650 | 1.230 | 1.317 |
-| PRO_NEG_HI | 0.983 | 2.822 | 2.129 |
-| PRO_NEG_STD | 0.730 | 1.461 | 1.306 |
-| CLASSIC_NEG | 0.905 | 1.569 | 2.449 |
-| NOSTALGIC_NEG | 0.710 | 1.285 | 1.896 |
-| ETERNA | 0.749 | 1.608 | 1.289 |
-| ETERNA_BLEACH_BYPASS | 0.747 | 1.407 | 1.310 |
-| ACROS | 1.121 | 2.431 | 1.583 |
+## 4. Neutral-to-shadow response
+
+Gray-axis points are selected at target L*=5..35. Different film tone curves produce different point counts, so these are not identical sample sets for ranking.
+
+| Look | Points | Mean ΔE00 | L* RMSE | a* RMSE | b* RMSE | C*ab RMSE |
+|---|---|---|---|---|---|---|
+| CLASSIC CHROME | 40 | 0.5741 | 0.4811 | 0.3167 | 0.2901 | 0.2025 |
+| PROVIA | 43 | 3.2413 | 0.3443 | 2.4894 | 0.4815 | 2.1009 |
+| Velvia | 34 | 3.8680 | 0.7397 | 3.1038 | 0.7273 | 3.0455 |
+| ASTIA | 41 | 3.2202 | 0.4689 | 2.5124 | 0.6906 | 2.1106 |
+| REALA ACE | 44 | 3.2247 | 1.2640 | 2.2806 | 0.9028 | 1.6923 |
+| PRO Neg. Hi | 37 | 2.9761 | 0.4162 | 2.2542 | 0.6475 | 2.0546 |
+| PRO Neg. Std | 44 | 2.5445 | 0.6580 | 1.8832 | 0.6585 | 1.0725 |
+| CLASSIC Neg. | 44 | 2.1639 | 0.4930 | 1.8039 | 0.4693 | 1.5538 |
+| NOSTALGIC Neg. | 44 | 3.0823 | 0.5779 | 2.2561 | 0.4885 | 0.7714 |
+| ETERNA | 53 | 1.6926 | 0.5487 | 1.2705 | 0.4088 | 0.9319 |
+| ETERNA BLEACH BYPASS | 49 | 1.4559 | 0.4300 | 1.1286 | 0.3895 | 0.4796 |
+| ACROS | 42 | 0.5890 | 0.8133 | 0.1350 | 0.1813 | 0.2030 |
+
+The older CC target matches manual 6710K/Tint23; the controlled as-shot target records 6710K/Tint18. This is the same current JSON evaluated against different targets, not an optimisation gain:
+
+| CC target | Mean ΔE00 | P95 | Maximum ΔE00 |
+|---|---|---|---|
+| as_shot | 2.8046 | 7.3476 | 19.1481 |
+| legacy_Tint23 | 2.9244 | 7.1517 | 19.1442 |
+
+## 5. Supplementary 140-patch chart
+
+Nine looks have a further paired 140-patch target used for selection/protection. This is not a blind test. Pro Neg. Std, Nostalgic Neg. and Acros have no target in this particular group; their main chart results above still exist.
+
+| Look | Mean ΔE00 | P95 | Maximum ΔE00 | RGB RMSE / 255 |
+|---|---|---|---|---|
+| CLASSIC CHROME | 1.0654 | 2.1319 | 3.2129 | 2.0938 |
+| PROVIA | 1.1482 | 2.5955 | 4.1060 | 2.7890 |
+| Velvia | 1.1388 | 2.3519 | 4.5016 | 3.6202 |
+| ASTIA | 1.1966 | 2.2494 | 4.7164 | 2.6292 |
+| REALA ACE | 2.6408 | 7.1618 | 9.2448 | 5.1289 |
+| PRO Neg. Hi | 1.1016 | 2.3818 | 4.4246 | 2.2490 |
+| CLASSIC Neg. | 0.8926 | 1.6713 | 3.4028 | 2.0593 |
+| ETERNA | 1.1743 | 2.2674 | 3.8264 | 1.9253 |
+| ETERNA BLEACH BYPASS | 0.7615 | 1.7143 | 2.4472 | 1.5636 |
+
+## 6. Current file identities
+
+Initial provenance identifies the original starting point only. Later M4 refinement means initial on-camera scores cannot be reused as scores for these current parameters. Full hashes are in results.json; finished JSON looks are distributed separately through Releases.
+
+| File | Initial provenance | Current status | SHA-256 prefix |
+|---|---|---|---|
+| CLASSIC CHROME.json | R5 adaptation | M4-refined | `8ea00e3edcf2` |
+| PROVIA.json | R5 adaptation | M4-refined | `6f19114c1493` |
+| Velvia.json | R5 adaptation | M4-refined | `ca69cb7d8f83` |
+| ASTIA.json | R5 adaptation | M4-refined | `af4a71eda6b2` |
+| REALA ACE.json | M4 fitting | M4-refined | `8bcdd3f6389c` |
+| PRO Neg. Hi.json | R5 adaptation | M4-refined | `45c8e316aebf` |
+| PRO Neg. Std.json | M4 fitting | M4-refined | `44552f5594c3` |
+| CLASSIC Neg.json | R5 adaptation | M4-refined | `7f851b87ca86` |
+| NOSTALGIC Neg.json | M4 fitting | M4-refined | `76db7ca8bd81` |
+| ETERNA.json | R5 adaptation | M4-refined | `9074c8cb458d` |
+| ETERNA BLEACH BYPASS.json | R5 adaptation | M4-refined | `8f8af7085b2f` |
+| ACROS.json | M4 fitting | M4-refined | `2e2b65403078` |
+| 理光正片.json | R5 adaptation | Unchanged; unassessed | `9ac9b6839f93` |
+| 理光负片.json | R5 adaptation | Unchanged; unassessed | `58a2804dd942` |
+| Portra400NB.json | R5 adaptation | Unchanged; unassessed | `f4e3bbc28f60` |
+
+## 7. Metrics and reproduction scope
+
+- ΔE00 uses sRGB→D65 CIELAB and CIEDE2000 with kL=kC=kH=1. P95 is the 95th percentile. RGB RMSE is measured on encoded 0..255 sRGB codes; real-scene entries use ROI means, not a whole-image pixel error.
+- Scores are reaggregated from the RGB16 replay results matching the current parameters. No model/filter training, target replacement, exposure/WB normalisation or added lens correction was performed for this report.
+- Chart, historical, supplementary and synthetic-gamut sets remain separate. Historical material, skin-shadow and chart subsets overlap.
+- Only CC has the controlled as-shot target confirmation. The other eleven targets retain historical WB settings that have not been independently confirmed per look. Changing targets is not a training gain.
+- Model-to-camera agreement and look-to-Fuji matching are different measurements. This report covers the latter; it does not establish equivalence to a real Fujifilm body across every lens, light or ISO.
+
+See the [training entry](../../training/README.en.md) and [Agent guide](AGENT_TRAINING.en.md). [results.json](results.json) records full current-file hashes, the model identity, source-statistics identity and per-condition scores.
 
 ## Acknowledgements
 
-[751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) provides the Sony Edit RAW operators and Creative Look arithmetic used by the local M4 model's native frontend. [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) provides native-parameter references and fitting research. Source photographs, reference TIFFs, weights, Sony executables and extracted constants are not included in this report.
+Special thanks to [Hearts-Ace](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) for substantial support with training methodology, native parameters, grid search and synthetic dense-chart research, and to [751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) for native-rendering implementations. This report includes no finished-look JSONs, personal photographs, target TIFFs, model weights or Sony executables/runtime constants.

@@ -56,7 +56,7 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 | Back up, restore and maintain | [Advanced maintenance](advanced/) · [SD update recovery](methods/00-sd-recovery/README.en.md) |
 | Combine features and migrate installs | [Custom LUT integration](methods/08-custom-lut/INTEGRATION.md) · [FL2 / FL3 SD migration](methods/03-fl2-fl3/sd-colour-preservation.md) |
 | View interfaces and sample files | [LUT interface](methods/08-custom-lut/README.en.md) · [Sound samples](examples/custom-sounds/README.en.md) · [Aspect ratios](methods/07-custom-aspect-ratios/README.en.md) |
-| Train and evaluate custom looks | [AI Agent training method](docs/custom-lut-training/AGENT_TRAINING.en.md) · [Twelve-look scores and RGB comparisons](docs/custom-lut-training/README.en.md) |
+| Train and evaluate custom looks | [AI Agent training method](docs/custom-lut-training/AGENT_TRAINING.en.md) · [Current 15-look error report](docs/custom-lut-training/README.en.md) |
 | Read technical references | [Colour comparison](docs/fl23-colour-comparison-20261018/README.md) · [Validation notes](docs/validation.md) · [Reference register](REFERENCES.md) |
 | Contribute | [Contribution guide](CONTRIBUTING.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) |
 
