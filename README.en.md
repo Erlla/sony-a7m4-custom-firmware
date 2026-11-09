@@ -98,6 +98,14 @@ Use `maintain --already-fastboot` if already connected in Fastboot. Backup and w
 
 </details>
 
+## 3. LUT training methods
+
+Use the existing M4 computer model to simulate “the same RAW + native JSON → predicted camera output” and iteratively fit a look. Within model coverage, each candidate can be evaluated without another camera shoot. The workflow is designed for AI Agents, with reusable dense-chart/paired-photo data, model dependencies, grid/native search and formal integer-output verification.
+
+**[Training source and assets](training/README.en.md)** · [Agent execution guide](docs/custom-lut-training/AGENT_TRAINING.en.md) · [M4 model](training/MODEL.en.md) · [Dense chart and targets](training/DATASETS.en.md)
+
+Models/charts are separate training assets; users obtain Sony reference files independently. Model agreement, style error and physical acceptance remain separate. [Existing evaluations](docs/custom-lut-training/README.en.md) retain their original scope/date and are not new-user accuracy guarantees.
+
 ## Disclaimer and licensing
 
 This community project is not affiliated with Sony. Most recipes derive from **official A7M4 6.02**, with **FX2 1.01** as the FL2 / FL3 colour-data donor. See each method for its supported inputs.
@@ -116,7 +124,7 @@ Thanks to the following projects for sharing the research referenced here:
 | [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) | Research and implementation approach for installation without Fastboot. |
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | Serial boot, RP2040 bridge, Fastboot payload and eMMC access. |
 | [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | FL2 / FL3 parameters and installation research. |
-| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | Native colour parameters, grid lifecycle research and R5ColorLab's LUT-fitting approach. |
+| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | Native colour parameters, grid lifecycle, LUT fitting and synthetic dense-chart research. Special thanks to author **Hearts-Ace for substantial support with the training methodology**. |
 | [751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) | Sony Edit RAW-development operators and Creative Look matrix/Gamma implementation, used for the native frontend of the M4 computer model. |
 | [DavidBuchanan314/fwtool.py](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) and [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | Firmware container formats and extraction. |
 | [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | Sony camera protocols and firmware research. |

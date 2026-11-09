@@ -1,0 +1,88 @@
+{
+  "schema": "m4-training-assets/1",
+  "files": [
+    {
+      "path": "models/bridge/anchor.json",
+      "bytes": 23698,
+      "sha256": "0ace626d1dc69876ac297e60a195151261b73830a50e775a67e787391f360ee0"
+    },
+    {
+      "path": "models/bridge/color_bridge.json",
+      "bytes": 238528,
+      "sha256": "9eec925b60f4c144c5b889ae24cffda776694827cc9de000a503e783e00cf300"
+    },
+    {
+      "path": "models/bridge/forward_model.json",
+      "bytes": 802,
+      "sha256": "db0e75d5dc07ca3427cd27af3fa518f5512c77c0849ed47650959d2f27bb7c6d"
+    },
+    {
+      "path": "models/bridge/grid_response.json",
+      "bytes": 94795,
+      "sha256": "0a81e40ae21474ceab1c8ba7974d053963a8f56e18e0ec84e33a86f1d5dad047"
+    },
+    {
+      "path": "models/forward_model.json",
+      "bytes": 2108,
+      "sha256": "0aa72749b2835e16a5eb537656b7eccf377ea7933e1682cb43663fc2baa40578"
+    },
+    {
+      "path": "models/grid_response.pt",
+      "bytes": 47993,
+      "sha256": "5ee40982e75a42ebd5acd201d6a239208d5d00fb28486b1aad026ed3cee6cf2f"
+    },
+    {
+      "path": "charts/dataset.json",
+      "bytes": 7202,
+      "sha256": "e89298a72782531de3f770fc1655db3c131a99438d5262d14be78a1fe7b8802d"
+    },
+    {
+      "path": "charts/design_pairs.npz",
+      "bytes": 5907687,
+      "sha256": "ff89b472e8a71686bd4ff3d2e3e3fcb1886841a0e39ede91a1878df13310eb53"
+    },
+    {
+      "path": "charts/fuji_targets.npz",
+      "bytes": 17412468,
+      "sha256": "01715e41a49ea2de42c3e0f1b84766ace83e8a6f27dccd58c344bc934501930b"
+    },
+    {
+      "path": "charts/GFX100SII-v4.5-100MP-5300K.RAF",
+      "bytes": 210977920,
+      "sha256": "fd31efd39ed671e39891984ee0f9c56933599d52764a77138c905166cbb8dcda"
+    },
+    {
+      "path": "charts/SONY-v4.5-100MP-5300K.ARW",
+      "bytes": 101487354,
+      "sha256": "45455a7c46d7aa2454e73a67c32b01a29a13739d203e54ed24592a451fd48bd6"
+    },
+    {
+      "path": "charts/SONY-v4.5-100MP-5300K.DNG",
+      "bytes": 203514816,
+      "sha256": "0b9ea8efa0c67f7584409473d959da04716ae469441661955a8a30ab934026b1"
+    },
+    {
+      "path": "charts/sony_input.npz",
+      "bytes": 3567692,
+      "sha256": "f4bf962c2a142d23e64a6b0886325b5f7779336c13fa191b4353c47fb2134f7d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1127,
+      "sha256": "f09b473bd3354c24d6bae6e694580f4eed2552881a3590c644fcfe30fe3d7753"
+    }
+  ],
+  "bytes": 543284190,
+  "source_repository": "https://github.com/Erlla/sony-a7m4-custom-firmware",
+  "source_required": "training/",
+  "private_camera_photographs": false,
+  "Sony_binaries_or_constants_included": false,
+  "finished_look_pack_included": false,
+  "model_frozen": true,
+  "chart_ARW_SHA256": "45455a7c46d7aa2454e73a67c32b01a29a13739d203e54ed24592a451fd48bd6",
+  "asset_archive": {
+    "path": "M4-LUT-training-assets.zip",
+    "bytes": 65783035,
+    "sha256": "90f077b92f2f7228c545e31c6cf35d66ed7dfba8da543e2694931bd2103b74a4"
+  }
+}

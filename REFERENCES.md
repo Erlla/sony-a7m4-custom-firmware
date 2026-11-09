@@ -67,3 +67,10 @@
 ## Portable WinUSB installer
 
 [Zadig / pbatard/libwdi](https://github.com/pbatard/libwdi) supplies WinUSB installation in the runtime-inclusive Fastboot archive. The official Zadig 2.9 executable is distributed unchanged with license texts and the v1.5.1 source archive. Device preset format is documented in the [upstream guide](https://github.com/pbatard/libwdi/wiki/Zadig). The preset retains the Fastboot VID/PID and Android device-interface GUID. Other bundled runtime and source inputs are recorded in [portable-inputs.json](fastboot/portable-inputs.json).
+
+
+## LUT training materials
+
+- [Training source/model/chart entry](training/README.en.md): AI-Agent execution and data identities, with independent source and asset distribution.
+- [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware): substantial author support for training methodology, native parameters, grid search and synthetic dense charts; not substituted for M4 hardware calibration.
+- [Sony Look Bridge pinned source](training/third_party/source-manifest.json): original implementation attribution, commit and file identities.

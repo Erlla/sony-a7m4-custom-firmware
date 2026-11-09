@@ -98,6 +98,14 @@ py -3 -m venv .venv
 
 </details>
 
+## 三、LUT 训练方法
+
+使用已有 M4 电脑模型，在电脑中模拟“同一份 RAW＋原生 JSON → 机内颜色输出”，反复拟合自己的滤镜；在模型覆盖范围内，不需要每轮导入相机实拍。方法面向 AI Agent，支持复用合成大色卡和已有同源照片，包含模型依赖、网格／原生参数搜索及整数输出验证。
+
+**[训练入口、代码与素材](training/README.md)** · [AI Agent 执行指南](docs/custom-lut-training/AGENT_TRAINING.md) · [M4 模型说明](training/MODEL.md) · [大色卡与富士目标](training/DATASETS.md)
+
+模型与大色卡作为独立训练素材附件提供；Sony 参考文件由使用者自行取得。模型复现误差、滤镜匹配误差及实机验收分别记录。[已有训练评估](docs/custom-lut-training/README.md)保留其原始数据范围与时间，不作为新用户的精度保证。
+
 ## 声明与许可
 
 本项目为社区研究，与索尼公司无隶属关系。主要补丁基于 **A7M4 官方 6.02**，FL2 / FL3 色彩数据供体为 **FX2 1.01**；具体适用文件见各方法说明。
@@ -116,7 +124,7 @@ py -3 -m venv .venv
 | [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) | 免 Fastboot 安装方案的研究与实现思路。 |
 | [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE) | 串行启动、RP2040 桥、Fastboot payload 与 eMMC 访问。 |
 | [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research) | FL2 / FL3 参数与安装研究。 |
-| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | 原生色彩参数、网格生命周期研究，以及 R5ColorLab 的 LUT 拟合思路，Lut滤镜数值参考；参考白平衡设置。 |
+| [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) | 原生色彩参数、网格生命周期、LUT 拟合思路与合成大色卡参考；特别感谢项目作者 **Hearts-Ace 对训练方法的大力支持**。 |
 | [751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) | Sony Edit 的 RAW 显影算子与创意外观矩阵/Gamma 实现，为 M4 电脑模型的原生处理前段提供运算基础。 |
 | [DavidBuchanan314/fwtool.py](https://github.com/DavidBuchanan314/fwtool.py/tree/a7iv) 与 [ma1co/fwtool.py](https://github.com/ma1co/fwtool.py) | 固件容器格式与解包方法。 |
 | [ma1co/Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) | 索尼相机协议与固件研究。 |

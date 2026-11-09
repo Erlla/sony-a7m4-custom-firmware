@@ -49,8 +49,17 @@ The maintainer supplied and explicitly authorized public display of the two came
 
 ## LUT training results / LUT训练结果
 
-The maintainer authorized publication of the numerical evaluations and generated RGB diagnostic plots in [the training report](docs/custom-lut-training/README.en.md). This update includes no look parameter JSONs, source photographs, reference TIFFs, model weights, Sony programs or extracted constants. Look JSON files will be handled separately through Releases.
+The maintainer authorized publication of the numerical evaluations and generated RGB diagnostic plots in [the training report](docs/custom-lut-training/README.en.md). That earlier result-only publication included no look parameter JSONs, source photographs, reference TIFFs, model weights, Sony programs or extracted constants. Look JSON files will be handled separately through Releases.
 
-[751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) supplies research and MIT-licensed implementations used by the local M4 model's native frontend. This publication vendors no upstream code. Its MIT license does not extend to Sony executables or constants. [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) remains credited for native-parameter references and fitting research.
+[751K/sony-look-bridge](https://github.com/751K/sony-look-bridge) supplies research and MIT-licensed implementations used by the local M4 model's native frontend. Training source now vendors the pinned MIT Python implementation with its licence under training/third_party; Sony executables/constants remain externally supplied. Its MIT license does not extend to Sony executables or constants. [Hearts-Ace/sony-a7r5-custom-firmware](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) remains credited for native-parameter references and fitting research.
 
-维护者授权公开[训练报告](docs/custom-lut-training/README.md)中的数值评估和生成的RGB统计图。本次不包含滤镜参数JSON、原片、目标TIFF、权重、Sony程序或常量；滤镜文件由维护者后续通过Releases提供。751K项目为本地模型原生前段提供研究与实现参考；报告公开不改变相关第三方内容的原有权利。
+维护者授权公开[训练报告](docs/custom-lut-training/README.md)中的数值评估和生成的RGB统计图。此前结果页发布不包含滤镜参数JSON、原片、目标TIFF、权重、Sony程序或常量；滤镜文件由维护者后续通过Releases提供。751K项目为本地模型原生前段提供研究与实现参考；报告公开不改变相关第三方内容的原有权利。
+
+
+## LUT training source and asset separation
+
+The training method, frozen M4 model contract, native JSON codec, empirical response architecture and optimisation primitives are organised under [training](training/README.en.md). The pinned Sony Look Bridge source retains [its MIT licence](training/third_party/SONY_LOOK_BRIDGE_LICENSE). No Sony executable, extracted Sony table or personal camera photograph is added to source history.
+
+Frozen empirical model files and synthetic RAW chart/target samples are prepared as separate training assets. SHA-256 identities and data roles are recorded; publication does not relabel upstream chart authorship or grant a new licence to Sony software. Historical result-only publication statements above describe those earlier materials. Finished filter JSONs remain separate Release content.
+
+特别感谢 [Hearts-Ace](https://github.com/Hearts-Ace/sony-a7r5-custom-firmware) 对训练方法的大力支持，包括原生参数、网格搜索与合成大色卡研究；M4响应仍由本项目的M4标定提供。已有上游许可和归属保持。

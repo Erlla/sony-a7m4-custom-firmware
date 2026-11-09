@@ -1,0 +1,61 @@
+{
+  "schema": "a7m4-approved-photo-gamma/1",
+  "CP_sha256": "07f3c808c74aa2e2478f615f59fb6ec0decc4dfa87a04cabf20bd8cf663b2b30",
+  "profiles": [
+    {
+      "name": "FL2_photo_ctx0",
+      "contexts": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "metadata_hex": "0000000000000000100001300300000080ff0100000000000000000000000000000000000000000000000000",
+      "y_first": 0,
+      "y_last": 130944,
+      "source_va": "0xba38d0",
+      "source_sha256": "f28fe572c6fb73564b3466bd29a087226164076f2909bf80d49f1c0b7b5f3e5b"
+    },
+    {
+      "name": "FL2_photo_ctx6",
+      "contexts": [
+        6
+      ],
+      "metadata_hex": "0000000000000000100001300600000080ff0100000000000000000000000000000000000000000000000000",
+      "y_first": 0,
+      "y_last": 130944,
+      "source_va": "0xba3b10",
+      "source_sha256": "8cb914f31e4354754f3ee5565812d0b23b65b0ebbea9c06088bf62ee68c3eb37"
+    },
+    {
+      "name": "FL3_photo_ctx0",
+      "contexts": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "metadata_hex": "0000000000000000100001310300000081ff0100000000000000000000000000000000000000000000000000",
+      "y_first": 0,
+      "y_last": 130945,
+      "source_va": "0xba3f90",
+      "source_sha256": "81f034502d32d0a1ff07221d254a63b87c669a4f08e2e423e1a7cb2bca6de1c8"
+    },
+    {
+      "name": "FL3_photo_ctx6",
+      "contexts": [
+        6
+      ],
+      "metadata_hex": "0000000000000000100001310600000081ff0100000000000000000000000000000000000000000000000000",
+      "y_first": 0,
+      "y_last": 130945,
+      "source_va": "0xba41d0",
+      "source_sha256": "2c424f305ae32e99d90f9bedf6df7b25ccfddb43169eaa522aece176671966c9"
+    }
+  ],
+  "production_engine": false
+}

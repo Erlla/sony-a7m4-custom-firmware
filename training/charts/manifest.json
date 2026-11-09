@@ -1,0 +1,215 @@
+{
+  "schema": "m4-training-chart/1",
+  "dataset_id": "v4.5-sony100mp-5300k-sim-center5-20261029",
+  "source_kind": "synthetic RAW chart, not a photograph",
+  "origin": "Hearts-Ace/sony-a7r5-custom-firmware",
+  "raw_files": {
+    "arw": {
+      "path": "charts/SONY-v4.5-100MP-5300K.ARW",
+      "bytes": 101487354,
+      "sha256": "45455a7c46d7aa2454e73a67c32b01a29a13739d203e54ed24592a451fd48bd6"
+    },
+    "raf": {
+      "path": "charts/GFX100SII-v4.5-100MP-5300K.RAF",
+      "bytes": 210977920,
+      "sha256": "fd31efd39ed671e39891984ee0f9c56933599d52764a77138c905166cbb8dcda"
+    },
+    "dng": {
+      "path": "charts/SONY-v4.5-100MP-5300K.DNG",
+      "bytes": 203514816,
+      "sha256": "0b9ea8efa0c67f7584409473d959da04716ae469441661955a8a30ab934026b1"
+    }
+  },
+  "source_ARW_sha256": "45455a7c46d7aa2454e73a67c32b01a29a13739d203e54ed24592a451fd48bd6",
+  "width": 11648,
+  "height": 8736,
+  "tile": 32,
+  "columns": 364,
+  "rows": 273,
+  "samples": 99372,
+  "sampling": "x14..18 mean, y16 within each32px tile; encoded sRGB",
+  "input": {
+    "path": "charts/sony_input.npz",
+    "bytes": 3567692,
+    "sha256": "f4bf962c2a142d23e64a6b0886325b5f7779336c13fa191b4353c47fb2134f7d"
+  },
+  "targets_file": {
+    "path": "charts/fuji_targets.npz",
+    "bytes": 17412468,
+    "sha256": "01715e41a49ea2de42c3e0f1b84766ace83e8a6f27dccd58c344bc934501930b"
+  },
+  "design": {
+    "path": "charts/design_pairs.npz",
+    "bytes": 5907687,
+    "sha256": "ff89b472e8a71686bd4ff3d2e3e3fcb1886841a0e39ede91a1878df13310eb53"
+  },
+  "captured_context": {
+    "iso": 320,
+    "crop": [
+      32,
+      20,
+      11680,
+      8756
+    ],
+    "raw_shape": [
+      9216,
+      11776
+    ],
+    "WB_RGGB": [
+      2606,
+      1024,
+      1024,
+      1789
+    ],
+    "effective_gains_RGGB": [
+      2687,
+      1056,
+      1056,
+      1844
+    ],
+    "black_RGGB": [
+      512,
+      512,
+      512,
+      512
+    ],
+    "scale7311": 256,
+    "sscs": {
+      "T": 7934,
+      "tR": 2380,
+      "tG": 2380,
+      "tB": 2380,
+      "w": [
+        32,
+        64,
+        32
+      ]
+    }
+  },
+  "targets": [
+    {
+      "film": "CC",
+      "simulation": "CLASSIC CHROME",
+      "target_file": "as_shot.tif",
+      "TIFF_sha256": "9ed4e9c3ccd1bfba9a73cd7a2f3827f6b1097758c299be156d076caff7c7d4e8",
+      "TIFF_bytes": 610673668,
+      "recipe": "controlled CLASSIC CHROME, as-shot WB; exposure0; no lens correction",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "PROVIA",
+      "simulation": "PROVIA／标准",
+      "target_file": "02_PROVIA.tif",
+      "TIFF_sha256": "76f6df517607fcdc77c5bf5152a26724ff609f64f8a4274a3a7c147aadbdacbd",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "VELVIA",
+      "simulation": "Velvia／鲜艳",
+      "target_file": "03_VELVIA.tif",
+      "TIFF_sha256": "944172ed0e2b11942db9f935ec4afe23204d193c93a876d7b01b5a6d7b64b50d",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "ASTIA",
+      "simulation": "ASTIA／柔和",
+      "target_file": "04_ASTIA.tif",
+      "TIFF_sha256": "45d531f2d0727607a87256744c48e6a52d8a93d7711813f636f995b746440f4e",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "REALA_ACE",
+      "simulation": "REALA ACE",
+      "target_file": "05_REALA_ACE.tif",
+      "TIFF_sha256": "6c6ba384f1db04acef3fd7174d5857f4591c4d0016c3dd8c1101b8cf885f7e9c",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "PRO_NEG_HI",
+      "simulation": "PRO Neg. Hi",
+      "target_file": "06_PRO_NEG_HI.tif",
+      "TIFF_sha256": "d0dd234416ade1ce3840d58bf922299b0b315404dc91e14243ee6f172cfc96c2",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "PRO_NEG_STD",
+      "simulation": "PRO Neg. Std",
+      "target_file": "07_PRO_NEG_STD.tif",
+      "TIFF_sha256": "0f96fbb195fcc29ecb6aa542dbca96a0a5fdab65b1bd101f704bbc8c07a7a17a",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "CLASSIC_NEG",
+      "simulation": "CLASSIC Neg.／经典Neg.",
+      "target_file": "08_CLASSIC_NEG.tif",
+      "TIFF_sha256": "db12fabdf9b7a1f950efba6ebe292e570a7b13cd43b02c7d210b038a83ffbe81",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "NOSTALGIC_NEG",
+      "simulation": "NOSTALGIC Neg.",
+      "target_file": "09_NOSTALGIC_NEG.tif",
+      "TIFF_sha256": "5d72a2c29788dcfbc817eb3d6f30fc9186a446f35307feb5391a28b37378cfaf",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "ETERNA",
+      "simulation": "ETERNA／影院",
+      "target_file": "10_ETERNA.tif",
+      "TIFF_sha256": "9f813994adf188e603b27c0d9074991588f686ad6316dcf7a08ae5c9700790bc",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "ETERNA_BLEACH_BYPASS",
+      "simulation": "ETERNA BLEACH BYPASS",
+      "target_file": "11_ETERNA_BLEACH_BYPASS.tif",
+      "TIFF_sha256": "d599dfca226eb4a095765580ff70884be7f235271499e5e9a4e8fa7b2691c1a4",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    },
+    {
+      "film": "ACROS",
+      "simulation": "ACROS",
+      "target_file": "12_ACROS.tif",
+      "TIFF_sha256": "2b7e076da986be595783130f62470814299cabf432b6746f8b035e4ebed7736c",
+      "TIFF_bytes": 610673668,
+      "recipe": "historical export: metadata checked; WB settings not independently verified",
+      "role": "development_chart",
+      "new_physical_capture": false
+    }
+  ],
+  "PC_lens_correction": false,
+  "physical_camera_validation": false,
+  "white_balance_caveat": "CC uses controlled as-shot target; other11 retain historical exports. Do not describe all12 as independently WB-verified.",
+  "design_is_not_model_input": true
+}

@@ -2,7 +2,7 @@
 
 [English](README.en.md) · [自定义LUT使用方法](../../methods/08-custom-lut/README.md) · [评分CSV](scores.csv) · [机器可读结果](results.json) · [AI Agent 训练方法](AGENT_TRAINING.md)
 
-要训练自己的滤镜，请将[执行指南](AGENT_TRAINING.md)与同源 RAW／目标图交给 AI Agent；普通照片可用，无需专业色卡。模型依赖需另行准备。
+要训练自己的滤镜，请将[执行指南](AGENT_TRAINING.md)与同源 RAW／目标图交给 AI Agent；普通照片可用，无需专业色卡。模型、代码与大色卡的组织见[训练入口](../../training/README.md)。
 
 12款富士风格在M4电脑模型中继续拟合，等权平均ΔE00从 **2.014降至1.190（下降40.9%）**。各款阴影与肤色阴影均值均下降。本页记录2026-11-08的离线评估，**新参数的机内实拍效果尚待验证**。
 

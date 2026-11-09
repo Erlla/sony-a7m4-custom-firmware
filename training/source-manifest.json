@@ -1,0 +1,384 @@
+{
+  "schema": "m4-training-source/1",
+  "original_math_contract_sha256": "4e516ebced9075eba9a4a69a89f410606abb87434077c4ac8986ca0690968e6d",
+  "files": [
+    {
+      "path": "training/.gitignore",
+      "bytes": 54,
+      "sha256": "c5be0dd2777799ba415e8be645e7dc4987f97f6330e3ea79e0c7dbf8cffbf6b3"
+    },
+    {
+      "path": "training/AGENTS.md",
+      "bytes": 2703,
+      "sha256": "fbcb8997ad6f213616b73f75767e5ac28f38cac7729006f382ce5746d2a1f084"
+    },
+    {
+      "path": "training/assets-manifest.json",
+      "bytes": 2885,
+      "sha256": "48c99c810902776d4bdddfc9828eeb0e6bb49b37ad88b5b8e6bf310b44d73f40"
+    },
+    {
+      "path": "training/DATASETS.en.md",
+      "bytes": 2959,
+      "sha256": "9e532fa7f3646a0d7c852ce273df005f1d492fa9a87fd51ee86033434e931afd"
+    },
+    {
+      "path": "training/DATASETS.md",
+      "bytes": 3245,
+      "sha256": "97cbb173399a111e9dc0468bd5eb437471a48182fd1cb8df4885660c41713ea6"
+    },
+    {
+      "path": "training/MODEL.en.md",
+      "bytes": 4850,
+      "sha256": "4b1863d2ccff606779abe6f1a34ab76dbf474013bdf25c64fa49ec7ecd13ac86"
+    },
+    {
+      "path": "training/MODEL.md",
+      "bytes": 5200,
+      "sha256": "a95c96aa36d7b964332eb84dfe7c235aeaf863d841fa5358fd9b444a458a4f54"
+    },
+    {
+      "path": "training/prepare_sony.py",
+      "bytes": 2063,
+      "sha256": "2380c61f5ddf1e4bb384a3da44bdfcdebaa0af9c6a00eaabd159c36f3a69e9e5"
+    },
+    {
+      "path": "training/README.en.md",
+      "bytes": 5180,
+      "sha256": "5a2a0221f7d1a2e448cd9ef7eccf2b134eade4e6863d741b4d943288ff529863"
+    },
+    {
+      "path": "training/README.md",
+      "bytes": 5232,
+      "sha256": "6da7c4fbdd691e09b4f817f4507961a421e60f1f64174b2b9b63a3e4f06ae5ba"
+    },
+    {
+      "path": "training/requirements.txt",
+      "bytes": 191,
+      "sha256": "640c9342140337e96ca8ec5584c5dce6f97897be7000e017610effa4842c26f8"
+    },
+    {
+      "path": "training/run.py",
+      "bytes": 4591,
+      "sha256": "8e00bccc5d9f9cce593851fe3214916e15a90e6bbcb2ab4d7c0fe97c00d0feff"
+    },
+    {
+      "path": "training/validation.json",
+      "bytes": 2079,
+      "sha256": "6d968c12ec86e868a94c3dc81fd2d5e3589b61269f861616b4a709237e1ccb10"
+    },
+    {
+      "path": "training/charts/manifest.json",
+      "bytes": 7202,
+      "sha256": "e89298a72782531de3f770fc1655db3c131a99438d5262d14be78a1fe7b8802d"
+    },
+    {
+      "path": "training/source/bridge_network.py",
+      "bytes": 793,
+      "sha256": "3ba6f66b6fa2337c75fb2a533fc23cc1c40a83b0a0cb3fd8d1a94f5294f466f6"
+    },
+    {
+      "path": "training/source/camera_model.py",
+      "bytes": 8088,
+      "sha256": "2bd1312e001753444235be67ad62244ed8893459d5d982ed798d12ab8cff5595"
+    },
+    {
+      "path": "training/source/cc1_effective.py",
+      "bytes": 6918,
+      "sha256": "fe5e74a7abcfe6956d8db81ed5a3b71ddc4536b7232cef8d8cb088a28317b08f"
+    },
+    {
+      "path": "training/source/color_delta.py",
+      "bytes": 1452,
+      "sha256": "045560a325a15354cd1c5eed69d69920c2e9fce2b88c8ed2ff5c85c93c06feee"
+    },
+    {
+      "path": "training/source/color_math.py",
+      "bytes": 408,
+      "sha256": "b8cd38676c3ad813ae99dad3e36d3c26a80879745d789a030e12c65ffc97cf00"
+    },
+    {
+      "path": "training/source/cuda_pixels.py",
+      "bytes": 8886,
+      "sha256": "c6590689eb38745e498388d276b5b4715567c775cfb274c4a8b3c34d195fd6a6"
+    },
+    {
+      "path": "training/source/edit_bridge.py",
+      "bytes": 1336,
+      "sha256": "cfb905edcdd4f5f6c9816b10d97e7ae2c5049da5b74b45feabfe4cb5733fed49"
+    },
+    {
+      "path": "training/source/effective_native.py",
+      "bytes": 2579,
+      "sha256": "6e9f53add456d5746155bde4f9a59b81d542e0aa14484e30f37ddd9fca5c2683"
+    },
+    {
+      "path": "training/source/evaluation.py",
+      "bytes": 2488,
+      "sha256": "523f6b30efbd20725df9a60f9625c163dac0f83aad1c6fd724ba8fb2c5862c74"
+    },
+    {
+      "path": "training/source/fit_grid.py",
+      "bytes": 5252,
+      "sha256": "cb30d4e1cbe89e908e302458e13e57d7f0d96ea5cf0c86411950eb7bbc5dac78"
+    },
+    {
+      "path": "training/source/frozen_table.py",
+      "bytes": 1504,
+      "sha256": "83a39a7c8d83387867e6d71accb5f5b2ffa791a9d5716b3e0093a63cb6bf89fa"
+    },
+    {
+      "path": "training/source/grid_base.py",
+      "bytes": 269,
+      "sha256": "066608c3e225828270d89572970a5292e8a4a9cc58a85c3f8deb58b1f77180f8"
+    },
+    {
+      "path": "training/source/grid_math.py",
+      "bytes": 231,
+      "sha256": "fbe10d1e6a9ce1fb6e55fa470bbbd5f956bd1d75cb7cf9ddc125cef868bd0194"
+    },
+    {
+      "path": "training/source/host_grid.py",
+      "bytes": 650,
+      "sha256": "259103c3ea65b54a3c5265ba7fb584bd3662e2ec798896ddb4b6c37f6fe734ed"
+    },
+    {
+      "path": "training/source/integer_search.py",
+      "bytes": 3350,
+      "sha256": "6c18e1c374fdd686d57963763c1cf8557dc62a8cb1c6d5a3808cf57b11f38641"
+    },
+    {
+      "path": "training/source/look_v2.py",
+      "bytes": 11758,
+      "sha256": "31a1619c08bff01ceb450c74fe03917545a65f94ed4f25a016cdf64765a9e6eb"
+    },
+    {
+      "path": "training/source/m4_pixels.cu",
+      "bytes": 3284,
+      "sha256": "3458ddaa3e02a1179ee90d06e5598a6a8366e5e3b85415bde332c0950debfe37"
+    },
+    {
+      "path": "training/source/native_codec.py",
+      "bytes": 8873,
+      "sha256": "06d6c19939d039387d7dceea258fe5529b17f586d4b12c7494ae55c554a36dac"
+    },
+    {
+      "path": "training/source/native_family.py",
+      "bytes": 2144,
+      "sha256": "926ce85d1e8ab22aa5e6b3bfd3d9ad13bc8daccd7d6e041bc184715aa2700ea0"
+    },
+    {
+      "path": "training/source/native_frontend.py",
+      "bytes": 4746,
+      "sha256": "2466395ca28a3aace1e33b6027d15f8a50ee4cd39ac88fd0be9c0f0d55f4132b"
+    },
+    {
+      "path": "training/source/photo_profiles.json",
+      "bytes": 1741,
+      "sha256": "3e54454e40caa0f960858871085198e581f21992b59c4b8f46c47caf386107e8"
+    },
+    {
+      "path": "training/source/pixel_bridge.py",
+      "bytes": 2257,
+      "sha256": "b4d316cb688b6e8773b9efb9258cdc85604343680266b42a8cb37ea603adb5e0"
+    },
+    {
+      "path": "training/source/response_network.py",
+      "bytes": 2034,
+      "sha256": "5cfa723addf7f4fec2b828d3cd94f6375ba2b691da23c9fbb44a049568c8b75d"
+    },
+    {
+      "path": "training/source/spatial_native.py",
+      "bytes": 933,
+      "sha256": "63710d1654366dcf50e1a8d1ac391d4f2e26739fb034520d37b9fcef04b521f4"
+    },
+    {
+      "path": "training/source/support.py",
+      "bytes": 1485,
+      "sha256": "14cc793340e1a137c94d3e5f7d3655b2bc77ec32366d61f40e4138fca9aceb43"
+    },
+    {
+      "path": "training/source/torch_color.py",
+      "bytes": 1616,
+      "sha256": "01e304e2fc94378bd043e50f2fd665d16ed3c6b543cbb021283e63d3ddda4d58"
+    },
+    {
+      "path": "training/tests/test_math.py",
+      "bytes": 2218,
+      "sha256": "abe5fe6458f2d066b13dda0f2c55d0f7b1e7ef5f8ebe1ba8b1f2cd42ecf17d4a"
+    },
+    {
+      "path": "training/third_party/SONY_LOOK_BRIDGE_LICENSE",
+      "bytes": 1086,
+      "sha256": "3442eda27f74bf99fd18f587fc3b7387c7322cdadfcab6a67950262b42d111cc"
+    },
+    {
+      "path": "training/third_party/sonylook/arw_looks.py",
+      "bytes": 2034,
+      "sha256": "e9613b7a3ff71a6eb28f8dd28581766d8a12c48c6d97779766548c5e1229d842"
+    },
+    {
+      "path": "training/third_party/sonylook/arw_raw.py",
+      "bytes": 5312,
+      "sha256": "702405def9d3d878325ca76499d61b2c6d2c392e8807a77e5d7a890cec4c632a"
+    },
+    {
+      "path": "training/third_party/sonylook/build_color_table.py",
+      "bytes": 9348,
+      "sha256": "bce12338922d137585f10b76e4f8e6c279f1c527727708a81d9d0d1174e60ff8"
+    },
+    {
+      "path": "training/third_party/sonylook/decoder_params.py",
+      "bytes": 6934,
+      "sha256": "995759145ab8a32ad968fce615bbd3f082bfccb2ad96510a79c8707fd1992489"
+    },
+    {
+      "path": "training/third_party/sonylook/decode_780f.py",
+      "bytes": 5879,
+      "sha256": "272d8bbebecb11deb8242ab5a1536b17fafb6ac48d49ebe4e3d60dcacecbc97c"
+    },
+    {
+      "path": "training/third_party/sonylook/develop_settings.py",
+      "bytes": 10750,
+      "sha256": "380e5a7c111cd131ff53010dae180e1de3c68d2cc6ee5dfc7eafe2f7873f9290"
+    },
+    {
+      "path": "training/third_party/sonylook/edit_binary.py",
+      "bytes": 5864,
+      "sha256": "ce5bc530775da9073cd820cfc7626fb200a75c5c012f900c1e1ab18a70d5feaf"
+    },
+    {
+      "path": "training/third_party/sonylook/fused_rust.py",
+      "bytes": 30168,
+      "sha256": "5ccc26c4ec1664ce6b13456ce097ea40823b3829296e694a7208362ffc6b8fbd"
+    },
+    {
+      "path": "training/third_party/sonylook/metal_dro.py",
+      "bytes": 2470,
+      "sha256": "04e683398854103197ced07e2746928fa6803d38364542eb779e63bfcc782a72"
+    },
+    {
+      "path": "training/third_party/sonylook/metal_geo.py",
+      "bytes": 2198,
+      "sha256": "d8e13a6335ee5d8127af315bb797e5a07fa50876d9729fb81835c040b5092516"
+    },
+    {
+      "path": "training/third_party/sonylook/metal_itp.py",
+      "bytes": 6819,
+      "sha256": "3145b2a0fbf4b8cd61d806837b7f6fac91fd678609f48919b96ad9f31a532013"
+    },
+    {
+      "path": "training/third_party/sonylook/metal_look.py",
+      "bytes": 21096,
+      "sha256": "291a4b6d7008b38da4cb3a9ad035f407e1cf56c3c8140bacb935d2d16d89bd4f"
+    },
+    {
+      "path": "training/third_party/sonylook/metal_rawnr.py",
+      "bytes": 1877,
+      "sha256": "aa53702d809586a72e8b6c70c53664cee2a192a38aaad7e9c2a7b84c640c89df"
+    },
+    {
+      "path": "training/third_party/sonylook/metal_sscs.py",
+      "bytes": 1324,
+      "sha256": "801a141089521dcc670e46fe771bcb144a018560b783c0706f009f4b1357bf7a"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_decode.py",
+      "bytes": 20132,
+      "sha256": "02f4e841a71083c17f6a7697a613054d5c7350db1ad6b4fd583220440acffec1"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_detail.py",
+      "bytes": 15316,
+      "sha256": "e7bf1905bdd6d339d08ba44e94e8bdd87a231b38daa4fb8d630852f8b224f8d2"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_dro.py",
+      "bytes": 14895,
+      "sha256": "e5967ac6a7a5abba08509c344e92e60c53cb6c287887322aa3979f7f5aeaa76f"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_effect.py",
+      "bytes": 6638,
+      "sha256": "eab2bf98122fba24ee134d39f574bb169487684849827e44bad5578e8645e99a"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_export.py",
+      "bytes": 4255,
+      "sha256": "6805c77cc89eb44cb0d363eacc1c634ce086432212e70486659f31d646100724"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_frontend.py",
+      "bytes": 15717,
+      "sha256": "584923b15f969717b3253b7a8e96a9d6eed2502d35f3839596dc4a77b7376174"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_itp.py",
+      "bytes": 37128,
+      "sha256": "25b129be4b8fa2fb479c12045d05e3c56bf4b770a5a63ef8965231c2dc982dd5"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_lens.py",
+      "bytes": 11268,
+      "sha256": "eac75f7e9d5617adff506162b9541d73e7dcb71ad174d57805a2217aef0a7817"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_look.py",
+      "bytes": 12108,
+      "sha256": "5ad3d96a5613ca3aa0de424a7aec973a3fbcb01c74acb547fd3d278b7efbc0d9"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_marble.py",
+      "bytes": 24695,
+      "sha256": "53feb1c63f29cbfe109db92865278c151fb1deaaa404dfb5f8a848ecb9dca0f5"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_rawnr.py",
+      "bytes": 8211,
+      "sha256": "722cba19da65da9cd859d2bb86abcd3605f19a826018baecca3435dbf7f74965"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_render.py",
+      "bytes": 35535,
+      "sha256": "a36bf460f7c9c086c0372f0c2e6573bc36bcb2109ddb3c937204688a970140ea"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_shade.py",
+      "bytes": 6651,
+      "sha256": "7517041ed7ae5a12b3145e41e07a7b48fac286b1a16f08bbd76bd278976e850b"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_sscs.py",
+      "bytes": 4820,
+      "sha256": "bd2e289bda9c906b753daa32d7d37715952fab4ce7f27e9b214b5447c8c605d4"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_tonecurve.py",
+      "bytes": 7290,
+      "sha256": "daa7a1cadb810a7cde7c039ee4e48670bee78b05e8a235fe7acff163d6fb67ca"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_ycc.py",
+      "bytes": 5018,
+      "sha256": "6c7bc93423f1ae6338262a140a7f24e904f4599d18dad5e411b2bac3e874da1b"
+    },
+    {
+      "path": "training/third_party/sonylook/sony_ycc_stages.py",
+      "bytes": 26982,
+      "sha256": "bba2df4fcf85e276852c35c276fbadffba80140a140694c8b8aaf45c67ed70b1"
+    },
+    {
+      "path": "training/third_party/sonylook/sr2.py",
+      "bytes": 3786,
+      "sha256": "e6114d62e278b763ebc17cfbf11f523fac1e788bb559c9657221093ee1217bc0"
+    },
+    {
+      "path": "training/third_party/sonylook/table_cache.py",
+      "bytes": 2530,
+      "sha256": "4f9ffc4e17362448eb0f564becd705fd8e4fe7c1bc62bbb90717e36f25943ea6"
+    }
+  ],
+  "proprietary_Sony_runtime_included": false,
+  "private_photographs_included": false,
+  "upstream_manifest": "third_party/source-manifest.json"
+}

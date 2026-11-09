@@ -1,0 +1,6 @@
+_local/
+_runtime/
+assets/
+outputs/
+__pycache__/
+*.pyc

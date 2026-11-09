@@ -1,0 +1,174 @@
+{
+  "repository": "751K/sony-look-bridge",
+  "commit": "6302d69d6ecc827503c5f110579a7c579db101c7",
+  "source_url": "https://github.com/751K/sony-look-bridge/tree/6302d69d6ecc827503c5f110579a7c579db101c7",
+  "files": [
+    {
+      "path": "sonylook/arw_looks.py",
+      "bytes": 2034,
+      "sha256": "e9613b7a3ff71a6eb28f8dd28581766d8a12c48c6d97779766548c5e1229d842"
+    },
+    {
+      "path": "sonylook/arw_raw.py",
+      "bytes": 5312,
+      "sha256": "702405def9d3d878325ca76499d61b2c6d2c392e8807a77e5d7a890cec4c632a"
+    },
+    {
+      "path": "sonylook/build_color_table.py",
+      "bytes": 9348,
+      "sha256": "bce12338922d137585f10b76e4f8e6c279f1c527727708a81d9d0d1174e60ff8"
+    },
+    {
+      "path": "sonylook/decode_780f.py",
+      "bytes": 5879,
+      "sha256": "272d8bbebecb11deb8242ab5a1536b17fafb6ac48d49ebe4e3d60dcacecbc97c"
+    },
+    {
+      "path": "sonylook/decoder_params.py",
+      "bytes": 6934,
+      "sha256": "995759145ab8a32ad968fce615bbd3f082bfccb2ad96510a79c8707fd1992489"
+    },
+    {
+      "path": "sonylook/develop_settings.py",
+      "bytes": 10750,
+      "sha256": "380e5a7c111cd131ff53010dae180e1de3c68d2cc6ee5dfc7eafe2f7873f9290"
+    },
+    {
+      "path": "sonylook/edit_binary.py",
+      "bytes": 5864,
+      "sha256": "ce5bc530775da9073cd820cfc7626fb200a75c5c012f900c1e1ab18a70d5feaf"
+    },
+    {
+      "path": "sonylook/fused_rust.py",
+      "bytes": 30168,
+      "sha256": "5ccc26c4ec1664ce6b13456ce097ea40823b3829296e694a7208362ffc6b8fbd"
+    },
+    {
+      "path": "sonylook/metal_dro.py",
+      "bytes": 2470,
+      "sha256": "04e683398854103197ced07e2746928fa6803d38364542eb779e63bfcc782a72"
+    },
+    {
+      "path": "sonylook/metal_geo.py",
+      "bytes": 2198,
+      "sha256": "d8e13a6335ee5d8127af315bb797e5a07fa50876d9729fb81835c040b5092516"
+    },
+    {
+      "path": "sonylook/metal_itp.py",
+      "bytes": 6819,
+      "sha256": "3145b2a0fbf4b8cd61d806837b7f6fac91fd678609f48919b96ad9f31a532013"
+    },
+    {
+      "path": "sonylook/metal_look.py",
+      "bytes": 21096,
+      "sha256": "291a4b6d7008b38da4cb3a9ad035f407e1cf56c3c8140bacb935d2d16d89bd4f"
+    },
+    {
+      "path": "sonylook/metal_rawnr.py",
+      "bytes": 1877,
+      "sha256": "aa53702d809586a72e8b6c70c53664cee2a192a38aaad7e9c2a7b84c640c89df"
+    },
+    {
+      "path": "sonylook/metal_sscs.py",
+      "bytes": 1324,
+      "sha256": "801a141089521dcc670e46fe771bcb144a018560b783c0706f009f4b1357bf7a"
+    },
+    {
+      "path": "sonylook/sony_decode.py",
+      "bytes": 20132,
+      "sha256": "02f4e841a71083c17f6a7697a613054d5c7350db1ad6b4fd583220440acffec1"
+    },
+    {
+      "path": "sonylook/sony_detail.py",
+      "bytes": 15316,
+      "sha256": "e7bf1905bdd6d339d08ba44e94e8bdd87a231b38daa4fb8d630852f8b224f8d2"
+    },
+    {
+      "path": "sonylook/sony_dro.py",
+      "bytes": 14895,
+      "sha256": "e5967ac6a7a5abba08509c344e92e60c53cb6c287887322aa3979f7f5aeaa76f"
+    },
+    {
+      "path": "sonylook/sony_effect.py",
+      "bytes": 6638,
+      "sha256": "eab2bf98122fba24ee134d39f574bb169487684849827e44bad5578e8645e99a"
+    },
+    {
+      "path": "sonylook/sony_export.py",
+      "bytes": 4255,
+      "sha256": "6805c77cc89eb44cb0d363eacc1c634ce086432212e70486659f31d646100724"
+    },
+    {
+      "path": "sonylook/sony_frontend.py",
+      "bytes": 15717,
+      "sha256": "584923b15f969717b3253b7a8e96a9d6eed2502d35f3839596dc4a77b7376174"
+    },
+    {
+      "path": "sonylook/sony_itp.py",
+      "bytes": 37128,
+      "sha256": "25b129be4b8fa2fb479c12045d05e3c56bf4b770a5a63ef8965231c2dc982dd5"
+    },
+    {
+      "path": "sonylook/sony_lens.py",
+      "bytes": 11268,
+      "sha256": "eac75f7e9d5617adff506162b9541d73e7dcb71ad174d57805a2217aef0a7817"
+    },
+    {
+      "path": "sonylook/sony_look.py",
+      "bytes": 12108,
+      "sha256": "5ad3d96a5613ca3aa0de424a7aec973a3fbcb01c74acb547fd3d278b7efbc0d9"
+    },
+    {
+      "path": "sonylook/sony_marble.py",
+      "bytes": 24695,
+      "sha256": "53feb1c63f29cbfe109db92865278c151fb1deaaa404dfb5f8a848ecb9dca0f5"
+    },
+    {
+      "path": "sonylook/sony_rawnr.py",
+      "bytes": 8211,
+      "sha256": "722cba19da65da9cd859d2bb86abcd3605f19a826018baecca3435dbf7f74965"
+    },
+    {
+      "path": "sonylook/sony_render.py",
+      "bytes": 35535,
+      "sha256": "a36bf460f7c9c086c0372f0c2e6573bc36bcb2109ddb3c937204688a970140ea"
+    },
+    {
+      "path": "sonylook/sony_shade.py",
+      "bytes": 6651,
+      "sha256": "7517041ed7ae5a12b3145e41e07a7b48fac286b1a16f08bbd76bd278976e850b"
+    },
+    {
+      "path": "sonylook/sony_sscs.py",
+      "bytes": 4820,
+      "sha256": "bd2e289bda9c906b753daa32d7d37715952fab4ce7f27e9b214b5447c8c605d4"
+    },
+    {
+      "path": "sonylook/sony_tonecurve.py",
+      "bytes": 7290,
+      "sha256": "daa7a1cadb810a7cde7c039ee4e48670bee78b05e8a235fe7acff163d6fb67ca"
+    },
+    {
+      "path": "sonylook/sony_ycc.py",
+      "bytes": 5018,
+      "sha256": "6c7bc93423f1ae6338262a140a7f24e904f4599d18dad5e411b2bac3e874da1b"
+    },
+    {
+      "path": "sonylook/sony_ycc_stages.py",
+      "bytes": 26982,
+      "sha256": "bba2df4fcf85e276852c35c276fbadffba80140a140694c8b8aaf45c67ed70b1"
+    },
+    {
+      "path": "sonylook/sr2.py",
+      "bytes": 3786,
+      "sha256": "e6114d62e278b763ebc17cfbf11f523fac1e788bb559c9657221093ee1217bc0"
+    },
+    {
+      "path": "sonylook/table_cache.py",
+      "bytes": 2530,
+      "sha256": "4f9ffc4e17362448eb0f564becd705fd8e4fe7c1bc62bbb90717e36f25943ea6"
+    }
+  ],
+  "sony_binaries_included": false,
+  "changes": "None in vendor tree. Windows libSystem→UCRT paths patched only in local runtime copy."
+}

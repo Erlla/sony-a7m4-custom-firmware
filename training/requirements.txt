@@ -1,0 +1,8 @@
+# Install an appropriate CPU/CUDA PyTorch build separately: https://pytorch.org/get-started/locally/
+numpy>=2.0
+scipy>=1.15
+Pillow>=11
+tifffile>=2025.1
+rawpy>=0.19
+matplotlib>=3.9
+torch>=2.5

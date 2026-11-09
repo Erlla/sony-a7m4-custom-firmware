@@ -2,7 +2,7 @@
 
 [中文](README.md) · [Custom LUT operation](../../methods/08-custom-lut/README.en.md) · [Scores CSV](scores.csv) · [Machine-readable results](results.json) · [AI Agent training method](AGENT_TRAINING.en.md)
 
-To fit your own look, give an AI Agent the [execution guide](AGENT_TRAINING.en.md) and same-RAW target pairs. Ordinary photographs are supported; a professional chart is optional. Model dependencies must be supplied separately.
+To fit your own look, give an AI Agent the [execution guide](AGENT_TRAINING.en.md) and same-RAW target pairs. Ordinary photographs are supported; a professional chart is optional. Model/code/chart organisation is described in the [training entry](../../training/README.en.md).
 
 Twelve Fujifilm-style looks were refined through the M4 computer model. The equally weighted mean of their average ΔE00 scores fell from **2.014 to 1.190, a 40.9% reduction**. Shadow and face/neck-shadow means improved for every look. This is the offline evaluation dated 2026-11-08; **the new parameters have not yet been validated in fresh camera captures**.
 

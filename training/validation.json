@@ -1,0 +1,72 @@
+{
+  "result": "PASS",
+  "cases": [
+    {
+      "case": "frozen_post_operator",
+      "grid": 0,
+      "samples": 256,
+      "max_RGB255_error": 0.0
+    },
+    {
+      "case": "frozen_post_operator",
+      "grid": 1,
+      "samples": 256,
+      "max_RGB255_error": 0.0
+    },
+    {
+      "case": "ARW_native_chart_context_and_payload",
+      "samples": 99372,
+      "max_RGB16_error": 0
+    },
+    {
+      "case": "formal129_table",
+      "nodes": 2146689,
+      "chunk": 32768,
+      "max_RGB255_error": 0.0
+    },
+    {
+      "case": "tail_guard_and_CIEDE2000_reference",
+      "reference_value": 2.042459680156571
+    },
+    {
+      "case": "CPU_and_formal_CUDA_RGB16",
+      "samples": 99372,
+      "maximum_code_difference": 0
+    },
+    {
+      "case": "two_step_parameter_gradient_smoke",
+      "steps": 2,
+      "model_retrained": false
+    },
+    {
+      "case": "native116_Gamma_proposal_codec",
+      "dimensions": 116
+    }
+  ],
+  "seconds": 127.64000000001397,
+  "device": "cpu",
+  "torch": "2.14.1+cpu",
+  "CUDA_RGB16_kernel_checked": true,
+  "CUDA_PyTorch_training_tested": false,
+  "physical_camera": false,
+  "new_filter_optimisation": false,
+  "limits": [
+    "Port equivalence to the existing model; not new camera accuracy or independent scenes.",
+    "Two gradient steps only test the Agent primitive; no look was adopted or packaged."
+  ],
+  "original_model_sha256": "4e516ebced9075eba9a4a69a89f410606abb87434077c4ac8986ca0690968e6d",
+  "ported_contract_sha256": "0aa72749b2835e16a5eb537656b7eccf377ea7933e1682cb43663fc2baa40578",
+  "scope": "Code-transfer equivalence and a two-step gradient smoke; no new filter training or physical acceptance",
+  "resident_table_cache": {
+    "result": "PASS",
+    "nodes": 2146689,
+    "chunk": 32768,
+    "maximum_RGB255_difference": 0.0,
+    "device": "cpu",
+    "initialization_seconds": 98.95299999997951,
+    "cached_table_seconds": 2.2030000000377186,
+    "physical_camera": false,
+    "filter_training": false,
+    "implementation_sha256": "83a39a7c8d83387867e6d71accb5f5b2ffa791a9d5716b3e0093a63cb6bf89fa"
+  }
+}
