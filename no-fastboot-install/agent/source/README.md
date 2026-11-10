@@ -1,12 +1,12 @@
-# M4 Agent 工具 1.00 源码
+# M4 Agent 工具 1.01 源码
 
-独立 Agent 工具的当前源码快照，构建标识 `1.00-agent-20261110-r1`。使用[正式 Agent 入口](../README.md)；运行包已在[Release](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00)提供。普通用户无需克隆源码或现场构建。
+独立 Agent 工具的当前源码快照，构建标识 `1.01-agent-20261111-r1`。使用[正式 Agent 入口](../README.md)；运行包已在[Release](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.01)提供。普通用户无需克隆源码或现场构建。
 
 [English](README.en.md) · [安装方法](../../README.md) · [修改原理](../../IMPLEMENTATION.md) · [命令规则](../PROMPT.zh-CN.md)
 
 本目录独立于桌面源码，共用其补丁与恢复实现。Agent 通过原生 EXE 的 `--agent` 入口运行包内 Python，提供后台任务、待办编号、持续进度与独立 USB 恢复。程序不读取、检查或复制卡上的 DAT；下载固件和配套素材由 Agent 按用户选择处理。
 
-此快照保留现有发布包对应的 `app/`、启动器、构建代码和资产锁；发布整理仅调整文档、下载辅助脚本和测试路径。构建来源记录见 [SOURCE.json](SOURCE.json)。离线检查不替代新电脑、真实 UAC、驱动与相机验收。桌面版与 Agent 独立编号，不按版本数字混用任务记录。
+本构建修正了 p1 完成后的菜单续接：普通 USB 恢复后保留原任务，为新菜单 attempt 重新封存计划并执行当前 p1 预读。日常不重放 p1 writer，旧计划不覆盖。构建来源记录见 [SOURCE.json](SOURCE.json)。离线检查不替代新电脑、真实 UAC、驱动与相机验收。桌面版与 Agent 独立编号，不按版本数字混用任务记录。
 
 ## 当前行为
 
@@ -41,7 +41,7 @@ D:\M4-build\M4相机工具.exe --verify
 
 下载器只获取锁定摘要的 USB ZIP，支持断点续传、有限重试和缓存复用；不下载 DAT 或其他路线的组件，不执行远程脚本，不修改代理或 TLS 验证。导出和构建先在独立临时目录完成，失败不留下已发布的半成品，可以使用同一输出路径重试；已存在的安装目录和状态不会被覆盖。两个资产入口共同拒绝 ZIP 重复项、Windows 名称别名、符号链接和目录联接。
 
-**版本区别：** 本目录只生成独立 Agent 1.00，桌面软件保持自己的发布分支。历史桌面 1.00、实验 Agent 1.02 与独立 Agent 1.00 不能仅按数字视为同一个包，需核对完整 build_id 和 ZIP 摘要。3257 个运行资产与原锁匹配，可用于重建，其旧 app 不会被复制。运行版本集中于 `app/product_version.py`，要求与依赖元数据一致；构建时确认 Python 与原生版本和完整性，不通过改清单放行旧包。
+**版本区别：** 本目录只生成独立 Agent 1.01，桌面软件保持自己的发布分支。历史桌面 1.00、实验 Agent 1.02 与独立 Agent 1.00 不能仅按数字视为同一个包，需核对完整 build_id 和 ZIP 摘要。3257 个运行资产与原锁匹配，可用于重建，其旧 app 不会被复制。运行版本集中于 `app/product_version.py`，要求与依赖元数据一致；构建时确认 Python 与原生版本和完整性，不通过改清单放行旧包。
 
 ## 开发验证
 

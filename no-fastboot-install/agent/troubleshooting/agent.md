@@ -71,3 +71,16 @@
 **不要这样做：** 不并发派多个监控/写入，不额外逐文件哈希或重复 --verify，不将退出码0解释为相机安装成功。
 
 **证据与验证范围：** 实验r6新增并通过源码、正式入口及两条菜单包级检查；离线准备耗时约减少46%，不是整机安装耗时。
+
+<a id="usb-027"></a>
+## USB-027 · p1 已完成，但普通 USB 恢复后缺少菜单继续入口
+
+**匹配线索：** `MENU_CONNECTION_STOPPED`、`P1_COMPLETE`、`normal_usb_restored=false`、Issue #24/#25。
+
+**阶段与原因：** p1 已验证后的菜单预检。独立 r1 将该状态引向恢复 USB，恢复成功后结束恢复任务；缺少接回菜单准备的路径。电脑卡可读不能自动更新程序的验证字段。最初的 USB 身份失败原因仍需现场证据，不能由本条关键词推断。
+
+**本轮应核对：** 原 job、build_id、完整 p1 结果、菜单 stopped_before_session/safe_to_restore、window_started/preread_started/installation_may_be_running，以及两项菜单 job 是否已有 claim。相机已安装目标 DAT、窗口已启动或写入结果未知，不属于本续接范围。
+
+**处理：** 按正式提示词的 1.01 原任务续接指南，保留原目录和 state 升级后执行 `--agent status <原job>`、`--agent resume <原job>`，取得新的用户恢复确认。恢复成功提供 `continue-menu` 待办；工具保留 patch_run，建立新菜单 attempt，重新完整预读当前 p1，不重新派发 p1 writer。
+
+**边界：** 不删除旧计划、claim 或 state，不改 phase，不把 USB_RESTORE_COMPLETE 当作安装成功。旧桌面任务不是 Agent job，不能直接套用此命令。修复通过源码及包内替代边界回归，没有替代真实相机与全新 Windows 验收。

@@ -22,6 +22,7 @@ import shutil
 HERE = Path(__file__).resolve().parent
 SOFTWARE = HERE.parent
 SOURCE_CASES = (
+    ('menu-continuation', 'test_menu_continuation_unit.py'),
     ('analysis-cache', 'test_analysis_cache_unit.py'),
     ('byte-diff', 'test_byte_diff_unit.py'),
     ('agent', 'test_agent_unit.py'),

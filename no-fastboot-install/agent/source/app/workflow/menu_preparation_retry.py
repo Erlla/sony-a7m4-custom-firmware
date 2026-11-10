@@ -15,7 +15,7 @@ def eligible(value):
                     and '/app/provider/release.json' in legacy)
     backend.require(phase == 'MENU_PREPARATION_RETRY' or known_legacy,
                     '不是已确认的本地菜单准备失败，请保留原任务记录')
-    folder = flow.folder(value)
+    folder = flow.menu_folder(value)
     backend.require(not any((folder / name).exists() for name in ('plan.json', 'status.json', 'start', 'execution')),
                     '已有菜单计划或设备执行记录，不能重新准备')
     backend.require(value.get('package_validation') == 'not_performed'

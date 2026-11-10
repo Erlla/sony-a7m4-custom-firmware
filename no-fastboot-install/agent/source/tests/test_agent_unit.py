@@ -52,8 +52,8 @@ class AgentTests(unittest.TestCase):
 
     def test_independent_agent_version_and_experimental_task_separation(self):
         value = self.prepared()
-        self.assertEqual(value['version'], '1.00')
-        self.assertEqual(value['build_id'], '1.00-agent-20261110-r1')
+        self.assertEqual(value['version'], '1.01')
+        self.assertEqual(value['build_id'], api.BUILD_ID)
         saved = self.store.load(value['job'])
         saved['build_id'] = '1.02-agent-20261110-r6'
         self.store.save(saved)
@@ -283,6 +283,51 @@ class AgentTests(unittest.TestCase):
         api.finish(self.store, saved, dict(phase='USB_RESTORE_COMPLETE'))
         self.assertIn('普通 USB 连接已恢复', saved['message'])
         self.assertEqual(saved['installation_outcome'], 'not_started')
+
+    def legacy_menu_job(self, status='FINISHED'):
+        value=self.prepared();saved=self.store.load(value['job'])
+        flow_id='d'*32;base=self.root/'state/sessions'/value['job']/'workflow'
+        flow=dict(flow=flow_id,phase='MENU_CONNECTION_STOPPED',p1_operation_complete=True,patch_run='same-p1')
+        api.atomic_json(base/'flow.json',dict(flow=flow_id))
+        api.atomic_json(base/'flows'/flow_id/'flow.json',flow)
+        saved.update(build_id=api.LEGACY_BUILD,version='1.00',status=status,p1_operation_complete=True,pending=None)
+        self.store.save(saved);return saved,flow
+
+    def test_legacy_stopped_menu_reopens_with_fresh_confirmation_only(self):
+        saved,flow=self.legacy_menu_job()
+        result=api.reopen_menu(self.store,saved['job'])
+        self.assertEqual(result['pending']['kind'],'restore')
+        self.assertEqual(result['build_id'],api.BUILD_ID)
+        self.assertEqual(result['version'],'1.01')
+        self.assertEqual(self.store.load(saved['job'])['created_version'],'1.00')
+        self.assertEqual(self.store.load(saved['job'])['created_build_id'],api.LEGACY_BUILD)
+        self.assertEqual(self.host.launches,[])
+        self.assertFalse(result['menu_ready'])
+
+    def test_running_legacy_task_cannot_be_reopened(self):
+        saved,_=self.legacy_menu_job('RUNNING')
+        with self.assertRaises(ValueError):api.reopen_menu(self.store,saved['job'])
+        self.assertEqual(self.host.launches,[])
+
+    def test_recovered_menu_continues_same_job_without_new_start(self):
+        saved,flow=self.legacy_menu_job();result=api.reopen_menu(self.store,saved['job']);calls=[]
+        def execute(action,**kwargs):
+            calls.append(action)
+            return dict(flow,phase='MENU_CONTINUATION_READY',normal_usb_restored=True) if action=='recover-usb' else dict(flow,phase='REVIEW_REQUIRED')
+        api.submit(self.store,self.host,'recover-usb',saved['job'],result['pending']['id'],'restore-usb')
+        continued=self.dispatch(saved,execute)
+        self.assertEqual(continued['pending']['kind'],'continue-menu')
+        self.assertTrue(continued['normal_usb_restored']);self.assertEqual(continued['status'],'WAITING_USER')
+        api.submit(self.store,self.host,'resume',saved['job'],continued['pending']['id'],'continue-menu')
+        self.dispatch(saved,execute)
+        self.assertEqual(calls,['recover-usb','continue'])
+
+    def test_window_clock_uses_new_attempt_receipt(self):
+        saved,flow=self.legacy_menu_job();flow['menu_attempt']='e'*32
+        folder=self.root/'state/sessions'/saved['job']/'workflow/flows'/flow['flow']
+        api.atomic_json(folder/'status.json',dict(window_start_bound=dict(utc='old')))
+        api.atomic_json(folder/'menu_attempts'/flow['menu_attempt']/'status.json',dict(window_start_bound=dict(utc='new')))
+        self.assertEqual(api.load_window(self.store,saved['job'],flow)['utc'],'new')
 
 
 if __name__ == '__main__': unittest.main()

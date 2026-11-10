@@ -1,4 +1,4 @@
-# Agent 1.00 构建与发布核对
+# Agent 1.01 构建与发布核对
 
 在开发用 Windows x64 电脑、`no-fastboot-install/agent/source/` 目录运行，使用 Python 3.12+ 和系统 C# 编译器。以下步骤构建新目录并进行离线检查，不请求管理员授权或访问相机。
 

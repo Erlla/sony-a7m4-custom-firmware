@@ -13,13 +13,13 @@
 
 软件会实际修改更新环境分区 p1。操作前保留本机备份，使用原厂电池并满足更新器电量要求，保持稳定供电。工具自动备份的 p1 不等于全部 eMMC、校准或独立 CP NOR 备份。
 
-## AI Agent 模式（1.00）
+## AI Agent 模式（1.01）
 
 **模型建议：使用 [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news260910/)，或推理、代码与工具调用能力不低于该级别的大模型；Agent 还须具备联网、本机文件访问和命令执行能力。**
 
 使用能联网、访问本机文件和执行命令的本地 AI Agent，复制[用户提示词](agent/USER_PROMPT.zh-CN.md)即可开始。Agent 会按[完整操作说明](agent/PROMPT.zh-CN.md)下载工具、检查环境、询问是否下载最新适用的固件／LUT／音频包，并逐步提示用户操作；实际写入前等待明确同意。
 
-只需恢复电脑的普通 USB 连接时，直接说明“仅恢复普通 USB”，不进入固件安装流程。详见 **[Agent 入口](agent/README.md)** · [独立恢复](agent/USB_RECOVERY.zh-CN.md) · [正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) · [Agent 源码](agent/source/README.md)。
+只需恢复电脑的普通 USB 连接时，直接说明“仅恢复普通 USB”，不进入固件安装流程。详见 **[Agent 入口](agent/README.md)** · [独立恢复](agent/USB_RECOVERY.zh-CN.md) · [正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.01) · [Agent 源码](agent/source/README.md)。
 
 ## 桌面软件模式
 
@@ -88,4 +88,3 @@
 ## 致谢
 
 免 Fastboot 安装方案参考了 [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools) 项目的研究与实现思路，感谢其公开相关成果。
-

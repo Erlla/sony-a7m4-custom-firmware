@@ -19,7 +19,8 @@ from state_io import atomic_json, read_json, claim_once
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = 'm4-agent/1'
-BUILD_ID = '1.00-agent-20261110-r1'
+BUILD_ID = '1.01-agent-20261111-r1'
+LEGACY_BUILD = '1.00-agent-20261110-r1'
 ID = re.compile('[0-9a-f]{32}')
 
 
@@ -49,7 +50,7 @@ class Store:
 
     def load(self, job):
         value = read_json(self.folder(job) / 'status.json')
-        if value.get('job') != job or value.get('schema') != SCHEMA or value.get('build_id') != BUILD_ID:
+        if value.get('job') != job or value.get('schema') != SCHEMA or value.get('build_id') not in (BUILD_ID, LEGACY_BUILD):
             raise ValueError('任务身份或构建标识不匹配，请使用创建任务的原始工具目录')
         return value
 
@@ -84,6 +85,7 @@ def public(value):
     result = {k: value.get(k) for k in ('schema', 'version', 'build_id', 'job', 'status', 'phase', 'message',
               'progress', 'p1_operation_complete', 'menu_ready', 'installation_outcome', 'normal_usb_restored',
               'firmware_written', 'firmware_write_attempted', 'pending', 'updated_utc', 'heartbeat_utc', 'automatic_retry', 'diagnostic')}
+    result['runtime_build_id'] = BUILD_ID
     result['query_ok'] = True
     result['requires_user_response'] = result['pending'] is not None
     if (value.get('pending') or {}).get('kind') == 'menu':
@@ -141,6 +143,25 @@ def doctor(store, machine):
     return public(value)
 
 
+def reopen_menu(store, job):
+    """Create a current confirmation for a stopped menu; do not touch USB."""
+    other = shared_pending(store)
+    if other: return other
+    with file_lock(store.plain(store.base / 'request.lock')):
+        value = store.load(identifier(job))
+        flow = load_flow(store, job)
+        if value['status'] not in ('STOPPED', 'WAITING_USER', 'FINISHED') or flow.get('phase') != 'MENU_CONNECTION_STOPPED':
+            raise ValueError('只有已停止的菜单连接任务可以重新生成续接待办；先查询原任务')
+        if value.get('p1_operation_complete') is not True or flow.get('p1_operation_complete') is not True:
+            raise ValueError('本轮完整 p1 结果尚未确认')
+        if value['build_id'] != BUILD_ID:
+            value.update(created_build_id=value['build_id'], created_version=value['version'], build_id=BUILD_ID, version=VERSION)
+        value.update(flow=flow, phase=flow['phase'], menu_ready=False)
+        ask(value, *next_request(flow))
+        store.save(value)
+        return public(value)
+
+
 def submit(store, machine, action, job, request_id, answer):
     other = shared_pending(store)
     if other: return other
@@ -152,6 +173,10 @@ def submit(store, machine, action, job, request_id, answer):
         if action == 'start' and pending['kind'] != 'write': raise ValueError('当前不是写入确认步骤')
         if action == 'recover-usb' and pending['kind'] != 'restore': raise ValueError('请按当前任务使用 resume')
         operation, confirmed = request_action(pending, answer, value.get('flow', {}))
+        if value['build_id'] != BUILD_ID:
+            if operation != 'recover-usb' or load_flow(store, job).get('phase') != 'MENU_CONNECTION_STOPPED':
+                raise ValueError('旧构建只允许核对已停止的菜单连接任务；其他任务请使用原构建')
+            value.update(created_build_id=value['build_id'], created_version=value['version'], build_id=BUILD_ID, version=VERSION)
         if operation == 'menu-confirmed' and remaining(value.get('window_bound')) < 90:
             raise ValueError('菜单窗口剩余不足，不能开始安装；先查询原任务并按提示恢复。')
         # These three replies only update guidance in the user's own state.
@@ -192,7 +217,9 @@ def load_flow(store, job):
 
 def load_window(store, job, flow):
     if not flow.get('flow'): return None
-    path = data_root(store.source) / 'sessions' / job / 'workflow/flows' / identifier(flow['flow']) / 'status.json'
+    path = data_root(store.source) / 'sessions' / job / 'workflow/flows' / identifier(flow['flow'])
+    if flow.get('menu_attempt'): path = path / 'menu_attempts' / identifier(flow['menu_attempt'])
+    path = path / 'status.json'
     return read_json(path).get('window_start_bound') if path.exists() else None
 
 
@@ -257,6 +284,7 @@ def finish(store, value, flow):
                  p1_operation_complete=flow.get('p1_operation_complete', value.get('p1_operation_complete', False)),
                  menu_ready=flow.get('phase') == 'AWAITING_MENU_OBSERVATION' and flow.get('final_unplug_ready') is True,
                  status='STOPPED', diagnostic=flow.get('diagnostic', value.get('diagnostic')))
+    if 'normal_usb_restored' in flow: value['normal_usb_restored'] = flow['normal_usb_restored']
     if value['menu_ready']: value['window_bound'] = load_window(store, value['job'], flow)
     if not value.get('diagnostic') and flow.get('error'):
         value['diagnostic'] = dict(code='OPERATION_STOPPED', stage=value['phase'],
@@ -297,6 +325,11 @@ def status_result(store, job=None):
             if error.get('dispatch') == value.get('dispatch'):
                 result.update(status='LAUNCH_FAILED', diagnostic=error,
                               message='受保护后台未能启动，请保留记录检查启动错误；未自动重新派发。')
+    if value and value['status'] in ('STOPPED', 'WAITING_USER', 'FINISHED'):
+        flow = load_flow(store, value['job'])
+        if flow.get('phase') == 'MENU_CONNECTION_STOPPED' and flow.get('p1_operation_complete') is True:
+            result['commands'].append(dict(arguments=['--agent', 'resume', value['job']],
+                purpose='为原任务重新生成菜单连接恢复确认；不执行设备操作'))
     return result
 
 
@@ -405,6 +438,8 @@ def main(arguments=None):
                 watch_status(store, args.job); return 0
             result = status_result(store, args.job)
         elif args.action == 'doctor': result = doctor(store, machine)
+        elif args.action == 'resume' and args.job and not args.request:
+            result = reopen_menu(store, args.job)
         elif args.action == 'recover-usb' and not args.job:
             other = shared_pending(store); current = store.current()
             result = other or public(current if current and current['status'] != 'FINISHED' else store.create('restore'))

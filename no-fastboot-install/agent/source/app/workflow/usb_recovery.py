@@ -140,7 +140,7 @@ def recover(value, confirmed=False):
         recovered = prewrite_recover(value)
         if recovered is not None:
             return recovered
-    if value['phase'] in ('REVIEW_REQUIRED', 'MENU_CONNECTION_RECOVERY', 'WINDOWS_RESTART_REQUIRED'):
+    if value['phase'] in ('REVIEW_REQUIRED', 'MENU_CONNECTION_RECOVERY', 'MENU_CONNECTION_STOPPED', 'MENU_CONTINUATION_READY', 'WINDOWS_RESTART_REQUIRED'):
         from menu_connection_recovery import recover as menu_recover
         recovered = menu_recover(value)
         if recovered is not None:

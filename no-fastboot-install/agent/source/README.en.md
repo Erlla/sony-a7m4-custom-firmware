@@ -1,6 +1,6 @@
-# M4 Agent 1.00 source
+# M4 Agent 1.01 source
 
-This is the independent Windows x64 Agent source snapshot for build `1.00-agent-20261110-r1`. The [official package](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) bundles its runtime; users do not need Python, Git or a compiler.
+This is the independent Windows x64 Agent source snapshot for build `1.01-agent-20261111-r1`. The [official package](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.01) bundles its runtime; users do not need Python, Git or a compiler.
 
 [中文](README.md) · [Agent entry](../README.md) · [operating prompt](../PROMPT.zh-CN.md) · [USB-only recovery](../USB_RECOVERY.zh-CN.md)
 
@@ -18,4 +18,4 @@ py -3 -I -B tests\run_offline.py --source-only --report D:\M4-source-tests.json
 
 For offline asset export use `prepare_assets.py --from-package <trusted.zip>` instead of `--download`. Pinned runtime assets are separate from source. See [build/release checks](RELEASING.md), [offline testing](tests/OFFLINE.md), [dependency notices](THIRD_PARTY.md) and [source provenance](SOURCE.json).
 
-No package is rebuilt or replaced merely by publishing this snapshot. App, launcher, build code and dependency locks retain the released build's content; documentation and downloader tests are adapted to this location. Source/offline success does not establish clean-Windows, elevated-driver or physical-camera acceptance. macOS remains unavailable for writes. Desktop source is retained separately in [software](../../software/README.md).
+The 1.01 fix continues a proven pre-session menu failure after USB recovery, retaining the original p1 run and creating a fresh menu attempt. The original r1 stopped-menu record may be reopened with `--agent resume <job>` after upgrading files in the original directory while preserving state. Other legacy or unresolved write tasks remain blocked. See the operating prompt for the upgrade sequence. Physical-camera and clean-Windows validation remain separate from offline tests.

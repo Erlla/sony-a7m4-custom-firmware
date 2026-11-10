@@ -36,9 +36,12 @@ def next_request(flow):
                  'POST_RESTART_NORMAL_CHECK', 'USB_RECOVERY_WAITING', 'USB_RESTORE_WAITING', 'USB_RESTORE_REPLUG'):
         return ('replug', '本轮当前步骤已停止，请保持相机开机，重新插拔 USB 后回复已重新连接。'
                 '只继续核对原任务，暂时不要安装固件。', ['usb-replugged'])
-    if phase in ('PATCH_READY', 'MENU_PREPARATION_RETRY'):
+    if phase in ('PATCH_READY', 'MENU_PREPARATION_RETRY', 'MENU_CONTINUATION_READY'):
         return ('continue-menu', '补丁检查已完成，菜单尚未准备完成。请确认电量和 USB 稳定，回复继续准备菜单。', ['continue-menu'])
-    if phase in ('CONNECTION_STOPPED', 'MENU_CONNECTION_STOPPED', 'CANCELLED_BEFORE_DEVICE',
+    if phase in ('MENU_CONNECTION_STOPPED', 'MENU_CONNECTION_RECOVERY'):
+        return ('restore', 'p1 已完成，菜单尚未启动。请确认相机没有正在安装固件，连接 USB，回复恢复并继续菜单准备。'
+                '先核对普通连接，再提供原任务的菜单继续待办；不会重新写入 p1。', ['restore-usb'])
+    if phase in ('CONNECTION_STOPPED', 'CANCELLED_BEFORE_DEVICE',
                  'READ_REJECTED_COMPLETE', 'NO_FLOW', 'USB_RESTORE_CANCELLED', 'USB_RESTORE_RETRY'):
         return ('restore', '当前操作已停止。请确认相机没有正在安装固件，连接 USB，回复恢复普通 USB。'
                 '此操作只走原任务的恢复核对，不重新写入补丁。', ['restore-usb'])

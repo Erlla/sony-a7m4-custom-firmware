@@ -55,7 +55,7 @@ def presentation(state):
         return ('本轮操作已结束', '需要恢复电脑的相机存储连接时，点击“恢复普通 USB”。', '写入补丁', 'simple-start')
     if phase in NEW:
         return ('写入补丁', '1  自行将要安装的 BODYDATA.DAT 放入卡槽 1 存储卡根目录。\n2  将 M4 开机，以 USB 海量存储模式连接电脑。\n3  保持电量充足，点击下方按钮，等待软件提示。', '写入补丁', 'simple-start')
-    if phase == 'MENU_PREPARATION_RETRY':
+    if phase in ('MENU_PREPARATION_RETRY', 'MENU_CONTINUATION_READY'):
         return ('继续准备更新菜单', '补丁和完整回读已完成。上次在电脑端准备菜单时停止，可继续本轮操作。', '继续准备更新菜单', 'simple-continue')
     if phase == 'PATCH_RECOVERY':
         return ('请重新连接 USB', '本轮补丁读写已结束。保持相机开机，拔下再插上 USB 线后继续。\n软件还会自动准备更新菜单，现在先不要更新。', '已重新插拔，继续', 'simple-continue')

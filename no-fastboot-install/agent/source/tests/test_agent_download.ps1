@@ -1,4 +1,4 @@
-﻿param([string]$Downloader=(Join-Path $PSScriptRoot '../../Get-M4Agent.ps1'))
+param([string]$Downloader=(Join-Path $PSScriptRoot '../../Get-M4Agent.ps1'))
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 Add-Type -AssemblyName System.IO.Compression
@@ -19,17 +19,17 @@ function NewFixture($names) {
     finally {$zip.Dispose()}
 }
 function Manifest($published=$true) {
-    $value=@{schema='m4-agent-resources/1';published=$published;version='1.00';build_id='test-build';source_commit=('a'*40);
+    $value=@{schema='m4-agent-resources/1';published=$published;version='1.01';build_id='test-build';source_commit=('a'*40);
       platforms=@{'windows-x64'=@{url='https://github.com/Erlla/sony-a7m4-custom-firmware/releases/download/test/test.zip';
       sha256=(Get-FileHash -LiteralPath $script:archive -Algorithm SHA256).Hash.ToLowerInvariant();bytes=(Get-Item -LiteralPath $script:archive).Length;
-      root='M4Agent_1.00';entry='M4相机工具.exe';status='validated'}}}
+      root='M4Agent_1.01';entry='M4相机工具.exe';status='validated'}}}
     $path=Join-Path $script:area 'manifest.json';$value|ConvertTo-Json -Depth 5|Set-Content -LiteralPath $path -Encoding UTF8
     return $path
 }
 function MustFail($body) { $failed=$false;try { & $body | Out-Null }catch {$failed=$true};if(-not $failed){throw 'expected rejection'} }
 $rows=@()
 try {
-    NewFixture @('M4Agent_1.00/M4相机工具.exe')
+    NewFixture @('M4Agent_1.01/M4相机工具.exe')
     $manifest=Manifest $false
     MustFail { & $Downloader -Manifest $manifest -Destination (Join-Path $script:area 'unpublished') }
     if($global:M4AgentDownloadTestContext.Calls -ne 0){throw 'unpublished manifest downloaded'};$rows+='unpublished-refused'
@@ -40,18 +40,18 @@ try {
     $manifest=Manifest;$global:M4AgentDownloadTestContext.Calls=0;$global:M4AgentDownloadTestContext.Failures=1
     & $Downloader -Manifest $manifest -Destination (Join-Path $script:area 'good') | Out-Null
     if($global:M4AgentDownloadTestContext.Calls -ne 2){throw 'retry count'};$rows+='bounded-download-retry'
-    $saved=Join-Path $script:area 'good/M4Agent_1.00/user-record.txt';'keep'|Set-Content -LiteralPath $saved
+    $saved=Join-Path $script:area 'good/M4Agent_1.01/user-record.txt';'keep'|Set-Content -LiteralPath $saved
     & $Downloader -Manifest $manifest -Destination (Join-Path $script:area 'good') | Out-Null
     if($global:M4AgentDownloadTestContext.Calls -ne 2 -or -not (Test-Path -LiteralPath $saved)){throw 'existing state overwritten'};$rows+='reuse-preserves-state'
     $global:M4AgentDownloadTestContext.Calls=0;$global:M4AgentDownloadTestContext.Failures=5
     MustFail { & $Downloader -Manifest $manifest -Destination (Join-Path $script:area 'offline') }
     if($global:M4AgentDownloadTestContext.Calls -ne 3){throw 'unbounded retry'};$rows+='download-fails-after-three-attempts'
     $global:M4AgentDownloadTestContext.Failures=0
-    NewFixture @('M4Agent_1.00/readme.txt');$manifest=Manifest
+    NewFixture @('M4Agent_1.01/readme.txt');$manifest=Manifest
     MustFail { & $Downloader -Manifest $manifest -Destination (Join-Path $script:area 'missing-entry') };$rows+='missing-entry-refused'
-    NewFixture @('M4Agent_1.00/../escape.txt');$manifest=Manifest
+    NewFixture @('M4Agent_1.01/../escape.txt');$manifest=Manifest
     MustFail { & $Downloader -Manifest $manifest -Destination (Join-Path $script:area 'traversal') };$rows+='traversal-refused'
-    NewFixture @('M4Agent_1.00/a.txt','M4Agent_1.00/A.txt');$manifest=Manifest
+    NewFixture @('M4Agent_1.01/a.txt','M4Agent_1.01/A.txt');$manifest=Manifest
     MustFail { & $Downloader -Manifest $manifest -Destination (Join-Path $script:area 'alias') };$rows+='case-alias-refused'
     [pscustomobject]@{passed=$true;tests=$rows;network_requests=0;device_operations=0} | ConvertTo-Json -Compress
 } finally {

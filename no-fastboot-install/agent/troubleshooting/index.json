@@ -1,8 +1,8 @@
 {
   "schema": "m4-agent-known-issues/1",
-  "updated": "2026-11-10",
-  "independent_agent_version": "1.00",
-  "independent_build": "1.00-agent-20261110-r1",
+  "updated": "2026-11-11",
+  "independent_agent_version": "1.01",
+  "independent_build": "1.01-agent-20261111-r1",
   "independent_build_publication": "stable",
   "matching": "symptom_then_stage_build_and_current_evidence",
   "entries": [
@@ -372,6 +372,21 @@
       "stage": "系统防护拦截",
       "cause_status": "unresolved_in_original_case",
       "document": "security.md#usb-026",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-027",
+      "title": "p1 已完成、USB 已恢复，但原任务无法继续菜单",
+      "terms": [
+        "MENU_CONNECTION_STOPPED",
+        "MENU_CONTINUATION_READY",
+        "normal_usb_restored=false",
+        "Issue #24",
+        "Issue #25"
+      ],
+      "stage": "p1 完成后的菜单续接",
+      "cause_status": "source_confirmed_offline_regression_passed",
+      "document": "agent.md#usb-027",
       "match_is_diagnosis": false
     }
   ],

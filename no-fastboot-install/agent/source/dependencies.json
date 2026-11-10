@@ -1,6 +1,6 @@
 {
   "schema": "m4-source-runtime-dependencies/1",
-  "version": "1.00",
+  "version": "1.01",
   "groups": {
     "runtime/python": {
       "files": 1765,

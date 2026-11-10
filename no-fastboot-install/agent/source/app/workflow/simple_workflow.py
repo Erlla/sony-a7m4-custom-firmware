@@ -77,7 +77,7 @@ def open_menu(value):
                           final_unplug_ready=result['phase'] == 'AWAITING_MENU_OBSERVATION')
     except BaseException as error:
         local_only = value['phase'] == 'MENU_PREPARING' and not any(
-            (state.folder(value) / name).exists() for name in ('plan.json', 'status.json', 'start', 'execution'))
+            (state.menu_folder(value) / name).exists() for name in ('plan.json', 'status.json', 'start', 'execution'))
         save_failure(lambda phase, **fields: state.save(value, phase, **fields), error,
                      'MENU_PREPARATION_RETRY' if local_only else 'REVIEW_REQUIRED',
                      failed_stage=value['phase'], menu_preparation_device_started=not local_only)
@@ -118,6 +118,9 @@ def begin(ready):
     return advance_after_patch(patch_receiver(value))
 
 def continue_flow(value):
+    if value['phase'] == 'MENU_CONTINUATION_READY':
+        from menu_continuation import prepare
+        return open_menu(prepare(value))
     if value['phase'] == 'MENU_PREPARATION_RETRY':
         from menu_preparation_retry import prepare_retry
         return open_menu(prepare_retry(value))

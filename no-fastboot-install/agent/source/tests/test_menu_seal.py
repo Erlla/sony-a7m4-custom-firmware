@@ -291,7 +291,19 @@ def main():
              patch.object(usb_recovery, 'recover_write_race', forbidden), \
              patch.object(standalone_usb_restore, 'recover', return_value=dict(phase='USB_RESTORE_COMPLETE', message='normal')) as restoring:
             result = usb_recovery.recover(value)
-            assert result['phase'] == 'MENU_CONNECTION_STOPPED' and restoring.call_count == 1
+            assert result['phase'] == 'MENU_CONTINUATION_READY' and restoring.call_count == 1
+            old_plan = attempt.plan_path.read_bytes()
+            resumed = dict(value)
+            runtime.Provider = DescriptorFailureProvider
+            with patch.object(controller, 'runtime', return_value=runtime), \
+                 patch.object(simple_workflow, 'patch_receiver', forbidden):
+                resumed_result = simple_workflow.continue_flow(resumed)
+            assert resumed_result['phase'] == 'MENU_CONNECTION_STOPPED'
+            assert resumed['patch_run'] == accepted_run and resumed['menu_attempt']
+            assert attempt.plan_path.read_bytes() == old_plan
+            new_plan = controller.read(flow.menu_folder(resumed) / 'plan.json')
+            assert new_plan['nonce'] != plan['nonce'] and new_plan['p1_write_authorized'] is False
+            checks.append('restored_menu_uses_fresh_attempt_without_rewriting_p1_or_overwriting_prior_plan')
         flow.save(value, 'REVIEW_REQUIRED')
         with patch.object(backend.frozen, 'Journal', CompletedJournal), \
              patch.object(usb_recovery, 'recover_write_race', forbidden), \

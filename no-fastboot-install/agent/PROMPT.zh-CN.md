@@ -1,12 +1,26 @@
 # M4 Agent 工具：交给本地 AI Agent 的操作说明
 
+## p1 已完成、菜单连接停止时如何继续（1.01）
+
+适用于 Issue #24 的独立 Agent `1.00-agent-20261110-r1` 原任务：p1 已完整验证、菜单窗口未启动，原任务停在 `MENU_CONNECTION_STOPPED`。Windows 存储卡可读与 `normal_usb_restored=false` 可以同时出现，后者只是工具尚未记录恢复确认，不能仅凭它判定驱动坏了。
+
+1. 保留原工具目录和全部 `state`。先用原入口 `--agent status <job>` 查询；若仍为 RUNNING/DISPATCHING 或写入结果未知，不覆盖程序，不重复派发。
+2. 确认是上述停止情况、没有活动设备任务后，关闭工具前端。将资源清单中的 1.01 修复包解压，把 `M4Agent_1.01` **目录内的文件和子目录**覆盖到同一个原工具目录（即使原目录名仍叫 `M4Agent_1.00`），保留 `state`；不要把整个新目录嵌套进去；不要换目录、复制旧状态到另一安装或删除旧记录。先保存原程序副本以便仍需使用原构建查询其他任务。
+3. 在升级后的原目录执行 `--agent status <原job>`，再执行 `--agent resume <原job>`（此步不带待办编号）。后者只生成新的用户确认，不读写相机。
+4. 明确询问用户相机没有在安装、USB 已连接且供电稳定，取得回复后，使用 JSON 返回的 `recover-usb` 参数确认连接。恢复成功后应出现 `MENU_CONTINUATION_READY` 和 `continue-menu` 待办；此时仍不能拔线安装。
+5. 询问用户是否继续菜单准备，再提交当前 `resume` 参数。工具验证原 p1 证据，保留旧菜单计划，生成新菜单 attempt，重新读取当前 p1 并准备 RAM 窗口，不重新派发 p1 writer。只有 `menu_ready=true` 且 `final_unplug_ready=true` 才提示拔线。
+
+旧构建、旧待办编号和新构建不能随意混用。1.01 仅接纳上述已停止的独立 Agent r1 菜单任务；旧写入未确认、预读已开始、RAM 窗口已运行、claim 已消费或证据不符均停止。桌面 1.02 的任务不是 Agent job，不套用这组命令。
+
+如果相机未在更新、可正常拍摄，且日志确认 p1 会话结束、菜单 `stopped_before_session=true/window_started=false/preread_started=false/installation_may_be_running=false`，可正常关机；关机后再继续必须重新核对连接和当前 p1。缺少这些证据时先核对记录，不用删状态或尝试官方 DAT 排障。“恢复普通 USB”不回滚 p1。
+
 **模型建议：使用 [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news260910/)，或推理、代码与工具调用能力不低于该级别的大模型；Agent 还须具备联网、本机文件访问和命令执行能力。**
 
 开始前向用户说明这项模型建议与本机操作能力要求，再按下文区分安装固件和仅恢复 USB。
 
 将本页链接交给能够联网、访问本机文件并执行命令的 AI Agent。Agent 应按下面的说明逐步操作，并持续告诉用户现在需要做什么。
 
-**独立 M4 Agent 工具 1.00 已作为 [GitHub 正式版附件](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) 提供，构建标识 `1.00-agent-20261110-r1`；桌面端版本不变。** 已核对公开 ZIP 的大小和 SHA-256 与本地交付一致，186 项源码测试及 3 组包级检查通过；本构建的全新 Windows 与真实相机整轮验收尚未完成。正式使用以[资源清单](resources.json)固定的附件为准，先按本页检查，再在补丁开始前取得明确同意。Agent 自动获取工具包；魔改固件、LUT 和声音是否下载，先询问用户。SD 卡文件放置和相机最终安装仍由用户完成，安装后按实际版本讲解功能。排障见[历史问题与版本说明](troubleshooting/README.md)。
+**独立 M4 Agent 工具 1.01 已作为 [GitHub 正式版附件](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.01) 提供，构建标识 `1.01-agent-20261111-r1`；桌面端版本不变。** 附件大小、SHA-256 和离线验证范围见资源清单；本构建的全新 Windows 与真实相机整轮验收尚未完成。正式使用以[资源清单](resources.json)固定的附件为准，先按本页检查，再在补丁开始前取得明确同意。Agent 自动获取工具包；魔改固件、LUT 和声音是否下载，先询问用户。SD 卡文件放置和相机最终安装仍由用户完成，安装后按实际版本讲解功能。排障见[历史问题与版本说明](troubleshooting/README.md)。
 
 ## 给 AI Agent 的执行说明
 
@@ -21,7 +35,7 @@
 ### 1. 检查能力与获取 Agent 工具
 
 - 你必须能操作相机连接的本机文件和终端。纯网页聊天、云端沙箱或没有本机 USB 访问能力的环境不能完成操作。
-- 先读[历史问题索引](troubleshooting/README.md)的版本说明，只需一次。旧实验 `1.02-agent-20261110-r1` 有已知启动缺陷，不用于新写入；它与当前独立 `1.00-agent-20261110-r1` 是不同构建。已有任务仍在原目录按正式入口查询和恢复，不混用记录。不要为绕过已知问题临时改源码或换成桌面包。
+- 先读[历史问题索引](troubleshooting/README.md)的版本说明，只需一次。旧实验 `1.02-agent-20261110-r1` 有已知启动缺陷，不用于新写入；它与当前独立 `1.01-agent-20261111-r1` 是不同构建。已有任务仍在原目录按正式入口查询和恢复，不混用记录。不要为绕过已知问题临时改源码或换成桌面包。
 - 当前只支持 Windows x64；macOS 尚未完成实机适配，说明限制后停止相机操作。
 - 先读取本目录的 [资源清单](resources.json)，记录这份清单所在的 GitHub 提交，再按该提交保存清单。核对 `published=true`、Windows x64 平台、构建标识、确切附件 URL、大小和 SHA-256。若 `release_channel` 或 Windows `status` 为 `prerelease`，必须说明测试范围与尚未验收的项目，不能称为正式稳定版。`source_commit` 指向已公开的源码快照，`source_path` 为源码目录；`build_source_commit` 保留运行包的原始构建来源记录。这些字段用于追溯，不要求用户检出源码，也不现场编译。
 - 仅从清单的确切 URL 下载，Windows 状态只接受明确标记的 `prerelease` 测试包或 `validated` 已验收包；未发布、字段缺失或其他状态先停止。将 ZIP 保存到独立的构建目录，按大小和 SHA-256 核对后解压。已有相同构建和运行记录时先查询原任务，不覆盖目录。不使用 `latest`、旧桌面包、未知镜像或自己猜的下载地址。

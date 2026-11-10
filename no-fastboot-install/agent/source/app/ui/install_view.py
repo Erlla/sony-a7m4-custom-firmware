@@ -29,7 +29,11 @@ def snapshot():
             raise ValueError('流程状态无效')
         state['folder'] = str(PRIVATE / 'flows' / name)
         if state['phase'] == 'AWAITING_MENU_OBSERVATION':
-            native = read_json(Path(state['folder']) / 'status.json')
+            menu = Path(state['folder'])
+            if state.get('menu_attempt'):
+                if not re.fullmatch('[0-9a-f]{32}', state['menu_attempt']): raise ValueError('菜单尝试编号无效')
+                menu = menu / 'menu_attempts' / state['menu_attempt']
+            native = read_json(menu / 'status.json')
             from datetime import datetime, timezone
             start = native['window_start_bound']
             wall = (datetime.now(timezone.utc) - datetime.fromisoformat(start['utc'])).total_seconds()

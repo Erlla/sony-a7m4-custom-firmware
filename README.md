@@ -24,7 +24,7 @@
 
 使用普通 USB 数据线，通过 **M4 相机工具**准备更新环境，再由相机从 SD 卡安装固件。相机须能正常开机并进入 USB 海量存储模式。
 
-### AI Agent 模式（1.00）
+### AI Agent 模式（1.01）
 
 **模型建议：使用 [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news260910/)，或推理、代码与工具调用能力不低于该级别的大模型；Agent 还须具备联网、本机文件访问和命令执行能力。**
 
@@ -45,7 +45,7 @@ https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/no-fastboot-install
 出现问题时主动查阅项目历史问题库，核对原因并按正式流程处理。中断后查询原任务，不重复写入、不删除状态。仅恢复 USB 时，不进入固件安装流程。
 ```
 
-**[Agent 使用入口](no-fastboot-install/agent/README.md)** · [完整操作提示词](no-fastboot-install/agent/PROMPT.zh-CN.md) · [正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) · [Agent 源码](no-fastboot-install/agent/source/README.md)
+**[Agent 使用入口](no-fastboot-install/agent/README.md)** · [完整操作提示词](no-fastboot-install/agent/PROMPT.zh-CN.md) · [正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.01) · [Agent 源码](no-fastboot-install/agent/source/README.md)
 
 ### 桌面软件模式
 
@@ -163,4 +163,3 @@ py -3 -m venv .venv
 ## 参与贡献
 
 欢迎通过 Issue 或 Pull Request 提交问题与改进。新增基线请附输入哈希、地址映射与修改依据；请勿提交个人私钥、机身校准、备份或完整固件。详见[贡献指南](CONTRIBUTING.md)。
-
