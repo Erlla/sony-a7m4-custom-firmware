@@ -24,6 +24,27 @@
 
 使用普通 USB 数据线，通过 **M4 相机工具**准备更新环境，再由相机从 SD 卡安装固件。相机须能正常开机并进入 USB 海量存储模式。
 
+### AI Agent 模式（1.00）
+
+把下面整段复制给能够联网、访问本机文件并执行命令的本地 AI Agent。它会下载正式工具、逐步提示操作，也支持单独恢复普通 USB。
+
+```text
+请完整阅读并遵循项目最新的 Agent 操作说明：
+https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/no-fastboot-install/agent/PROMPT.zh-CN.md
+
+请帮助我操作 Sony A7M4。若我尚未说明目的，先询问本次是“安装固件”还是“仅恢复普通 USB”，然后执行对应流程。
+
+安装固件时，请先询问我是否需要下载最新适用的魔改固件、配套 LUT 包和音频包，等待我选择后再下载。下载后告诉我文件位置和存储卡放置方法；安装完成后按实际固件版本介绍功能用法。
+
+全程用简短中文说明当前进度和我需要做什么。实际写入补丁前等待我明确同意；需要系统授权、拔插 USB 或重启时，明确说明具体操作并等待回复。
+
+出现问题时主动查阅项目历史问题库，核对原因并按正式流程处理。中断后查询原任务，不重复写入、不删除状态。仅恢复 USB 时，不进入固件安装流程。
+```
+
+**[Agent 使用入口](no-fastboot-install/agent/README.md)** · [完整操作提示词](no-fastboot-install/agent/PROMPT.zh-CN.md) · [正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) · [Agent 源码](no-fastboot-install/agent/source/README.md)
+
+### 桌面软件模式
+
 1. 将适用的 `BODYDATA.DAT` 放入**卡槽 1 存储卡根目录**。
 2. 用普通 USB 数据线连接电脑，在 M4 相机工具中点击**写入补丁**。
 3. 等待工具明确提示可以开始更新，再拔下 USB，在相机“版本／软件更新”中安装。
@@ -138,3 +159,4 @@ py -3 -m venv .venv
 ## 参与贡献
 
 欢迎通过 Issue 或 Pull Request 提交问题与改进。新增基线请附输入哈希、地址映射与修改依据；请勿提交个人私钥、机身校准、备份或完整固件。详见[贡献指南](CONTRIBUTING.md)。
+

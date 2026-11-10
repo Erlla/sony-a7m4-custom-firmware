@@ -1,0 +1,7 @@
+{
+  "version": "0.15.2",
+  "url": "https://ziglang.org/download/0.15.2/zig-x86_64-windows-0.15.2.zip",
+  "archive_sha256": "3a0ed1e8799a2f8ce2a6e6290a9ff22e6906f8227865911fb7ddedc3cc14cb0c",
+  "executable_sha256": "d408dd38eed3e5204af841bcebf70502a4dbbb8399a3a3262be55059370bc018",
+  "source": "https://ziglang.org/download/index.json"
+}

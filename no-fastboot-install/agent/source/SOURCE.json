@@ -1,0 +1,521 @@
+{
+  "schema": "m4-agent-source/1",
+  "version": "1.00",
+  "build_id": "1.00-agent-20261110-r1",
+  "original_build_source_commit": "e8770f2873790eebfe7089823bace04ebccba539",
+  "original_commit_scope": "local build provenance; public snapshot is the commit adding this file",
+  "package_sha256": "9f5e4cd03f1265f560b9803c019a246c01a1a3720bab706b9d4da6f62f7daf0a",
+  "packaging_change": false,
+  "build_files_preserved": [
+    {
+      "path": "Launcher.cs",
+      "git_blob": "0d3718d23019aa08c9960fa022d716efaf07910f",
+      "sha256": "5b697691c819bd69d1533febde18c44d3666a86ff13b9bfeb7398556f0ea4bcd"
+    },
+    {
+      "path": "app/agent_api.py",
+      "git_blob": "f7a3ec211affae7bee495dce96a305605f24c56f",
+      "sha256": "e8caea65305751e1ea8d3a44b1c23359ab0604d62b0e1a612668488be883bfa1"
+    },
+    {
+      "path": "app/agent_coordination.py",
+      "git_blob": "e4cc019d5619b75073631122dba8172af67a0b56",
+      "sha256": "3bd49d89f81bd4a98b25f1f82581dc07df3e136e9d1201e7d8c059818c2eec1e"
+    },
+    {
+      "path": "app/agent_guidance.py",
+      "git_blob": "995afdc3929e93903ab3a27292cd888fd0156066",
+      "sha256": "c5bf3b7e771f060405c9ff931b89765de0ed5905ff995a369aab696a22cde4ed"
+    },
+    {
+      "path": "app/agent_platform.py",
+      "git_blob": "15526ad1ed0da486458486c0f9ab7337d4983d7d",
+      "sha256": "36f695e4c6e2272645e5de69405438e9631e18e02358a99c019cd445f54dc77f"
+    },
+    {
+      "path": "app/analysis_cache.py",
+      "git_blob": "bbc3679925d678701660eb42487aa308b17bfa3d",
+      "sha256": "740ddd1ea14457888d48167c928ef223bcf39ff28670e8872006f7cd76a911c0"
+    },
+    {
+      "path": "app/connection_stop.py",
+      "git_blob": "19178abce2d7c72450e7407a7711c0d9c34fa40c",
+      "sha256": "9038a270c9df70f89b7ece76be1169d1e37d13d1c1315695bbbd716610d3580c"
+    },
+    {
+      "path": "app/container/common.py",
+      "git_blob": "9211f6951ac9a8f62b9b086bf505224e588130e0",
+      "sha256": "87fdbd782353e95db507072b9b497d7977e94a00c5f1e786b62b28adb1e6723f"
+    },
+    {
+      "path": "app/container/m4_profile.json",
+      "git_blob": "cb17654fb89accae1da3176d556022bc0c301264",
+      "sha256": "155bb1aa93fa33b155c0dd2ce1969fce5f05142a9a9429377de2fe94d223cb52"
+    },
+    {
+      "path": "app/container/updater.py",
+      "git_blob": "9ab24ab495883f15da592ead22ec0f8a365a9e35",
+      "sha256": "36a7ba9117b995e082a6331cf43dc2b358d0ba7e01ecb156877ede6a887229c5"
+    },
+    {
+      "path": "app/data_paths.py",
+      "git_blob": "a00dd5aff857ea38680ec6ef9e11263b1de9b436",
+      "sha256": "a317c4e5cb775e8dba80c4ef6ab39e4c67c9486e5ee0d4adb8a6aedcb227d6bf"
+    },
+    {
+      "path": "app/diagnostics.py",
+      "git_blob": "e8ceffa23f6c943e412e9d4a5adc6a57fafd41e9",
+      "sha256": "ecea9fb2441708abd422bba73e7da2b7ddaa66cc1a1fa5a567f7254371a2c411"
+    },
+    {
+      "path": "app/driver/install_broker.ps1",
+      "git_blob": "8e101d95888604e864a3a92eedd5963e4e2a3795",
+      "sha256": "55ebf908ddb0db6300d0a7395b524da26d91635eeebb7d48e2e1a6eeaded29c5"
+    },
+    {
+      "path": "app/driver/invoke_broker.ps1",
+      "git_blob": "9f09d2c828d461acfcee887850dcc04a0302c518",
+      "sha256": "7b37dcd04feab32e330e4e42741323b36e6661ea56ebf989c2bdb8655f110e64"
+    },
+    {
+      "path": "app/driver/prepare_bundle.py",
+      "git_blob": "22aab59ba9127620aa5ef313235912f991488741",
+      "sha256": "9e2443d69172ebb968e99e5cdfd335aa46ef8096d56422cc7a46bab1ba6e852c"
+    },
+    {
+      "path": "app/driver/worker.ps1",
+      "git_blob": "05d9a1c33271d8321bb6a2ebaa0760538554ea4b",
+      "sha256": "e88e826d4bd19c41ccc47bb23f62fe1bace6196adb301bbeed8676547e4934ab"
+    },
+    {
+      "path": "app/driver_restore/camera_port.cs",
+      "git_blob": "fa5f2fce45627655c89aa04b80622d0285c0df08",
+      "sha256": "3d82a3a113a9d4b236bccf39f53ad5199b8010fa54b74cb9066aaee59accd8f3"
+    },
+    {
+      "path": "app/driver_restore/camera_storage.ps1",
+      "git_blob": "31b2ff34af4d341643411d5fbf6c0aeb8c529789",
+      "sha256": "c4ba837839360971ac4785a078a7376d0955f254e5eb367d50870872717bc464"
+    },
+    {
+      "path": "app/driver_restore/restore_camera_driver.ps1",
+      "git_blob": "cf38ec054a48f0f25767b7dd0d133874bc79b0fb",
+      "sha256": "7533210d829059a60cea0b20564a566704fe6e1dc46bf1fc701c1b26f0f04516"
+    },
+    {
+      "path": "app/entry.py",
+      "git_blob": "daabd930acaf1aac02600b3145972b99e4ad4532",
+      "sha256": "50354b705597196aca477c26d70ec83fa5fd25644bce843e1c69769535dcae1f"
+    },
+    {
+      "path": "app/integrity_lease.py",
+      "git_blob": "9416eb3e48172d8335820df705a2a2a7ff6938b9",
+      "sha256": "33fb96dcc86bfc1861d73116b84edab46365a1afef67e283ff5b960fd6b5482b"
+    },
+    {
+      "path": "app/menu_custom/dual_job.py",
+      "git_blob": "91f78ea30341bd677314cc0eb43b38cb83204cc7",
+      "sha256": "36c64ba63cb81e12f0a822d033da688423da1150cc247db4e046d4b34a2555a7"
+    },
+    {
+      "path": "app/menu_custom/dual_worker.c",
+      "git_blob": "bc206ef7a1faa73e04a820a4f6eff0ce47490a60",
+      "sha256": "4a0b88e53b752503f71c10d1dd333298d27fbecb334cd7d85faba48e518662d3"
+    },
+    {
+      "path": "app/menu_custom/layout.json",
+      "git_blob": "55e260d47367064fc5fae6d132f9ac1b499bac62",
+      "sha256": "a05d7affb5ae64ce9f607ce48476e82900414489ade670ba97153ab695d7e52b"
+    },
+    {
+      "path": "app/menu_stock/dual_job.py",
+      "git_blob": "12d23b65703120d7bf76c7ed29d94df660cef9ec",
+      "sha256": "8d309d126c72d0eb1c6e78ac524b30d61da8ccd4fe219bd7ef98754699a0483b"
+    },
+    {
+      "path": "app/menu_stock/dual_worker.c",
+      "git_blob": "bc206ef7a1faa73e04a820a4f6eff0ce47490a60",
+      "sha256": "4a0b88e53b752503f71c10d1dd333298d27fbecb334cd7d85faba48e518662d3"
+    },
+    {
+      "path": "app/menu_stock/layout.json",
+      "git_blob": "6164c397f0febb32e5e5dcf9402a586172b5d2a9",
+      "sha256": "4eb33ab9d5204da8e77aba5d83ee98fe1d200dbca8e3da00e283f025f5a96070"
+    },
+    {
+      "path": "app/menu_transport/run_window.py",
+      "git_blob": "a0a2aa0fee6afed48b53c661554de0e522098406",
+      "sha256": "7850e233addc8f061f6fe4b42517b54e7fbae705a049da5b9a6459552ac330a9"
+    },
+    {
+      "path": "app/native/bootstrap.c",
+      "git_blob": "57660bb8a2d63cf0904e4b37a04e65629ff21e8a",
+      "sha256": "4e4dcb37eceab654a25b4a7f0d16626d1764f2a9708a48b3275da10c173b19a1"
+    },
+    {
+      "path": "app/native/elf_tools.py",
+      "git_blob": "15a38ffc708287780dfd55cdb642369f54810c85",
+      "sha256": "1dd35bcd241b7f1fe48da6f1ec6c0fdbb14ea69ca415fbeeb972bfb1554f50a1"
+    },
+    {
+      "path": "app/native/lifecycle_worker.c",
+      "git_blob": "3c725222936cb1958973b2a6a2ce1bab5b8b14cc",
+      "sha256": "19c270ca3d0d075d3b5216b9ec798e7bdc0652d27c5c4619ae5d235f3c4b1934"
+    },
+    {
+      "path": "app/native/linux_a64.h",
+      "git_blob": "2f1a2c45507e8882fa83c55e2587eb03d170e081",
+      "sha256": "827bfa50c9d5e2a1ee8eacc032303844cd3c0a8a9b4f5ea1bfa640a987eedd88"
+    },
+    {
+      "path": "app/native/toolchain.json",
+      "git_blob": "4061b229ddba148028b2fd07349e9c79595bd994",
+      "sha256": "e005be47e6d9c4af497b0a6b5c3fdae33441fffc3355ccbe8c0dbd8bad8d4730"
+    },
+    {
+      "path": "app/normal_identity.py",
+      "git_blob": "2aef76c62cd7004f25852116ec89f3ca821ba737",
+      "sha256": "a87bb0d929e5731c42437dd0959516d62ab14ddf6818971ebe0e39ffc055d0dd"
+    },
+    {
+      "path": "app/operation_session.py",
+      "git_blob": "426d3badb435ea882afd49dde8bd1c720cce69f0",
+      "sha256": "f12d31b3f403c39e8493da1b58950e3b278bf2742854ff3073e1f82ed99472f8"
+    },
+    {
+      "path": "app/p1_completion.py",
+      "git_blob": "2dcaebf68b5cd6eb9e753112a417ca4506d2434f",
+      "sha256": "c452085b2740a0382c17d46b1d5f3db2e5478cd1cab18075b89b936cd9310f99"
+    },
+    {
+      "path": "app/product_integrity.py",
+      "git_blob": "f8d6dc4f8b6f5b0f8ac7e548bb82ed61a11f7ace",
+      "sha256": "88459f480ad4b2b0b3ac74b7baa339c4ad86029e18273eacf62031ae800b3198"
+    },
+    {
+      "path": "app/product_version.py",
+      "git_blob": "0a2105cf19f5f0ac416184071f41ccce82b4fee2",
+      "sha256": "0f231d6936895d831e1f5434fe68be16bd1cc017f3d362a67b25c7a17fa8c7e5"
+    },
+    {
+      "path": "app/profiles/profile.json",
+      "git_blob": "007dfd457539691dd105a8577d05292d89dce4c8",
+      "sha256": "7b911416eed478c7a19e537a3f9a84ba9918eb886186f0c6a25091bc897b375c"
+    },
+    {
+      "path": "app/protocol/auth.py",
+      "git_blob": "0c128623df6df3f15b4e89022bf7ef67a79dea73",
+      "sha256": "b909df59cd389c7fcd25a7000244c8e0f527f1a7900d7ad134a3345f6c9b2d33"
+    },
+    {
+      "path": "app/protocol/identity.py",
+      "git_blob": "0b5712be5e2f1e930072111685b6c1abf8d5b04c",
+      "sha256": "00dea97ca9c56c12e7f1d602a0eace5cb5617f326de7bdfc66bdb1801d784ba4"
+    },
+    {
+      "path": "app/provider/engine.py",
+      "git_blob": "804b3e7b95c23c6b0f1ebacccf128523e811184f",
+      "sha256": "919030e554829e83d9b1898f716a87474036d6c88b9855a4aa9fd58b686cd152"
+    },
+    {
+      "path": "app/provider/provider.py",
+      "git_blob": "06e8a8ec9807bde6bc1f2030bc28c184f63f0b9e",
+      "sha256": "85474de86b043a9ce11dc895645eae323aecf0232f18ad529a6b07033d682059"
+    },
+    {
+      "path": "app/reader/current_reader.py",
+      "git_blob": "720701e0aae32299e1b9a1310926ae31d68ed848",
+      "sha256": "e2ecf2e7aedbd4f535bcf05366f6f83b70023c379a7dbda703e17b7c3fb96011"
+    },
+    {
+      "path": "app/reader/live_reader.py",
+      "git_blob": "ddfe8a908ccb886706b001ae6427f7eb69dc5654",
+      "sha256": "cd54b9e4a9f4440dd1291691a5f5bd330b9334565f2505d51832e00134bcd9af"
+    },
+    {
+      "path": "app/reader/reader.c",
+      "git_blob": "5848eaf437525e961b23b9b054cb21557969a8e0",
+      "sha256": "e73140ec753b536251117fc7e22fe1b2d97238789649356122be6583fbc086f8"
+    },
+    {
+      "path": "app/reader/reader_job.py",
+      "git_blob": "5b6aac999ea9873be7ea612cef45625cf8b50552",
+      "sha256": "da8c4c2a7ecf675d5dd7c2f9cbee9bfc7e212ac543f6ef856cb8c8a1f040ac3c"
+    },
+    {
+      "path": "app/reader_cleanup.py",
+      "git_blob": "527445f30adaa5a73b93b57385c617ecc73fcd76",
+      "sha256": "4ca66a8ebb4c90de6a5c4955192ba4fa4f7d0d9c8c532aef25ebe13b58c72c61"
+    },
+    {
+      "path": "app/reader_diagnostics.py",
+      "git_blob": "93cd71ec4105e23e1e1520a92bb2ce1413b912a8",
+      "sha256": "f719dec7f8c7b233564cf6d6358ccf2bf4eb4f53fe5eb60992a3b51d0d6276d2"
+    },
+    {
+      "path": "app/reader_verify/full_read.py",
+      "git_blob": "d436cba89c3ae4130d4e451d88c6d0b0fc9339df",
+      "sha256": "353d70ff68c4e83b76a56369874cf2fc98754afe3bb864edff51b26e6add9aa2"
+    },
+    {
+      "path": "app/receiver_custom/byte_diff.py",
+      "git_blob": "9ea09c4eecbbb4ef1ac9579b449cfceec8740d96",
+      "sha256": "8cc9e94a3b5a54b2c1bee065b433fe0a29f4413173c28a023dc23f530b54ff76"
+    },
+    {
+      "path": "app/receiver_custom/receiver.py",
+      "git_blob": "3e2969c8fa37aa0e9ff37717c98a61ea965212b6",
+      "sha256": "3a5d702c6363d1c8bfe51995ad719a21ea6c92ddc91df952f830a2ec73169205"
+    },
+    {
+      "path": "app/receiver_custom/receiver_writer_job.py",
+      "git_blob": "53acf8c36fdecb200e2b35ce9b516ecbdc97ccbd",
+      "sha256": "dd11f7291ca1db2a386c770c6398c3b2f229ba609726eaf842e222663dd68e28"
+    },
+    {
+      "path": "app/receiver_shared/receiver_adapter.py",
+      "git_blob": "0640d96b201d1b2427bab844a803c06360c18bd1",
+      "sha256": "bc2ff45d014dd7563faa23cd24fd1e4170b22dc2c02d93a7c182f3bfe1bf8148"
+    },
+    {
+      "path": "app/receiver_shared/receiver_adapter_v2.py",
+      "git_blob": "569464ba51d27f3e2908609d03093e92ca1994f9",
+      "sha256": "63c7f21bfd9cd2e7eab820391ac821a6e4b37b2319dbc80a231b04cc85e15415"
+    },
+    {
+      "path": "app/receiver_stock/byte_diff.py",
+      "git_blob": "9ea09c4eecbbb4ef1ac9579b449cfceec8740d96",
+      "sha256": "8cc9e94a3b5a54b2c1bee065b433fe0a29f4413173c28a023dc23f530b54ff76"
+    },
+    {
+      "path": "app/receiver_stock/orchestrator.py",
+      "git_blob": "5b65374395aafd4850a0dfd0a9dc31fc98d3a485",
+      "sha256": "a3d1186af23a03c94af6e8760e1d2c23bb2714eaddb9adadb4873714aad009b0"
+    },
+    {
+      "path": "app/receiver_stock/receiver.py",
+      "git_blob": "880fac2ae43553119b7b2dab5aae3856d25d4658",
+      "sha256": "0cf6b0007ae63de27c3d9cef6d1b5ed201661f457a3811cfc8f4d26a8cc34637"
+    },
+    {
+      "path": "app/receiver_stock/receiver_writer_job.py",
+      "git_blob": "3de31ea79903c69478ac46104c8d7adafc77543a",
+      "sha256": "8ccc1b1599e1123bac0143e5d43f107876cfd7e84efb32327327a29d8ced8df4"
+    },
+    {
+      "path": "app/recovery_registry.py",
+      "git_blob": "78bbd142b82fd0cf3072826c0c9e9ba110d8cad5",
+      "sha256": "3425e171306e41e0a9c6e6cff82b69ee9b0d80a07a3c9acc62a8bdbe7446aa31"
+    },
+    {
+      "path": "app/state_io.py",
+      "git_blob": "1fc60ec0e8eb67a823e6d99d20f1fa58ac02e9d2",
+      "sha256": "8a98b28fee9b54e7501f0be3522bdb96700f5612b6f3c8adda39c49cb0e1e330"
+    },
+    {
+      "path": "app/ui/backend_bridge.py",
+      "git_blob": "98f74e639789124dfd15a5d060e23ae958c1dc74",
+      "sha256": "94c52c8131fb7a853a2ad8ceb6aea30726918686b385fa70f870d06df61b252e"
+    },
+    {
+      "path": "app/ui/gui_model.py",
+      "git_blob": "b1dd814b156e03a0c58cc4fe7e18bb7ff318e9ea",
+      "sha256": "398f094b9eacd5e570b150e9e78832d727c2bb8ceccb3c80387022c7675f6da6"
+    },
+    {
+      "path": "app/ui/install_view.py",
+      "git_blob": "dc40b2024b9ac728d91ec476abf34e7c3a067ed5",
+      "sha256": "cae6c9088f4c416338fe52f3a290e7f82f35ba1fd77909013408ca12f3defeca"
+    },
+    {
+      "path": "app/ui/simple_app.py",
+      "git_blob": "f86cf0b43088473cf59dc1030dd582390615341b",
+      "sha256": "6f00d002669467812445072ac357e285ce8918cd36d5eb9e8b5d8120aecf42a4"
+    },
+    {
+      "path": "app/ui/使用说明.md",
+      "git_blob": "40985d04a3f22737cea4e5d322e2facdae2d432a",
+      "sha256": "d2e1fd275d4a32d215fa751de1e39cbd30d515b23ef84a269c5575b20ea59893"
+    },
+    {
+      "path": "app/ui/第三方组件.md",
+      "git_blob": "8955650c18f9556d5512f7623afa18cd049b5a8e",
+      "sha256": "9410c6d280e1c29f9a2654439a37a4296c983b39cc8fb11fc2d4344f147a8645"
+    },
+    {
+      "path": "app/usb/draft_policy.py",
+      "git_blob": "3392279922acc9e43c2f9dbf7cb18ddab415da87",
+      "sha256": "36c365d588ca5f33987f99036b191f5b548174b555f02d3980228774154b8d30"
+    },
+    {
+      "path": "app/usb/senser_wire.py",
+      "git_blob": "d0149c76e35f7fccc088839329f78e1ea71c8115",
+      "sha256": "fcfb3434d74eff882945c16a5417fcb9eaa9f6e17e615b4eec2768a08e372937"
+    },
+    {
+      "path": "app/usb/transport.py",
+      "git_blob": "8b2bf3f422cc0eebde5a637255922f6f7a818542",
+      "sha256": "4c4b0f4b6fad65f1cf2da776b6c8c21171750d628a18145099134bac337d6145"
+    },
+    {
+      "path": "app/usb/usb_session.py",
+      "git_blob": "76be931971e6f1de66d23c1fc679969325ca296c",
+      "sha256": "3c6ce200fab85a830de4edc222b37ad1cb1927ff71a97df068f485dc6d4919ba"
+    },
+    {
+      "path": "app/workflow/driver_restart.ps1",
+      "git_blob": "292b8c659a9d84beb76f6738e7481214468324b7",
+      "sha256": "7ac796ea0214b353ca262511a4ad5db3a41ae94a09d0a3be4243650b37d9ed0d"
+    },
+    {
+      "path": "app/workflow/driver_restart.py",
+      "git_blob": "eece3d0f113e4da9c7f2a1b77a51e193c0d2e35c",
+      "sha256": "985e627dd31613496814bd32ae13698090bb7d22ec7c3a76a967ea00f2405e4f"
+    },
+    {
+      "path": "app/workflow/driver_trust.ps1",
+      "git_blob": "3993f0a2a849d5fdcdb3913ca96e3d8f48dde972",
+      "sha256": "c215d0c169dcd2b28f288829ce914f8625eb269f33f4d477a7a94c1303c074d1"
+    },
+    {
+      "path": "app/workflow/enroll.ps1",
+      "git_blob": "d3c6f5dffc5aeb0d3960819a9c8813dc7ca664e0",
+      "sha256": "598c77f1528d6c2d85b861d3bd1bb2873b1b6e09f4abb014b2642c4bab05601c"
+    },
+    {
+      "path": "app/workflow/gate_protocol.py",
+      "git_blob": "6f840f0cdd114e77de13ed237bc205ebe19f1d6e",
+      "sha256": "e596bbab5bc351dd65c990b8eb43f37d60ab6f963ae401827afe0549827cbd8c"
+    },
+    {
+      "path": "app/workflow/gate_protocol_custom.py",
+      "git_blob": "37ca39cad64733faba77547de670482fb1df5bb0",
+      "sha256": "fc5cbff80daa474e2e5a25e1d748ae0a4371d20848550ede984aab9aa6d20b47"
+    },
+    {
+      "path": "app/workflow/install_controller.py",
+      "git_blob": "e917175c0b02c6752cb5c690573fe1eaf2051d61",
+      "sha256": "ebc24e026ea2ab995317b1834f4b435d2abe7adecabf0a00ab60e22e7b9c8292"
+    },
+    {
+      "path": "app/workflow/install_controller_custom.py",
+      "git_blob": "7c7ecdf6f75f38e59d70908f01ba7f1a5447393f",
+      "sha256": "d878ec336c270760f3d831b4f0846b8e9a540b9daa8cb0b35c0caaad1cbc34a7"
+    },
+    {
+      "path": "app/workflow/integrity_backend.py",
+      "git_blob": "dd889b92339dc5e3ffed304efabab61fe1678237",
+      "sha256": "5cc8aa6dedbc7add6f52be989a3dc0c995a44de1c4735ac16fcf2c145e61edc3"
+    },
+    {
+      "path": "app/workflow/local_json.py",
+      "git_blob": "80af414dcb6c1e7597e2cc006d406e6e150ad80a",
+      "sha256": "b50d45f7cc41e81865093d9e64c80a3c9a2c11890cb0a08c171a9f65a45871b7"
+    },
+    {
+      "path": "app/workflow/local_task_stop.py",
+      "git_blob": "7fb5b2688686be47ae1683e4f2230d8ab7acc56c",
+      "sha256": "aa79c42d003485e855f32e1e44baa9084f61e49145d82c90f4bd25f50a7020e8"
+    },
+    {
+      "path": "app/workflow/menu_connection_recovery.py",
+      "git_blob": "29fb3841ec20ca2185a3bc284710dd9fd7959ef7",
+      "sha256": "74abbcf3d7a6db42fa245cc9787fb16def451172cac249a2da9290b10aca7cfe"
+    },
+    {
+      "path": "app/workflow/menu_preparation_retry.py",
+      "git_blob": "b6483b8f809ece4d52c628137589cf93a72d857e",
+      "sha256": "07016bf342272ae9c6a8e0b984b1c3a34d71965a236e16e446676777a1299ec7"
+    },
+    {
+      "path": "app/workflow/prewrite_recovery.py",
+      "git_blob": "d94610674003b1476c4a4fe7ee7fba64aaeebd20",
+      "sha256": "6b30d4b8fa53bd154520764f19379ba4d398c18e5dbdef67039662369a8c7a4e"
+    },
+    {
+      "path": "app/workflow/receiver_usb_writer_user.py",
+      "git_blob": "562dbfc2d6117e6e92cda8668a04e31072701822",
+      "sha256": "6502fc227aec1f4c4d4095bb1cc80756e22cab8d3a26a3bedc36ba586fe0c417"
+    },
+    {
+      "path": "app/workflow/rejected_read.py",
+      "git_blob": "d5c747cc0fafce313e717d9698c491572503b4a5",
+      "sha256": "7f89def2d9b94bb7356a7cb274747f6a528a0da4973892c84fa678ea4d4d75b7"
+    },
+    {
+      "path": "app/workflow/simple_workflow.py",
+      "git_blob": "7944f54f3107d8787c9972c8c964cb733205b08d",
+      "sha256": "b3b00fad50180f05ce5579df1d36e05a32a22ebfffe9a0e2d1093e02ffcc98d0"
+    },
+    {
+      "path": "app/workflow/standalone_usb_restore.ps1",
+      "git_blob": "7563cb00690f05c74d3ce3e22b86c35df902d141",
+      "sha256": "4c3c497c62c2d427e6c802b670c5832277cbadaad7f26aca2ffeb7833e0ddaa3"
+    },
+    {
+      "path": "app/workflow/standalone_usb_restore.py",
+      "git_blob": "0853d7bcecbedbff4313fa212ba5ca472a1ff2c6",
+      "sha256": "f5f34fdb99357fa3a6b05d5d60b1e4c2c17346d5209cc380e2db423dbf8d7acf"
+    },
+    {
+      "path": "app/workflow/usb_recovery.py",
+      "git_blob": "35440094d5d3f93c0e57724c58c7f349380f855d",
+      "sha256": "c52e20ec4cbf5eb26d9625afb791bb3f3d851b3c977b4701df414ebfaad5abd5"
+    },
+    {
+      "path": "app/workflow/user_provider.py",
+      "git_blob": "ddbd78941230bd583f3536f8e8a26d0d46acc357",
+      "sha256": "bbfdd6513904b49d59cb003f49434b345bd4cca342f35ac287ac33405e58c18b"
+    },
+    {
+      "path": "app/workflow/version_labels.h",
+      "git_blob": "6fb142113ecd90744c81fa79dbbb547c5ed0eb10",
+      "sha256": "132f0a58f33df174ebf095bb5ede704dde43a0c0b7321cb101731b2445a15b1f"
+    },
+    {
+      "path": "app/workflow/version_labels.py",
+      "git_blob": "017d2b89debc6f8ee055a68998f2d123dd7d38fb",
+      "sha256": "3159589e92106cf54e83ce0abd62efcc23bb172950c1c552c19de18488dd286e"
+    },
+    {
+      "path": "app/workflow/windows_snapshot.ps1",
+      "git_blob": "bf3a1a3ebfab3363a2abe5dd11eab57af2721563",
+      "sha256": "81d1c8af14d3b6431f79ab2d01f11b85885ded21171dbde21c364fcb5d69b903"
+    },
+    {
+      "path": "app/workflow/wizard.py",
+      "git_blob": "1c503729d0c3943eff163e1727141a6c16fc0ac6",
+      "sha256": "28c30dc4e57d7a4a63d060e15cbb52c4d09c92cc00ed3a8acd606ab011bf3b67"
+    },
+    {
+      "path": "app/writer/sha256.h",
+      "git_blob": "961d72646247d291352a32abae51c94cb16f17ab",
+      "sha256": "92a12379679d481d512e55a6928bf71825651a346d39b2ad15b9bafdea851ae5"
+    },
+    {
+      "path": "app/writer/writer.c",
+      "git_blob": "1f42830462baa5fdf868b4486c6d1a41eba3a620",
+      "sha256": "e2ce0a4132c579d1597e0260f8119de942e31c67bed40881cb800480e65572f3"
+    },
+    {
+      "path": "assets-files.json",
+      "git_blob": "75e09714299643fb850ecdf2db0fe3a6a71da883",
+      "sha256": "afff800d62fa34913c8ef5c739bdd005a9fdb7501481582f2de4e375078bf15e"
+    },
+    {
+      "path": "assets-sources.json",
+      "git_blob": "b03faffd82fd3586d1495b25d7a644185edf06b7",
+      "sha256": "7e27258979dee92e2d101fa2d87058bc31dbcaa854b0dbecdcafb6627e378e87"
+    },
+    {
+      "path": "build.py",
+      "git_blob": "024ae2fc42523a7f68c77fc446ee29e015d7eb77",
+      "sha256": "7b3404a68d4c9ae3feca9269faa8426ac5249ddb4a13a5f4359d982f877a2a6e"
+    },
+    {
+      "path": "dependencies.json",
+      "git_blob": "3f925dde2813926365988a925f3fe9f410ab9ba9",
+      "sha256": "a69e7cffed0193e3247a3df7cd310d151851f62eac391c3ed64aaccc22035a58"
+    }
+  ]
+}

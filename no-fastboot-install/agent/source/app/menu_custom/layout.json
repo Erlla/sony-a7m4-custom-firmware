@@ -1,0 +1,17 @@
+{
+  "schema": "m4-menu-layout/1",
+  "modules": {
+    "libupdaterufp.so": {
+      "bytes": 22768,
+      "sha256": "f2e7d27602e3f7b236fc41dd93fccf53ba24f0793fd454e7fec171ae378beca7",
+      "anchor_offset": 8004,
+      "anchor_hex": "a0000090012044792001009000c844793f00006b"
+    },
+    "appFw.so": {
+      "bytes": 99026944,
+      "sha256": "fcb052ef4c33040036db72eba21495441ab1019b968a625b9bc69f9f0bab6a97",
+      "anchor_offset": 40219316,
+      "anchor_hex": "010040b9a05f40b9e80313aa3f00006ba03740f9e30500544a6ffc9740008052"
+    }
+  }
+}

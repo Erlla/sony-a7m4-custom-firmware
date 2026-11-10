@@ -1,0 +1,43 @@
+from pathlib import Path
+import os
+import runpy
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+os.environ.pop('ZIG_LIB_DIR', None)
+for relative in ('app', 'vendor/python', 'vendor/squashfs', 'vendor/usb', 'app/container', 'app/provider', 'app/reader', 'app/workflow', 'app/ui'):
+    sys.path.insert(0, str(ROOT / relative))
+from data_paths import data_root
+os.environ['ZIG_GLOBAL_CACHE_DIR'] = str(data_root(ROOT) / 'cache/zig-global')
+os.environ['ZIG_LOCAL_CACHE_DIR'] = str(data_root(ROOT) / 'cache/zig-local')
+from product_version import VERSION
+from product_integrity import verify_release
+verify_release()
+from operation_session import new_session, ensure_session
+if len(sys.argv) > 1:
+    action, *arguments = sys.argv[1:]
+    if action == 'agent':
+        import agent_api
+        raise SystemExit(agent_api.main(arguments))
+    elif action == 'agent-worker':
+        import agent_api
+        source = Path(os.environ['M4_TOOL_SOURCE_ROOT'])
+        agent_api.run_worker(agent_api.Store(source), *arguments)
+    elif action.startswith('simple-'):
+        ensure_session()
+        sys.argv = [str(ROOT / 'app/workflow/simple_workflow.py'), action[7:], *arguments]
+        runpy.run_path(sys.argv[0], run_name='__main__')
+    elif action == 'flow-setup':
+        ensure_session()
+        import wizard
+        import json
+        print(json.dumps(wizard.act('setup'), ensure_ascii=False))
+    elif action == '--check':
+        import json
+        print(json.dumps(dict(version=VERSION, integrity=True, device_operations=0)))
+    else:
+        raise SystemExit('Unsupported operation')
+else:
+    new_session()
+    import simple_app
+    simple_app.main()

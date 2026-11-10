@@ -132,3 +132,11 @@
 - The selection event is 020F0001/type4 with widget9, sceneD9 and absolute row at +10/+14/+18. Touch-begin 03010000 has no row. Row0 is Off; 1–16 maps to slots0–15. Reuse queue(A_PREVIEW) and the original confirmation/cancellation path. The partial ABI header is a view of existing objects, never a new allocation.
 - Use 904D000 for the selector helper, preserving 904C000 playback code and existing transactions. The aspect popup uses option+0C, separate from Fn+20/+24. New IDs02001E98..1E9B have stock76x40 canvases, stride80 and two4096/2304-byte blocks. Preserve old compressed payloads and bank lengths; UXD descriptor offsets cannot point into a large file tail.
 - The maintainer confirmed both reported issues fixed. Publish source, component identities and bilingual methods; keep complete AP/UXC/firmware, private screenshots, research paths and per-iteration test history out of this repository.
+
+## Independent M4 Agent 1.00 source and user entry
+
+- Agent source lives in `no-fastboot-install/agent/source/`; the existing desktop `no-fastboot-install/software/` tree is unchanged. Publish current source snapshots without local research history, device state or binary runtime assets.
+- Keep `PROMPT.zh-CN.md` as the stable operating-policy link. `USER_PROMPT.zh-CN.md` is the short copyable entry: choose installation or USB-only recovery, then explicitly ask whether to download compatible firmware, LUT and audio. Physical actions and patch approval still require current user replies.
+- USB-only recovery starts with `status`, then the allowed `recover-usb` command. `doctor` can create a patch confirmation; it must not be used as a prerequisite for a USB-only request.
+- The standalone downloader expects the independent `M4Agent_1.00` archive root. Keep its inert ZIP fixtures and the test's relative helper path aligned when relocating source. Downloading performs one whole-ZIP size/hash check; it does not operate the camera or replace native startup integrity checks.
+- `source/SOURCE.json` records the released build's original source identity and preserved build files. Documentation/source publication does not replace the hosted ZIP or establish clean-Windows/physical-camera acceptance. Keep resource-manifest validation fields accurate and retain the original package digest.

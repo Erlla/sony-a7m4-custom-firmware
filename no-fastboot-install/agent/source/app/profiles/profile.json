@@ -1,0 +1,106 @@
+{
+  "schema": "m4-user-key-boolfix-profile/1",
+  "model": "01030081",
+  "p1_sizes": [
+    19377152,
+    25100288
+  ],
+  "fat_bytes": 19377152,
+  "stock_public_key_sha256": "8281413b5607446939613e07d020b2c7d8ee2371349099de56bc8288f7be0a43",
+  "sd_signature_gate": {
+    "library": "libsdfileinputupdaterapi.so",
+    "symbol": "_ZN7Updater21SignatureVerification15VerifySignatureENS_13verify_info_tEPKc",
+    "va": 44016,
+    "offset": 44016,
+    "size": 372,
+    "original_hex": "fd7bbba9fd030091",
+    "patched_sha256": "c3168b24cee2d27474c759788d3535a04ee83e3ebc5c548079cc4cc53866ee3b",
+    "patched_on_existing_selfsign_sha256": "4e14e4c46d8b27505ad89593173575bc697d9bf5049d16f88bf3c0d838789d03",
+    "caller": {
+      "va": 38580,
+      "call_hex": "abf6ff97",
+      "result_va": 38588,
+      "result_hex": "80030034",
+      "success_target": 38700
+    },
+    "scope": "SDDecryptorModule::execWriteFirm in the reviewed M4 6.02 library only"
+  },
+  "sd_version_gate": {
+    "library": "libsdfileinputupdaterapi.so",
+    "symbol": "_ZN7Updater21SDUUDConditionChecker11isVersionOKERN10UpdaterAPI22firmware_information_tE",
+    "va": 40916,
+    "offset": 40916,
+    "size": 48,
+    "original_hex": "220440b900008052",
+    "stub_hex": "20008052c0035fd6",
+    "return_value": 1,
+    "scope": "Boolean isVersionOK: 1 passes; 0 rejects at IsUUDConditionOK a394/a398",
+    "candidate_user_sha256": "48846e295f4d46705252f9901777aac383b02c41d14c0512c45388139dea3ccb",
+    "caller_va": 41856,
+    "caller_hex": "600240f9e10314aa021840f9e00313aa40003fd61f1c0072e0010054",
+    "vtable_slot": 121920
+  },
+  "chkfirm_version_gate": {
+    "library": "libupdatercorecommon.so",
+    "symbol": "_ZN7Updater8RVchk4PI18chkFirmInfo_beforeEPN10UpdaterAPI22firmware_information_t11informationE",
+    "va": 53288,
+    "size": 604,
+    "original_sha256": "b2b066b963a42d96556f811a773579eb16a0358de1b3a9206a1845c0df99bb74",
+    "patched_sha256": "cfe23b709f1a4feba16642729f39c9bb5f4516caa188fa67a6d31d3c1d833425",
+    "sites": [
+      {
+        "va": 53768,
+        "offset": 53768,
+        "length": 4,
+        "original_hex": "13008012",
+        "patched_hex": "13008052",
+        "semantics": "gate 1a reject assignment mov w19,#-1 -> mov w19,#0"
+      },
+      {
+        "va": 53884,
+        "offset": 53884,
+        "length": 4,
+        "original_hex": "f3c39f5a",
+        "patched_hex": "13008052",
+        "semantics": "gate 1b mode5 pkg<=dat4 reject csetm w19,le -> mov w19,#0"
+      }
+    ],
+    "scope": "RVchk4PI::chkFirmInfo_before version reject assignments; matches upstream A7C2 offsets"
+  },
+  "libraries": {
+    "libsdfileinputupdaterapi.so": {
+      "va": 43432,
+      "offset": 43432,
+      "original_hex": "fd7bb2a9e00301aa",
+      "original_sha256": "257164d1cdf88757b8c0e2ba08ac47b06c46007410af308b7a8571b442b00cd2",
+      "patched_sha256": "0624862064e43495d6291637d2e193d4656145d069550c58a4ce184bb9f5e354"
+    },
+    "libupdaterapi.so": {
+      "va": 78628,
+      "offset": 78628,
+      "original_hex": "fd7bb2a9e00301aa",
+      "original_sha256": "1b334b9fb100601b1f8bc764cd9244bb32c2906101f4b2a8c0bd2e8d684df351",
+      "patched_sha256": "f817ee56f78fc829a341229f89236fcf6d7ba4dd7fefab1a61da4d2d7c4a58d6"
+    },
+    "libseninputupdaterapi.so": {
+      "va": 21060,
+      "offset": 21060,
+      "original_hex": "fd7bb2a9e00301aa",
+      "original_sha256": "3240c3c70aaa645de3af74101cd4fb85263ec478cff830993a5cd4ba0a6bd704",
+      "patched_sha256": "6e62daaf5e4c216ab5920a841d2c5e90b7845fa7ae998b2bbbb5d7d9b7991dca"
+    },
+    "libuudfileinputupdaterapi.so": {
+      "va": 38316,
+      "offset": 38316,
+      "original_hex": "fd7bb2a9e00301aa",
+      "original_sha256": "f8a622fd2b038080cf682b22febe60e379b916f72d8890687b1a6b2109c5182e",
+      "patched_sha256": "9d2181d1f63060271d9edc80b3580519d545529cdf753cff79796d3d36829ae7"
+    }
+  },
+  "squash_tools_directory": "tools/squashfs",
+  "squash_tools": {
+    "sqfs2tar.exe": "3985013235dbd83edf9b7b4bf91abe5087a25c5800245340d10e9f37ea6203c7",
+    "tar2sqfs.exe": "5d67ae86c9a192a234032a7abed9a8728cfb615d253f345f286f4979af24e615"
+  },
+  "user_public_key_sha256": "c39f3d878e129bbac87ad346182df754d7dd99d80c35c38bbb6517e37ca8e449"
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "m4-agent-resources/1",
+  "published": false,
+  "version": "1.00",
+  "build_id": "1.00-agent-20261110-r1",
+  "source_commit": null,
+  "platforms": {
+    "windows-x64": {
+      "url": null,
+      "sha256": null,
+      "bytes": null,
+      "root": "M4Agent_1.00",
+      "entry": "M4相机工具.exe",
+      "status": "local_review_only"
+    },
+    "macos-arm64": {"status": "not_validated"},
+    "macos-x64": {"status": "not_validated"}
+  }
+}
