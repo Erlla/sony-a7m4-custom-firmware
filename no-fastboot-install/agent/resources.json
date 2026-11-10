@@ -3,7 +3,7 @@
   "published": true,
   "version": "1.00",
   "build_id": "1.00-agent-20261110-r1",
-  "source_commit": "e8770f2873790eebfe7089823bace04ebccba539",
+  "source_commit": "553b2560831c54c8ee22156f9339c0c2fd5f2b22",
   "platforms": {
     "windows-x64": {
       "url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/download/A7M4-Agent-ToolKit-V1.00/M4Agent_1.00_Windows_x64.zip",
@@ -29,5 +29,7 @@
     "download": "whole_zip_size_and_sha256_verified"
   },
   "release_channel": "stable",
-  "release_url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00"
+  "release_url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00",
+  "build_source_commit": "e8770f2873790eebfe7089823bace04ebccba539",
+  "source_path": "no-fastboot-install/agent/source"
 }
