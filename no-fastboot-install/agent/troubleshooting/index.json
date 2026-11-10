@@ -3,7 +3,7 @@
   "updated": "2026-11-10",
   "independent_agent_version": "1.00",
   "independent_build": "1.00-agent-20261110-r1",
-  "independent_build_publication": "local_only",
+  "independent_build_publication": "prerelease",
   "matching": "symptom_then_stage_build_and_current_evidence",
   "entries": [
     {
