@@ -11,7 +11,7 @@
       "bytes": 84608128,
       "root": "M4Agent_1.00",
       "entry": "M4相机工具.exe",
-      "status": "prerelease",
+      "status": "validated",
       "local_file": "M4Agent_1.00_Windows_x64.zip",
       "asset_id": 731407794
     },
@@ -28,6 +28,6 @@
     "camera": "not_performed",
     "download": "whole_zip_size_and_sha256_verified"
   },
-  "release_channel": "prerelease",
+  "release_channel": "stable",
   "release_url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00"
 }
