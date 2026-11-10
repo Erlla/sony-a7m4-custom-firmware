@@ -22,7 +22,7 @@ Provides installation without Fastboot, Fastboot maintenance tools and source fo
 
 ## 1. Install firmware without Fastboot
 
-Use a normal USB data cable and **M4 Camera Tool** to prepare the updater, then install firmware from the camera SD card. The camera must boot normally and enter USB mass-storage mode.
+Use a normal USB data cable and **M4 Camera Tool 1.03** to prepare the updater, then install firmware from the camera SD card. The camera must boot normally and enter USB mass-storage mode.
 
 1. Place a compatible `BODYDATA.DAT` in the **root of the card in slot 1**.
 2. Connect the camera to the computer with a normal USB cable and select **写入补丁** in M4 Camera Tool.
@@ -31,6 +31,8 @@ Use a normal USB data cable and **M4 Camera Tool** to prepare the updater, then 
 **[Installation guide](no-fastboot-install/README.en.md)** · [Software guide](no-fastboot-install/TOOL-1.0.0.md) · [Source and build](no-fastboot-install/software/README.en.md) · [Principle and patch locations](no-fastboot-install/IMPLEMENTATION.md)
 
 Download firmware packages, M4 Camera Tool and the Fastboot toolkit from [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases). The camera tool does not validate the firmware package on the card; follow the installation guide to check files and prerequisites.
+
+Desktop and [AI Agent 1.03](no-fastboot-install/agent/README.md) now share one source tree, with single-process connection polling and menu-only continuation after a proven pre-session stop. Offline checks and hardware acceptance are recorded separately.
 
 ## 2. Fastboot modification methods
 
@@ -138,3 +140,4 @@ Thanks also to the open-source tools and dependencies used by this project. Full
 ## Contributing
 
 Issues and pull requests are welcome. For new baselines, include input hashes, address maps and the basis for changes. Do not submit personal private keys, camera calibration, backups or complete firmware. See the [contribution guide](CONTRIBUTING.md).
+

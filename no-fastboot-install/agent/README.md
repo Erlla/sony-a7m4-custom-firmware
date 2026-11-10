@@ -1,10 +1,10 @@
-# M4 Agent 工具 1.01
+# M4 Agent 工具 1.03
 
 **模型建议：使用 [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news260910/)，或推理、代码与工具调用能力不低于该级别的大模型；Agent 还须具备联网、本机文件访问和命令执行能力。**
 
 让本地 AI Agent 下载工具、检查连接、准备相机更新环境，并逐步提示你操作。也可只恢复 Windows 普通 USB 驱动。支持 Windows x64；电脑无需预装 Python、Git 或编译器。云端聊天无法直接操作本机 USB。
 
-[正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.01) · [完整操作提示词](PROMPT.zh-CN.md) · [资源清单](resources.json) · [源码与构建](source/README.md)
+[正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.03) · [完整操作提示词](PROMPT.zh-CN.md) · [资源清单](resources.json) · [源码与构建](../software/README.md)
 
 ## 复制给 Agent
 
@@ -38,7 +38,7 @@ https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/no-fastboot-install
 
 ## 已完成 p1 但卡在菜单准备
 
-按[原任务续接指南](PROMPT.zh-CN.md#p1-已完成菜单连接停止时如何继续101)升级原目录并执行 `--agent resume <原job>`，生成本次恢复确认。恢复后会提供菜单继续待办；此流程不重新派发 p1 writer。只接受已证明菜单会话未开始的 Agent r1 任务。
+按[原任务续接指南](PROMPT.zh-CN.md#p1-已完成菜单连接停止时如何继续103)升级原目录并执行 `--agent resume <原job>`，生成当前确认，按待办选择检查连接并继续菜单或恢复 USB；此流程不重新派发 p1 writer。只接受已证明菜单会话未开始的受支持任务。
 
 ## 命令与资源
 
@@ -59,8 +59,9 @@ https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/no-fastboot-install
 
 ## 验证范围与问题处理
 
-当前修复包为 `1.01-agent-20261111-r1`。资源清单分别记录离线检查、下载核对、全新 Windows 和相机验收；“正式版”不表示后两项已经补做实测。具体命令链已有此前开发机构建的安装反馈，不能据此宣称所有 Agent 宿主或新电脑通过。
+当前修复包为 `1.03-agent-20261111-r1`。资源清单分别记录离线检查、下载核对、全新 Windows 和相机验收；“正式版”不表示后两项已经补做实测。具体命令链已有此前开发机构建的安装反馈，不能据此宣称所有 Agent 宿主或新电脑通过。
 
 [历史问题库](troubleshooting/README.md)按阶段与诊断码检索，并要求核对本轮证据。默认只分享诊断摘要，备份、机身标识和私人日志留在本机。Windows 重启、相机重启、USB 拔插分别提示；不关闭安全软件、不代替用户确认 UAC。
 
-macOS 尚未完成实机适配，不开放写入，详见[适配说明](MACOS.md)。Agent 与桌面软件独立编号；现有[桌面源码](../software/README.md)继续保留。
+macOS 尚未完成实机适配，不开放写入，详见[适配说明](MACOS.md)。本轮桌面与 Agent 均为 1.03，使用[统一源码](../software/README.md)构建；旧版记录仍按具体 build_id 区分。
+

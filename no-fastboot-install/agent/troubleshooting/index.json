@@ -388,6 +388,22 @@
       "cause_status": "source_confirmed_offline_regression_passed",
       "document": "agent.md#usb-027",
       "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-028",
+      "title": "连接等待慢或描述符错误无法定位阶段",
+      "terms": [
+        "USB_IDENTITY_UNAVAILABLE",
+        "MENU_COMMUNICATION_PENDING",
+        "WINDOWS_SNAPSHOT_TIMEOUT",
+        "LIBUSB_ERROR_ACCESS",
+        "failure_kind",
+        "backend_error_code"
+      ],
+      "stage": "普通身份与菜单连接检查",
+      "cause_status": "source_confirmed_offline_regression_passed",
+      "document": "agent.md#usb-028",
+      "match_is_diagnosis": false
     }
   ],
   "publication": "public_reference"

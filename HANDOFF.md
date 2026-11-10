@@ -1,5 +1,16 @@
 # Maintainer handoff
 
+## Desktop and independent Agent 1.03
+
+- Both distributions now build from `no-fastboot-install/software/`. The old `agent/source/README.md` points there; do not restore a second mutable copy. This supersedes the 1.00/1.01 source-path notes below.
+- Ordinary communication wait runs in one PowerShell process. Enumerate PnP once per poll, use the same result for normal/service counts, and produce the protected snapshot once at completion. Storage-volume discovery is not a menu prerequisite.
+- For verified p1 completion and a proven pre-session menu stop, offer connection recheck plus menu continuation or USB-only recovery. Preserve the original patch run and sealed attempts; each permitted continuation gets a new menu attempt. Keep the current-p1 preread, identity checks and existing session validators. Do not replay a p1 writer, active reader, RAM window or unknown outcome.
+- USB descriptor errors retain their real stage, category, errno/libusb code and elapsed/attempt counts. A read-only identity check sending no camera commands says nothing about earlier steps of the job. Do not infer a corrupt camera partition from a host transfer failure.
+- Runtime/build identity is `1.03-agent-20261111-r1`; known stopped independent 1.00/1.01 jobs may be upgraded in their original directory with state preserved and current confirmations renewed. Desktop sessions are not Agent jobs.
+- Keep UTF-8 BOM on PowerShell files containing Chinese, including the downloader and its inert fixture test, for Windows PowerShell 5.1. Parse the shipped files, not only Python source text.
+- Desktop ZIP is attached to `A7M4-ToolKit-v0.1.2`; Agent ZIP uses `A7M4-Agent-ToolKit-V1.03`. The resource manifest pins size, SHA-256, asset ID and the canonical source commit. Download checks cover the complete ZIP once; normal patch runs do not invoke development regressions.
+- Reference host/session concepts from QAQLeonard/a7c2-tools without copying its model-specific protocol or introducing mutation retries. Keep actual verification scope in `software/VALIDATION-1.03.json`. The maintainer requested no edits to Issue comments #24/#25.
+
 ## Publication scope
 
 - Publish reusable implementation methods, authored source, input hashes and component verification boundaries. Do not publish specific experimental firmware versions, versioned delivery directories, package manifests or per-round test progress to GitHub. Keep those in the research repository.
@@ -148,3 +159,4 @@
 - The supported legacy input is independent Agent 1.00-agent-20261110-r1, stopped after complete p1 verification. Upgrade program contents in the original directory, retain state and original paths, query status, then run resume <job> without a request ID to obtain a fresh confirmation. Other legacy tasks stay with their original build. A desktop 1.02 session is not an Agent job.
 - Runtime is 1.01-agent-20261111-r1; retain created_version/build identity when migrating a stopped 1.00 job. Read the clock from the current attempt's status, not the first failed attempt. normal_usb_restored=false records lack of tool confirmation; it must not override a later verified Windows snapshot.
 - Offline routing and packaged stock/user menu tests cover recovery followed by a new sealed menu attempt without writer dispatch. Clean Windows and physical-camera acceptance remain separate and are not inferred from those tests. Runtime binaries belong in Release assets; state, p1 and research evidence remain local.
+

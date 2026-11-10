@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$Manifest,
+﻿param([Parameter(Mandatory=$true)][string]$Manifest,
       [string]$Destination)
 $ErrorActionPreference = 'Stop'
 if ($env:OS -ne 'Windows_NT' -or -not [Environment]::Is64BitOperatingSystem -or $env:PROCESSOR_ARCHITECTURE -ne 'AMD64') {
@@ -12,7 +12,7 @@ if ($resource.source_commit -notmatch '^[0-9a-f]{40}$' -or $resource.build_id -n
 $asset = $resource.platforms.'windows-x64'
 if ($asset.status -ne 'validated' -or $asset.sha256 -notmatch '^[0-9a-f]{64}$' -or $asset.bytes -le 0 -or
     $asset.url -notmatch '^https://github\.com/Erlla/sony-a7m4-custom-firmware/releases/download/[^/]+/[^/]+$' -or
-    $asset.root -ne 'M4Agent_1.01' -or $asset.entry -ne 'M4相机工具.exe') { throw '没有适用且已验收的 Agent 包。' }
+    $asset.root -ne 'M4Agent_1.03' -or $asset.entry -ne 'M4相机工具.exe') { throw '没有适用且已验收的 Agent 包。' }
 if (-not $Destination) { $Destination = Join-Path $env:LOCALAPPDATA ('M4CameraToolAgent\' + $resource.build_id) }
 $target = [IO.Path]::GetFullPath($Destination)
 $parent = [IO.Path]::GetDirectoryName($target)
@@ -64,3 +64,4 @@ try {
         Remove-Item -LiteralPath $resolvedStage -Recurse -Force
     }
 }
+

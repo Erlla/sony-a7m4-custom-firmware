@@ -1,19 +1,19 @@
 {
   "schema": "m4-agent-resources/1",
   "published": true,
-  "version": "1.01",
-  "build_id": "1.01-agent-20261111-r1",
-  "source_commit": "74145ee4e978c70bd359a3ee46c294f37add0f65",
+  "version": "1.03",
+  "build_id": "1.03-agent-20261111-r1",
+  "source_commit": "c7d200647b99c806a28f1f76182e8fbb9dfc8034",
   "platforms": {
     "windows-x64": {
-      "url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/download/A7M4-Agent-ToolKit-V1.01/M4Agent_1.01_Windows_x64.zip",
-      "sha256": "71e69fd33ade45187e004a9c6a2c419f9e4cf65cb7699c6421b29bc6ddf0e0c3",
-      "bytes": 84610135,
-      "root": "M4Agent_1.01",
+      "url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/download/A7M4-Agent-ToolKit-V1.03/M4Agent_1.03_Windows_x64.zip",
+      "sha256": "8656f327515273c374cce5ccef721e1520a027a1195a877a2f3c41c40e7e252a",
+      "bytes": 84610575,
+      "root": "M4Agent_1.03",
       "entry": "M4相机工具.exe",
       "status": "validated",
-      "local_file": "M4Agent_1.01_Windows_x64.zip",
-      "asset_id": 732177198
+      "local_file": "M4Agent_1.03_Windows_x64.zip",
+      "asset_id": 732377768
     },
     "macos-arm64": {
       "status": "not_validated"
@@ -27,12 +27,14 @@
     "clean_windows": "not_performed",
     "camera": "not_performed",
     "download": "published_asset_size_and_sha256_match_local_archive",
-    "source_tests": 197,
-    "package_checks": 5,
-    "download_helper_checks": 8
+    "source_tests": 211,
+    "package_checks": 16,
+    "download_helper_checks": 8,
+    "powershell_51_parsed_files": 21
   },
   "release_channel": "stable",
-  "release_url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.01",
-  "build_source_commit": "74145ee4e978c70bd359a3ee46c294f37add0f65",
-  "source_path": "no-fastboot-install/agent/source"
+  "release_url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.03",
+  "build_source_commit": "c7d200647b99c806a28f1f76182e8fbb9dfc8034",
+  "source_path": "no-fastboot-install/software"
 }
+

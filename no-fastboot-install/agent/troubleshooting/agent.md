@@ -81,6 +81,20 @@
 
 **本轮应核对：** 原 job、build_id、完整 p1 结果、菜单 stopped_before_session/safe_to_restore、window_started/preread_started/installation_may_be_running，以及两项菜单 job 是否已有 claim。相机已安装目标 DAT、窗口已启动或写入结果未知，不属于本续接范围。
 
-**处理：** 按正式提示词的 1.01 原任务续接指南，保留原目录和 state 升级后执行 `--agent status <原job>`、`--agent resume <原job>`，取得新的用户恢复确认。恢复成功提供 `continue-menu` 待办；工具保留 patch_run，建立新菜单 attempt，重新完整预读当前 p1，不重新派发 p1 writer。
+**处理：** 按正式提示词的 1.03 原任务续接指南，保留原目录和 state 升级后执行 `--agent status <原job>`、`--agent resume <原job>`，取得当前用户确认；1.03 可先检查连接并继续菜单，也可选择独立恢复 USB。工具保留 patch_run，建立新菜单 attempt，重新完整预读当前 p1，不重新派发 p1 writer。
 
 **边界：** 不删除旧计划、claim 或 state，不改 phase，不把 USB_RESTORE_COMPLETE 当作安装成功。旧桌面任务不是 Agent job，不能直接套用此命令。修复通过源码及包内替代边界回归，没有替代真实相机与全新 Windows 验收。
+
+
+<a id="usb-028"></a>
+## USB-028 · 连接等待慢或描述符错误无法定位阶段
+
+**匹配线索：** USB_IDENTITY_UNAVAILABLE、MENU_COMMUNICATION_PENDING、WINDOWS_SNAPSHOT_TIMEOUT、LIBUSB_ERROR_ACCESS/BUSY/TIMEOUT/PIPE/NO_DEVICE。
+
+**原因与范围：** 旧等待循环反复启动 PowerShell、抓取和校验完整快照，一次快照又分别枚举普通与服务身份；会增加主机开销，两个计数也可能来自不同瞬间。旧描述符错误固定写“菜单未准备”，即使发生在备份之前。
+
+**1.03 处理：** 一次 PowerShell 进程内轮询 PnP，每轮单次枚举，最终只保存一个快照；不扫描存储盘符。描述符诊断提供实际 stage、failure_kind、errno、backend_error_code、attempts、elapsed_seconds。菜单连接停止时只重做尚未开始的菜单步骤。
+
+**本轮核对：** code 与 stage、同机身份、普通/服务枚举、p1 是否完成、窗口及写入是否开始、当前待办。ACCESS 等代码不能单独证明是 Defender、线材或某种驱动导致。先按程序检查连接/恢复，不自动重认证或重发上传、START、COMMIT。
+
+**验证边界：** 惰性 PnP fixture 覆盖服务→短暂消失→普通、多设备、超时和禁用存储扫描；源码与打包回归验证路由和旧任务。没有新的干净 Windows 或相机实测，没有整机刷写提速百分比结论。
