@@ -27,12 +27,20 @@ class ReleaseBuildTests(unittest.TestCase):
     def test_matching_shared_version_is_read_without_importing_app(self):
         self.assertEqual(self.version("VERSION = '2.3.4'\nraise RuntimeError('must not run')",'2.3.4'),'2.3.4')
 
+    def test_public_two_digit_label_remains_exact_and_builds_numeric_metadata(self):
+        self.assertEqual(self.version("VERSION = '1.02'", '1.02'), '1.02')
+        self.assertEqual(builder.assembly_version('1.02'), '1.2.0.0')
+        self.assertEqual(builder.assembly_version('2.3.4'), '2.3.4.0')
+        for other in ('1.2', '1.0.2', '1.00'):
+            with self.subTest(other=other), self.assertRaisesRegex(ValueError, 'differs from dependency'):
+                self.version("VERSION = '1.02'", other)
+
     def test_mismatched_dependency_metadata_is_rejected(self):
         with self.assertRaisesRegex(ValueError,'differs from dependency'):
             self.version("VERSION = '1.0.0'",'1.00')
 
     def test_malformed_ambiguous_and_assembly_overflow_versions_are_rejected(self):
-        for code,metadata in (("VERSION='1.00'",'1.00'),("VERSION='1.0.0'\nVERSION='1.0.1'",'1.0.1'),
+        for code,metadata in (("VERSION='1.0'",'1.0'),("VERSION='1.0.0'\nVERSION='1.0.1'",'1.0.1'),
                               ("VERSION='65536.0.0'",'65536.0.0'),("VERSION='1.0.0;bad'",'1.0.0;bad')):
             with self.subTest(code=code),self.assertRaises(ValueError):self.version(code,metadata)
 

@@ -94,6 +94,36 @@ def main():
             assert original.call_count==1
             tests.append(started.lower()+'_keeps_existing_recovery')
         assert not device_calls
+        # A menu pre-read that has been classified after verified cleanup uses
+        # the existing terminal/driver-only route, never the writer route.
+        backend.STATE=Path(temporary)/'menu-cleaned'/'patch'
+        journal=backend.frozen.Journal(backend.STATE);journal.create(backend.LOADED_SHA)
+        journal.update('P1_COMPLETE',p1_operation_complete=True)
+        value=dict(schema='m4-user-flow/1',flow=uuid.uuid4().hex,phase='MENU_CONNECTION_STOPPED',
+                   preread_failure_cleaned=True,driver_retained=True)
+        reply=dict(phase='USB_RESTORE_COMPLETE',message='普通 USB 连接已恢复。')
+        with patch.object(standalone_usb_restore,'recover',return_value=reply) as restore,\
+             patch.object(usb_recovery,'recover_write_race',side_effect=forbidden):
+            assert usb_recovery.recover(value)['phase']=='USB_RESTORE_COMPLETE'
+        assert restore.call_count==1
+        tests.append('cleaned_menu_read_failure_uses_existing_driver_only_recovery')
+        # Handoff failure cannot authorize a new window or firmware write. Only
+        # the user's actual restart confirmation enables the existing driver route.
+        value=dict(schema='m4-user-flow/1',flow=uuid.uuid4().hex,phase='HANDOFF_NOT_READY')
+        flow.folder(value).mkdir(parents=True)
+        controller=SimpleNamespace(status=lambda:(None,None,dict(phase='HANDOFF_NOT_READY',window_started=True)),
+                                   record_session_end=lambda observation:None)
+        with patch.object(flow,'trial',return_value=controller),\
+             patch.object(flow,'observed',return_value=Path(temporary)/'inert-observation.json'),\
+             patch.object(standalone_usb_restore,'recover',return_value=reply) as restore,\
+             patch.object(usb_recovery,'recover_write_race',side_effect=forbidden):
+            try:usb_recovery.recover(value)
+            except ValueError:pass
+            else:raise AssertionError('Handoff recovery accepted without actual restart confirmation')
+            assert restore.call_count==0
+            assert usb_recovery.recover(value,confirmed=True)['phase']=='USB_RESTORE_COMPLETE'
+            assert restore.call_count==1 and value['final_unplug_ready'] is False
+        tests.append('failed_handoff_requires_restart_confirmation_and_only_restores_driver')
         print(json.dumps(dict(passed=True,tests=tests,cases=len(tests),device_operations=0,
                               driver_tasks_dispatched=0,firmware_writes=0)))
 

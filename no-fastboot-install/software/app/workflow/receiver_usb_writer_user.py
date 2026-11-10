@@ -1,4 +1,6 @@
+from state_io import claim_once
 from product_integrity import pinned, state_path
+from diagnostics import describe, secondary
 from datetime import datetime, timezone
 from pathlib import Path
 import argparse
@@ -43,7 +45,7 @@ def run_protocol(session, folder, evidence, *, sleep=time.sleep, clock=time.mono
     meta = validate(folder)
     evidence = local_path(evidence)
     evidence.mkdir(parents=True, exist_ok=False)
-    save_json(folder / 'claim.json', dict(utc=datetime.now(timezone.utc).isoformat(), automatic_retry=False))
+    claim_once(folder / 'claim.json', dict(utc=datetime.now(timezone.utc).isoformat(), automatic_retry=False))
     report = dict(schema='m4-reviewed-full-p1-run/1', patch_set=meta['patch_set'], job_nonce=meta['nonce'], direction=meta['direction'], goal=meta['goal'], target_gate_state=meta['target_gate_state'], origin_gate_state=meta['origin_gate_state'], target_version_gate_kind=meta['target_version_gate_kind'], source_sha256=meta['source_sha256'], target_sha256=meta['target_sha256'], state='CLAIMED', module_uploads=0, prepare_attempts=0, commit_attempts=0, readback_windows=0, outcome='NOT_STARTED', normal_usb_recovery_verified=False, automatic_retry=False, device_operations_recorded_by_session=True)
     directory = meta['job_dir']
     write_paths = {directory + '/table', directory + '/prepare', directory + '/commit'} | {directory + '/' + w['name'] for w in meta['windows']}
@@ -72,6 +74,7 @@ def run_protocol(session, folder, evidence, *, sleep=time.sleep, clock=time.mono
 
     def poll(name, size):
         return poll_publication(name, size, directory, evidence, report, read, lambda raw: decode(raw, meta), sleep=sleep, clock=clock, timeout=timeout)
+    primary_error = None
     try:
         blob = (folder / 'libJit.so').read_bytes()
         report['state'] = 'BOOTSTRAP_OUTCOME_UNKNOWN'
@@ -99,6 +102,7 @@ def run_protocol(session, folder, evidence, *, sleep=time.sleep, clock=time.mono
         write(directory + '/commit', token(meta, True))
         final = decode(poll('result', RESULT.size), meta)
         report['native'] = final
+        require(all(final[k] == ready[k] for k in ('euid', 'pid', 'ppid', 'loader_pid', 'cleanup')), 'Writer terminal belongs to a different worker')
         if final['phase'] != 6 or final['error'] != 0:
             report['outcome'] = 'ROLLED_BACK_VERIFIED' if final['rollback'] == 1 and final['after_sha256'] == meta['source_sha256'] else 'NATIVE_FAILURE_REQUIRES_REVIEW'
             raise ProtocolError('Native writer did not confirm target; outcome ' + report['outcome'])
@@ -114,6 +118,15 @@ def run_protocol(session, folder, evidence, *, sleep=time.sleep, clock=time.mono
         report['outcome'] = 'P1_TARGET_VERIFIED'
         return report
     except BaseException as error:
+        primary_error = error
+        diagnostic = describe(error, 'WRITE_STARTING')
+        diagnostic.update(writer_state=report['state'], native=report.get('native'),
+                          commit_attempts=report['commit_attempts'])
+        if report.get('native'):
+            row = report['native']
+            diagnostic['message'] += '；相机写入器 phase=%s，error=%s，rollback=%s，io_status=%s' % (row.get('phase'), row.get('error'), row.get('rollback'), row.get('io_status'))
+        error.diagnostic = diagnostic
+        report['diagnostic'] = diagnostic
         report['error'] = dict(type=type(error).__name__, message=str(error))
         if report['commit_attempts'] and report['outcome'] not in ('ROLLED_BACK_VERIFIED', 'NATIVE_FAILURE_REQUIRES_REVIEW'):
             report['outcome'] = 'COMMIT_OUTCOME_UNKNOWN'
@@ -122,7 +135,11 @@ def run_protocol(session, folder, evidence, *, sleep=time.sleep, clock=time.mono
         raise
     finally:
         report['finished_utc'] = datetime.now(timezone.utc).isoformat()
-        save_json(evidence / 'run.json', report)
+        try:
+            save_json(evidence / 'run.json', report)
+        except Exception as error:
+            if primary_error is None: raise
+            secondary(primary_error, error, 'save_writer_report')
 
 def hardware_gate():
     raise ValueError('Standalone receiver execution disabled; no USB backend loaded')

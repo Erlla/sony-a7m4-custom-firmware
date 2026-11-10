@@ -1,6 +1,6 @@
 {
   "schema": "m4-runtime-assets-files/1",
-  "version": "1.0.1",
+  "version": "1.02",
   "source_package_sha256": "059df157eef9d1fea454fdf9119884426af01d5d7429131bd0474fea17c5f84d",
   "groups": {
     "runtime/python": {

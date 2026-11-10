@@ -29,6 +29,7 @@ void*memcpy(void*p,const void*q,u64 n){u8*a=p;const u8*b=q;while(n--)*a++=*b++;r
 static W root[32768],path[32768],scratch[32768],command[32768];
 static H leases[FILE_COUNT+67];static u32 lease_count;
 static u8 buffer[65536];static u32 failed;
+static int agent_mode;static W agent_args[768];
 typedef struct {u32 attrs;u32 times[6],sizehi,sizelo,reserved[2];W name[260],alternate[14];} FindData;
 typedef struct {u32 size,mask;H window;const W*verb,*file,*args,*directory;int show;H instance,idlist;const W*class_name;H key;u32 hotkey;H icon,process;} ShellInfo;
 typedef struct {u32 size;W*reserved,*desktop,*title;u32 x,y,cx,cy,xchars,ychars,fill,flags;unsigned short show,reserved_size;u8*reserved_data;H in,out,err;} Startup;
@@ -55,7 +56,7 @@ static int clean_environment(void){
  for(W*p=all;*p;){W*start=p;while(*p)p++;p++;W name[512];u32 n=0;
   while(start[n]&&start[n]!='='&&n<511){name[n]=start[n];n++;}name[n]=0;
   const W*blocked[]={(W*)L"COR_",(W*)L"CORECLR_",(W*)L"COMPLUS_",(W*)L"APPDOMAIN_MANAGER_",(W*)L"DOTNET_",(W*)L"PYTHON",(W*)L"TCL_",(W*)L"TK_"};
-  int remove=wi_eq(name,(W*)L"DEVPATH");for(u32 i=0;i<8;i++)if(prefix(name,blocked[i]))remove=1;
+  int remove=wi_eq(name,(W*)L"DEVPATH")||prefix(name,(W*)L"M4_");for(u32 i=0;i<8;i++)if(prefix(name,blocked[i]))remove=1;
   if(remove&&!SetEnvironmentVariableW(name,0))ok=0;
  }
  FreeEnvironmentStringsW(all);return ok;
@@ -63,6 +64,7 @@ static int clean_environment(void){
 static void ascii(W*d,const char*s){while(*s)*d++=(W)(u8)*s++;*d=0;}
 static H system_dll(const W*name){W p[512];if(!GetSystemDirectoryW(p,480))return 0;append(p,(W*)L"\\");append(p,name);return LoadLibraryExW(p,0,0x800);}
 static void error(void){
+ if(agent_mode){const char msg[]="{\"schema\":\"m4-agent/1\",\"query_ok\":false,\"status\":\"LAUNCH_REJECTED\",\"code\":\"NATIVE_ARGUMENT_OR_INTEGRITY_FAILED\"}\n";u32 n;WriteFile(GetStdHandle((u32)-11),msg,sizeof(msg)-1,&n,0);ExitProcess(1);}
  H user=system_dll((W*)L"user32.dll");if(user){typedef int(*Message)(H,const W*,const W*,u32);
  Message show=(Message)GetProcAddress(user,"MessageBoxW");if(show)show(0,(W*)L"软件完整性或运行目录检查未通过。请完整解压可信安装包后重试。",(W*)L"M4 相机工具",0x10);}
  ExitProcess(1);
@@ -177,29 +179,59 @@ static int bootstrap(H shell){
  int exact=1;do {if(weq(d.name,(W*)L".")||weq(d.name,(W*)L".."))continue;if(!weq(d.name,(W*)L"Launcher.exe")){exact=0;break;}}
  while(FindNextFileW(finder,&d));FindClose(finder);if(!exact)return 0;
  copy(command,(W*)L"\"");append(command,path);append(command,(W*)L"\" --source \"");append(command,root);append(command,(W*)L"\"");
+ if(agent_mode==2){append(command,(W*)L" ");append(command,agent_args);}
  Startup start={0};start.size=sizeof(start);Process process={0};
+ /* Managed bootstrap brokers its agent worker outside caller/UAC jobs. */
  if(!CreateProcessW(path,command,0,0,0,0,0,scratch,&start,&process))return 0;
  WaitForSingleObject(process.process,0xffffffff);u32 code=1;GetExitCodeProcess(process.process,&code);
  CloseHandle(process.thread);CloseHandle(process.process);LocalFree(descriptor);ExitProcess(code);return 1;
+}
+static int token(const W*s,int hex){u32 n=wlen(s);if(hex&&n!=32)return 0;if(!n||n>64)return 0;for(u32 i=0;i<n;i++)if(!((s[i]>='a'&&s[i]<=(hex?'f':'z'))||(s[i]>='0'&&s[i]<='9')||(!hex&&s[i]=='-')))return 0;return 1;}
+static void agent_front(void){
+ if(!clean_environment())error();
+ copy(path,root);append(path,(W*)L"\\runtime\\python\\python.exe");
+ copy(scratch,root);append(scratch,(W*)L"\\state");SetEnvironmentVariableW((W*)L"M4_TOOL_DATA_ROOT",scratch);
+ SetEnvironmentVariableW((W*)L"M4_TOOL_SOURCE_ROOT",root);
+ copy(command,(W*)L"\"");append(command,path);append(command,(W*)L"\" -I -s -B -u -X utf8 \"");
+ append(command,root);append(command,(W*)L"\\app\\entry.py\" agent ");append(command,agent_args);
+ Startup start={0};start.size=sizeof(start);start.flags=0x100;
+ start.in=GetStdHandle((u32)-10);start.out=GetStdHandle((u32)-11);start.err=GetStdHandle((u32)-12);
+ Process process={0};if(!CreateProcessW(path,command,0,0,1,0x08000000,0,root,&start,&process))error();
+ WaitForSingleObject(process.process,0xffffffff);u32 code=1;GetExitCodeProcess(process.process,&code);
+ CloseHandle(process.thread);CloseHandle(process.process);ExitProcess(code);
 }
 void WinMainCRTStartup(void){
  H kernel=system_dll((W*)L"kernel32.dll");if(!kernel)error();
  to_wide=(ToWide)GetProcAddress(kernel,"MultiByteToWideChar");to_utf8=(ToUtf8)GetProcAddress(kernel,"WideCharToMultiByte");
  H shell=system_dll((W*)L"shell32.dll");if(!shell)error();
  typedef W**(*Argv)(const W*,int*);int argc=0;Argv argvfn=(Argv)GetProcAddress(shell,"CommandLineToArgvW");
- W**argv=argvfn?argvfn(GetCommandLineW(),&argc):0;if(!argv||(argc!=1&&!(argc==2&&weq(argv[1],(W*)L"--verify"))))error();
- int verify=argc==2;
+ W**argv=argvfn?argvfn(GetCommandLineW(),&argc):0;if(!argv)error();
+ if(argc>1&&weq(argv[1],(W*)L"--agent")){
+  agent_mode=1;if(argc<3||argc>6)error();
+  if(!(weq(argv[2],(W*)L"doctor")||weq(argv[2],(W*)L"status")||weq(argv[2],(W*)L"start")||weq(argv[2],(W*)L"resume")||weq(argv[2],(W*)L"recover-usb")))error();
+  int watch=weq(argv[2],(W*)L"status")&&argc==5&&weq(argv[4],(W*)L"--watch");
+  if((weq(argv[2],(W*)L"doctor")&&argc!=3)||(weq(argv[2],(W*)L"status")&&argc!=3&&argc!=4&&!watch)||
+     (weq(argv[2],(W*)L"start")&&argc!=5)||(weq(argv[2],(W*)L"resume")&&argc!=6)||
+     (weq(argv[2],(W*)L"recover-usb")&&argc!=3&&argc!=5))error();
+  for(int i=2;i<argc;i++){if(!(watch&&i==4)&&!token(argv[i],i==3||i==4))error();if(i>2)append(agent_args,(W*)L" ");append(agent_args,argv[i]);}
+ }else if(argc>1&&weq(argv[1],(W*)L"--agent-worker")){
+  agent_mode=2;if(argc!=4||!token(argv[2],1)||!token(argv[3],1))error();
+  copy(agent_args,(W*)L"--agent-worker ");append(agent_args,argv[2]);append(agent_args,(W*)L" ");append(agent_args,argv[3]);
+ }else if(argc!=1&&!(argc==2&&weq(argv[1],(W*)L"--verify")))error();
+ int verify=!agent_mode&&argc==2;
  if(!GetModuleFileNameW(0,root,32768))error();
  H self=CreateFileW(root,0x80000000,1,0,3,0x80,0);if(self==(H)-1)error();leases[lease_count++]=self;
  W*p=root;W*slash=0;while(*p){if(*p=='\\')slash=p;p++;}if(!slash)error();*slash=0;
  if(!hold_parents(root)||!verify_source()){if(verify)ExitProcess(1);error();}
  if(verify){const char json[]="{\"version\":\"" PRODUCT_VERSION "\",\"integrity\":true,\"native_verification\":true,\"device_operations\":0}\n";u32 written;WriteFile(GetStdHandle((u32)-11),json,sizeof(json)-1,&written,0);ExitProcess(0);}
+ if(agent_mode==1)agent_front();
  typedef int(*AdminCheck)(void);AdminCheck isadmin=(AdminCheck)GetProcAddress(shell,"IsUserAnAdmin");
  if(!isadmin)error();
  if(!isadmin()){
  typedef int(*Execute)(ShellInfo*);Execute execute=(Execute)GetProcAddress(shell,"ShellExecuteExW");
  W exe[32768];if(!GetModuleFileNameW(0,exe,32768))error();
  ShellInfo info={0};info.size=sizeof(info);info.mask=0x40;info.verb=(W*)L"runas";info.file=exe;info.directory=root;info.show=0;
+ if(agent_mode==2)info.args=agent_args;
  if(!execute||!execute(&info)){u32 e=GetLastError();ExitProcess(e==1223?1223:1);}
  WaitForSingleObject(info.process,0xffffffff);u32 result=1;GetExitCodeProcess(info.process,&result);CloseHandle(info.process);ExitProcess(result);
  }

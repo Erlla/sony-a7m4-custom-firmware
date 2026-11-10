@@ -1,75 +1,9 @@
-# M4 Camera Tool 1.0.1 source
+# M4 desktop and AI Agent 1.03
 
-[中文](README.md) · [User guide](../TOOL-1.0.0.md) · [Installation](../README.en.md) · [Implementation](../IMPLEMENTATION.md)
+This is the canonical shared source for both Windows x64 packages. The desktop GUI and supported --agent commands use the same patch and recovery backend. [中文](README.md) · [Agent prompt](../agent/PROMPT.zh-CN.md) · [Build guide](RELEASING.md).
 
-Prepare the Sony ILCE-7M4 update environment over ordinary USB, then let its owner install firmware from the SD card using the camera menu. An earlier build of the installation flow received a successful user-test report. This directory provides source; download the portable package from [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) for direct use.
+1.03 uses one PowerShell process for bounded PnP polling, retains one final snapshot, and gives desktop and Agent users a menu-only continuation after a proven pre-session connection stop. It preserves the original p1 run and old menu attempt, verifies the same body, and never dispatches a p1 writer for this continuation. USB recovery remains a separate option. Descriptor diagnostics retain the actual stage and backend error codes.
 
-The UI provides patch preparation and standalone ordinary-USB recovery. Users place the package on the card themselves. The tool does not read, validate, copy or bind DAT files. Download the firmware's `BODYDATA.DAT` separately from the Release.
+Version: 1.03. Agent build: 1.03-agent-20261111-r1. Independent Agent 1.00/1.01 stopped-menu records can be reopened in their original directory; unknown or active legacy operations cannot be replayed. Firmware compatibility checks, full backup and independent readback are unchanged.
 
-## Behavior
-
-- Setup binds one Windows user and camera. Matching installations and empty task folders are reused; missing tasks are added. Running tasks and unknown operations are preserved.
-- Account names and SIDs are resolved to the same Windows identity before comparison. Mismatch fields are recorded in private setup receipts.
-- Reviewed WinUSB packages cover normal and service USB identities. Trusting the libwdi self-signed certificates requires explicit consent, defaulting to cancellation; these are not Sony or Microsoft publisher certificates.
-- Patch and menu stages reuse the driver. Full p1 backup, content matching, one write and independent complete readback remain; unknown layouts stop. Displayed firmware labels are not a whitelist.
-- Operation completion is separate from storage recovery. Each launch opens a fresh UI session, preserving backups and logs. Unknown tasks are not automatically dispatched again.
-- Normal operations use integrity checks without ARM64 simulation or fault injection.
-- A library that differs from the supported 6.02 baseline stops with `当前相机固件非6.02版本`, preserving its actual digest without patching. Compatibility is determined by library content, not the displayed firmware label.
-- If StageBind requires a Windows restart, stop before USB authentication or p1 reading. Reopening the app or reconnecting the camera does not clear that requirement. Failures proven to precede reader start can use driver-only recovery without nonexistent writer material.
-
-## Build on Windows x64
-
-Use Python 3.12+ and the Windows .NET Framework C# compiler. Building does not elevate, access a camera or install drivers. Runtime components are supplied separately rather than committed as source binaries.
-
-`assets-files.json` pins **3257 files across nine groups**. Both WinUSB INF/catalog pairs and their shared coinstallers are six locked `tools/driver` assets. No research directory or extra source-tree binaries are required; other group locks are unchanged.
-
-From this directory, with a separately supplied trusted portable package:
-
-```powershell
-py -3 prepare_assets.py --download --cache D:\M4-downloads --output D:\M4-runtime
-# For offline export, use --from-package D:\M4-portable.zip instead.
-py -3 build.py --assets D:\M4-runtime --output D:\M4-build
-D:\M4-build\M4相机工具.exe --verify
-```
-
-A portable ZIP containing all locked assets can also be passed directly to `build.py --assets`. Input app, state and firmware are ignored; app source comes from this checkout. The output must be new. See [THIRD_PARTY.md](THIRD_PARTY.md) and [assets-sources.json](assets-sources.json). Exact export is not a complete recipe for independently reconstructing every component from upstream archives.
-
-The native launcher verifies files and imports before Python, CLR or elevation. Normal execution uses a protected ProgramData runtime; state and caches stay in the extracted folder. Read handles constrain replacement while running. `--verify` is local-only without elevation or a device session. A trusted launcher EXE remains the starting assumption; no Authenticode signature or antivirus verdict is provided.
-
-Downloads fetch only the hash-pinned USB ZIP, with validated range resumption, bounded retries and cache reuse. They do not fetch DAT or alternate installation tools, run remote scripts, change proxies or disable TLS checks. Export/build validate a temporary sibling before publishing it, leave failed outputs unpublished and never replace an existing installation. Both asset entry points reject duplicate/Windows-aliased ZIP paths and linked files/directories.
-
-**Version distinction:** the author's published ZIP reports `1.00`; this checkout reports `1.0.1`. Its 3257 runtime files match the original locks and can rebuild this checkout without copying its app. Do not pass that app as a source-aligned package or edit manifests/hashes to make it pass. Runtime consumers share `app/product_version.py`; the builder requires agreement with dependency metadata and checks Python/native version and integrity before publishing output. See [RELEASING.md](RELEASING.md).
-
-## Development checks
-
-Use a disposable build; never distribute its test state:
-
-```powershell
-D:\M4-build\runtime\python\python.exe -I -B tests\run_clean_setup.py --package D:\M4-build
-D:\M4-build\runtime\python\python.exe -I -B tests\test_driver_reuse.py --package D:\M4-build
-powershell -NoProfile -ExecutionPolicy Bypass -File tests\test_driver_trust.ps1 -Package D:\M4-build
-```
-
-Full setup simulation starts without tool state, tasks, related driver packages or certificates. Its scheduler models Windows returning an account name after SID registration. The optional `test_task_user_readback.ps1 -Source <source-directory>` requires reference tasks and is read-only; it is not a clean-machine installation test. Actual UAC, ACLs, driver binding and camera behavior require separate physical acceptance.
-
-## Offline checks
-
-The offline runner checks source directly with Python 3.12+, without external runtime assets, a built package or a camera:
-
-```powershell
-py -3 -I -B tests\run_offline.py --source-only --report build\source-tests.json --junit build\source-tests.xml
-# With a complete trusted local build, also run package checks on isolated copies.
-py -3 -I -B tests\run_offline.py --package D:\M4-build --report build\package-tests.json
-```
-
-Source checks cover asset copying, USB identity retry policy with fake devices, session inheritance/isolation, state IO and the runner itself, including real Windows sharing checks. Directory asset outputs are re-hashed after a complete group is copied; dependency locks are unchanged.
-
-With neither `--source-only` nor `--package`, source checks run and package checks are individually `BLOCKED`, producing `PARTIAL`. Exit codes are `PASS=0`, `FAIL=1`, `PARTIAL=2`. A source-only PASS does not validate a release or camera installation. The runner supports per-check timeouts and JSON/JUnit reports, never fabricates a runtime or release manifest, and leaves original package state untouched. See [Offline testing](tests/OFFLINE.md).
-
-Run the package-level scripts under `tests/` with the built package's isolated Python and `--package D:\M4-build`, including `test_startup_session.py` for process-level restart isolation and Tk controls. `test_menu_seal.py` also needs `--lineage stock` or `--lineage user`. Use a disposable build: tests create fake enrollment and run state, so the tested directory must not be distributed.
-
-## Acknowledgements and scope
-
-The approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools). Driver reuse and independent recovery draw on [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research). Other sources are in [REFERENCES.md](../../REFERENCES.md).
-
-No enrollment, backups, logs, private keys, full firmware or camera firmware libraries are included. External components keep their original licenses.
+See README.md and RELEASING.md for asset acquisition, building and offline verification. Runtime assets are locked separately; no private state, firmware or camera libraries are published. Offline tests do not establish clean-PC or physical-camera acceptance.

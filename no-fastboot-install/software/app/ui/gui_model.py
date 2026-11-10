@@ -109,7 +109,11 @@ def classify(action, code, payload):
     if code == 2 and phase in WAITING:
         return ('waiting', PHASES[phase])
     if code != 0:
-        return ('failed', '任务已停止，查看日志了解原因')
+        from diagnostics import summary
+        return ('failed', summary(payload.get('diagnostic')) or '任务已停止，查看日志了解原因')
+    if phase in ('HANDOFF_NOT_READY', 'REVIEW_REQUIRED', 'MENU_CONNECTION_STOPPED', 'CONNECTION_STOPPED', 'CANCELLED_BEFORE_DEVICE'):
+        from diagnostics import summary
+        return ('review', summary(payload.get('diagnostic')) or payload.get('error') or '本轮已停止，尚未完成菜单准备')
     if phase in ('WINDOWS_RESTART_REQUIRED', 'USB_RESTORE_WINDOWS_RESTART') or payload.get('recovery') == 'WINDOWS_RESTART_REQUIRED':
         return ('waiting', '请保存工作并重启电脑')
     if action == 'simple-recover-usb':

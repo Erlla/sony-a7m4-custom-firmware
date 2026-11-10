@@ -79,7 +79,7 @@ class PackagePreflightTests(unittest.TestCase):
         self.assertEqual(runner.package_preflight(self.package)['status'], 'PASS')
 
     def test_unsupported_schema_and_versions_remain_rejected(self):
-        for field, value in (('schema', 'unsupported/1'), ('version', '1.00'), ('version', None)):
+        for field, value in (('schema', 'unsupported/1'), ('version', self.dependencies['version']+'-other'), ('version', None)):
             with self.subTest(field=field, value=value):
                 original = self.manifest[field]
                 self.manifest[field] = value; self.write_manifest()

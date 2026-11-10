@@ -1,6 +1,6 @@
 # USB offline regression runner
 
-Run from `no-fastboot-install/software/` with Python 3.12+. No test framework installation is needed for source checks. The runner never downloads dependencies, prepares drivers or sends camera commands.
+Run from `no-fastboot-install/agent/source/` with Python 3.12+. No test framework installation is needed for source checks. The runner never downloads dependencies, prepares drivers or sends camera commands.
 
 ## Source scope
 
@@ -18,6 +18,7 @@ The source suites exercise the actual checkout modules:
 | camera-storage | Read-only storage ancestry with mocked Windows cmdlets: unlabelled cards, foreign PMHOME, unreadable roots and ambiguous/cyclic devices |
 | normal-identity | Fake devices, advertised language selection, bounded retries, body mismatch and handle disposal |
 | connection-stop | Pre-read stop classification, StageBind restart gating, library mismatch diagnostics and rejection of claimed/read/write-started recovery |
+| reader-cleanup | Actual reader protocol with inert frames: failed-worker cleanup, bounded missing-cleanup wait, identity mismatches, saved proof and pre-write recovery |
 | operation-session | Session records, preserved history, invalid identifiers and actual child-process inheritance |
 | state-io | UTF-8/BOM, atomic publication, sharing-error retry deadlines, failed-write preservation and real Windows sharing |
 | runner | Failed/missing worker records, timeouts, report semantics, real preflight/copy on inert current-layout fixtures, and mocked package dispatch |
@@ -36,9 +37,9 @@ Use only a trusted, locally built Windows package. The preflight uses code from 
 
 For each check, the runner copies only app/runtime/vendor/tools/licenses, the EXE, and the explicitly manifested root `README.md`, `THIRD_PARTY.md` and `使用说明.md` into a fresh temporary directory, checks the copy again, and executes the check there. Other root files are excluded. Original state, logs and backups are never copied into the test run or modified. Reports cannot be written inside the supplied package, app or tests directories.
 
-The package catalogue includes native `--verify`, USB recovery, pre-read connection recovery, clean driver setup, local failure, state IO, startup session, USB identity, both stock/user menu sealing, and Issue #9 boundary regressions. Connection recovery runs real journals, the workflow and UI routing with replaced device/driver boundaries: StageBind restart, descriptor failure, incompatible library and legacy bind refusal use driver-only recovery; reader/write-started states retain the existing evidence path. Clean setup runs the real installer/enrollment code with mocked Windows ACL, scheduler, native compiler and device boundaries in a temporary fixture; it also verifies the storage helper is bundled and pinned. Issue #9 exercises read-lease restrictions, the native trust root with explicitly inert temporary inputs, cross-process recovery exclusion and current-session UI state; it never executes an inert runtime or requests elevation. There is one shared specification rather than a hard-coded test count. Incomplete packages cannot be marked successful.
+The package catalogue includes native `--verify`, production C audit/IO fault injection with inert syscalls, USB recovery, pre-read connection recovery, clean driver setup, local failure, state IO, startup session, USB identity, both stock/user menu sealing, and Issue #9 boundary regressions. Connection recovery runs real journals, the workflow and UI routing with replaced device/driver boundaries: StageBind restart, descriptor failure, incompatible library and legacy bind refusal use driver-only recovery; reader/write-started states retain the existing evidence path. Clean setup runs the real installer/enrollment code with mocked Windows ACL, scheduler, native compiler and device boundaries in a temporary fixture; it also verifies the storage helper is bundled and pinned. Issue #9 exercises read-lease restrictions, the native trust root with explicitly inert temporary inputs, cross-process recovery exclusion and current-session UI state; it never executes an inert runtime or requests elevation. There is one shared specification rather than a hard-coded test count. Incomplete packages cannot be marked successful.
 
-The published `1.00` ZIP is a pinned asset source, not a source-aligned `1.0.1` test package. Mismatch diagnostics include both versions and the rebuild remedy. Rebuild this checkout as described in [RELEASING.md](../RELEASING.md); do not normalize versions or change hashes to bypass preflight.
+The independent Agent `1.00` ZIP and historical desktop `1.00` ZIP are different builds. Use only a source-aligned Agent package for package tests; an older desktop package may supply matching runtime assets but not its app. Mismatch diagnostics retain actual versions and hashes. Rebuild this checkout as described in [RELEASING.md](../RELEASING.md); do not normalize versions or change hashes to bypass preflight.
 
 Tests are deliberately sequential. Each package check receives isolated `ProgramData`, and child processes cannot inherit `M4_TOOL_DATA_ROOT` or a camera session. `--timeout SECONDS` bounds each suite/check (default 900, maximum 3600); timeout cleanup targets only the owned test process tree. Output capture retains at most the final 64 KiB in the report. A failure in one check does not suppress the remaining checks.
 
@@ -52,7 +53,7 @@ Package-copy cleanup uses Windows extended paths without requiring a global long
 | FAIL | 1 | A requested check or consistency check failed |
 | PARTIAL | 2 | No check failed, but required package checks are blocked |
 
-With no scope option, source tests run and all eleven package checks are explicitly blocked until `--package` is supplied. With `--source-only`, those checks are outside the requested scope. Neither mode establishes physical-camera safety or successful firmware installation; every report records `camera_validated=false`.
+With no scope option, source tests run and all configured package checks are explicitly blocked until `--package` is supplied. With `--source-only`, those checks are outside the requested scope. Neither mode establishes physical-camera safety or successful firmware installation; every report records `camera_validated=false`.
 
 JSON reports use `m4-usb-offline-tests/1`, containing per-suite exit codes, timing, timeout flags, unit outcomes and blocked reasons. JUnit represents blocked package cases as skipped with a `BLOCKED` message and preserves worker failures even if some unit rows passed. Report/test artifacts belong in ignored `build/` or another local output directory, not Git.
 
@@ -61,6 +62,6 @@ The runner's package dispatch tests use mocks only to check orchestration. Their
 ## 中文摘要
 
 - `--source-only`：无需完整运行组件即可运行源码回归，使用标准库 unittest、临时文本／假设备，以及明确标注的惰性清单夹具验证预检与复制；不执行夹具 EXE，也不代表完整发布包通过。
-- 默认运行：源码检查正常执行，十一项完整包检查逐项显示 BLOCKED，总体 PARTIAL，避免把缺少运行时误报为全部通过。
+- 默认运行：源码检查正常执行，完整包检查逐项显示 BLOCKED，总体 PARTIAL，避免把缺少运行时误报为全部通过。
 - `--package`：只用于可信的本机构建包；原始依赖锁、发布文件和 app 源码一致性预检通过后，每项检查使用独立临时副本，不污染原目录或相机状态。
 - 报告支持 JSON 与 JUnit，保留失败、超时、平台跳过和阻塞原因。只有 Windows 上验证了本次实现；源码测试通过不等于完整 EXE、真实提权部署或机身安装通过。

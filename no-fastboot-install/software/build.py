@@ -35,12 +35,19 @@ def release_version(dependencies=None):
     values = [node.value.value for node in module.body if isinstance(node, ast.Assign)
               and any(isinstance(name, ast.Name) and name.id == 'VERSION' for name in node.targets)
               and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str)]
-    if len(values) != 1 or not re.fullmatch(r'(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)', values[0]):
+    # Accept the public X.YY label as well as existing X.Y.Z releases. The
+    # literal must still match every manifest; never treat labels as aliases.
+    if len(values) != 1 or not re.fullmatch(r'(0|[1-9][0-9]*)\.(?:[0-9]{2}|(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*))', values[0]):
         raise ValueError('Invalid product version')
     version = values[0]
     if version != dependencies['version'] or any(int(part) > 65535 for part in version.split('.')):
         raise ValueError('Product version differs from dependency metadata')
     return version
+
+
+def assembly_version(version):
+    parts = [str(int(part)) for part in version.split('.')]
+    return '.'.join(parts + ['0'] * (4 - len(parts)))
 
 
 def safe_relative(name):
@@ -182,7 +189,7 @@ def compile_launcher(output):
         raise ValueError('Launcher and release manifest versions differ')
     manifest=output / 'app/release.json'
     template=(HERE / 'Launcher.cs').read_text('utf-8-sig')
-    source=(template.replace('@VERSION@',version).replace('@ASSEMBLY_VERSION@',version+'.0')
+    source=(template.replace('@VERSION@',version).replace('@ASSEMBLY_VERSION@',assembly_version(version))
             .replace('@PYTHON@',value['gui_runtime_sha256'])
             .replace('@PYTHON_EXE@',value['python_sha256'])
             .replace('@ENTRY@',sha(output / 'app/entry.py')).replace('@RELEASE@',sha(manifest)))
@@ -191,7 +198,7 @@ def compile_launcher(output):
     (folder / 'Launcher.cs').write_text(source,encoding='utf-8',newline='\n')
     compiler=Path(os.environ['SystemRoot']) / 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
     subprocess.run([str(compiler),'/nologo','/target:winexe','/optimize+','/codepage:65001',
-        '/reference:System.Windows.Forms.dll','/reference:System.Web.Extensions.dll',
+        '/reference:System.Windows.Forms.dll','/reference:System.Web.Extensions.dll','/reference:System.Management.dll',
         '/out:'+str(managed),str(folder / 'Launcher.cs')],check=True,capture_output=True,
         creationflags=subprocess.CREATE_NO_WINDOW)
     raw=managed.read_bytes()
@@ -252,6 +259,10 @@ def build_product(assets, destination):
                      bundled_firmware=False, bundled_camera_libraries=False, automatic_camera_actions=False,
                      startup_trust='native_exact_inventory_protected_snapshot',
                      integrity_cache='windows_read_lease_no_write_or_delete')
+        agent_tree = ast.parse((HERE / 'app/agent_api.py').read_text('utf-8-sig'))
+        value['agent_build_id'] = next(ast.literal_eval(node.value) for node in agent_tree.body
+            if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == 'BUILD_ID' for t in node.targets))
+        value['agent_interface'] = 'm4-agent/1'
         manifest = output / 'app/release.json'
         manifest.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
         compile_launcher(output)

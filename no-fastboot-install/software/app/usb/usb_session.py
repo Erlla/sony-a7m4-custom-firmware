@@ -105,17 +105,47 @@ class ResearchSession:
             raise
 
     def _close(self):
+        from diagnostics import secondary
+        primary = self.error
+        close_error = None
+        try:
+            self._close_impl()
+        except BaseException as error:
+            close_error = error
+        if close_error is not None:
+            if primary is not None:
+                secondary(primary, close_error, 'session_close')
+            else:
+                raise close_error
+
+    def _close_impl(self):
+        from diagnostics import secondary
+        failure = None
         try:
             if self.driver and self.wire and self.wire.healthy:
                 self.probe.SenserAuth(self.driver, self.rec).stop()
-        finally:
+        except BaseException as error:
+            failure = error
+        try:
             if self.driver:
                 self.probe.usb.util.dispose_resources(self.driver.dev)
-                self.driver = None
+        except BaseException as error:
+            if failure is None: failure = error
+            else: secondary(failure, error, 'dispose_usb')
+        finally:
+            self.driver = None
+        try:
             if self.rec:
-                self.rec.note('transport_outcome_known', bool(self.wire and self.wire.healthy))
-                self.rec.finish('failed' if self.error else 'completed', self.error)
-                self.rec = None
+                self.rec.note('transport_outcome_known', bool(self.wire and self.wire.healthy and failure is None))
+                if failure is not None:
+                    self.rec.note('session_close_error', dict(type=type(failure).__name__, message=str(failure)))
+                self.rec.finish('failed' if self.error or failure else 'completed', self.error or failure)
+        except BaseException as error:
+            if failure is None: failure = error
+            else: secondary(failure, error, 'save_session')
+        finally:
+            self.rec = None
+        if failure is not None: raise failure
 
     def __exit__(self, kind, error, tb):
         self.error = error

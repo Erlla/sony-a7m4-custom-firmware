@@ -40,6 +40,14 @@ def save(value, phase, **fields):
     atomic(folder(value) / 'flow.json', value)
     return value
 
+def menu_folder(value):
+    base = folder(value)
+    attempt = value.get('menu_attempt')
+    if attempt is None: return base
+    require(isinstance(attempt, str) and re.fullmatch('[0-9a-f]{32}', attempt), '菜单尝试编号无效')
+    return base / 'menu_attempts' / attempt
+
+
 def trial(value):
     lineage = value.get('updater_lineage', 'stock')
     require(lineage in ('stock', 'user'), '未确认更新器类型，不能准备菜单')
@@ -47,7 +55,7 @@ def trial(value):
         import install_controller_custom as controller
     else:
         import install_controller as controller
-    return controller.Trial(folder(value))
+    return controller.Trial(menu_folder(value))
 
 def sync_patch(value, result):
     lineage = (result.get('preparation') or {}).get('lineage')

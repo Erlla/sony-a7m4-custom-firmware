@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 from state_io import io_path
+from reader_cleanup import verify_saved_failure
 
 BEFORE_READ = {'PREPARING', 'PREFLIGHT', 'BINDING', 'BOUND', 'REVIEW_REQUIRED', 'CONNECTION_STOPPED'}
 
@@ -20,17 +21,24 @@ def proof(journal):
             events = [json.loads(line) for line in stream if line.strip()]
         if not events or events[-1] != record:
             return None
-        if any(row.get('run') != record['run'] or row.get('phase') not in BEFORE_READ or
+        cleaned_reader = record.get('outcome') == 'READER_STOPPED_CLEANED'
+        phases = BEFORE_READ | {'READ_STARTING'} if cleaned_reader else BEFORE_READ
+        if any(row.get('run') != record['run'] or row.get('phase') not in phases or
                any(row.get(key) is not False for key in ('firmware_write_attempted', 'firmware_written', 'read_verified'))
                for row in events):
             return None
         for name in ('reader', 'after_reader'):
             job = record.get(name)
-            if job and os.path.exists(io_path(Path(job['job']) / 'claim.json')):
+            claimed = job and os.path.exists(io_path(Path(job['job']) / 'claim.json'))
+            if claimed and not (cleaned_reader and name == 'reader'):
                 return None
+        if cleaned_reader:
+            if not record.get('reader'):
+                return None
+            verify_saved_failure(journal.folder / 'execution/before', record['reader']['nonce'])
     except (OSError, ValueError, KeyError, TypeError):
         return None
-    return dict(source_run=record['run'], reader_started=False, firmware_write_attempted=False)
+    return dict(source_run=record['run'], reader_started=cleaned_reader, firmware_write_attempted=False)
 
 
 def recover(value):

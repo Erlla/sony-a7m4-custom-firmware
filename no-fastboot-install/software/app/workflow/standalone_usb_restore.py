@@ -1,4 +1,5 @@
 from operation_session import operation_path
+from diagnostics import save_failure
 from recovery_registry import recovery_root, request_guard
 """Driver-only recovery; no enrollment, camera session or firmware operations."""
 from pathlib import Path
@@ -102,9 +103,11 @@ class Windows:
 
 
 def reply(phase, message, **fields):
+    if fields.get('error'):
+        message += '\n原因：' + str(fields['error'])
     print(message, flush=True)
     return dict(phase=phase, message=message, scope='windows_driver_only', firmware_operations=0,
-                camera_commands=0, automatic_retry=False, passed=phase not in ('USB_RESTORE_REVIEW_REQUIRED', 'USB_RESTORE_WINDOWS_RESTART'), **fields)
+                camera_commands=0, automatic_retry=False, passed=phase == 'USB_RESTORE_COMPLETE', **fields)
 
 
 def storage_accessible(snapshot):
@@ -170,7 +173,7 @@ def _recover(windows=None, *, wait_seconds=35, sleep=time.sleep, clock=time.mono
         try:
             launch = windows.launch(folder, row['body_sha256'], name)
         except BaseException as error:
-            save(record, 'DISPATCH_UNKNOWN', error=str(error))
+            save_failure(lambda phase, **fields: save(record, phase, **fields), error, 'DISPATCH_UNKNOWN', failed_stage='USB_RESTORE')
             raise
         require(launch.get('nonce') == name, '驱动恢复调度结果不匹配，请保留记录')
         if launch.get('cancelled_before_change') is True:

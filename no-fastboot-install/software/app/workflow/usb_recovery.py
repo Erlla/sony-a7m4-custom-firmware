@@ -120,13 +120,27 @@ def recover_write_race(value):
     return flow.save(value, 'PATCH_READY', patch_run=record['run'], updater_lineage=lineage, menu_profile='content_' + lineage, usb_recovery='VERIFIED', recovery_folder=str(folder), error=None)
 
 def recover(value, confirmed=False):
+    if value['phase'] == 'HANDOFF_NOT_READY':
+        require(confirmed, '请先确认相机已正常重启进入拍摄界面，且未在更新中')
+        controller = flow.trial(value)
+        _, _, status = controller.status()
+        require(status['phase'] == 'HANDOFF_NOT_READY' and status.get('window_started') is True,
+                '菜单交接记录不一致，请保留本轮记录')
+        observation = flow.observed(value, restarted=True, returned_to_shooting=True,
+            update_active=False, quote='菜单未交接；用户确认已正常重启进入拍摄界面，未在更新中')
+        controller.record_session_end(observation)
+        flow.save(value, 'MENU_CONNECTION_STOPPED', camera_restarted=True,
+                  final_unplug_ready=False, driver_retained=True,
+                  message='本轮菜单准备已结束，正在恢复普通 USB。')
+        return recover(value)
+
     if value['phase'] in ('REVIEW_REQUIRED', 'CONNECTION_STOPPED') or (
             value['phase'] == 'WINDOWS_RESTART_REQUIRED' and value.get('prewrite_stop')):
         from prewrite_recovery import recover as prewrite_recover
         recovered = prewrite_recover(value)
         if recovered is not None:
             return recovered
-    if value['phase'] in ('REVIEW_REQUIRED', 'MENU_CONNECTION_RECOVERY', 'WINDOWS_RESTART_REQUIRED'):
+    if value['phase'] in ('REVIEW_REQUIRED', 'MENU_CONNECTION_RECOVERY', 'MENU_CONNECTION_STOPPED', 'MENU_CONTINUATION_READY', 'WINDOWS_RESTART_REQUIRED'):
         from menu_connection_recovery import recover as menu_recover
         recovered = menu_recover(value)
         if recovered is not None:

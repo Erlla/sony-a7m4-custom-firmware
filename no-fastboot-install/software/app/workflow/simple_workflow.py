@@ -1,5 +1,6 @@
 from product_integrity import pinned, state_path
 from product_version import VERSION
+from diagnostics import describe, flow_result, save_failure
 from pathlib import Path
 import argparse
 import json
@@ -29,16 +30,21 @@ def patch_receiver(value):
         except (OSError, ValueError):
             stopped_record = None
         if stopped_record and stopped_record['run'] != prior_run and stopped_record['phase'] == 'CONNECTION_STOPPED':
-            state.save(value, 'WINDOWS_RESTART_REQUIRED' if stopped_record['outcome'] == 'WINDOWS_RESTART_REQUIRED' else 'CONNECTION_STOPPED',
-                       prewrite_stop=True, patch_run=stopped_record['run'], error=str(error), firmware_written=False)
+            save_failure(lambda phase, **fields: state.save(value, phase, **fields), error,
+                       'WINDOWS_RESTART_REQUIRED' if stopped_record['outcome'] == 'WINDOWS_RESTART_REQUIRED' else 'CONNECTION_STOPPED',
+                       failed_stage=(stopped_record.get('diagnostic') or {}).get('stage', 'PATCH_RUNNING'),
+                       prewrite_stop=True, patch_run=stopped_record['run'], firmware_written=False)
             raise
         stopped = safe_predriver_stop(prior_run)
         if not stopped:
             from rejected_read import pending
             rejection = pending(prior_run)
             if rejection:
-                return state.save(value, 'PATCH_REJECTED_RECOVERY', error=str(error), patch_run=rejection['run'], rejection=rejection)
-        state.save(value, 'CANCELLED_BEFORE_DEVICE' if stopped else 'REVIEW_REQUIRED', error=str(error), **dict(patch_run=stopped['run'], device_started=False, stop_verified='STOPPED_BEFORE_DRIVER_CHANGE') if stopped else {})
+                return state.save(value, 'PATCH_REJECTED_RECOVERY', error=str(error), diagnostic=describe(error, 'PATCH_PREPARING'), patch_run=rejection['run'], rejection=rejection)
+        save_failure(lambda phase, **fields: state.save(value, phase, **fields), error,
+                     'CANCELLED_BEFORE_DEVICE' if stopped else 'REVIEW_REQUIRED',
+                     failed_stage=(stopped_record or {}).get('diagnostic', {}).get('stage', 'PATCH_RUNNING'),
+                     **(dict(patch_run=stopped['run'], device_started=False, stop_verified='STOPPED_BEFORE_DRIVER_CHANGE') if stopped else {}))
         raise
 
 def safe_predriver_stop(prior_run):
@@ -65,12 +71,16 @@ def open_menu(value):
         result = controller.execute(stable_power=True, patch_only=True)
         return state.save(value, result['phase'], window_nonce=result['nonce'], automatic_menu_preparation=True,
                           driver_retained=result.get('driver_retained', False),
+                          preread_failure_cleaned=result.get('preread_failure_cleaned', False),
+                          error=result.get('session_error') or result.get('error'),
+                          diagnostic=result.get('diagnostic'),
                           final_unplug_ready=result['phase'] == 'AWAITING_MENU_OBSERVATION')
     except BaseException as error:
         local_only = value['phase'] == 'MENU_PREPARING' and not any(
-            (state.folder(value) / name).exists() for name in ('plan.json', 'status.json', 'start', 'execution'))
-        state.save(value, 'MENU_PREPARATION_RETRY' if local_only else 'REVIEW_REQUIRED',
-                   error=str(error), menu_preparation_device_started=not local_only)
+            (state.menu_folder(value) / name).exists() for name in ('plan.json', 'status.json', 'start', 'execution'))
+        save_failure(lambda phase, **fields: state.save(value, phase, **fields), error,
+                     'MENU_PREPARATION_RETRY' if local_only else 'REVIEW_REQUIRED',
+                     failed_stage=value['phase'], menu_preparation_device_started=not local_only)
         raise
 
 def advance_after_patch(value):
@@ -80,6 +90,7 @@ def begin(ready):
     from standalone_usb_restore import require_clear
     require_clear()
     prior = state.load()
+    require(prior['phase'] != 'MENU_CONNECTION_STOPPED', 'p1 已完成，请检查连接并继续菜单，或恢复普通 USB；不用重新写入补丁')
     require(prior['phase'] in state.TERMINAL | {'NO_FLOW', 'PATCH_READY'}, '已有操作未完成，请继续本轮操作')
     require(ready is True, '请先确认相机已开机、USB 已连接和电量充足')
     if prior['phase'] == 'PATCH_READY':
@@ -103,11 +114,18 @@ def begin(ready):
         provider.check()
         state.save(value, 'PATCH_PREPARED')
     except Exception as error:
-        state.save(value, 'CANCELLED_BEFORE_DEVICE', error=str(error))
+        save_failure(lambda phase, **fields: state.save(value, phase, **fields), error, 'CANCELLED_BEFORE_DEVICE', failed_stage='PREPARING')
         raise
     return advance_after_patch(patch_receiver(value))
 
 def continue_flow(value):
+    if value['phase'] == 'MENU_CONNECTION_STOPPED':
+        from menu_continuation import recheck
+        result = recheck(value)
+        return open_menu(result) if result['phase'] == 'PATCH_READY' else result
+    if value['phase'] == 'MENU_CONTINUATION_READY':
+        from menu_continuation import prepare
+        return open_menu(prepare(value))
     if value['phase'] == 'MENU_PREPARATION_RETRY':
         from menu_preparation_retry import prepare_retry
         return open_menu(prepare_retry(value))
@@ -139,7 +157,8 @@ def act(action, ready=False, confirmed=False):
     backend.release_check()
     sys.path.insert(0, str(backend.frozen.OLD_TOOL))
     from engine import single_instance
-    with single_instance(state_path(backend.frozen.OLD_TOOL)), (nullcontext() if action == 'status' else request_guard()):
+    from agent_coordination import desktop_guard
+    with single_instance(state_path(backend.frozen.OLD_TOOL)), (nullcontext() if action == 'status' else request_guard()), (nullcontext() if action == 'status' else desktop_guard()):
         if action == 'start':
             return begin(ready)
         value = state.load()
@@ -163,10 +182,20 @@ def main():
     parser.add_argument('--ready', action='store_true')
     parser.add_argument('--confirmed', action='store_true')
     value = act(**vars(parser.parse_args()))
-    print(json.dumps({**value, 'schema': 'm4-user-flow/1', 'passed': value.get('passed', value['phase'] not in ('REVIEW_REQUIRED', 'WINDOWS_RESTART_REQUIRED'))}, ensure_ascii=False, indent=2), flush=True)
+    print(json.dumps(flow_result(value), ensure_ascii=False, indent=2), flush=True)
 if __name__ == '__main__':
     try:
         main()
     except Exception as error:
+        diagnostic = describe(error)
+        # The stage-specific saved error wins over a generic entrypoint label.
+        try:
+            current = state.load()
+            if current.get('diagnostic', {}).get('original_error') == str(error):
+                diagnostic['stage'] = current['diagnostic']['stage']
+        except Exception:
+            pass
         print('操作已停止：' + str(error), file=sys.stderr, flush=True)
+        print(json.dumps(dict(schema='m4-operation-error/1', phase='REVIEW_REQUIRED', passed=False,
+                              diagnostic=diagnostic), ensure_ascii=False), flush=True)
         raise SystemExit(1)

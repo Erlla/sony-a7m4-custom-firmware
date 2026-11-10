@@ -12,6 +12,7 @@ import re
 import sys
 import uuid
 from connection_stop import ConnectionStop
+from reader_cleanup import ReaderStopped
 CASE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(CASE))
@@ -120,9 +121,15 @@ class Engine:
     def state(self):
         return self.journal.load()
 
+    def record_failure(self, error, phase, **fields):
+        from diagnostics import save_failure
+        return save_failure(self.journal.update, error, phase,
+                            failed_stage=self.journal.value.get('phase', phase), **fields)
+
     def connection_stopped(self, error):
-        self.journal.update('CONNECTION_STOPPED', outcome=error.reason, error=str(error),
-                            connection_stop=error.detail, session_ended=True)
+        self.record_failure(error, 'CONNECTION_STOPPED', outcome=error.reason,
+                            connection_stop=error.detail,
+                            session_ended=not any(v['stage'] == 'session_close' for v in getattr(error, 'secondary_errors', [])))
 
     def finish_recovery(self, result):
         require(result in ('VERIFIED', 'NORMAL_CONNECTION_PENDING', 'RESTART_REQUIRED', 'WINDOWS_RESTART_REQUIRED'), 'Unknown recovery outcome')
@@ -150,7 +157,7 @@ class Engine:
         try:
             self.finish_recovery(self.backend.restore(self.journal.folder, confirmation=confirmation))
         except BaseException as error:
-            self.journal.update('REVIEW_REQUIRED', outcome='RECOVERY_OUTCOME_UNKNOWN', error=str(error))
+            self.record_failure(error, 'REVIEW_REQUIRED', outcome='RECOVERY_OUTCOME_UNKNOWN')
             raise
         return self.journal.value
 
@@ -174,7 +181,7 @@ class Engine:
             self.connection_stopped(error)
             raise
         except BaseException as error:
-            self.journal.update('STOPPED_BEFORE_DRIVER_CHANGE', outcome='LOCAL_OR_PREFLIGHT_FAILED', error=str(error))
+            self.record_failure(error, 'STOPPED_BEFORE_DRIVER_CHANGE', outcome='LOCAL_OR_PREFLIGHT_FAILED')
             raise
         self.journal.update('BINDING')
         try:
@@ -184,7 +191,7 @@ class Engine:
             self.connection_stopped(error)
             raise
         except BaseException as error:
-            self.journal.update('REVIEW_REQUIRED', outcome='DRIVER_BIND_OUTCOME_UNKNOWN', error=str(error))
+            self.record_failure(error, 'REVIEW_REQUIRED', outcome='DRIVER_BIND_OUTCOME_UNKNOWN')
             raise
         try:
             with self.backend.session(folder) as session:
@@ -214,18 +221,22 @@ class Engine:
                             require(after_result.get('verdict') == 'P1_READBACK_VERIFIED' and after_result.get('bytes') == P1_BYTES and (after_result.get('chunks') == CHUNKS) and (after_result.get('nonce') == after_job['nonce']) and (after_result.get('block_writes') is False) and (after_result.get('firmware_written') is False) and (after_result.get('ram_chunks_cleaned') is True) and (sha(after_source) == after_result.get('sha256') == preparation['target_sha256']), 'Independent complete readback contract failed')
                             final_state = self.backend.verify_written(source, after_source, preparation)
                             self.journal.update('READ_VERIFIED', after_source=str(after_source), after_reader_result=after_result, patch_state=final_state, p1_sha256=after_result['sha256'], verified_outcome='PATCH_AND_INDEPENDENT_FULL_READBACK_VERIFIED', outcome='PATCH_AND_INDEPENDENT_FULL_READBACK_VERIFIED')
-                except BaseException:
-                    self.backend.hold_session(session)
+                except BaseException as error:
+                    if not (isinstance(error, ReaderStopped) and self.journal.value['phase'] == 'READ_STARTING'
+                            and self.journal.value['firmware_write_attempted'] is False):
+                        self.backend.hold_session(session)
                     raise
             self.journal.update('SESSION_ENDED', session_ended=True)
         except ConnectionStop as error:
-            if self.journal.value['phase'] == 'BOUND':
+            if self.journal.value['phase'] == 'BOUND' or (
+                    isinstance(error, ReaderStopped) and self.journal.value['phase'] == 'READ_STARTING'
+                    and self.journal.value['firmware_write_attempted'] is False):
                 self.connection_stopped(error)
             else:
-                self.journal.update('REVIEW_REQUIRED', outcome='READ_OR_SESSION_OUTCOME_REQUIRES_REVIEW', error=str(error))
+                self.record_failure(error, 'REVIEW_REQUIRED', outcome='READ_OR_SESSION_OUTCOME_REQUIRES_REVIEW')
             raise
         except BaseException as error:
-            self.journal.update('REVIEW_REQUIRED', outcome='READ_OR_SESSION_OUTCOME_REQUIRES_REVIEW', error=str(error))
+            self.record_failure(error, 'REVIEW_REQUIRED', outcome='READ_OR_SESSION_OUTCOME_REQUIRES_REVIEW')
             raise
         if self.journal.value['driver_policy'] == 'retain':
             self.journal.update('P1_COMPLETE', p1_operation_complete=True,
@@ -237,7 +248,7 @@ class Engine:
         try:
             self.finish_recovery(self.backend.restore(folder, confirmation=False))
         except BaseException as error:
-            self.journal.update('REVIEW_REQUIRED', outcome='RECOVERY_OUTCOME_UNKNOWN', error=str(error))
+            self.record_failure(error, 'REVIEW_REQUIRED', outcome='RECOVERY_OUTCOME_UNKNOWN')
             raise
         return self.journal.value
 

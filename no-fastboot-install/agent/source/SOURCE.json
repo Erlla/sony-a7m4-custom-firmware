@@ -1,7 +1,0 @@
-{
-  "schema": "m4-agent-source/1",
-  "version": "1.01",
-  "build_id": "1.01-agent-20261111-r1",
-  "based_on_public_commit": "af1db5bfd9a1c2002eafa24c420134ce46567570",
-  "purpose": "Issue 24/25 pre-session menu continuation; original p1 writer and menu controller unchanged"
-}

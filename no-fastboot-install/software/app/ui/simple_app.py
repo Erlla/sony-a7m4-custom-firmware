@@ -9,8 +9,10 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import backend_bridge as bridge
 import install_view
+from diagnostics import summary as diagnostic_summary
 BG, WHITE, INK, MUTED, GREEN = ('#f3f5f1', '#ffffff', '#203b2d', '#627367', '#28654f')
-NEW = {'CONNECTION_STOPPED', 'MENU_CONNECTION_STOPPED', 'NO_FLOW', 'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
+PROJECT_URL = 'https://github.com/Erlla/sony-a7m4-custom-firmware'
+NEW = {'CONNECTION_STOPPED', 'NO_FLOW', 'COMPLETE', 'CANCELLED_BEFORE_DEVICE', 'READ_REJECTED_COMPLETE', 'ABANDONED_BEFORE_MENU'}
 RECOVERY = {'PATCH_RECOVERY', 'POST_RESTART_NORMAL_CHECK', 'WAITING_FOR_RESTART', 'WAITING_FOR_NORMAL', 'PATCH_REJECTED_RECOVERY'}
 HANDOFF = {'AWAITING_MENU_OBSERVATION', 'WAITING_FOR_USER_INSTALL_RESULT'}
 ALLOWED = {'simple-start', 'simple-continue', 'simple-installed', 'simple-failure', 'simple-recover-usb'}
@@ -19,6 +21,7 @@ USB_RECOVERY = {'PATCH_RECOVERY', 'PATCH_REJECTED_RECOVERY', 'REVIEW_REQUIRED', 
 
 def presentation(state):
     phase = state['phase']
+    detail_error = diagnostic_summary(state.get('diagnostic')) or state.get('error') or ''
     if phase == 'WINDOWS_RESTART_REQUIRED' or (phase == 'PATCH_RECOVERY' and state.get('recovery') == 'WINDOWS_RESTART_REQUIRED'):
         return ('请重启电脑', 'Windows 驱动变更需要重启电脑才能生效。\n请保存工作、重启电脑，再打开工具。', '重启电脑后再打开', None)
     if phase == 'CONNECTION_STOPPED':
@@ -27,10 +30,15 @@ def presentation(state):
     if phase == 'MENU_CONNECTION_RECOVERY':
         return ('请恢复普通 USB', state.get('message') or 'p1 检查已完成，菜单尚未启动。重新插拔 USB 后确认普通连接。', '确认普通 USB', 'simple-recover-usb')
     if phase == 'MENU_CONNECTION_STOPPED':
-        detail = ('本轮菜单尚未交接，USB 驱动已保留。\n可保持连接重新检查，或点击“恢复普通 USB”。'
+        detail = ('只读检查已停止，临时数据已清理。\n点击“恢复普通 USB”恢复连接。' if state.get('preread_failure_cleaned') else
+                  '本轮菜单尚未交接，USB 驱动已保留。\n可保持连接重新检查，或点击“恢复普通 USB”。'
                   if state.get('driver_retained') else
                   '本轮 p1 补丁已完成，连接已恢复，更新菜单尚未准备。\n保持供电和连接，重新检查当前相机。')
-        return ('菜单准备已停止', detail, '写入补丁', 'simple-start')
+        if state.get('preread_failure_cleaned'):
+            return ('菜单准备已停止', detail_error or detail, '恢复普通 USB', 'simple-recover-usb')
+        return ('补丁已完成，继续准备菜单', detail_error or state.get('message') or
+                '确认电量与连接稳定后继续；软件会核对连接，只重做未开始的菜单步骤。',
+                '检查连接并继续菜单', 'simple-continue')
     if phase == 'PATCH_REJECTED_RECOVERY':
         return ('补丁未写入，请恢复连接', '完整备份已保存，但更新器兼容性检查未通过。\n保持相机开机，重新插拔 USB 后继续；本次只恢复连接。', '已重新插拔，恢复连接', 'simple-continue')
     if phase == 'USB_RECOVERY_WAITING':
@@ -51,8 +59,8 @@ def presentation(state):
         return ('本轮操作已结束', '需要恢复电脑的相机存储连接时，点击“恢复普通 USB”。', '写入补丁', 'simple-start')
     if phase in NEW:
         return ('写入补丁', '1  自行将要安装的 BODYDATA.DAT 放入卡槽 1 存储卡根目录。\n2  将 M4 开机，以 USB 海量存储模式连接电脑。\n3  保持电量充足，点击下方按钮，等待软件提示。', '写入补丁', 'simple-start')
-    if phase == 'MENU_PREPARATION_RETRY':
-        return ('继续准备更新菜单', '补丁和完整回读已完成。上次在电脑端准备菜单时停止，可继续本轮操作。', '继续准备更新菜单', 'simple-continue')
+    if phase in ('MENU_PREPARATION_RETRY', 'MENU_CONTINUATION_READY'):
+        return ('继续准备更新菜单', '补丁检查已完成；保持电量与连接稳定，继续本轮菜单准备。', '继续准备更新菜单', 'simple-continue')
     if phase == 'PATCH_RECOVERY':
         return ('请重新连接 USB', '本轮补丁读写已结束。保持相机开机，拔下再插上 USB 线后继续。\n软件还会自动准备更新菜单，现在先不要更新。', '已重新插拔，继续', 'simple-continue')
     if phase in {'PATCH_PREPARED', 'PATCH_READY'}:
@@ -65,7 +73,9 @@ def presentation(state):
         return ('请重新连接 USB', '保持相机开机，重新插拔 USB 线后继续。\n这一步只确认普通连接。', '已重新插拔，继续', 'simple-continue')
     if phase in {'PREPARING', 'PATCH_RUNNING', 'MENU_PREPARING', 'MENU_RUNNING'}:
         return ('正在准备相机', '请保持相机开机、供电和 USB 稳定，等待软件提示。', '正在处理…', None)
-    return ('操作需要检查', '请保留相机提示和运行记录，暂不要重复操作。', '等待处理', None)
+    if phase == 'HANDOFF_NOT_READY':
+        return ('更新菜单尚未交接', detail_error or '正常关闭相机，待存取灯熄灭后开机，再恢复普通 USB。', '相机已重启，恢复 USB', 'simple-recover-usb')
+    return ('操作需要检查', detail_error or '请保留相机提示和运行记录，暂不要重复操作。', '等待处理', None)
 
 class App:
 
@@ -78,6 +88,7 @@ class App:
         self.previous_phase = None
         self.usb_message = None
         self.windows_restart = False
+        self.last_output_at = None
         root.title('M4 相机工具')
         root.configure(bg=BG)
         root.geometry('920x710+35+35')
@@ -126,6 +137,10 @@ class App:
         self.log.pack(fill='both', expand=True)
         footer = tk.Frame(outer, bg=BG)
         footer.pack(side='bottom', fill='x', pady=(12, 0))
+        self.security_notice = tk.Label(footer,
+            text='使用前请暂时关闭杀毒软件及 Windows Defender，操作结束后及时恢复防护。',
+            bg=BG, fg='#9b5b17', font=('Microsoft YaHei UI', 10), wraplength=800, justify='left')
+        self.security_notice.pack(anchor='w', pady=(0, 4))
         tk.Label(footer, text='安装包由你自行准备，本工具不检查安装包。\n恢复官方固件：满足官方条件后，按索尼更新流程安装适用原包。', bg=BG, fg=MUTED, wraplength=800, justify='left').pack(anchor='w', pady=(0, 10))
         links = tk.Frame(footer, bg=BG)
         links.pack(fill='x')
@@ -133,6 +148,11 @@ class App:
         self.log_button.pack(side='left')
         self.button(links, '打开运行记录', self.open_records).pack(side='left', padx=8)
         self.button(links, '使用说明', lambda: self.open_path(bridge.DELIVERY / '使用说明.md')).pack(side='right')
+        self.project_link = tk.Button(links, text='GitHub 项目',
+            command=self.open_project, bg=BG, fg=GREEN, activebackground=BG, activeforeground=INK,
+            font=('Microsoft YaHei UI', 10, 'underline'), relief='flat', borderwidth=0,
+            padx=0, pady=0, cursor='hand2')
+        self.project_link.pack(side='right', padx=(0, 16))
         root.bind('<Configure>', self.resize)
         self.refresh()
         self._poll_id = root.after(120, self.poll)
@@ -146,6 +166,7 @@ class App:
             self.description.configure(wraplength=width)
             self.timer_label.configure(wraplength=width)
             self.progress_label.configure(wraplength=width)
+            self.security_notice.configure(wraplength=width)
 
     def refresh(self):
         self.state = self.flow_reader()
@@ -190,6 +211,7 @@ class App:
         try:
             self.jobs.start(action, arguments or [])
             self.current_action, self.started_at = (action, time.monotonic())
+            self.last_output_at = self.started_at
             self.last_phase = None
             self.usb_message = None
             self.result.set('正在处理，请保持连接。')
@@ -213,6 +235,9 @@ class App:
             if not messagebox.askokcancel('确认更新结束', '请确认相机已完成更新并自动重启，或取消更新后正常重启。\n当前已进入拍摄界面，未在更新中。', parent=self.root):
                 return
             arguments = ['--confirmed']
+        if self.action == 'simple-recover-usb' and self.state['phase'] == 'HANDOFF_NOT_READY':
+            self.recover_usb()
+            return
         self.run(self.action, arguments)
 
     def failure(self):
@@ -223,7 +248,7 @@ class App:
         self.refresh()
         if self.restore.cget('state') == 'normal':
             arguments = []
-            if self.state['phase'] in HANDOFF:
+            if self.state['phase'] in HANDOFF | {'HANDOFF_NOT_READY'}:
                 if not messagebox.askokcancel('恢复普通 USB', '请确认相机已完成或取消更新，并已重启回到拍摄界面。更新过程中请等待完成。', parent=self.root):
                     return
                 arguments = ['--confirmed']
@@ -243,6 +268,7 @@ class App:
             if event == 'started':
                 self.last_folder = value['folder']
             elif event == 'line':
+                self.last_output_at = time.monotonic()
                 self.log.configure(state='normal')
                 self.log.insert('end', value + '\n')
                 if int(self.log.index('end-1c').split('.')[0]) > 600:
@@ -257,7 +283,9 @@ class App:
                 self.bar.stop()
                 self.progress_text.set('' if value['phase'] == 'SUCCESS' else '操作已停止')
                 self.bar.configure(mode='determinate', value=100 if value['phase'] == 'SUCCESS' else 0)
-                self.result.set('请按上方提示继续。' if value['phase'] == 'SUCCESS' else '操作已停止，请查看日志和上方提示。')
+                self.result.set('请按上方提示继续。' if value['phase'] == 'SUCCESS' else value.get('summary') or '操作已停止，请查看日志和上方提示。')
+                if value['phase'] not in ('SUCCESS', 'WAITING') and not self.log_open:
+                    self.toggle_log()
                 if value.get('action') == 'simple-recover-usb':
                     payload = value.get('result') or {}
                     self.usb_message = payload.get('message')
@@ -272,7 +300,7 @@ class App:
             elif event == 'error':
                 self.bar.stop()
                 self.progress_text.set('操作已停止')
-                self.result.set('操作已停止，请保留运行记录。')
+                self.result.set('操作已停止：' + str(value))
                 self.log.configure(state='normal')
                 self.log.insert('end', str(value) + '\n')
                 self.log.configure(state='disabled')
@@ -290,6 +318,8 @@ class App:
                 self.bar.start(12)
                 labels = {'PREPARING': '正在检查工具和相机配置', 'PATCH_PREPARING': '正在校验补丁与恢复材料', 'READ_STARTING': '正在完整备份', 'WRITE_STARTING': '正在写入补丁，请勿断开连接', 'READBACK_STARTING': '正在完整回读验证', 'MENU_PREPARING': '正在准备更新菜单', 'MENU_RUNNING': '正在完成更新菜单准备', 'RECOVERY_DISPATCHING': '正在恢复普通连接'}
                 self.progress_text.set(labels.get(phase, '正在处理，请保持连接'))
+            if self.last_output_at is not None and time.monotonic() - self.last_output_at >= 45:
+                self.progress_text.set('等待当前步骤返回结果，已等待 %s 秒；请保持连接。' % int(time.monotonic() - self.last_output_at))
         self._poll_id = self.root.after(150, self.poll)
 
     def toggle_log(self):
@@ -307,6 +337,12 @@ class App:
 
     def open_records(self):
         self.open_path(self.last_folder or self.state.get('folder') or data_root(bridge.ROOT))
+
+    def open_project(self):
+        try:
+            os.startfile(PROJECT_URL)
+        except OSError as error:
+            messagebox.showerror('无法打开 GitHub', str(error) + '\n\n' + PROJECT_URL, parent=self.root)
 
     def close(self):
         if self.jobs.busy:

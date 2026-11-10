@@ -105,3 +105,12 @@ def atomic_json(path, value):
                 # Keep a temporarily locked leftover for inspection; never mask
                 # the publication exception or overwrite the prior valid JSON.
                 pass
+
+
+def claim_once(path, value):
+    """Durably consume a task before its first USB mutation; never overwrite it."""
+    with open(io_path(path), 'x', encoding='utf-8', newline='\n') as stream:
+        json.dump(value, stream, ensure_ascii=False)
+        stream.write('\n')
+        stream.flush()
+        os.fsync(stream.fileno())

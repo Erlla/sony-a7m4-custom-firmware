@@ -28,7 +28,7 @@ def decode(raw, meta):
     return r
 
 def sources():
-    return {p: file_sha(ROOT / p) for p in ['app/reader/reader.c', 'app/reader/reader_job.py', 'app/reader/live_reader.py', 'app/native/linux_a64.h', 'app/native/lifecycle_worker.c', 'app/native/bootstrap.c', 'app/native/elf_tools.py', 'app/native/toolchain.json', 'app/writer/sha256.h']}
+    return {p: file_sha(ROOT / p) for p in ['app/reader/reader.c', 'app/reader/reader_job.py', 'app/reader/live_reader.py', 'app/reader_cleanup.py', 'app/reader_diagnostics.py', 'app/diagnostics.py', 'app/state_io.py', 'app/native/linux_a64.h', 'app/native/lifecycle_worker.c', 'app/native/bootstrap.c', 'app/native/elf_tools.py', 'app/native/toolchain.json', 'app/writer/sha256.h']}
 
 def prepare():
     nonce = secrets.token_bytes(16)

@@ -1,4 +1,6 @@
+from state_io import claim_once
 from product_integrity import pinned, state_path
+from diagnostics import describe, secondary
 from datetime import datetime, timezone
 from pathlib import Path
 import json
@@ -86,8 +88,7 @@ def start_handoff(session, job, evidence, *, clock=time.monotonic, sleep=time.sl
     job, evidence = (Path(job), Path(evidence))
     meta, _, _ = validate_job_integrity(job)
     evidence.mkdir(parents=True, exist_ok=False)
-    with (job / 'claim.json').open('x', encoding='utf-8', newline='\n') as stream:
-        json.dump(dict(utc=utc(), purpose='dual_menu_gate_confirmation', automatic_retry=False), stream)
+    claim_once(job / 'claim.json', dict(utc=utc(), purpose='dual_menu_gate_confirmation', automatic_retry=False))
     channel = Channel(session, meta, evidence)
     report = dict(schema='m4-dual-menu-handoff/1', nonce=meta['nonce'], state='PREPARING', upload_attempts=0, start_attempts=0, start_acknowledged=False, patch_marker_observed=False, restoration_verified=False, installation_status='NOT_OBSERVED', automatic_retry=False)
 
@@ -108,6 +109,7 @@ def start_handoff(session, job, evidence, *, clock=time.monotonic, sleep=time.sl
                 raise base.ProtocolError('Worker exec failed')
             sleep(0.5)
         raise base.NativeDeadline('No ' + name + ' publication; no retry')
+    primary_error = None
     try:
         report.update(state='BOOTSTRAP_OUTCOME_UNKNOWN', upload_attempts=1)
         save()
@@ -136,12 +138,24 @@ def start_handoff(session, job, evidence, *, clock=time.monotonic, sleep=time.sl
         report.update(state='HANDOFF_READY', conservative_seconds_remaining=remaining)
         return report
     except BaseException as error:
+        primary_error = error
+        diagnostic = describe(error, 'MENU_RUNNING')
+        diagnostic.update(menu_state=report['state'], native=report.get('native'))
+        if report.get('native'):
+            row = report['native']
+            diagnostic['message'] += '；菜单工作器 phase=%s，error=%s，restore_status=%s，app_restore_status=%s' % (row.get('phase'), row.get('error'), row.get('restore_status'), row.get('app_restore_status'))
+        error.diagnostic = diagnostic
+        report['diagnostic'] = diagnostic
         report['error'] = dict(type=type(error).__name__, message=str(error))
         report['state'] = 'REVIEW_REQUIRED'
         raise
     finally:
         report['recorded_utc'] = utc()
-        save()
+        try:
+            save()
+        except Exception as error:
+            if primary_error is None: raise
+            secondary(primary_error, error, 'save_menu_report')
 
 def collect_result(session, job, handoff, evidence, *, clock=time.monotonic, sleep=time.sleep, progress=None):
     """Read existing publications only: this function has no upload/START path."""
@@ -151,6 +165,7 @@ def collect_result(session, job, handoff, evidence, *, clock=time.monotonic, sle
     evidence.mkdir(parents=True, exist_ok=False)
     channel = Channel(session, meta, evidence)
     report = dict(schema='m4-dual-menu-collection/1', state='READING', nonce=meta['nonce'], module_uploads=0, start_attempts=0, restoration_verified=False, installation_status='NOT_OBSERVED')
+    primary_error = None
     try:
         ready_raw, patched_raw = (channel.read('ready'), channel.read('patched'))
         require(ready_raw is not None and patched_raw is not None, 'Original tmpfs publications missing; reboot or cleanup not established')
@@ -170,9 +185,21 @@ def collect_result(session, job, handoff, evidence, *, clock=time.monotonic, sle
             sleep(1)
         raise base.NativeDeadline('No restoration result; elapsed host time is not restoration proof')
     except BaseException as error:
+        primary_error = error
+        diagnostic = describe(error, 'MENU_RUNNING')
+        diagnostic.update(menu_state=report['state'], native=report.get('native'))
+        if report.get('native'):
+            row = report['native']
+            diagnostic['message'] += '；菜单工作器 phase=%s，error=%s，restore_status=%s，app_restore_status=%s' % (row.get('phase'), row.get('error'), row.get('restore_status'), row.get('app_restore_status'))
+        error.diagnostic = diagnostic
+        report['diagnostic'] = diagnostic
         report['state'] = 'REVIEW_REQUIRED'
         report['error'] = dict(type=type(error).__name__, message=str(error))
         raise
     finally:
         report['recorded_utc'] = utc()
-        atomic(evidence / 'run.json', report)
+        try:
+            atomic(evidence / 'run.json', report)
+        except Exception as error:
+            if primary_error is None: raise
+            secondary(primary_error, error, 'save_menu_report')

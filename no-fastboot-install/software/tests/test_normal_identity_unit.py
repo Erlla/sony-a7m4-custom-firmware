@@ -128,5 +128,26 @@ class IdentityTests(unittest.TestCase):
         self.assertEqual(probe.disposed, [1])
         self.assertEqual(self.now, 0)
 
+    def test_diagnostic_reports_real_stage_and_underlying_error(self):
+        from diagnostics import describe
+        with self.assertRaises(identity.DescriptorReadError) as caught:
+            self.acquire(Probe(failures=100),timeout=0.8)
+        detail=describe(caught.exception,'BOUND')
+        self.assertEqual(detail['stage'],'BOUND')
+        self.assertEqual(detail['backend_error_code'],-3)
+        self.assertEqual(detail['errno'],13)
+        self.assertEqual(detail['attempts'],3)
+        self.assertEqual(detail['elapsed_seconds'],0.8)
+        self.assertIn('LIBUSB_ERROR_ACCESS',detail['message'])
+        self.assertNotIn('更新菜单',detail['message'])
+
+    def test_absent_and_empty_language_have_distinct_diagnostics(self):
+        missing=Probe(count=0);empty=Probe();empty.languages=()
+        for probe,kind in ((missing,'normal_device_absent'),(empty,'language_descriptor_unavailable')):
+            with self.subTest(kind=kind),self.assertRaises(identity.DescriptorReadError) as caught:
+                self.acquire(probe,timeout=0)
+            self.assertEqual(caught.exception.diagnostic['failure_kind'],kind)
+            self.assertIsNone(caught.exception.backend_error_code)
+
 
 if __name__ == '__main__': unittest.main(verbosity=2)

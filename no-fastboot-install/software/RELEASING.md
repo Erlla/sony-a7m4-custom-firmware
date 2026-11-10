@@ -1,69 +1,24 @@
-# USB source-aligned release checks / USB 发布前验收
+# 桌面与 Agent 1.03 构建与发布核对
 
-Run only on a development PC, using new output directories and Python 3.12+.
-These commands prepare files, compile the Windows launchers and run offline
-checks. They do not start the normal GUI, request UAC or operate a camera/driver.
+在开发用 Windows x64 电脑、`no-fastboot-install/software/` 目录运行，使用 Python 3.12+ 和系统 C# 编译器。以下步骤构建新目录并进行离线检查，不请求管理员授权或访问相机。
 
 ```powershell
-# Run from no-fastboot-install/software/.
 py -3 -I -B prepare_assets.py --download --cache D:\M4-cache --output D:\M4-assets
-# Offline alternative: --from-package D:\M4-portable.zip instead of --download.
-py -3 -I -B build.py --assets D:\M4-assets --output D:\M4-release-candidate
-D:\M4-release-candidate\M4相机工具.exe --verify
-py -3 -I -B tests\run_offline.py --package D:\M4-release-candidate --report D:\M4-checks.json --junit D:\M4-checks.xml
+# 已有可信 ZIP 时，改用 --from-package D:\M4-portable.zip。
+py -3 -I -B build.py --assets D:\M4-assets --output D:\M4-Agent-build
+D:\M4-Agent-build\M4相机工具.exe --verify
+py -3 -I -B tests\run_offline.py --package D:\M4-Agent-build --report D:\M4-checks.json --junit D:\M4-checks.xml
+powershell -NoProfile -ExecutionPolicy Bypass -File tests\test_agent_download.ps1
 ```
 
-`prepare_assets.py` verifies the published ZIP hash, exports only the 3257 pinned
-runtime files and checks all nine original group locks. An existing correct ZIP
-is reused. `--download` also reuses a verified asset output on a repeated call;
-it never overwrites a mismatching output. Network errors retain resume material
-and HTTP status/reasons in the cache's `.download.json`. Incorrect range or hash
-responses are refused. No certificate-verification or system-proxy exceptions
-are used.
+资产导出器只保留 `assets-files.json` 中锁定的 3257 个运行组件，排除输入包的 app、state 和固件。应用始终由本目录源码构建。下载来源、摘要和许可见 `assets-sources.json` 与 [THIRD_PARTY.md](THIRD_PARTY.md)。这条开发构建链需要完整核对资产；普通 Agent 用户只下载既有成品并核对整份 ZIP，不重复执行开发检查。
 
-The published author ZIP has a `1.00` app, while this source uses `1.0.1`. Its
-app is not a test package for this checkout. Export its locked assets and rebuild
-as above. Do not edit its manifest, accept a version alias or change any locked
-hash to pass the tests. `app/product_version.py` supplies the version used by
-Python consumers, the C# launcher and the native bootstrap. It must agree with
-`dependencies.json`; a mismatch stops before creating output.
+版本来自 `app/product_version.py`，必须与 `dependencies.json` 一致。独立 Agent 1.00 与历史桌面 1.00 是不同构建，不能修改清单或摘要让旧应用通过。输入/输出目录分开，构建不得覆盖用户安装目录或记录。
 
-Export/build stage in an owned temporary sibling. Exceptions remove that
-staging directory, including Windows extended-path caches, and do not leave a
-partial published output. The same destination can then be retried. An existing
-destination, including a newly appearing one, is preserved. The builder checks
-the local Python and native verification results before publication and removes
-its own `_launcher_build` and build-only `state` cache. Compiler diagnostics are
-retained on stderr.
+检查范围见[离线测试说明](tests/OFFLINE.md)。测试使用临时目录和替身，报告记录缺失范围及平台跳过；离线 PASS 不表示全新 Windows、真实 UAC/驱动或相机安装验收通过。下载器测试使用惰性 ZIP，不联网或执行其中的 EXE。
 
-The runner must report PASS, zero failed/blocked checks and the expected platform
-coverage. Its ten package cases use separate disposable copies; the candidate
-itself retains no test state. The Issue #9 case additionally checks the previously
-reported integrity/startup/session boundaries. Never distribute a manually tested
-directory containing enrollment, backups, transaction state or logs. Retain the
-JSON/JUnit reports separately and record the candidate's SHA-256 and source commit.
+发布时保存源码提交、构建标识、ZIP 字节数和 SHA-256，填写上层 `resources.json`。ZIP 中只放干净的成品，不带 enrollment、备份、运行记录或个人配置。运行源码和第三方依赖遵循各自许可。
 
-USB recovery accepts readable card volumes only when the disk's PnP ancestry
-reaches the exact bound normal-mode camera. A `PMHOME` label is not required and
-cannot identify a camera by itself. The shared read-only helper is included in
-the protected broker's hashed file set; legacy snapshots/failure records remain
-readable. Native hub-port identity guards are unchanged; refusal diagnostics now
-include the returned descriptor fields. The cause of a particular port refusal
-still requires evidence and is not declared fixed by this source change.
+现有正式 ZIP 不因源码提交而变化。需要替换时应从统一源码重新构建、核对并发布新构建标识，再更新资源清单。不得把更新过的说明文档误记成旧包已经包含的内容。
 
-This is a local source-build acceptance path, not an independent claim of publisher
-authenticity, redistribution rights, real elevated ACL deployment or physical
-camera installation. A replacement public app ZIP must be built/reviewed and
-uploaded by the maintainer; a source PR does not change the already hosted ZIP.
-
-## 中文
-
-以上命令只进行电脑端准备、编译及离线验收。先下载／复用可信 USB ZIP，
-核对原摘要并精确导出资产，再由当前源码构建新的候选目录。现有 `1.00`
-发布包只作为资产来源，不能通过改版本字符串或清单来冒充 `1.0.1` 候选。
-
-源码共用一个运行版本，构建前核对依赖元数据，构建后核对 Python 和原生校验。
-失败的导出／构建不留下发布半成品，也不会覆盖旧安装或未完成任务。源码回归、
-十组独立包检查和历史审计边界均通过后，再由维护者审查和发布，报告与成品分开保存。
-原厂归档独立重建配方、完整的逐文件许可映射、真实提权部署及相机验收不由这些
-离线结果代替；该 PR 也不会自动替换已发布的二进制或操作任何机身。
+桌面和 Agent 从相同源码构建，分发根目录分别为 M4相机工具_1.03 和 M4Agent_1.03；核心文件与 EXE 必须逐字一致。源码只维护 software/，agent/source/ 仅保留迁移入口。

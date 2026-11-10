@@ -1,4 +1,5 @@
 from operation_session import operation_path
+from diagnostics import describe, OperationFailure, save_failure
 from product_integrity import pinned, state_path
 from p1_completion import complete as p1_complete
 from datetime import datetime, timezone
@@ -201,6 +202,13 @@ class Trial:
         status.update(phase=phase, updated_utc=utc(), **values)
         atomic(self.status_path, status)
 
+    def fail(self, status, error, phase, **values):
+        def publish(next_phase, **fields):
+            self.save(status, next_phase, **fields)
+            return True
+        if save_failure(publish, error, phase, failed_stage=status['phase'], **values) is None:
+            raise error
+
     def expected_sha(self):
         return read(self.plan_path)['receiver']['receiver_p1_sha256']
 
@@ -323,16 +331,16 @@ class Trial:
             from connection_stop import ConnectionStop
             from user_provider import CommunicationNotReady
             if isinstance(error, CommunicationNotReady):
-                self.save(status, 'USB_COMMUNICATION_PENDING', error=str(error),
-                          safe_to_restore=True, stopped_before_session=True)
+                self.fail(status, error, 'USB_COMMUNICATION_PENDING',
+                          safe_to_restore=True, stopped_before_session=True, diagnostic=describe(error, status['phase']))
                 return self.finish_without_storage_restore(status)
             if isinstance(error, ConnectionStop):
-                self.save(status, 'WINDOWS_RESTART_REQUIRED' if error.reason == 'WINDOWS_RESTART_REQUIRED' else 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.detail,
-                          safe_to_restore=True, stopped_before_session=True)
+                self.fail(status, error, 'WINDOWS_RESTART_REQUIRED' if error.reason == 'WINDOWS_RESTART_REQUIRED' else 'USB_IDENTITY_UNAVAILABLE', descriptor_failure=error.detail,
+                          safe_to_restore=True, stopped_before_session=True, diagnostic=describe(error, status['phase']))
                 if error.reason == 'WINDOWS_RESTART_REQUIRED':
                     return status
                 return self.finish_without_storage_restore(status)
-            self.save(status, 'BINDING_UNCONFIRMED', error=str(error))
+            self.fail(status, error, 'BINDING_UNCONFIRMED', diagnostic=describe(error, status['phase']))
             raise
         handoff = None
         try:
@@ -362,20 +370,24 @@ class Trial:
                     self.save(status, 'STARTING_WINDOW', window_started=True, window_start_bound=stamp(), window_elapsed_floor=0)
                     handoff = rt.protocol.start_handoff(session, plan['job'], folder / 'execution/handoff')
                     self.save(status, 'HANDOFF_EXITING_SERVICE', handoff=handoff)
-                except BaseException:
+                except BaseException as error:
+                    from reader_cleanup import ReaderStopped
                     was_healthy = session.wire.healthy
-                    provider.hold_session(session)
                     safe_reader_only = status.get('preread_completed_safe') is True and status.get('window_started') is False
-                    if was_healthy and (safe_reader_only or self.verified_terminal(folder / 'execution/handoff', meta)):
-                        session.wire.healthy = True
+                    stopped_reader = isinstance(error, ReaderStopped) and status['preread_started'] and not status['window_started']
+                    if was_healthy and (safe_reader_only or stopped_reader or self.verified_terminal(folder / 'execution/handoff', meta)):
                         status['safe_to_restore'] = True
+                        if stopped_reader:
+                            status['preread_failure_cleaned'] = True
+                    else:
+                        provider.hold_session(session)
                     raise
         except BaseException as error:
             from connection_stop import ConnectionStop
             if isinstance(error, ConnectionStop) and not status['preread_started'] and not status['window_started']:
-                self.save(status, 'USB_IDENTITY_UNAVAILABLE', error=str(error), descriptor_failure=error.detail,
-                          safe_to_restore=True, stopped_before_session=True)
-            self.save(status, 'REVIEW_REQUIRED', session_error=str(error))
+                self.fail(status, error, 'USB_IDENTITY_UNAVAILABLE', descriptor_failure=error.detail,
+                          safe_to_restore=True, stopped_before_session=True, diagnostic=describe(error, status['phase']))
+            self.fail(status, error, 'REVIEW_REQUIRED', session_error=str(error), diagnostic=describe(error, status['phase']))
             if status['safe_to_restore']:
                 self.finish_without_storage_restore(status)
             return status
@@ -385,6 +397,20 @@ class Trial:
         except Exception as error:
             normal, seconds, elapsed = (False, 0, HOLD_SECONDS)
             status['handoff_error'] = str(error)
+        if not normal or seconds < 90:
+            if status.get('handoff_error'):
+                reason = '菜单交接检查失败：' + status['handoff_error']
+                code = 'MENU_HANDOFF_CHECK_FAILED'
+            elif not normal:
+                reason = '相机未在 30 秒内返回普通 USB 身份；菜单尚未交接。'
+                code = 'MENU_NORMAL_IDENTITY_TIMEOUT'
+            else:
+                reason = '菜单窗口剩余时间不足 90 秒，不能开始更新。'
+                code = 'MENU_WINDOW_TOO_SHORT'
+            error = OperationFailure(code, 'HANDOFF_NOT_READY', reason,
+                '先不要安装。正常关闭相机，待存取灯熄灭后开机，再确认恢复普通 USB。',
+                normal_identity_seen=normal, seconds_remaining=int(seconds))
+            status['diagnostic'] = describe(error, 'HANDOFF_NOT_READY')
         self.save(status, 'AWAITING_MENU_OBSERVATION' if normal and seconds >= 90 else 'HANDOFF_NOT_READY', normal_identity_seen=normal, window_elapsed_floor=elapsed, conservative_seconds_remaining=seconds, collection_allowed=False)
         emit(status['phase'], seconds_remaining=int(seconds), instruction='补丁与菜单准备完成；拔下USB后自行核对相机更新页和目标版本。' if status['phase'] == 'AWAITING_MENU_OBSERVATION' else '不要执行安装或重发任务；先记录本次菜单与是否重启。')
         return status
@@ -416,7 +442,7 @@ class Trial:
         try:
             result = provider.restore(folder, confirmation=confirmation)
         except BaseException as error:
-            self.save(status, 'RECOVERY_REVIEW_REQUIRED', recovery_error=str(error))
+            self.fail(status, error, 'RECOVERY_REVIEW_REQUIRED', recovery_error=str(error))
             raise
         require(result in ('VERIFIED', 'RESTART_REQUIRED', 'NORMAL_CONNECTION_PENDING', 'WINDOWS_RESTART_REQUIRED'), 'Unknown restoration outcome')
         complete = 'INSTALL_USER_ACCEPTED_NORMAL_VERIFIED' if status.get('post_install_user_verified') else 'POST_RESTART_NORMAL_VERIFIED' if status.get('camera_restarted') else 'WINDOW_COMPLETE_NORMAL_VERIFIED'

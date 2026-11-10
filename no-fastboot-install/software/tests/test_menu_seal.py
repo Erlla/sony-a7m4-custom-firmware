@@ -18,7 +18,7 @@ def main():
     args = p.parse_args()
     root = args.package.resolve(strict=True)
     for path in ('app', 'vendor/python', 'vendor/squashfs', 'vendor/usb', 'app/container',
-                 'app/provider', 'app/reader', 'app/workflow', 'app/ui'):
+                 'app/provider', 'app/reader', 'app/workflow', 'app/ui', 'app/usb'):
         sys.path.insert(0, str(root / path))
     os.environ['ZIG_GLOBAL_CACHE_DIR'] = str(root / 'state/cache/zig-global')
     os.environ['ZIG_LOCAL_CACHE_DIR'] = str(root / 'state/cache' / ('zig-' + args.lineage))
@@ -179,6 +179,57 @@ def main():
             assert result['safe_to_restore'] and not result['preread_started'] and not result['window_started']
             assert not result['firmware_written'] and activity == [stage]
         checks.append('stagebind_restart_stops_menu_before_session_and_preread')
+        # Exercise real service-close code through the menu exception path.
+        # Library bytes and device methods are inert boundary fixtures.
+        from reader_cleanup import ReaderStopped
+        import usb_session
+        for cleaned_failure in (True, False):
+            activity = []
+            class ReadFailureSession:
+                _close_impl = usb_session.ResearchSession._close_impl
+                def __init__(self):
+                    self.wire=SimpleNamespace(healthy=True);self.driver=SimpleNamespace(dev=object())
+                    self.error=None
+                    self.rec=SimpleNamespace(note=lambda *a:None,finish=lambda *a:None)
+                    self.probe=SimpleNamespace(SenserAuth=lambda *a:SimpleNamespace(stop=lambda:activity.append('service-stop')),
+                        usb=SimpleNamespace(util=SimpleNamespace(dispose_resources=lambda *a:activity.append('dispose'))))
+                def _select(self,path):self.path=path
+                def _read_selected(self,size):
+                    if self.path.endswith('libupdaterufp.so'):return fixture_library
+                    error=RuntimeError('inert missing file');error.status=runtime.protocol.base.MISSING_STATUS;raise error
+            class ReadFailureProvider(DescriptorFailureProvider):
+                bind=lambda self,folder:None
+                @contextmanager
+                def session(self,folder):
+                    (folder/'execution').mkdir()
+                    session=ReadFailureSession()
+                    try:yield session
+                    except BaseException as error:session.error=error;raise
+                    finally:usb_session.ResearchSession._close(session)
+                def hold_session(self,session):activity.append('hold');session.wire.healthy=False
+            runtime.Provider=ReadFailureProvider
+            attempt=controller.Trial(private/('read_failure_'+str(cleaned_failure)),services=runtime)
+            attempt.seal(job,reader,patch_only=True)
+            _,menu_meta=attempt.validate(initial=True)
+            fixture_library=b'\0'*menu_meta['module_bytes']
+            real_hash=hashlib.sha256
+            def fixture_hash(data=b''):
+                return SimpleNamespace(hexdigest=lambda:menu_meta['module_sha256']) if data==fixture_library else real_hash(data)
+            def failed_read(session,plan,folder,status):
+                attempt.save(status,'READING_CURRENT_RECEIVER',preread_started=True,preread_completed_safe=False)
+                if cleaned_failure:raise ReaderStopped(dict(native=dict(error=-2)))
+                raise RuntimeError('cleanup not confirmed')
+            with patch.object(controller.hashlib,'sha256',side_effect=fixture_hash),\
+                 patch.object(attempt,'read_current_receiver',side_effect=failed_read):
+                result=attempt.execute(stable_power=True,patch_only=True)
+            assert result['window_started'] is False and result['firmware_written'] is False
+            if cleaned_failure:
+                assert result['phase']=='MENU_CONNECTION_STOPPED' and result['preread_failure_cleaned']
+                assert result['safe_to_restore'] and activity==['service-stop','dispose']
+            else:
+                assert result['phase']=='REVIEW_REQUIRED' and not result['safe_to_restore']
+                assert activity==['hold','dispose']
+        checks.append('cleaned_read_failure_closes_service_but_unknown_cleanup_keeps_original_gate')
         activity = []
         class SessionDescriptorFailure(DescriptorFailureProvider):
             bind = lambda self, folder: None
@@ -240,7 +291,19 @@ def main():
              patch.object(usb_recovery, 'recover_write_race', forbidden), \
              patch.object(standalone_usb_restore, 'recover', return_value=dict(phase='USB_RESTORE_COMPLETE', message='normal')) as restoring:
             result = usb_recovery.recover(value)
-            assert result['phase'] == 'MENU_CONNECTION_STOPPED' and restoring.call_count == 1
+            assert result['phase'] == 'MENU_CONTINUATION_READY' and restoring.call_count == 1
+            old_plan = attempt.plan_path.read_bytes()
+            resumed = dict(value)
+            runtime.Provider = DescriptorFailureProvider
+            with patch.object(controller, 'runtime', return_value=runtime), \
+                 patch.object(simple_workflow, 'patch_receiver', forbidden):
+                resumed_result = simple_workflow.continue_flow(resumed)
+            assert resumed_result['phase'] == 'MENU_CONNECTION_STOPPED'
+            assert resumed['patch_run'] == accepted_run and resumed['menu_attempt']
+            assert attempt.plan_path.read_bytes() == old_plan
+            new_plan = controller.read(flow.menu_folder(resumed) / 'plan.json')
+            assert new_plan['nonce'] != plan['nonce'] and new_plan['p1_write_authorized'] is False
+            checks.append('restored_menu_uses_fresh_attempt_without_rewriting_p1_or_overwriting_prior_plan')
         flow.save(value, 'REVIEW_REQUIRED')
         with patch.object(backend.frozen, 'Journal', CompletedJournal), \
              patch.object(usb_recovery, 'recover_write_race', forbidden), \

@@ -1,0 +1,201 @@
+{
+  "version": "1.03",
+  "agent_build_id": "1.03-agent-20261111-r1",
+  "source_tests": 211,
+  "source_suites": 19,
+  "package_checks": [
+    {
+      "id": "package.driver-reuse",
+      "status": "PASS"
+    },
+    {
+      "id": "package.native-verify",
+      "status": "PASS"
+    },
+    {
+      "id": "package.agent-native-entry",
+      "status": "PASS"
+    },
+    {
+      "id": "package.agent-runtime",
+      "status": "PASS"
+    },
+    {
+      "id": "package.native-audit-faults",
+      "status": "PASS"
+    },
+    {
+      "id": "package.usb-recovery",
+      "status": "PASS"
+    },
+    {
+      "id": "package.connection-recovery",
+      "status": "PASS"
+    },
+    {
+      "id": "package.driver-setup",
+      "status": "PASS"
+    },
+    {
+      "id": "package.local-failure",
+      "status": "PASS"
+    },
+    {
+      "id": "package.state-io",
+      "status": "PASS"
+    },
+    {
+      "id": "package.startup-session",
+      "status": "PASS"
+    },
+    {
+      "id": "package.usb-identity",
+      "status": "PASS"
+    },
+    {
+      "id": "package.menu-stock",
+      "status": "PASS"
+    },
+    {
+      "id": "package.menu-user",
+      "status": "PASS"
+    },
+    {
+      "id": "package.issue9-boundaries",
+      "status": "PASS"
+    },
+    {
+      "id": "package.desktop-ui",
+      "status": "PASS"
+    }
+  ],
+  "download_helper_checks": 8,
+  "powershell_51_parsed_files": 21,
+  "offline": "passed",
+  "physical_camera": "not_performed",
+  "clean_windows": "not_performed",
+  "device_operations": 0,
+  "driver_tasks_dispatched": 0,
+  "identical_desktop_agent_core": true,
+  "archives": [
+    {
+      "file": "M4_1.03_Windows_x64.zip",
+      "bytes": 84657615,
+      "sha256": "9991f463758ccf56eef7422ae207eb9bd8804ec7f6435bd3861ddf4e68305074",
+      "files": 3360
+    },
+    {
+      "file": "M4Agent_1.03_Windows_x64.zip",
+      "bytes": 84610575,
+      "sha256": "8656f327515273c374cce5ccef721e1520a027a1195a877a2f3c41c40e7e252a",
+      "files": 3360
+    }
+  ],
+  "unchanged_camera_core": [
+    "app/agent_coordination.py",
+    "app/agent_platform.py",
+    "app/analysis_cache.py",
+    "app/connection_stop.py",
+    "app/data_paths.py",
+    "app/diagnostics.py",
+    "app/entry.py",
+    "app/integrity_lease.py",
+    "app/operation_session.py",
+    "app/p1_completion.py",
+    "app/product_integrity.py",
+    "app/reader_cleanup.py",
+    "app/reader_diagnostics.py",
+    "app/recovery_registry.py",
+    "app/state_io.py",
+    "app/container/common.py",
+    "app/container/m4_profile.json",
+    "app/container/updater.py",
+    "app/driver/install_broker.ps1",
+    "app/driver/invoke_broker.ps1",
+    "app/driver/prepare_bundle.py",
+    "app/driver/worker.ps1",
+    "app/driver_restore/camera_port.cs",
+    "app/driver_restore/camera_storage.ps1",
+    "app/driver_restore/restore_camera_driver.ps1",
+    "app/menu_custom/dual_job.py",
+    "app/menu_custom/dual_worker.c",
+    "app/menu_custom/layout.json",
+    "app/menu_stock/dual_job.py",
+    "app/menu_stock/dual_worker.c",
+    "app/menu_stock/layout.json",
+    "app/menu_transport/run_window.py",
+    "app/native/bootstrap.c",
+    "app/native/elf_tools.py",
+    "app/native/lifecycle_worker.c",
+    "app/native/linux_a64.h",
+    "app/native/toolchain.json",
+    "app/profiles/profile.json",
+    "app/protocol/auth.py",
+    "app/protocol/identity.py",
+    "app/provider/engine.py",
+    "app/provider/provider.py",
+    "app/reader/current_reader.py",
+    "app/reader/live_reader.py",
+    "app/reader/reader.c",
+    "app/reader/reader_job.py",
+    "app/reader_verify/full_read.py",
+    "app/receiver_custom/byte_diff.py",
+    "app/receiver_custom/receiver.py",
+    "app/receiver_custom/receiver_writer_job.py",
+    "app/receiver_shared/receiver_adapter.py",
+    "app/receiver_shared/receiver_adapter_v2.py",
+    "app/receiver_stock/byte_diff.py",
+    "app/receiver_stock/orchestrator.py",
+    "app/receiver_stock/receiver.py",
+    "app/receiver_stock/receiver_writer_job.py",
+    "app/ui/backend_bridge.py",
+    "app/ui/gui_model.py",
+    "app/ui/install_view.py",
+    "app/ui/第三方组件.md",
+    "app/usb/draft_policy.py",
+    "app/usb/senser_wire.py",
+    "app/usb/transport.py",
+    "app/usb/usb_session.py",
+    "app/workflow/driver_restart.ps1",
+    "app/workflow/driver_restart.py",
+    "app/workflow/driver_trust.ps1",
+    "app/workflow/enroll.ps1",
+    "app/workflow/gate_protocol.py",
+    "app/workflow/gate_protocol_custom.py",
+    "app/workflow/install_controller.py",
+    "app/workflow/install_controller_custom.py",
+    "app/workflow/integrity_backend.py",
+    "app/workflow/local_json.py",
+    "app/workflow/local_task_stop.py",
+    "app/workflow/menu_connection_recovery.py",
+    "app/workflow/menu_preparation_retry.py",
+    "app/workflow/prewrite_recovery.py",
+    "app/workflow/receiver_usb_writer_user.py",
+    "app/workflow/rejected_read.py",
+    "app/workflow/standalone_usb_restore.ps1",
+    "app/workflow/standalone_usb_restore.py",
+    "app/workflow/usb_recovery.py",
+    "app/workflow/version_labels.h",
+    "app/workflow/version_labels.py",
+    "app/workflow/wizard.py",
+    "app/writer/sha256.h",
+    "app/writer/writer.c"
+  ],
+  "changed_app": [
+    "app/agent_api.py",
+    "app/agent_guidance.py",
+    "app/normal_identity.py",
+    "app/product_version.py",
+    "app/ui/simple_app.py",
+    "app/ui/使用说明.md",
+    "app/workflow/menu_continuation.py",
+    "app/workflow/simple_workflow.py",
+    "app/workflow/user_provider.py",
+    "app/workflow/windows_snapshot.ps1"
+  ],
+  "limitations": [
+    "Offline fixtures do not establish driver or camera behavior on a new Windows installation.",
+    "No automatic authentication or mutating-command retry was added.",
+    "No end-to-end camera installation speed percentage was measured."
+  ]
+}

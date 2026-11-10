@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import struct
 from byte_diff import count_differences
+from analysis_cache import content_analysis
 CASE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[2]
 LOW_PATH = CASE.parent / 'receiver_shared/receiver_adapter.py'
@@ -101,6 +102,7 @@ def expected_libraries(contents):
     require(sha(cc) == CC_GOOD_SHA, 'Unexpected change outside core gates')
     return {SD_NAME: bytes(sd), CC_NAME: bytes(cc)}
 
+@content_analysis(__file__)
 def verify_patch_semantics(old, new):
     before, fat, _, inventory, contents, links = inspect_bytes(old)
     after, _, _, new_inventory, new_contents, new_links = inspect_bytes(new)

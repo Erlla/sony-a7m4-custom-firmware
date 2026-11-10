@@ -1,4 +1,5 @@
-﻿param([Parameter(Mandatory=$true)][string]$Name,[switch]$CommunicationOnly)
+param([Parameter(Mandatory=$true)][string]$Name,[switch]$CommunicationOnly,
+ [ValidateRange(0,90)][int]$WaitCommunicationSeconds=0)
 $ErrorActionPreference='Stop'
 [Console]::OutputEncoding=New-Object System.Text.UTF8Encoding($false)
 # Import the Windows PowerShell built-in explicitly before PnP/Storage modules.
@@ -9,8 +10,23 @@ $dataRoot=if($env:M4_TOOL_DATA_ROOT){$env:M4_TOOL_DATA_ROOT}else{Join-Path $prod
 $folder=Join-Path (Join-Path $dataRoot 'snapshots') $Name
 if (Test-Path -LiteralPath $folder) { throw 'Snapshot already exists.' }
 New-Item -ItemType Directory -Path $folder -Force | Out-Null
-$camera=@(Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -like 'USB\VID_054C&PID_0DA5\*' })
-$active=@(Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -like 'USB\VID_054C&PID_0336\*' })
+# Poll only PnP in this process. Capture protected files once, after the wait.
+# One enumeration gives coherent normal/service counts for each observation.
+if ($WaitCommunicationSeconds -gt 0 -and -not $CommunicationOnly) { throw 'Communication wait cannot request storage enumeration.' }
+$waitClock=[Diagnostics.Stopwatch]::StartNew()
+$waitPolls=0
+do {
+ $present=@(Get-PnpDevice -PresentOnly)
+ $waitPolls++
+ $camera=@($present | Where-Object { $_.InstanceId -like 'USB\VID_054C&PID_0DA5\*' })
+ $active=@($present | Where-Object { $_.InstanceId -like 'USB\VID_054C&PID_0336\*' })
+ $ready=($camera.Count -eq 1 -and $active.Count -eq 0)
+ $pending=($camera.Count -eq 0 -and $active.Count -in @(0,1))
+ if ($ready -or -not $pending -or $waitClock.Elapsed.TotalSeconds -ge $WaitCommunicationSeconds) { break }
+ $waitMs=[Math]::Min(500,[Math]::Max(1,[Math]::Ceiling(($WaitCommunicationSeconds-$waitClock.Elapsed.TotalSeconds)*1000)))
+ Start-Sleep -Milliseconds ([int]$waitMs)
+} while ($true)
+$waitResult=[ordered]@{polls=$waitPolls;elapsed_seconds=[Math]::Round($waitClock.Elapsed.TotalSeconds,3);ready=$ready}
 $rows=@($camera | ForEach-Object {
  [pscustomobject]@{instance=$_.InstanceId;status=$_.Status;service=(Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_Service).Data;inf=(Get-PnpDeviceProperty -InstanceId $_.InstanceId -KeyName DEVPKEY_Device_DriverInfPath).Data}
 })
@@ -42,6 +58,6 @@ foreach ($mode in @('SelfTest','StageBind','Restore')) {
  }
 }
 $pmhome=@($volumes | Where-Object label -EQ 'PMHOME')
-$value=[ordered]@{checked_utc=[DateTime]::UtcNow.ToString('o');normal=$rows;normal_count=$camera.Count;service_count=$active.Count;storage=$volumes;pmhome=$pmhome;storage_checked=(-not $CommunicationOnly);protected_dependencies_verified=$config.files.Count}
+$value=[ordered]@{checked_utc=[DateTime]::UtcNow.ToString('o');normal=$rows;normal_count=$camera.Count;service_count=$active.Count;storage=$volumes;pmhome=$pmhome;storage_checked=(-not $CommunicationOnly);protected_dependencies_verified=$config.files.Count;communication_wait=$waitResult}
 $value | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $folder 'windows_state.private.json') -Encoding UTF8
 [pscustomobject]@{normal_count=$camera.Count;service_count=$active.Count;normal_storage=(@($rows | Where-Object { $_.service -eq 'USBSTOR' -and $_.inf -eq 'usbstor.inf' }).Count -eq 1);camera_storage_accessible=(@($volumes | Where-Object accessible -EQ $true).Count -gt 0);camera_pmhome_accessible=(@($pmhome | Where-Object accessible -EQ $true).Count -gt 0);dependencies_verified=$config.files.Count;snapshot=$Name} | ConvertTo-Json

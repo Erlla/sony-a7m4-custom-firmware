@@ -1,5 +1,6 @@
 from product_integrity import pinned, state_path
 BLOCK_BYTES = 64 * 1024
+BYTE_LOW_BITS = int.from_bytes(b'\x01' * BLOCK_BYTES, 'little')
 
 def count_differences(before, after):
     if not isinstance(before, (bytes, bytearray)) or not isinstance(after, (bytes, bytearray)):
@@ -11,5 +12,11 @@ def count_differences(before, after):
         a = before[start:start + BLOCK_BYTES]
         b = after[start:start + BLOCK_BYTES]
         if a != b:
-            total += sum((x != y for x, y in zip(a, b)))
+            # Collapse the eight bits of each XOR byte into its low bit.
+            # Big-int operations run in native code; masking prevents cross-byte counts.
+            bits = int.from_bytes(a, 'little') ^ int.from_bytes(b, 'little')
+            bits |= bits >> 4
+            bits |= bits >> 2
+            bits |= bits >> 1
+            total += (bits & BYTE_LOW_BITS).bit_count()
     return total

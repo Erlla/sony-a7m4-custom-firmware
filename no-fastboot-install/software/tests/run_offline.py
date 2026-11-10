@@ -22,18 +22,33 @@ import shutil
 HERE = Path(__file__).resolve().parent
 SOFTWARE = HERE.parent
 SOURCE_CASES = (
+    ('connection-wait', 'test_connection_wait_unit.py'),
+    ('menu-continuation', 'test_menu_continuation_unit.py'),
+    ('analysis-cache', 'test_analysis_cache_unit.py'),
+    ('byte-diff', 'test_byte_diff_unit.py'),
+    ('agent', 'test_agent_unit.py'),
+    ('agent-pnp', 'test_agent_pnp_unit.py'),
+    ('agent-launch', 'test_agent_launch_unit.py'),
     ('build-assets', 'test_build_assets.py'),
     ('release-build', 'test_release_build.py'),
     ('asset-export', 'test_asset_export.py'),
     ('camera-storage', 'test_camera_storage_unit.py'),
     ('normal-identity', 'test_normal_identity_unit.py'),
     ('connection-stop', 'test_connection_stop_unit.py'),
+    ('reader-cleanup', 'test_reader_cleanup_unit.py'),
+    ('fault-matrix', 'test_fault_matrix_unit.py'),
+    ('writer-faults', 'test_writer_faults_unit.py'),
     ('operation-session', 'test_operation_session_unit.py'),
     ('state-io', 'test_state_io_unit.py'),
     ('runner', 'test_offline_runner.py'),
 )
 PACKAGE_CASES = (
+    ('desktop-ui', 'test_reuse_ui.py', ()),
+    ('driver-reuse', 'test_driver_reuse.py', ()),
     ('native-verify', None, ()),
+    ('agent-native-entry', 'test_agent_entry.py', ()),
+    ('agent-runtime', 'test_agent_runtime.py', ()),
+    ('native-audit-faults', 'test_native_audit.py', ()),
     ('usb-recovery', 'test_usb_recovery.py', ()),
     ('connection-recovery', 'test_connection_recovery.py', ()),
     ('driver-setup', 'run_clean_setup.py', ()),

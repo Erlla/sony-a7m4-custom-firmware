@@ -1,6 +1,6 @@
 # Runtime components and acknowledgements
 
-The no-Fastboot installation approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools). USB protocol research also relies on the public work listed in the repository [REFERENCES.md](../../REFERENCES.md).
+The no-Fastboot installation approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools). USB protocol research also relies on the public work listed in the repository [REFERENCES.md](../../../REFERENCES.md).
 
 Runtime components are **not vendored here**. The build consumes separately supplied, hash-locked files and retains their accompanying licenses. A project source license does not relicense manufacturer drivers or third-party binaries.
 

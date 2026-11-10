@@ -28,9 +28,20 @@ def main():
         assert app.title.get()=='本轮操作已结束' and '按需' in app.result.get()
         assert '已恢复' not in app.result.get() and app.restore.cget('state')=='normal'
         assert app.primary.cget('text')=='写入补丁'
+        state.clear();state.update(phase='MENU_CONNECTION_STOPPED',p1_operation_complete=True)
+        app.refresh();top.update_idletasks()
+        assert app.action=='simple-continue' and app.primary.cget('text')=='检查连接并继续菜单'
+        assert app.primary.cget('state')=='normal' and app.restore.cget('state')=='normal'
+        state.update(preread_failure_cleaned=True)
+        app.refresh();top.update_idletasks()
+        assert app.action=='simple-recover-usb'
+        jobs.busy=True;app.refresh();top.update_idletasks()
+        assert app.restore.cget('state')=='disabled' and app.primary.cget('state')=='disabled'
+        jobs.busy=False
     finally: app.close()
-    result=dict(passed=True,cases=2,device_operations=0,driver_tasks_dispatched=0,
-                tests=['handoff_button_only_records_finished_update','operation_completion_does_not_claim_storage_recovery'])
+    result=dict(passed=True,cases=5,device_operations=0,driver_tasks_dispatched=0,
+                tests=['handoff_button_only_records_finished_update','operation_completion_does_not_claim_storage_recovery',
+                       'menu_stop_routes_to_continue','cleaned_preread_routes_to_restore','busy_disables_both_device_actions'])
     out=root/'state/source_tests/reuse_ui.json';out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(result)+'\n','utf-8');print(json.dumps(result))
 

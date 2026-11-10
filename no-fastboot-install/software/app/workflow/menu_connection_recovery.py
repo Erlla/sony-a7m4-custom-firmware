@@ -6,9 +6,9 @@ import wizard as flow
 
 def proof(value):
     if not value.get('flow'): return None
-    if value.get('phase') not in ('REVIEW_REQUIRED', 'MENU_CONNECTION_RECOVERY', 'WINDOWS_RESTART_REQUIRED'):
+    if value.get('phase') not in ('REVIEW_REQUIRED', 'MENU_CONNECTION_RECOVERY', 'MENU_CONNECTION_STOPPED', 'MENU_CONTINUATION_READY', 'WINDOWS_RESTART_REQUIRED'):
         return None
-    folder = flow.folder(value)
+    folder = flow.menu_folder(value)
     if not (folder / 'status.json').exists() or not (folder / 'plan.json').exists(): return None
     status, plan = backend.read(folder / 'status.json'), backend.read(folder / 'plan.json')
     if not (status.get('stopped_before_session') is True and status.get('safe_to_restore') is True
@@ -21,11 +21,12 @@ def proof(value):
     controller = flow.trial(value)
     module = __import__(controller.__module__)
     relative = Path(module.__file__).relative_to(backend.ROOT).as_posix()
-    require(status['runner_sha256'] == plan['sources'].get(relative), '菜单控制器来源不一致')
+    require(status['runner_sha256'] == plan['sources'].get(relative) == backend.sha(module.__file__), '菜单控制器来源不一致')
     patch = backend.frozen.Journal(backend.STATE).load()
     from p1_completion import complete
     require(complete(patch) and patch['run'] == value.get('patch_run'), '本轮 p1 检查尚未完成')
     evidence = module.receiver_evidence()
+    require(evidence['accepted_run'] == patch['run'] and evidence['receiver_p1_sha256'] == plan['receiver']['receiver_p1_sha256'], '菜单与完整 p1 证据不属于同一轮')
     return dict(source_run=patch['run'], p1_sha256=evidence['receiver_p1_sha256'], p1_verified=True,
                 menu_session_started=False, window_started=False, firmware_operations=0)
 
@@ -34,9 +35,11 @@ def recover(value):
     evidence = proof(value)
     if evidence is None: return None
     from standalone_usb_restore import recover as standalone
-    backend.atomic(flow.folder(value) / 'menu_connection_recovery.json', evidence)
+    backend.atomic(flow.menu_folder(value) / 'menu_connection_recovery.json', evidence)
     result = standalone()
-    phase = 'MENU_CONNECTION_STOPPED' if result['phase'] == 'USB_RESTORE_COMPLETE' else (
+    phase = 'MENU_CONTINUATION_READY' if result['phase'] == 'USB_RESTORE_COMPLETE' else (
         'WINDOWS_RESTART_REQUIRED' if result['phase'] == 'USB_RESTORE_WINDOWS_RESTART' else 'MENU_CONNECTION_RECOVERY')
     return flow.save(value, phase, usb_recovery=result['phase'], message=result.get('message'),
-                     menu_connection_proof=evidence, final_unplug_ready=False)
+                     menu_connection_proof=evidence, final_unplug_ready=False,
+                     normal_usb_restored=result['phase'] == 'USB_RESTORE_COMPLETE',
+                     p1_operation_complete=True)

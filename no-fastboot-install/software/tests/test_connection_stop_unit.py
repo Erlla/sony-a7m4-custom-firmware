@@ -16,6 +16,7 @@ SOFTWARE=Path(__file__).resolve().parents[1]
 for path in ('app','app/workflow'):
     sys.path.insert(0,str(SOFTWARE/path))
 from connection_stop import ConnectionStop, UnsupportedFirmwareError
+from reader_cleanup import ReaderStopped
 from driver_restart import WindowsRestartRequired
 from normal_identity import DescriptorReadError
 import prewrite_recovery
@@ -43,7 +44,7 @@ class Journal:
 def engine_class():
     source=SOFTWARE/'app/receiver_stock/orchestrator.py'
     node=next(n for n in ast.parse(source.read_text('utf-8-sig')).body if isinstance(n,ast.ClassDef) and n.name=='Engine')
-    env=dict(Journal=Journal,ConnectionStop=ConnectionStop,require=require,TERMINAL={'CONNECTION_STOPPED'},Path=Path)
+    env=dict(Journal=Journal,ConnectionStop=ConnectionStop,ReaderStopped=ReaderStopped,require=require,TERMINAL={'CONNECTION_STOPPED'},Path=Path)
     exec(compile(ast.Module(body=[node],type_ignores=[]),str(source),'exec'),env)
     return env['Engine']
 
@@ -118,6 +119,38 @@ class ConnectionStopTests(unittest.TestCase):
         engine=engine_class()(backend,self.root/'after-read',emit=lambda _:None)
         with self.assertRaises(DescriptorReadError):engine.read('apply')
         self.assertEqual(engine.journal.value['phase'],'REVIEW_REQUIRED')
+
+    def test_cleaned_reader_stop_is_distinct_from_unknown_read_outcome(self):
+        error=ReaderStopped(dict(native=dict(error=-2)))
+        backend,calls=self.backend('reader',error)
+        engine=engine_class()(backend,self.root/'cleaned-read',emit=lambda _:None)
+        with self.assertRaises(ReaderStopped):engine.read('apply')
+        self.assertEqual(engine.journal.value['phase'],'CONNECTION_STOPPED')
+        self.assertEqual(engine.journal.value['outcome'],'READER_STOPPED_CLEANED')
+        self.assertTrue(engine.journal.value['session_ended'])
+
+    def test_cleaned_readback_failure_after_writing_keeps_write_review(self):
+        error=ReaderStopped(dict(native=dict(error=-2)))
+        backend,calls=self.backend('reader',error)
+        source=self.root/'source.bin';source.write_bytes(b'test');digest=hashlib.sha256(b'test').hexdigest()
+        reads=[]
+        def run_reader(session,job,folder):
+            reads.append(job['nonce'])
+            if len(reads)>1:raise error
+            return source,dict(verdict='P1_READBACK_VERIFIED',bytes=4,chunks=1,nonce=job['nonce'],
+                               block_writes=False,firmware_written=False,ram_chunks_cleaned=True,sha256=digest)
+        backend.run_reader=run_reader
+        backend.prepare_write=lambda *a:dict(source_sha256=digest,target_sha256='b'*64,no_change=False)
+        backend.verify_write_ready=lambda *a:None
+        backend.run_writer=lambda *a:dict(outcome='P1_TARGET_VERIFIED')
+        backend.hold_session=lambda *a:calls.append('hold')
+        cls=engine_class();cls.read.__globals__.update(P1_BYTES=4,CHUNKS=1,sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest(),re=__import__('re'))
+        engine=cls(backend,self.root/'readback',emit=lambda _:None)
+        with self.assertRaises(ReaderStopped):engine.read('apply')
+        self.assertEqual(engine.journal.value['phase'],'REVIEW_REQUIRED')
+        self.assertTrue(engine.journal.value['firmware_write_attempted'])
+        self.assertIn('hold',calls)
+        self.assertIsNone(prewrite_recovery.proof(engine.journal))
         self.assertIsNone(prewrite_recovery.proof(engine.journal))
 
     def test_stagebind_reboot_stops_before_loading_usb(self):

@@ -10,6 +10,14 @@ struct Result {
     i64 maps_bytes,fd_count,fd_audit_bytes,flags,fs_available;
 };
 static struct Result result;
+#ifndef M4_READER_DIAG
+#define M4_READER_DIAG(stage,subject) ((void)0)
+#endif
+#ifndef M4_FD_AUDIT_ATTEMPTS
+#define M4_FD_AUDIT_ATTEMPTS 1
+#endif
+static u32 loader_audit_attempts;
+
 static u8 maps[524289],dirents[8192],target[4096],audit[131073];
 static u8 command[33];
 static struct Fs fs;
@@ -47,15 +55,15 @@ static i64 now(void) {
 }
 static i64 pause_poll(void) {i64 ts[2]={0,100000000};i64 r=sc(101,(i64)ts,0,0,0,0,0);return r==-4?0:r;}
 static i64 wait_start(void) {
-    i64 begin=now();if(begin<0)return -5;
+    M4_READER_DIAG(10,0);i64 begin=now();if(begin<0)return -5;
     for(u32 i=0;i<601;i++) {
-        i64 n=read_all(JOB_DIR "/start",command,sizeof(command));
+        M4_READER_DIAG(11,0);i64 n=read_all(JOB_DIR "/start",command,sizeof(command));
         if(n>=32) {
             if(n!=32 || !same(command,(const u8*)"M4START1",8) ||
                !same(command+8,job_nonce,16))return -84;
             u64 mode=0;for(u32 j=0;j<8;j++)mode|=(u64)command[24+j]<<(8*j);
             if(mode!=1)return -22;
-            return unlink(JOB_DIR "/start");
+            M4_READER_DIAG(12,0);return unlink(JOB_DIR "/start");
         }
         if(n<0 && n!=-2)return n;
         i64 current=now();if(current<begin || current-begin>=60)return -110;
@@ -69,49 +77,69 @@ static u32 proc_path(char*out,u64 pid,const char*suffix) {
     for(u32 i=0;suffix[i];i++)out[n++]=suffix[i];out[n]=0;return n;
 }
 static i64 inspect_loader(void) {
-    char path[64];proc_path(path,(u64)result.loader_pid,"/maps");
-    i64 n=read_all(path,maps,sizeof(maps));if(n<0)return n;
-    if(!n || maps[n-1]!='\n')return -75;
-    result.maps_bytes=n;
-    i64 r=save_new(JOB_DIR "/loader_maps",maps,(u64)n,0600);if(r)return r;
-    if(contains(maps,(u64)n,"libJit.so",9))return -16;
-    result.flags|=1;
-    proc_path(path,(u64)result.loader_pid,"/fd");
-    i64 fd=op(path,A64_DIRECTORY,0);if(fd<0)return fd;
-    u64 audit_size=0;u32 calls=0;int complete=0;
-    while(++calls<=256) {
-        n=sc(61,fd,(i64)dirents,sizeof(dirents),0,0,0);
-        if(n==-4)continue;
-        if(n<0) {r=n;break;}
-        if(!n) {complete=1;break;}
-        if(n>(i64)sizeof(dirents)) {r=-75;break;}
-        for(u64 at=0;at<(u64)n;) {
-            if(at+20>(u64)n) {r=-22;break;}
-            u64 size=dirents[at+16]+((u64)dirents[at+17]<<8);
-            if(size<20 || at+size>(u64)n) {r=-22;break;}
-            u8*name=dirents+at+19;u64 len=0;
-            while(19+len<size && name[len])len++;
-            if(19+len>=size || !len) {r=-22;break;}
-            if(name[0]!='.') {
-                for(u64 j=0;j<len;j++)if(name[j]<'0'||name[j]>'9')r=-22;
-                if(r)break;
-                i64 count=sc(78,fd,(i64)name,(i64)target,sizeof(target),0,0);
-                if(count<=0 || count>=(i64)sizeof(target)) {r=count<0?count:-75;break;}
-                if(audit_size+len+(u64)count+2>=sizeof(audit)) {r=-75;break;}
-                for(u64 j=0;j<len;j++)audit[audit_size++]=name[j];audit[audit_size++]=' ';
-                for(i64 j=0;j<count;j++)audit[audit_size++]=target[j];audit[audit_size++]='\n';
-                result.fd_count++;
-                if(contains(target,(u64)count,"libJit.so",9)) {r=-16;break;}
+    /* Only an fd disappearing between getdents/readlink is transient. Readers
+       may rescan at most three times. Writers retain the original single try. */
+    char path[64];i64 r=0,n=0;u64 audit_size=0;
+    for(loader_audit_attempts=1;loader_audit_attempts<=M4_FD_AUDIT_ATTEMPTS;loader_audit_attempts++) {
+        result.maps_bytes=0;result.fd_count=0;result.fd_audit_bytes=0;result.flags&=~3L;
+        audit_size=0;r=0;
+        M4_READER_DIAG(20,0);proc_path(path,(u64)result.loader_pid,"/maps");
+        n=read_all(path,maps,sizeof(maps));if(n<0){r=n;break;}
+        if(!n || maps[n-1]!='\n'){r=-75;break;}result.maps_bytes=n;
+        M4_READER_DIAG(21,0);
+        if(contains(maps,(u64)n,"libJit.so",9)){r=-16;break;}result.flags|=1;
+        M4_READER_DIAG(22,0);proc_path(path,(u64)result.loader_pid,"/fd");
+        i64 fd=op(path,A64_DIRECTORY,0);if(fd<0){r=fd;break;}
+        u32 calls=0;int complete=0,vanished=0;
+        while(++calls<=256) {
+            M4_READER_DIAG(23,0);n=sc(61,fd,(i64)dirents,sizeof(dirents),0,0,0);
+            if(n==-4)continue;if(n<0){r=n;break;}if(!n){complete=1;break;}
+            if(n>(i64)sizeof(dirents)){r=-75;break;}
+            for(u64 at=0;at<(u64)n;) {
+                M4_READER_DIAG(24,0);
+                if(at+20>(u64)n){r=-22;break;}
+                u64 size=dirents[at+16]+((u64)dirents[at+17]<<8);
+                if(size<20 || at+size>(u64)n){r=-22;break;}
+                u8*name=dirents+at+19;u64 len=0,number=0;
+                while(19+len<size && name[len])len++;
+                if(19+len>=size || !len){r=-22;break;}
+                if(name[0]!='.') {
+                    for(u64 j=0;j<len;j++){
+                        if(name[j]<'0'||name[j]>'9'||j>=10){r=-22;break;}
+                        number=number*10+(u64)(name[j]-'0');
+                    }
+                    if(r)break;
+                    M4_READER_DIAG(25,(i64)number);
+                    i64 count=sc(78,fd,(i64)name,(i64)target,sizeof(target),0,0);
+                    if(count<=0 || count>=(i64)sizeof(target)){r=count<0?count:-75;vanished=count==-2;break;}
+                    if(audit_size+len+(u64)count+2>=sizeof(audit)){r=-75;break;}
+                    for(u64 j=0;j<len;j++)audit[audit_size++]=name[j];audit[audit_size++]=' ';
+                    for(i64 j=0;j<count;j++)audit[audit_size++]=target[j];audit[audit_size++]='\n';
+                    result.fd_count++;M4_READER_DIAG(26,(i64)number);
+                    if(contains(target,(u64)count,"libJit.so",9)){r=-16;break;}
+                }
+                at+=size;
             }
-            at+=size;
+            if(r)break;
         }
-        if(r)break;
+        if(!r)M4_READER_DIAG(27,0);
+        i64 c=cl(fd);if(!r && c)r=c;
+        result.fd_audit_bytes=(i64)audit_size;
+        if(!r && !complete)r=-75;
+        if(vanished && !c && loader_audit_attempts<M4_FD_AUDIT_ATTEMPTS){
+            i64 wait=pause_poll();if(!wait)continue;r=wait;
+        }
+        if(!r)result.flags|=2;
+        break;
     }
-    i64 c=cl(fd);result.fd_audit_bytes=(i64)audit_size;
-    i64 saved=save_new(JOB_DIR "/loader_fds",audit,audit_size,0600);
-    if(r)return r;if(c)return c;if(saved)return saved;
-    if(!complete)return -75;
-    result.flags|=2;return 0;
+    /* Preserve the failing stage even when saving partial diagnostic evidence. */
+    if(result.maps_bytes>0){
+        if(!r)M4_READER_DIAG(28,0);
+        i64 saved=save_new(JOB_DIR "/loader_maps",maps,result.maps_bytes,0600);if(!r)r=saved;
+    }
+    if(!r)M4_READER_DIAG(29,0);
+    i64 saved=save_new(JOB_DIR "/loader_fds",audit,audit_size,0600);if(!r)r=saved;
+    return r;
 }
 void worker_main(u64*stack) {
     /* Drop inherited device/file handles before opening our own fixed paths. */

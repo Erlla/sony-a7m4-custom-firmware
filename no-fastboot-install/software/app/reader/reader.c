@@ -1,5 +1,8 @@
 /* Fixed p1 reader: source is opened O_RDONLY. No pwrite, block write, shell,
  * mount, flash, firmware installation or arbitrary path API exists. */
+static void reader_step(long stage,long subject);
+#define M4_READER_DIAG(stage,subject) reader_step(stage,subject)
+#define M4_FD_AUDIT_ATTEMPTS 3
 #define _start lifecycle_start_unused
 #define worker_main lifecycle_main_unused
 #define result lifecycle_result
@@ -16,6 +19,17 @@
 struct ReadResult {u8 magic[8],nonce[16];i64 version,phase,error,euid,pid,ppid,loader_pid,cleanup,bytes,chunks,flags;u8 first[32],second[32];};
 _Static_assert(sizeof(struct ReadResult)==176,"read ABI");
 static struct ReadResult rr;
+struct ReadDiagnostic {u8 magic[8],nonce[16];i64 version,stage,error,pid,loader_pid,subject,attempts,flags;};
+_Static_assert(sizeof(struct ReadDiagnostic)==88,"diagnostic ABI");
+static struct ReadDiagnostic rd;
+static void reader_step(long stage,long subject){rd.stage=stage;rd.subject=subject;}
+static void publish_diagnostic(void){
+    for(u32 i=0;i<8;i++)rd.magic[i]=((const u8*)"M4RDDG01")[i];
+    for(u32 i=0;i<16;i++)rd.nonce[i]=job_nonce[i];
+    rd.version=1;rd.error=rr.error;rd.pid=rr.pid;rd.loader_pid=rr.loader_pid;
+    rd.attempts=loader_audit_attempts;rd.flags=rr.flags;
+    save_new(JOB_DIR "/diagnostic",&rd,sizeof(rd),0600);
+}
 static u8 snapshot[P1_BYTES],digests[COUNT*32],buffer[65536],st[128],mounts[131073];
 static i64 device=-1;
 static i64 pread_exact(i64 fd,u8*b,u64 n,u64 off){
@@ -50,20 +64,20 @@ static i64 geometry(i64 fd){
     return 0;
 }
 static i64 capture(void){
-    i64 r=unmounted();if(r)return r;rr.flags|=8;
-    device=op("/dev/cnflasha1",A64_READ,0);if(device<0)return device;
-    r=geometry(device);if(r)return r;rr.flags|=16;
+    reader_step(30,0);i64 r=unmounted();if(r)return r;rr.flags|=8;
+    reader_step(31,0);device=op("/dev/cnflasha1",A64_READ,0);if(device<0)return device;
+    reader_step(32,0);r=geometry(device);if(r)return r;rr.flags|=16;
     for(u64 at=0;at<P1_BYTES;){u64 n=P1_BYTES-at;if(n>65536)n=65536;
-        r=pread_exact(device,snapshot+at,n,at);if(r)return r;at+=n;rr.bytes=at;}
+        reader_step(33,at);r=pread_exact(device,snapshot+at,n,at);if(r)return r;at+=n;rr.bytes=at;}
     digest_bytes(snapshot,P1_BYTES,rr.first);
     /* A second complete source read must agree with the captured buffer. */
-    r=digest_fd(device,P1_BYTES,rr.second);if(r)return r;
-    if(!same(rr.first,rr.second,32))return -84;rr.flags|=32;
-    r=cl(device);device=-1;if(r)return r;
+    reader_step(34,0);r=digest_fd(device,P1_BYTES,rr.second);if(r)return r;
+    reader_step(35,0);if(!same(rr.first,rr.second,32))return -84;rr.flags|=32;
+    reader_step(36,0);r=cl(device);device=-1;if(r)return r;
     for(u32 i=0;i<COUNT;i++){u64 at=(u64)i*CHUNK,n=P1_BYTES-at;if(n>CHUNK)n=CHUNK;
         digest_bytes(snapshot+at,n,digests+32*i);char path[128];filename(path,i);
-        r=save_new(path,snapshot+at,n,0600);if(r)return r;rr.chunks=i+1;}
-    r=save_new(JOB_DIR "/digests",digests,sizeof(digests),0600);if(r)return r;rr.flags|=64;return 0;
+        reader_step(37,i);r=save_new(path,snapshot+at,n,0600);if(r)return r;rr.chunks=i+1;}
+    reader_step(38,0);r=save_new(JOB_DIR "/digests",digests,sizeof(digests),0600);if(r)return r;rr.flags|=64;return 0;
 }
 static void cleanup_chunks(void){
     for(u32 i=0;i<COUNT;i++){char path[128];filename(path,i);i64 r=unlink(path);if(r && r!=-2 && !rr.cleanup)rr.cleanup=r;}
@@ -73,20 +87,20 @@ void reader_main(u64*stack){
     for(i64 fd=0;fd<4096;fd++)cl(fd);
     for(u32 i=0;i<8;i++)rr.magic[i]=((const u8*)"M4P1RD01")[i];for(u32 i=0;i<16;i++)rr.nonce[i]=job_nonce[i];
     rr.version=1;rr.phase=1;rr.euid=sc(175,0,0,0,0,0,0);rr.pid=sc(172,0,0,0,0,0,0);rr.ppid=sc(173,0,0,0,0,0,0);
-    if(stack[0]!=2){rr.error=-22;goto done;}const char*p=(const char*)stack[2];u64 value=0;u32 digits=0;
+    reader_step(1,0);if(stack[0]!=2){rr.error=-22;goto done;}const char*p=(const char*)stack[2];u64 value=0;u32 digits=0;
     while(p[digits] && digits<10){if(p[digits]<'0'||p[digits]>'9'){rr.error=-22;goto done;}value=value*10+p[digits++]-'0';}
     if(!digits || p[digits] || value<=1 || value>0x7fffffffUL){rr.error=-22;goto done;}rr.loader_pid=value;
     for(u32 i=0;rr.ppid!=1 && i<100;i++){i64 ts[2]={0,1000000};sc(101,(i64)ts,0,0,0,0,0);rr.ppid=sc(173,0,0,0,0,0,0);}
-    rr.cleanup=unlink(JOB_DIR "/worker");if(rr.euid || rr.ppid!=1 || rr.cleanup){rr.error=-13;goto done;}rr.flags|=1;
-    rr.error=tmpfs(&fs);if(rr.error)goto done;if((u64)fs.bsize*(u64)fs.bavail<64*1024*1024UL){rr.error=-28;goto done;}rr.flags|=2;
-    rr.error=verify_inherited_closed();if(rr.error)goto done;
-    rr.error=save_new(JOB_DIR "/ready",&rr,sizeof(rr),0600);if(rr.error)goto done;
+    reader_step(2,0);rr.cleanup=unlink(JOB_DIR "/worker");if(rr.euid || rr.ppid!=1 || rr.cleanup){rr.error=-13;goto done;}rr.flags|=1;
+    reader_step(3,0);rr.error=tmpfs(&fs);if(rr.error)goto done;if((u64)fs.bsize*(u64)fs.bavail<64*1024*1024UL){rr.error=-28;goto done;}rr.flags|=2;
+    reader_step(4,0);rr.error=verify_inherited_closed();if(rr.error)goto done;
+    reader_step(5,0);rr.error=save_new(JOB_DIR "/ready",&rr,sizeof(rr),0600);if(rr.error)goto done;
     rr.phase=2;rr.error=wait_start();if(rr.error)goto done;
     lifecycle_result.loader_pid=rr.loader_pid;rr.error=inspect_loader();if(rr.error)goto done;rr.flags|=4;
     rr.phase=3;rr.error=capture();if(!rr.error)rr.phase=4;
 done:
     if(device>=0){i64 c=cl(device);device=-1;if(!rr.error && c)rr.error=c;}
-    if(rr.error)rr.phase=90;
+    if(rr.error){rr.phase=90;publish_diagnostic();}
     save_new(JOB_DIR "/result",&rr,sizeof(rr),0600);
     /* Host ACK authorizes deleting only these fixed nonce tmpfs snapshots.
        Timeout performs the same bounded cleanup, without touching Work/p1. */

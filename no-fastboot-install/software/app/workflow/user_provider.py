@@ -1,4 +1,5 @@
 from data_paths import data_root
+from diagnostics import OperationFailure, describe, secondary
 from product_integrity import pinned, state_path
 from pathlib import Path
 from datetime import datetime, timezone
@@ -93,22 +94,18 @@ class Provider(old.Provider):
                 '当前 WinUSB 不是本工具已核对的驱动，请先恢复普通 USB。')
         return 'winusb'
 
-    def wait_communication(self, folder, *, timeout=30, clock=time.monotonic, sleep=time.sleep):
-        """Wait for the bound normal PID; do not enumerate disks or change drivers."""
-        deadline = clock() + timeout
-        while True:
-            snapshot, state = self.snapshot(folder, connection_only=True)
-            if state['normal_count'] == 1 and state['service_count'] == 0:
-                self.same_body(state)
-                return snapshot, state
-            require(state['normal_count'] == 0 and state['service_count'] in (0, 1),
-                    '请只连接这一台 M4，相机 USB 身份不明确。')
-            if clock() >= deadline:
-                return None
-            sleep(0.5)
+    def wait_communication(self, folder, *, timeout=30):
+        """Poll PnP in one host process, then verify one protected snapshot."""
+        snapshot, state = self.snapshot(folder, connection_only=True, wait_seconds=timeout)
+        if state['normal_count'] == 1 and state['service_count'] == 0:
+            self.same_body(state)
+            return snapshot, state
+        require(state['normal_count'] == 0 and state['service_count'] in (0, 1),
+                '请只连接这一台 M4，相机 USB 身份不明确。')
+        return None
 
-    def wait_for_normal(self, folder, *, timeout=45, clock=time.monotonic, sleep=time.sleep):
-        return self.wait_communication(folder, timeout=timeout, clock=clock, sleep=sleep) is not None
+    def wait_for_normal(self, folder, *, timeout=45):
+        return self.wait_communication(folder, timeout=timeout) is not None
 
     def restore(self, folder, confirmation=False):
         from driver_restart import check
@@ -149,7 +146,7 @@ class Provider(old.Provider):
         require(shutil.disk_usage(CASE).free >= 2 * 1024 ** 3, '请至少保留 2 GiB 可用磁盘空间')
         return dict(passed=True, hardware_operations=0, model='ILCE-7M4', scope='enrolled_user_body')
 
-    def host(self, action, folder, mode=None):
+    def host(self, action, folder, mode=None, *, wait_seconds=None):
         require(ENROLLMENT.exists(), '请先完成首次配置')
         enrolled = ENROLLMENT.exists()
         if enrolled and action == 'Connection':
@@ -161,10 +158,27 @@ class Provider(old.Provider):
             command += [str(CASE / 'windows_snapshot.ps1'), '-Name', name]
             if mode == 'Communication':
                 command += ['-CommunicationOnly']
+                if wait_seconds is not None:
+                    require(type(wait_seconds) is int and 0 <= wait_seconds <= 90, '通信等待时间无效')
+                    command += ['-WaitCommunicationSeconds', str(wait_seconds)]
         else:
             require(action == 'Broker' and mode in ('SelfTest', 'StageBind', 'Restore'), '驱动动作无效')
             command += [str(BROKER / 'invoke_broker.ps1'), '-Mode', mode]
-        result = subprocess.run(command, capture_output=True, encoding='utf-8-sig', errors='replace', timeout=150, creationflags=subprocess.CREATE_NO_WINDOW, env=powershell_environment())
+        try:
+            result = subprocess.run(command, capture_output=True, encoding='utf-8-sig', errors='replace', timeout=150, creationflags=subprocess.CREATE_NO_WINDOW, env=powershell_environment())
+        except subprocess.TimeoutExpired as error:
+            error.diagnostic = dict(code='DRIVER_HOST_TIMEOUT' if action == 'Broker' else 'WINDOWS_SNAPSHOT_TIMEOUT',
+                stage='BINDING' if mode == 'StageBind' else 'RECOVERY_DISPATCHING' if mode == 'Restore' else 'PREFLIGHT',
+                message=('驱动任务 %s 等待结果超时。' % mode) if action == 'Broker' else 'Windows 连接状态读取超时。',
+                next_step='先查看原任务记录并恢复普通 USB；不要重复调度驱动任务。' if action == 'Broker' else '检查电脑和 USB 连接后重试状态检查。',
+                action=action, mode=mode, timeout_seconds=error.timeout)
+            try:
+                atomic(folder / (name + '_host.json'), dict(diagnostic=describe(error),
+                    stdout=(error.stdout or b'').decode('utf-8', errors='replace') if isinstance(error.stdout, bytes) else error.stdout,
+                    stderr=(error.stderr or b'').decode('utf-8', errors='replace') if isinstance(error.stderr, bytes) else error.stderr))
+            except OSError as storage_error:
+                secondary(error, storage_error, 'save_driver_timeout')
+            raise
         atomic(folder / (name + '_host.json'), dict(action=action, mode=mode, returncode=result.returncode, stdout=result.stdout, stderr=result.stderr))
         if action == 'Broker' and mode == 'Restore' and ('No unique normal camera; no privileged task was dispatched.' in result.stderr):
             return (2, dict(mode='Restore', status='NOT_DISPATCHED_NO_NORMAL_CAMERA', task_dispatched=False))
@@ -175,8 +189,10 @@ class Provider(old.Provider):
                 raise RuntimeError('Windows 连接状态读取失败，请查看本轮记录中的 host.json。此次状态读取未调度驱动任务。') from error
             raise RuntimeError('驱动结果未确认，请保留记录，不重复调度') from error
 
-    def snapshot(self, folder, *, connection_only=False):
-        code, value = self.host('Snapshot', folder, 'Communication' if connection_only else None)
+    def snapshot(self, folder, *, connection_only=False, wait_seconds=None):
+        options = {} if wait_seconds is None else dict(wait_seconds=wait_seconds)
+        require(wait_seconds is None or connection_only, '通信等待不能请求存储扫描')
+        code, value = self.host('Snapshot', folder, 'Communication' if connection_only else None, **options)
         require(code == 0, 'Windows snapshot failed')
         name = value['snapshot']
         require(isinstance(name, str) and re.fullmatch('oneclick_[0-9a-f]{32}', name), 'Invalid snapshot name')
@@ -197,8 +213,13 @@ class Provider(old.Provider):
             path = snapshot / ('latest_' + mode + '.json')
             if path.exists():
                 value = read(path)
-                require(value['status'] not in ('RUNNING', 'FAILED', 'NEEDS_REVIEW', 'REFUSED_BEFORE_CHANGE'),
-                        '驱动任务需要检查：' + mode + ('；' + value['error'] if value.get('error') else ''))
+                if value['status'] in ('RUNNING', 'FAILED', 'NEEDS_REVIEW', 'REFUSED_BEFORE_CHANGE'):
+                    cause = str(value.get('error') or 'Windows 未返回具体错误；请查看该任务的 worker 日志')
+                    raise OperationFailure('DRIVER_TASK_UNRESOLVED', 'BINDING' if mode == 'StageBind' else 'PREFLIGHT',
+                        '驱动任务需要检查：%s（%s）；%s' % (mode, value['status'], cause),
+                        '点击“恢复普通 USB”核对原任务结果；如提示需要重启，重启 Windows 后继续。',
+                        mode=mode, task_status=value['status'], run_id=value.get('run_id'),
+                        reboot_required=value.get('reboot_required'))
 
     def service_package_staged(self):
         """Windows must find the service INF in its driver store, or it cannot

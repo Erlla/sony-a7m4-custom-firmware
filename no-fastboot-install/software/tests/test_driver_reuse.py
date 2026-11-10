@@ -50,7 +50,7 @@ def main():
         provider.binding = dict(identity=identity,
             camera_instance_sha256=hashlib.sha256(row['instance'].upper().encode()).hexdigest())
         hosts, snapshots, disposed = [], [], []
-        def snapshot(destination, *, connection_only=False):
+        def snapshot(destination, *, connection_only=False, wait_seconds=None):
             snapshots.append(connection_only)
             return folder, dict(normal_count=1, service_count=0,
                                 normal=[copy.deepcopy(row)], pmhome=[], storage_checked=False)

@@ -114,6 +114,11 @@ class Jobs:
             if isinstance(payload.get('preparation'), dict):
                 receipt['preparation'] = payload['preparation']
             atomic(folder / 'receipt.json', receipt)
+            if code != 0 and not payload:
+                lines = [line.strip() for line in text.splitlines() if line.strip()]
+                receipt['summary'] = next((line for line in reversed(lines) if line.startswith('操作已停止：')),
+                    '后台进程异常退出（代码 %s）。%s' % (code, lines[-1] if lines else '没有返回错误信息，请保留本轮日志。'))
+                atomic(folder / 'receipt.json', receipt)
             self.events.put(('finished', receipt))
         except BaseException as error:
             if receipt is not None:

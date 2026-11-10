@@ -1,0 +1,8 @@
+{
+  "schema": "m4-shared-source/1",
+  "version": "1.03",
+  "build_id": "1.03-agent-20261111-r1",
+  "based_on_public_commit": "0f4863c90f5fe1dad570140471a8832ec905019d",
+  "source_path": "no-fastboot-install/software",
+  "purpose": "Unified desktop and Agent core; single-process PnP wait, menu-only continuation and actionable descriptor diagnostics"
+}

@@ -1,71 +1,46 @@
-# M4 相机工具 1.0.1 源码
+# M4 相机工具 / AI Agent 1.03 源码
 
-[English](README.en.md) · [用户指南](../TOOL-1.0.0.md) · [安装方法](../README.md) · [修改原理](../IMPLEMENTATION.md)
+桌面端与 AI Agent 使用本目录的同一套补丁、连接和恢复逻辑。普通用户下载成品，不需要 Python、Git 或编译器。
 
-通过普通 USB 为 Sony ILCE-7M4 准备更新环境，再由用户在相机菜单中安装 SD 卡上的固件。此前版本的安装流程已获用户测试通过反馈。本目录提供源码；直接使用请从 [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases) 下载便携包。
+- [桌面下载](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-ToolKit-v0.1.2)
+- [AI Agent 入口](../agent/README.md) · [操作提示词](../agent/PROMPT.zh-CN.md) · [资源清单](../agent/resources.json)
+- [English](README.en.md) · [构建与发布](RELEASING.md) · [源码来源](SOURCE.json)
 
-软件提供“写入补丁”和独立的“恢复普通 USB”。用户自行放置安装包，软件不读取、检查、复制或绑定 DAT。固件 `BODYDATA.DAT` 从 Release 单独下载。
+## 1.03 改进
 
-## 当前行为
+1. 普通 USB 通信等待在一个 PowerShell 进程内轮询，每轮只枚举一次 PnP，结束后保存一次快照。补丁与菜单之间继续复用已核对驱动，不等待盘符。
+2. p1 已完成、菜单会话尚未开始时，桌面端提供“检查连接并继续菜单”；Agent 返回当前待办。先核对原证据及同一机身，连接可用则仅创建新的菜单尝试，不再次派发 p1 writer。连接仍异常时保留独立 USB 恢复。
+3. 描述符错误区分设备未枚举、LANGID 缺失、身份字符串缺失、底层传输失败；保留实际阶段、errno、libusb 错误码和等待次数，不把所有错误都说成菜单失败。
+4. 独立 Agent 1.00/1.01 的已停止菜单任务可在原路径保留 state 后升级并查询原 job；旧运行中任务、未知写入结果和未知构建仍不重新派发。
 
-- 首次使用按 Windows 用户和机身建立配置。匹配安装及空任务目录可复用，只补建缺失任务；运行中任务和未知操作不会作为残留删除。
-- 任务账户名和 SID 按解析后的身份比较。具体未通过字段写入私人安装收据。
-- 普通／服务 USB 身份均准备 WinUSB。信任 libwdi 自签名证书需要明确同意，默认取消；这些不是索尼或微软发布者证书。
-- 补丁与菜单期间复用驱动。完整 p1 备份、按内容匹配、单次写入和独立完整回读保留；未知布局停止，显示版本号不设白名单。
-- 固件操作完成与电脑盘符恢复分开记录。每次打开新界面会话，保留备份和日志，结果未知的任务不自动重发。
-- 日常操作只执行完整性校验，不运行 ARM64 仿真或故障注入。
-- 固件库与已支持的 6.02 基线不一致时，日志显示“当前相机固件非6.02版本”，保留实际摘要并停止，不写入补丁。这是库内容兼容性判断，不按版本页标签推断兼容性。
-- StageBind 返回需要重启时，在 USB 认证和 p1 读取前停止并提示重启 Windows；重开软件或插拔相机不会清除待重启状态。读取任务开始前的失败可独立恢复 USB，不要求提供尚未生成的写入材料。
+固件兼容性按实际库内容判断，显示版本号不设白名单。完整备份、单次按需写入、独立完整回读、菜单就绪检查保持。没有移植 A7C2 的认证重试、服务协议或读写补丁字节。
 
-## Windows x64 构建
+## 使用范围
 
-需要 Python 3.12+ 和 Windows 自带的 .NET Framework C# 编译器。构建不提权、不访问相机、不安装驱动。运行组件独立提供，不作为源码二进制提交。
+桌面默认启动 M4相机工具.exe；Agent 调用同一原生入口的 --agent doctor/status/start/resume/recover-usb。软件不读取、检查、复制或安装 DAT，卡升级由用户在相机上执行。每次操作只做完整性校验，不运行开发故障测试。
 
-`assets-files.json` 锁定 **3257 个文件、9 个分组**。普通／服务的 INF、CAT 和共享共同安装器共 6 个文件，全部属于 `tools/driver` 资产分组；不再依赖研究目录或源码里的额外二进制。其余分组摘要保持。
+普通连接恢复、p1 完成、菜单就绪和用户报告安装完成分别记录。驱动任务要求 Windows 重启时必须真正重启电脑。只读检查失败须有清理证据，未知写入结果不能靠删除状态解除。
 
-在本目录使用另行取得的可信便携包：
+首次初始化复用匹配配置、补齐缺失任务；普通/服务身份均准备驱动。新电脑的证书和 UAC 需要用户自行确认。原生入口保留完整性检查、受保护运行目录和读句柄缓存；未提供 Authenticode 签名，完整性校验不代表杀毒软件不会误报。
+
+## 构建
+
+开发电脑需要 Windows x64、Python 3.12+ 和系统 C# 编译器；用户运行包自带依赖。
 
 ```powershell
-py -3 prepare_assets.py --download --cache D:\M4-downloads --output D:\M4-runtime
-# 已有可信 ZIP 时可改用 --from-package D:\M4-portable.zip，完全离线导出。
-py -3 build.py --assets D:\M4-runtime --output D:\M4-build
+py -3 -I -B prepare_assets.py --download --cache D:\M4-cache --output D:\M4-assets
+# 也可 --from-package D:\可信便携包.zip，离线提取锁定资产。
+py -3 -I -B build.py --assets D:\M4-assets --output D:\M4-build
 D:\M4-build\M4相机工具.exe --verify
+py -3 -I -B tests\run_offline.py --package D:\M4-build --report D:\M4-tests.json
 ```
 
-包含全部锁定文件的便携 ZIP 也可直接传给 `build.py --assets`。输入 app、state 和固件均忽略，app 始终来自当前源码；输出必须是新目录。来源和许可见 [THIRD_PARTY.md](THIRD_PARTY.md) 与 [assets-sources.json](assets-sources.json)。精确导出不是从每个上游归档下载重建的完整配方。
+assets-files.json 锁定 3257 文件、9 个分组。输入包只提供匹配资产；app 来自当前源码，不复制旧状态和固件。构建只允许新输出目录。版本统一为 **1.03**，Agent build_id 为 **1.03-agent-20261111-r1**。历史桌面 1.02 与独立 Agent 1.00/1.01 是不同构建，不能仅按数字混用任务。
 
-原生入口在 Python、CLR 和管理员授权前核对文件与导入目录；正常运行使用受保护的 ProgramData 副本，状态与缓存留在解压目录。只读句柄约束运行中的内容替换。`--verify` 只校验本地文件，不提权或建立设备会话。可信来源的启动 EXE 仍是信任起点；未提供 Authenticode 签名，完整性检查不能代替安全软件判定。
+包级测试使用一次性临时副本和替身，不得对用户安装目录运行。详见[离线检查](tests/OFFLINE.md)与[故障矩阵](tests/FAULT_MATRIX.md)。干净 Windows、实际 UAC/驱动和相机安装仍需分别验收；离线 PASS 不等于实机通过。
 
-下载器只获取锁定摘要的 USB ZIP，支持断点续传、有限重试和缓存复用；不下载 DAT 或其他路线的组件，不执行远程脚本，不修改代理或 TLS 验证。导出和构建先在独立临时目录完成，失败不留下已发布的半成品，可以使用同一输出路径重试；已存在的安装目录和状态不会被覆盖。两个资产入口共同拒绝 ZIP 重复项、Windows 名称别名、符号链接和目录联接。
+## 参考与许可
 
-**版本区别：** 作者已发布的 ZIP 标记为 `1.00`，本源码为 `1.0.1`。ZIP 中 3257 个运行资产与原锁匹配，可用于重建本源码，其 app 不会被复制。不要把 `1.00` 成品直接当作当前源码的包级验收输入，也不要修改清单或哈希使其通过。运行版本集中于 `app/product_version.py`，构建要求其与依赖元数据一致，并在发布输出前确认 Python 与原生 `--verify` 的版本和完整性。发布前流程见 [RELEASING.md](RELEASING.md)。
+免 Fastboot 方案参考 [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools)。连接状态、驱动复用及恢复分离参考 [QAQLeonard/a7c2-tools](https://github.com/QAQLeonard/a7c2-tools/tree/ef7db116e13e37be91e9af20360dc9bba8d64a9b)。本轮独立实现 M4 主机侧改进，没有复制其受不同许可约束的源码。
 
-## 开发验证
-
-统一离线入口可以直接检查源码，不需要外部运行组件、完整便携包或相机：
-
-```powershell
-py -3 -I -B tests\run_offline.py --source-only --report build\source-tests.json --junit build\source-tests.xml
-# 有完整、可信的本机构建包时，同时运行包级检查；每项使用独立临时副本。
-py -3 -I -B tests\run_offline.py --package D:\M4-build --report build\package-tests.json
-```
-
-源码检查覆盖构建资产复制、USB 身份重试策略（Fake 设备）、会话继承／隔离、状态 IO 和测试运行器本身；Windows 上实际验证文件共享。目录资产在整组复制完成后重新计算输出摘要，依赖锁不变。
-
-未指定 `--source-only` 或 `--package` 时，源码检查仍会执行，缺少完整包的检查逐项列为 `BLOCKED`，总体 `PARTIAL`。退出码：`PASS=0`、`FAIL=1`、`PARTIAL=2`；源码范围的 PASS 不代表发布包或相机安装通过。运行器支持每项超时与 JSON/JUnit 报告，不生成替代运行时或 release.json，也不修改原包的状态。详见 [离线测试说明](tests/OFFLINE.md)。
-
-以下命令只用于新构建的测试目录，不能对用户运行目录执行；它们会生成虚拟任务和绑定。不会调用 Windows 驱动或相机，但会留下测试 state，测试目录不能直接分发。
-
-```powershell
-D:\M4-build\runtime\python\python.exe -I -B tests\run_clean_setup.py --package D:\M4-build
-D:\M4-build\runtime\python\python.exe -I -B tests\test_driver_reuse.py --package D:\M4-build
-powershell -NoProfile -ExecutionPolicy Bypass -File tests\test_driver_trust.ps1 -Package D:\M4-build
-```
-
-完整初始化替身从无工具配置、任务、相关驱动和证书状态开始，并模拟 Windows 把 SID 登记读回为账户名。可选 `test_task_user_readback.ps1 -Source <源码目录>` 需要已有真实参考任务，仅只读观察，不能当作空白安装测试。实际 UAC、ACL、驱动绑定和相机结果须另行现场验收。
-
-## 致谢与范围
-
-免 Fastboot 方案参考 [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools)；驱动复用和独立恢复参考 [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research)。其余来源见 [REFERENCES.md](../../REFERENCES.md)。
-
-源码不含机身绑定、备份、日志、私钥、完整固件或相机固件库。第三方组件沿用各自许可。
+第三方运行组件沿用各自许可，见 [THIRD_PARTY.md](THIRD_PARTY.md)。公开源码与运行包不含完整固件、相机固件库、机身绑定、p1 备份或私人日志。

@@ -16,7 +16,14 @@ verify_release()
 from operation_session import new_session, ensure_session
 if len(sys.argv) > 1:
     action, *arguments = sys.argv[1:]
-    if action.startswith('simple-'):
+    if action == 'agent':
+        import agent_api
+        raise SystemExit(agent_api.main(arguments))
+    elif action == 'agent-worker':
+        import agent_api
+        source = Path(os.environ['M4_TOOL_SOURCE_ROOT'])
+        agent_api.run_worker(agent_api.Store(source), *arguments)
+    elif action.startswith('simple-'):
         ensure_session()
         sys.argv = [str(ROOT / 'app/workflow/simple_workflow.py'), action[7:], *arguments]
         runpy.run_path(sys.argv[0], run_name='__main__')
