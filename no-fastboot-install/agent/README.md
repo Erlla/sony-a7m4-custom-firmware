@@ -1,5 +1,7 @@
 # M4 Agent 工具 1.00
 
+**模型建议：使用 [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news260910/)，或推理、代码与工具调用能力不低于该级别的大模型；Agent 还须具备联网、本机文件访问和命令执行能力。**
+
 让本地 AI Agent 下载工具、检查连接、准备相机更新环境，并逐步提示你操作。也可只恢复 Windows 普通 USB 驱动。支持 Windows x64；电脑无需预装 Python、Git 或编译器。云端聊天无法直接操作本机 USB。
 
 [正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) · [完整操作提示词](PROMPT.zh-CN.md) · [资源清单](resources.json) · [源码与构建](source/README.md)
@@ -7,6 +9,8 @@
 ## 复制给 Agent
 
 ```text
+请先提醒我：建议使用 DeepSeek V4.1 Flash 或能力相当及以上的大模型，且 Agent 须支持联网、本机文件访问和命令执行。
+
 请完整阅读并遵循项目最新的 Agent 操作说明：
 https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/no-fastboot-install/agent/PROMPT.zh-CN.md
 

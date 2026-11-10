@@ -26,9 +26,13 @@
 
 ### AI Agent 模式（1.00）
 
+**模型建议：使用 [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news260910/)，或推理、代码与工具调用能力不低于该级别的大模型；Agent 还须具备联网、本机文件访问和命令执行能力。**
+
 把下面整段复制给能够联网、访问本机文件并执行命令的本地 AI Agent。它会下载正式工具、逐步提示操作，也支持单独恢复普通 USB。
 
 ```text
+请先提醒我：建议使用 DeepSeek V4.1 Flash 或能力相当及以上的大模型，且 Agent 须支持联网、本机文件访问和命令执行。
+
 请完整阅读并遵循项目最新的 Agent 操作说明：
 https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/no-fastboot-install/agent/PROMPT.zh-CN.md
 
