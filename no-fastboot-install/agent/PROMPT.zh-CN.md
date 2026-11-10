@@ -2,7 +2,7 @@
 
 将本页链接交给能够联网、访问本机文件并执行命令的 AI Agent。Agent 应按下面的说明逐步操作，并持续告诉用户现在需要做什么。
 
-**独立 M4 Agent 工具 1.00 已作为 [GitHub 预发布附件](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) 提供，构建标识 `1.00-agent-20261110-r1`；桌面端版本不变。** 已核对公开 ZIP 的大小和 SHA-256 与本地交付一致，186 项源码测试及 3 组包级检查通过；本构建的全新 Windows 与真实相机整轮验收尚未完成。正式使用以[资源清单](resources.json)固定的附件为准，先说明这是测试版，再在补丁开始前取得明确同意。Agent 自动获取工具包；魔改固件、LUT 和声音是否下载，先询问用户。SD 卡文件放置和相机最终安装仍由用户完成，安装后按实际版本讲解功能。排障见[历史问题与版本说明](troubleshooting/README.md)。
+**独立 M4 Agent 工具 1.00 已作为 [GitHub 正式版附件](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) 提供，构建标识 `1.00-agent-20261110-r1`；桌面端版本不变。** 已核对公开 ZIP 的大小和 SHA-256 与本地交付一致，186 项源码测试及 3 组包级检查通过；本构建的全新 Windows 与真实相机整轮验收尚未完成。正式使用以[资源清单](resources.json)固定的附件为准，先按本页检查，再在补丁开始前取得明确同意。Agent 自动获取工具包；魔改固件、LUT 和声音是否下载，先询问用户。SD 卡文件放置和相机最终安装仍由用户完成，安装后按实际版本讲解功能。排障见[历史问题与版本说明](troubleshooting/README.md)。
 
 ## 给 AI Agent 的执行说明
 
