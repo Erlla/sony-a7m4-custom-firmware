@@ -1,18 +1,18 @@
 {
   "schema": "m4-agent-resources/1",
-  "published": false,
+  "published": true,
   "version": "1.02",
   "build_id": "1.02-agent-20261110-r1",
   "source_commit": "d42a8fd9dac92c88c99603e06c8670863367ccc4",
   "platforms": {
     "windows-x64": {
-      "url": null,
+      "url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/download/A7M4-Agent-ToolKit-V1.00/M4._1.02_Windows_x64_Agent.zip",
       "sha256": "3ac378425bf80ce7b83fbe6705d290fb4174f809b37253423df9c56dcee1fb7d",
       "bytes": 84651884,
       "root": "M4相机工具_1.02",
       "entry": "M4相机工具.exe",
-      "status": "local_review_only",
-      "local_file": "M4相机工具_1.02_Windows_x64_Agent审阅.zip"
+      "status": "prerelease",
+      "local_file": "M4._1.02_Windows_x64_Agent.zip"
     },
     "macos-arm64": {
       "status": "not_validated"
@@ -24,6 +24,9 @@
   "validation": {
     "offline": "passed",
     "clean_windows": "not_performed",
-    "camera": "not_performed"
-  }
+    "camera": "not_performed",
+    "download": "sha256_and_zip_crc_verified"
+  },
+  "release_channel": "prerelease",
+  "release_url": "https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00"
 }
