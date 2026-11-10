@@ -1,6 +1,8 @@
 # Sony A7 IV custom firmware and tools
 
-> **Flashing risk**
+> **Flashing risk and compatibility**
+>
+> **This firmware was developed using a mainland-China-market A7M4 camera and an original Sony FE 50mm F1.4 GM lens. Cameras from other regions and third-party lenses may encounter unknown compatibility issues.**
 >
 > Writing or modifying firmware can permanently brick the camera, prevent booting or destroy calibration and settings. Incorrect wiring can damage the camera and computer. You assume the risks of these operations.
 >

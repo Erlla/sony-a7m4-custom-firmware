@@ -34,6 +34,7 @@
 
 ## README layout
 
+- The opening bilingual compatibility notice identifies the development setup as a mainland-China-market A7M4 and an original Sony FE 50mm F1.4 GM lens. Other regional cameras and third-party lenses may have unknown compatibility issues. Preserve the separately recorded successful Hong Kong installation reports; those do not change the development setup.
 - Both root READMEs strongly recommend having working Fastboot tools and the required cable/bridge ready before firmware updates, and recommend AI Agent-assisted installation and troubleshooting with documentation, complete errors and logs. Describe help with common installation/driver/USB problems without turning it into a guarantee of repairing every failure. Download links point to Releases; do not restore the obsolete notice that complete firmware is not yet provided.
 - Keep the opening flashing warning, then no-Fastboot installation, then a concise Fastboot method table and navigation, followed by declarations and acknowledgements. Keep detailed reports linked rather than reproducing test conclusions on the homepage.
 - Credit Hearts-Ace/sony-a7r5-custom-firmware for native colour parameters, grid lifecycle research and R5ColorLab LUT fitting. The user explicitly excluded menu attribution; retain the custom LUT method entry.
