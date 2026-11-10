@@ -1,0 +1,379 @@
+{
+  "schema": "m4-agent-known-issues/1",
+  "updated": "2026-11-10",
+  "independent_agent_version": "1.00",
+  "independent_build": "1.00-agent-20261110-r1",
+  "independent_build_publication": "local_only",
+  "matching": "symptom_then_stage_build_and_current_evidence",
+  "entries": [
+    {
+      "id": "USB-001",
+      "title": "StageBind：证书不受信任",
+      "terms": [
+        "StageBind",
+        "0x800B0109",
+        "-2146762487",
+        "CERT_E_UNTRUSTEDROOT"
+      ],
+      "stage": "驱动暂存",
+      "cause_status": "historically_confirmed",
+      "document": "setup.md#usb-001",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-002",
+      "title": "StageBind／Restore：需要重启 Windows",
+      "terms": [
+        "reboot_required",
+        "3010",
+        "WINDOWS_RESTART_REQUIRED",
+        "USB_RESTORE_WINDOWS_RESTART"
+      ],
+      "stage": "驱动绑定或恢复",
+      "cause_status": "historically_confirmed",
+      "document": "setup.md#usb-002",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-003",
+      "title": "StageBind：驱动文件缺失",
+      "terms": [
+        "stage_svc.log",
+        "WdfCoInstaller01011.dll",
+        "WinUSBCoInstaller2.dll",
+        "系统找不到指定的文件"
+      ],
+      "stage": "驱动暂存",
+      "cause_status": "historically_confirmed",
+      "document": "setup.md#usb-003",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-004",
+      "title": "首次初始化：目录或任务已存在",
+      "terms": [
+        "A task folder already exists",
+        "An installation already exists",
+        "refusing replacement"
+      ],
+      "stage": "首次初始化",
+      "cause_status": "historically_confirmed",
+      "document": "setup.md#usb-004",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-005",
+      "title": "任务定义误判：账户名与 SID",
+      "terms": [
+        "Unexpected task definition",
+        "task_checks",
+        "principal_resolved",
+        "failed_fields"
+      ],
+      "stage": "首次初始化",
+      "cause_status": "historically_confirmed",
+      "document": "setup.md#usb-005",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-006",
+      "title": "UAC 取消或授权窗口尚未确认",
+      "terms": [
+        "ADMIN_CANCELLED",
+        "1223",
+        "AWAITING_SYSTEM_AUTHORIZATION",
+        "首次使用"
+      ],
+      "stage": "后台授权",
+      "cause_status": "multiple_possible_causes",
+      "document": "setup.md#usb-006",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-007",
+      "title": "USB 字符串描述符：没有 langid",
+      "terms": [
+        "The device has no langid",
+        "USB 描述符暂时无法读取",
+        "Entity not found",
+        "backend -5"
+      ],
+      "stage": "普通身份读取",
+      "cause_status": "multiple_possible_causes",
+      "document": "connection.md#usb-007",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-008",
+      "title": "服务模式 0336 无法唯一枚举",
+      "terms": [
+        "Service 0336 did not enumerate uniquely",
+        "0336",
+        "service_count"
+      ],
+      "stage": "服务身份切换",
+      "cause_status": "historically_confirmed",
+      "document": "connection.md#usb-008",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-009",
+      "title": "USBSTOR 已恢复，但 PMHOME／盘符未出现",
+      "terms": [
+        "USBSTOR",
+        "PMHOME",
+        "WAITING_FOR_RESTART",
+        "USB_RESTORE_WAITING",
+        "请检查所连接的设备"
+      ],
+      "stage": "普通 USB 恢复",
+      "cause_status": "multiple_possible_causes",
+      "document": "connection.md#usb-009",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-010",
+      "title": "既不能写入，也不能恢复",
+      "terms": [
+        "没有可核对的写入材料",
+        "写入结果尚未证明已结束",
+        "不能切换驱动",
+        "DRIVER_BIND_OUTCOME_UNKNOWN"
+      ],
+      "stage": "异常恢复分流",
+      "cause_status": "multiple_possible_causes",
+      "document": "connection.md#usb-010",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-011",
+      "title": "另一目录或桌面任务尚未结束",
+      "terms": [
+        "OTHER_INSTALLATION_PENDING",
+        "另一工具目录仍有未结束任务",
+        "AI Agent 任务尚未结束"
+      ],
+      "stage": "任务协调",
+      "cause_status": "expected_guard",
+      "document": "connection.md#usb-011",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-012",
+      "title": "status.json 丢失或启动后一直停在旧失败页",
+      "terms": [
+        "status.json",
+        "No such file or directory",
+        "需重新检查",
+        "操作需要检查"
+      ],
+      "stage": "本地状态装载",
+      "cause_status": "multiple_possible_causes",
+      "document": "workflow.md#usb-012",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-013",
+      "title": "保存快照或控制记录失败",
+      "terms": [
+        "snapshot_ref.json",
+        ".tmp",
+        "WinError 5",
+        "WinError 32",
+        "WinError 33"
+      ],
+      "stage": "本地文件与状态保存",
+      "cause_status": "multiple_possible_causes",
+      "document": "workflow.md#usb-013",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-014",
+      "title": "菜单准备找不到旧发布清单",
+      "terms": [
+        "app/provider/release.json",
+        "provider\\release.json",
+        "MENU_PREPARATION_RETRY"
+      ],
+      "stage": "本地菜单封装",
+      "cause_status": "historically_confirmed",
+      "document": "workflow.md#usb-014",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-015",
+      "title": "705/766 或 766/766 后很久没有变化",
+      "terms": [
+        "705",
+        "766",
+        "offline_replay",
+        "PATCH_PREPARING",
+        "receiver_replay_writer.py"
+      ],
+      "stage": "备份后本机准备",
+      "cause_status": "multiple_possible_causes",
+      "document": "workflow.md#usb-015",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-016",
+      "title": "libJiritsu 与离线绑定不同",
+      "terms": [
+        "Current library differs from offline binding",
+        "/usr/lib/libJiritsu.so",
+        "当前相机固件非6.02版本"
+      ],
+      "stage": "服务库兼容检查",
+      "cause_status": "historically_confirmed",
+      "document": "workflow.md#usb-016",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-017",
+      "title": "Unknown updater library",
+      "terms": [
+        "Unknown updater library",
+        "updater_lineage",
+        "content_stock",
+        "content_user"
+      ],
+      "stage": "p1 内容分析",
+      "cause_status": "multiple_possible_causes",
+      "document": "workflow.md#usb-017",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-018",
+      "title": "原生预读拒绝 phase 90 / error -2",
+      "terms": [
+        "Native p1 read rejected",
+        "phase 90",
+        "phase=90",
+        "error -2",
+        "flags=3"
+      ],
+      "stage": "只读备份或菜单预读",
+      "cause_status": "unresolved_in_original_case",
+      "document": "workflow.md#usb-018",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-019",
+      "title": "p1 完成，但菜单没有就绪",
+      "terms": [
+        "HANDOFF_NOT_READY",
+        "final_unplug_ready",
+        "menu_ready=false",
+        "seconds_remaining"
+      ],
+      "stage": "菜单交接",
+      "cause_status": "multiple_possible_causes",
+      "document": "workflow.md#usb-019",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-020",
+      "title": "软件更新菜单灰色",
+      "terms": [
+        "软件更新是灰色",
+        "菜单灰显",
+        "无法点击",
+        "更新按钮"
+      ],
+      "stage": "相机菜单观察",
+      "cause_status": "multiple_possible_causes",
+      "document": "workflow.md#usb-020",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-021",
+      "title": "更新失败：快闪6下、慢闪8下",
+      "terms": [
+        "快闪6下",
+        "慢闪8下",
+        "6快8慢",
+        "0x86"
+      ],
+      "stage": "用户相机安装",
+      "cause_status": "multiple_possible_causes",
+      "document": "workflow.md#usb-021",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-022",
+      "title": "Agent doctor 检测不到实际已连接的相机",
+      "terms": [
+        "CONNECTION_REQUIRED",
+        "normal_count",
+        "PnP",
+        "正则",
+        "UTF-8"
+      ],
+      "stage": "Agent 只读枚举",
+      "cause_status": "multiple_possible_causes",
+      "document": "agent.md#usb-022",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-023",
+      "title": "提权后台仍受 Windows Job 约束",
+      "terms": [
+        "LAUNCH_FAILED",
+        "launch-error.json",
+        "IsProcessInJob",
+        "BREAKAWAY",
+        "受作业约束"
+      ],
+      "stage": "Agent 后台启动",
+      "cause_status": "historically_confirmed",
+      "document": "agent.md#usb-023",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-024",
+      "title": "Agent 解释器与 Provider 摘要不一致",
+      "terms": [
+        "pythonw.exe",
+        "python.exe",
+        "解释器",
+        "runtime",
+        "digest",
+        "摘要"
+      ],
+      "stage": "启动/Provider校验",
+      "cause_status": "historically_confirmed",
+      "document": "agent.md#usb-024",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-025",
+      "title": "进度查询慢、确认菜单又弹授权、提示相互矛盾",
+      "terms": [
+        "monitor_arguments",
+        "--watch",
+        "无需操作",
+        "管理员授权",
+        "766/766"
+      ],
+      "stage": "Agent 监控与引导",
+      "cause_status": "historically_confirmed",
+      "document": "agent.md#usb-025",
+      "match_is_diagnosis": false
+    },
+    {
+      "id": "USB-026",
+      "title": "Defender 报 Bearfoos",
+      "terms": [
+        "Trojan:Win32/Bearfoos.B!ml",
+        "Bearfoos",
+        "Defender",
+        "特洛伊木马"
+      ],
+      "stage": "系统防护拦截",
+      "cause_status": "unresolved_in_original_case",
+      "document": "security.md#usb-026",
+      "match_is_diagnosis": false
+    }
+  ],
+  "publication": "public_reference"
+}
