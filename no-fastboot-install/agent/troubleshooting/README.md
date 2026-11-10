@@ -21,7 +21,7 @@
 | 旧实验 Agent `1.02-agent-20261110-r1`～`r6` | 沿用桌面编号的开发构建；r5 完成本机实机演练，r6 为离线提速验证 |
 | 独立 Agent **1.00** | 从此独立编号；构建 `1.00-agent-20261110-r1`，继承 r6，186 项源码测试及 3 组包级检查通过，本构建尚未做新的干净 Windows／相机验收 |
 
-独立 1.00 已作为 [GitHub 预发布附件](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) 提供；[资源清单](../resources.json)已固定 `1.00-agent-20261110-r1` 的下载地址、大小和 SHA-256，公开 ZIP 核对与本地交付一致。本构建仍需新的干净 Windows／相机验收。旧实验 `1.02-agent-20261110-r1` 有本页 USB-022～024 的已知问题，不用于新写入任务；已有任务先在原目录查询、按当前允许的待办恢复，不能复制到新构建继续。后续替换附件时应同步资源清单和验收范围。
+独立 1.00 已作为 [GitHub 正式版附件](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.00) 提供；[资源清单](../resources.json)已固定 `1.00-agent-20261110-r1` 的下载地址、大小和 SHA-256，公开 ZIP 核对与本地交付一致。本构建仍需新的干净 Windows／相机验收。旧实验 `1.02-agent-20261110-r1` 有本页 USB-022～024 的已知问题，不用于新写入任务；已有任务先在原目录查询、按当前允许的待办恢复，不能复制到新构建继续。后续替换附件时应同步资源清单和验收范围。
 
 ## 按问题查阅
 
