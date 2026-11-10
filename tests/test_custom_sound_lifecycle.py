@@ -46,9 +46,23 @@ def test_current_component_chains_and_awb_composition():
     for component in ("AP", "CP"):
         chain = layout[component + "_component_patches"]
         assert all(a["output_sha256"] == b["source_sha256"] for a, b in zip(chain, chain[1:]))
-        identity = profile["components"][component.lower()]["identities"][chain[-1]["source_sha256"]]
-        assert identity["output_sha256"] == chain[-1]["output_sha256"]
-        assert next(r["sha256"] for r in layout["components"] if r["component"] == component) == chain[-1]["output_sha256"]
+        lifecycle = next(row for row in chain if row.get("profile") == "a7m4/profiles/custom-sound-lifecycle.json")
+        identity = profile["components"][component.lower()]["identities"][lifecycle["source_sha256"]]
+        assert identity["output_sha256"] == lifecycle["output_sha256"]
+        current = chain[-1]["output_sha256"]
+        if component == "AP":
+            playback = layout["aspect_playback"]["components"]["ap"]
+            assert playback["input_sha256"] == current
+            current = playback["output_sha256"]
+            for name in layout["menu_ui_fixes"]["AP_order"]:
+                stage = layout["menu_ui_fixes"]["components"][name]
+                assert stage["input_sha256"] == current
+                current = stage["output_sha256"]
+        else:
+            clone = layout["aspect_capture_clone"]
+            assert clone["source_sha256"] == lifecycle["output_sha256"]
+            assert current == clone["output_sha256"]
+        assert next(r["sha256"] for r in layout["components"] if r["component"] == component) == current
     assert layout["CP_component_patches"][-1]["output_sha256"] in awb["identities"]
     assert not profile["sound_conversion_cache_enabled"] and profile["LUT_compilation_cache_preserved"]
     for name, expected in profile["source_hashes"].items():

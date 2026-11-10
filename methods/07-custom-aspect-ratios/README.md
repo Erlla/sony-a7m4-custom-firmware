@@ -76,3 +76,9 @@
 图片身份见 [assets/manifest.json](assets/manifest.json)；图片授权说明见[第三方说明](../../THIRD_PARTY_NOTICES.md)。
 
 相关实现：[LUT／纵横比／声音组件合并](../../native/feature-integration/README.md)、[JPEG EXIF 宽高同步](../../native/jpeg-exif-dimensions/README.md)。两者分别按各自输入哈希限定适用范围。
+
+## 菜单比例小图标
+
+从菜单进入纵横比时，17:6、65:24、5:4、7:6各显示对应的小图标，普通和选中状态均与比例文字一致。它们使用独立于Fn的菜单图像字段与原厂尺寸画布；原厂四比例和Fn图标保留。维护者已实机确认新增比例共用3:2图标的问题修复。
+
+[菜单UI组件](../../native/menu-ui-fixes/README.md)提供AP字段与两个横竖屏图像库的源码和精确构建配方，需一起集成。

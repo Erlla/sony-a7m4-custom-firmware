@@ -76,3 +76,9 @@ The selection-page implementation passed 336 native creation/rotation/mask-clear
 Photo identities are in [assets/manifest.json](assets/manifest.json); see [third-party notices](../../THIRD_PARTY_NOTICES.md) for authorization details.
 
 Related implementation: [combining LUT, aspect and sound components](../../native/feature-integration/README.en.md), and [JPEG EXIF dimension synchronization](../../native/jpeg-exif-dimensions/README.md). Each component has its own pinned input hashes.
+
+## Aspect popup icons
+
+The regular Aspect Ratio menu now shows matching compact icons for 17:6, 65:24, 5:4 and 7:6 in both normal and selected states. These use a separate field and stock-size canvas from the Fn icons; the stock ratios and existing Fn images are preserved. The maintainer confirmed the shared 3:2-icon issue is resolved.
+
+The [menu UI component](../../native/menu-ui-fixes/README.md) provides the AP field changes and both orientation image banks as authored source and exact build recipes. Integrate all three icon components together.

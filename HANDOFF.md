@@ -125,3 +125,10 @@
 - Native A03612 copies the task without A03142. After its A03650 memcpy, inherit the source task's frozen sidecar ID, including zero for ordinary photos; do not reread current menu state. Native task bytes and RAW geometry remain unchanged.
 - Helper RX is 11B700..11B754 with no additional BSS/heap. Reuse the superseded freeze row at BA5508 through the existing aspect-ready gate; A049B0 already enters the LUT wrapper and calls the aspect freeze directly. Preserve cold ARM memcpy, current prefix CRC at BA5A10, sound gates and lens-AF helper. Old standalone addresses and unused-looking resident space are not portable allocations.
 - The maintainer confirmed the face/eye-priority AF capture issue is resolved. Native replay does not observe the physical AF scheduler; do not extend that confirmation to every capture mode or HEIF sample. Publish authored source and component identities only, without firmware or private photos.
+
+## LUT selector touch and compact aspect-menu icons
+
+- Apply a7m4.menu_ui_fixes after the aspect-playback AP layer: lut-touch, then aspect-ap. Keep both image-23/image-32 banks with the icon-field change. Existing recipes keep their original input hashes; do not broaden their allowlists.
+- The selection event is 020F0001/type4 with widget9, sceneD9 and absolute row at +10/+14/+18. Touch-begin 03010000 has no row. Row0 is Off; 1–16 maps to slots0–15. Reuse queue(A_PREVIEW) and the original confirmation/cancellation path. The partial ABI header is a view of existing objects, never a new allocation.
+- Use 904D000 for the selector helper, preserving 904C000 playback code and existing transactions. The aspect popup uses option+0C, separate from Fn+20/+24. New IDs02001E98..1E9B have stock76x40 canvases, stride80 and two4096/2304-byte blocks. Preserve old compressed payloads and bank lengths; UXD descriptor offsets cannot point into a large file tail.
+- The maintainer confirmed both reported issues fixed. Publish source, component identities and bilingual methods; keep complete AP/UXC/firmware, private screenshots, research paths and per-iteration test history out of this repository.

@@ -47,3 +47,11 @@ English: current integration preserves the aspect bodies, battery patch sites, r
 可选AWB在这一层之后执行；列明的AWB先执行输入也可用，结果一致。AP/MPR回放放大组件仍按自己的顺序集成。
 
 English: apply the capture-copy aspect layer after the current sound lifecycle CP and before optional AWB. It inherits the source task's frozen ID, including zero, through the native copy constructor without altering LUT task fields or rereading the menu. Its resident dispatch row was superseded by the LUT freeze wrapper; existing sound and lens-AF gates remain intact. The listed AWB-first input converges to the same complete CP output. AP/MPR magnified playback remains a separate component chain.
+
+## LUT触摸与菜单比例图标
+
+AP当前完整顺序为：声音生命周期→相册放大兼容AP→[菜单UI组件](../../native/menu-ui-fixes/README.md)的lut-touch→aspect-ap。前一层输出分别衔接下一层的精确输入；各旧配方保留自己的原身份。当前最终AP与两个图像库身份见reference-layout.json的menu_ui_fixes。
+
+纵横比小图标需同步image-23/image-32两个资源库；只改AP字段会缺少匹配图像。原Fn资源有效字节不变。LUT触摸复用原预览事务，触摸时不保存；两个UI层不修改CP、MPR、声音、AWB或成片裁切。维护者已确认这两项UI问题修复。
+
+English: after sound lifecycle and the aspect-playback AP component, apply lut-touch and then aspect-ap. Apply both image-bank components with the aspect AP field update. The previous recipes retain their exact identities; the current AP and image-bank outputs are listed in menu_ui_fixes. Existing preview transactions, Fn payloads, CP/MPR, sound, AWB and capture geometry are preserved. The maintainer confirmed both reported UI issues are resolved.

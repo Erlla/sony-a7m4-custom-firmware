@@ -11,7 +11,7 @@ Adds Custom LUTS under Exposure/Color → Color/Tone on the Sony A7 IV (ILCE-7M4
 
 ## Operation
 
-Put converted `.json` files in `PRIVATE/M4ROOT/GENERAL/LUT/`. Open Custom LUTS, enter import, choose the card and file, and follow the on-camera import/replacement flow. Select a look, press Right for the detailed editor, select a control with Left/Right, and change it with Up/Down or the on-screen controls. Confirm saves; Cancel restores the previous selection/settings. Reset restores the look's defaults and 100% strength. The deletion page supports removing the current look or clearing all looks.
+Put converted `.json` files in `PRIVATE/M4ROOT/GENERAL/LUT/`. Open Custom LUTS, enter import, choose the card and file, and follow the on-camera import/replacement flow. Select a look using the keys or by touching the left number column, press Right for the detailed editor, select a control with Left/Right, and change it with Up/Down or the on-screen controls. Confirm saves; Cancel restores the previous selection/settings. Reset restores the look's defaults and 100% strength. The deletion page supports removing the current look or clearing all looks.
 
 Contrast, highlights, shadows and saturation range from −9 to +9; fade, sharpness and clarity from 0 to 9; sharpness range from 1 to 5. Strength runs from 10% to 100% in 10% steps. Lower strength approaches **fixed factory ST defaults**, independently of the user's current ST adjustments.
 
@@ -49,3 +49,9 @@ Supplied and authorized by the maintainer. Displayed look names are examples, no
 Includes implementation and modification locations, component identities, a [CP atomic cache core](../../native/custom-lut/README.md), an [AP compiled-result cache](../../native/persistent-cache/README.md), and camera UI photographs. It does not distribute complete manufacturer programs, color tables or firmware packages, and does not add a complete one-command firmware builder.
 
 Follow the [integration notes](INTEGRATION.md) when combining methods.
+
+## Touch selection
+
+Touch the left number column to select Off or slots 01–16; the look name and preview follow the selection. OK saves, while MENU cancels back to the committed choice. Empty slots remain selectable for import. The maintainer confirmed the reported number-column touch issue is resolved.
+
+See the authored source and exact [menu UI components](../../native/menu-ui-fixes/README.md) and the [integration order](INTEGRATION.md).

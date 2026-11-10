@@ -45,8 +45,8 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 | Third-party batteries | Show battery percentage and suppress the caution while retaining charging and temperature protection. Updates still require a Sony battery. | [Instructions](methods/04-third-party-battery/README.en.md) |
 | Lens AF capability filtering | Retain lens-reported capabilities and speed profiles; no focus-speed improvement is promised. | [Instructions](methods/05-third-party-lens-af/README.en.md) |
 | Custom sounds | Import WAVs from SD for mechanical/electronic shutters; focus and shutter sounds preempt each other, with the latest trigger taking priority and separate clips and volumes. May take a few seconds to activate after power-on. | [Instructions](methods/06-custom-sounds/README.en.md) |
-| Custom aspect ratios | Add 17:6, 65:24, 5:4 and 7:6, with JPEG / HEIF cropping and the original RAW area retained. | [Instructions](methods/07-custom-aspect-ratios/README.en.md) |
-| Custom LUTs | Import converted JSON LUTs individually from SD; 16 replaceable slots, eight adjustments plus strength per filter, and approximately one-second loading on first use after power-on. | [Instructions](methods/08-custom-lut/README.en.md) |
+| Custom aspect ratios | Add 17:6, 65:24, 5:4 and 7:6 with matching menu icons, JPEG / HEIF cropping and the original RAW area retained. | [Instructions](methods/07-custom-aspect-ratios/README.en.md) |
+| Custom LUTs | Import converted JSON LUTs individually from SD; 16 replaceable slots with touch selection from the number column, eight adjustments plus strength per filter, and approximately one-second loading on first use after power-on. | [Instructions](methods/08-custom-lut/README.en.md) |
 | Shell / SSH | Activation and integration of network Telnet, USB shell, SSH / SFTP and Multi UART root terminals. | [Instructions](methods/09-shell-access/README.en.md) |
 | White-balance tuning | Set Ambience to −1, retain Standard at 0, and set White priority to 97 using the existing AWB settings. | [Instructions](methods/10-awb-priority/README.en.md) |
 
