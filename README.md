@@ -42,7 +42,7 @@ https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/no-fastboot-install
 
 全程用简短中文说明当前进度和我需要做什么。实际写入补丁前等待我明确同意；需要系统授权、拔插 USB 或重启时，明确说明具体操作并等待回复。
 
-出现问题时主动查阅项目历史问题库，核对原因并按正式流程处理。中断后查询原任务，不重复写入、不删除状态。仅恢复 USB 时，不进入固件安装流程。
+出现问题时，请主动结合本轮日志、对应构建源码和历史问题排查，修复可验证的主机端问题并复查。确认旧任务已结束且未开始设备操作后，可保留原记录、归档失效状态并生成新的尝试；补丁已经完成时继续后续步骤。记录每次尝试的依据与结果，持续推进到完成或明确的具体阻塞。仅恢复 USB 时使用独立恢复流程。
 ```
 
 **[Agent 使用入口](no-fastboot-install/agent/README.md)** · [完整操作提示词](no-fastboot-install/agent/PROMPT.zh-CN.md) · [正式运行包](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.03) · [Agent 源码](no-fastboot-install/software/README.md)

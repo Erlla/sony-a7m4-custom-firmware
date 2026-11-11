@@ -2,7 +2,7 @@
 
 [返回索引](README.md) · [机器检索索引](index.json)
 
-先核对当前任务和构建。以下是已归纳的历史经验，不是对新故障的自动诊断；处理始终服从当前正式入口的待办。
+先核对当前任务和构建，再用本轮证据验证历史线索。入口自身有缺陷时，按[自主排障规则](../PROMPT.zh-CN.md#8-自主诊断修复与恢复)追踪源码、修复主机端逻辑并验证。
 
 <a id="usb-022"></a>
 ## USB-022 · Agent doctor 检测不到实际已连接的相机
@@ -24,19 +24,24 @@
 <a id="usb-023"></a>
 ## USB-023 · 提权后台仍受 Windows Job 约束
 
-**匹配线索：** `LAUNCH_FAILED`、`launch-error.json`、`IsProcessInJob`、`BREAKAWAY`、`受作业约束`。
+匹配线索包括 `LAUNCH_FAILED`、`launch-error.json`、`IsProcessInJob`、`BREAKAWAY` 和“Windows 独立后台仍受进程作业约束，未开始相机操作。”
 
-**阶段：** Agent 后台启动。**原因状态：** 历史案例已确认。
+### 已确认的执行位置
 
-**历史原因：** 普通子进程脱离Job成功，不代表UAC后的进程也能脱离；早期实验构建在设备操作前拒绝启动。对话关闭可能杀掉受约束任务，不能忽略此检查。
+在 `1.03-agent-20261111-r1` 中，`Launcher.cs` 先校验管理员身份，再检查 Job。首次检查发现所属 Job 后通过 WMI 启动独立进程，独立进程仍返回 attached 时抛出上述错误。这个报错发生在启动 Python worker 之前，尚未进入该派发的驱动及 p1 操作。匹配时核对原 build_id、dispatch 和完整错误文本。
 
-**本轮应核对：** 查同一 dispatch 的 launch-error、进程是否真正独立、原任务是否已有device_started。没有JSON/前端超时不等于无后台。
+该构建的 `status_result` 只在返回 JSON 时覆盖 status、message 和 diagnostic。持久记录仍可能为 `DISPATCHING/AWAITING_SYSTEM_AUTHORIZATION`，next_step 仍要求查询，doctor 又返回旧状态。符合上述源码路径时，管理员检查已经通过，后续要处理后台启动和状态收尾。
 
-**处理：** 保留原任务，使用正式状态查询。已确认设备前终止后，按程序待办使用修复构建继续；启动修复通过同一受保护入口完成，不由Agent临时编写后台命令。
+`IsProcessInJob` 的空 JobHandle 检查进程是否属于任意 Job。还需检查实际限制及进程生命周期，确定宿主关闭是否会终止后台。[微软 API 说明](https://learn.microsoft.com/en-us/windows/win32/api/jobapi/nf-jobapi-isprocessinjob)，[Job 生命周期说明](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects)
 
-**不要这样做：** 不去掉 IsProcessInJob 检查、不用前台终端超时运行写入器、不把普通Job替代测试当成UAC实测。
+### Agent 如何继续处理
 
-**证据与验证范围：** 2026-11-10 多轮失败保留记录；实验r5受保护WMI分离和后续真实流程成功，独立Agent1.00继承实现但未重新硬件验收。
+1. 核对同一 dispatch 的 launch-error、worker claim、会话记录、相关进程和共享任务记录。根据源码确认报错之前实际执行的操作。
+2. 读取当前宿主、父进程链、Job 限制和 WMI 返回结果，提出后台启动的具体假设。先用惰性 worker 验证包含实际授权流程的启动路径及父进程退出后的存活。
+3. 按主提示词第 8 节在源码副本修复启动与终止状态收尾，复用受保护入口，给出本地构建标识和定向测试结果。
+4. 已确认设备前终止且相关进程均结束时，保留原派发证据，归档失效活动状态，再创建新的尝试。1.03 r1 当前缺少通用失败归档接口，需要先落实相应修复。
+
+现有日志只记录错误文本及 dispatch，宿主名称、父链、Job 限制与 WMI 进程信息需要在故障电脑补采。早期 r5 的本机安装成功与后续惰性测试，覆盖各自实际执行的环境。此条记录 1.03 的已定位故障及排查路径，程序修复和现场验证进度需另行记录。
 
 <a id="usb-024"></a>
 ## USB-024 · Agent 解释器与 Provider 摘要不一致

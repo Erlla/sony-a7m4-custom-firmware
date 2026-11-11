@@ -1,8 +1,8 @@
 {
   "schema": "m4-agent-known-issues/1",
   "updated": "2026-11-11",
-  "independent_agent_version": "1.01",
-  "independent_build": "1.01-agent-20261111-r1",
+  "independent_agent_version": "1.03",
+  "independent_build": "1.03-agent-20261111-r1",
   "independent_build_publication": "stable",
   "matching": "symptom_then_stage_build_and_current_evidence",
   "entries": [
@@ -322,10 +322,12 @@
         "launch-error.json",
         "IsProcessInJob",
         "BREAKAWAY",
-        "受作业约束"
+        "受作业约束",
+        "Windows 独立后台仍受进程作业约束",
+        "AWAITING_SYSTEM_AUTHORIZATION"
       ],
       "stage": "Agent 后台启动",
-      "cause_status": "historically_confirmed",
+      "cause_status": "launcher_stage_confirmed_host_job_origin_unresolved",
       "document": "agent.md#usb-023",
       "match_is_diagnosis": false
     },

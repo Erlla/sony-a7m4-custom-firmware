@@ -1,5 +1,13 @@
 # Maintainer handoff
 
+## Evidence-based Agent recovery guidance
+
+- The prompt now authorizes source-based diagnosis and local host-side fixes for launch, paths, classification and lifecycle bookkeeping. Use the package source_commit and the project build chain, then record a distinct local build and targeted validation.
+- Preserve original task evidence. Archive a proven terminal dispatch under the existing mutual exclusion, reconcile its owned active pointers and allocate a new dispatch or job. Verified p1 completion continues at the menu or USB recovery stage. Resolve attempted writes from actual results before choosing further mutation.
+- Agent 1.03 r1 still has a launch-failure reconciliation gap. Matching launch-error can accompany persistent DISPATCHING/AWAITING_SYSTEM_AUTHORIZATION and a stale polling next_step. The generic retry interface needs implementation before that path can run. Documentation updates describe repair authority and the present capability.
+- USB-023 now distinguishes the pre-worker attached-Job rejection from the unknown host Job origin. Query actual restrictions and test an inert worker through the actual elevation and parent-exit path.
+- User action requests still consume current replies. Recovery-only intent stays within connection recovery. Private logs and device data remain local.
+
 ## Desktop and independent Agent 1.03
 
 - Both distributions now build from `no-fastboot-install/software/`. The old `agent/source/README.md` points there; do not restore a second mutable copy. This supersedes the 1.00/1.01 source-path notes below.
