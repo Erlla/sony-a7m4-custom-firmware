@@ -168,3 +168,11 @@
 - Runtime is 1.01-agent-20261111-r1; retain created_version/build identity when migrating a stopped 1.00 job. Read the clock from the current attempt's status, not the first failed attempt. normal_usb_restored=false records lack of tool confirmation; it must not override a later verified Windows snapshot.
 - Offline routing and packaged stock/user menu tests cover recovery followed by a new sealed menu attempt without writer dispatch. Clean Windows and physical-camera acceptance remain separate and are not inferred from those tests. Runtime binaries belong in Release assets; state, p1 and research evidence remain local.
 
+
+
+## Camera-written FL2/FL3 RAW alternatives
+
+- Method 3 now includes raw-alternative-looks.md / raw-alternative-looks.en.md, authored native/raw-alternative-looks sources and a7m4.raw_alternative_looks. Apply after aspect-capture-clone and AWB: c9399d46…211aa becomes 5ec4dee8…93fc4. Keep previous component allowlists frozen; the LUT reference retains its pre-AWB CP and lists this later optional layer separately.
+- The resident BA4960 constructor wrapper updates only three RAM bytes of BKID300AF, then calls A02A60. Quantity accepts10/12; mapping uses the configured count. RAW gamma entries10/11 must map to colour19/20, not old4/9. Source/header pointers, child filling and length computation remain native. The P3 prefix/CRC, AP/MPR/resources and persistent backup are unchanged.
+- Twelve children each use C26 bytes; SR2 grows35398→41618. Child endA2AA stays below AED0. Do not mistake the separate fixed9000 C634/7250 encryption block for the main SR2 length. Processing view task+20 maps view+5384 to task+53A4; the original A0FCA0 binding was replayed.
+- The maintainer confirmed Edit recognition of FL2/FL3. Keep that feedback distinct from JPEG export, pixel-level colour equivalence or exhaustive RAW-format/burst validation. Publish reusable methods/source/identities, retaining firmware, private photos, processing fixtures and research/package history locally.

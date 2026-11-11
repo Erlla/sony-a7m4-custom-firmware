@@ -63,3 +63,10 @@ The maintainer accepted landscape and portrait previews on the accepted integrat
 ## 自定义 LUT / Custom LUTs
 
 [方法 8](../methods/08-custom-lut/README.md)记录 SD JSON 导入、16 槽、八项微调、强度与自动缓存回收。附维护者授权的六张实机界面照片、修改位置及组件身份，并记录与声音、纵横比和 AF 的共享调用/资源要求。缓存核心的主机线程检查不能替代真实相机调度与长期压力；界面验收不能代替色彩拟合测量。
+
+
+## 机内RAW的FL2/FL3备选外观 / Camera-written RAW alternatives
+
+维护者于2026-11-11确认Edit已能识别机内新增的FL2/FL3备选外观。[实现及反馈范围](../methods/03-fl2-fl3/raw-alternative-looks-validation.md)区分目录识别、原生离线回放与后续渲染验证。
+
+On 2026-11-11 the maintainer confirmed that Edit recognizes the camera-written FL2/FL3 alternatives. The [implementation validation scope](../methods/03-fl2-fl3/raw-alternative-looks-validation.md) separates recognition, native offline replay and rendering evidence.

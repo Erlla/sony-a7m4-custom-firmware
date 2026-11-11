@@ -6,6 +6,10 @@ This guide covers FL2/FL3 independently. **Look coefficients, matrix endpoints a
 
 Enabling a menu or flashing only `nflasha8` is insufficient. The complete combination involves AP, CP, color data, settings copies and separate physical CP NOR.
 
+## Camera-written RAW alternatives
+
+New camera RAW files can include FL2/FL3 alternative parameters for direct selection in Edit. The [implementation and offline build](raw-alternative-looks.en.md) cover the native twelve-entry list, gamma mapping, RAM configuration and exact CP component order. Root capture matrices and software alternatives are separate data paths; the earlier standalone recipe below retains its original input boundary.
+
 ## Lossless RAW acceptance and exact-source recipe
 
 The lossless RAW repair passed complete eMMC/NOR CP readback and post-boot A1 persistence after a scoped nfa2 settings repair. Fresh **original** DSC02788_FL2 and DSC02789_FL3 RAW files each match all 105 root-SR2 matrix values to their own FX2 A1. FL2 writes 1614. See [RAW acceptance evidence](../../docs/fl23-raw-lossless-validation-20261017.json). Corresponding re-selection JPEGs give mean smooth-area DeltaE76 of 1.0007/0.9754, with small residual differences. See the [latest figures and metrics](color-validation-20261017.md#raw无损写出修复后的jpeg对照); the first fixed-A1 acceptance remains a separate measurement set.

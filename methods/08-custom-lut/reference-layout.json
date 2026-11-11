@@ -1488,5 +1488,13 @@
     "new_BSS_bytes": 0,
     "new_heap_bytes": 0
   },
-  "AP_component_patches_scope": "Core cache/sound chain; aspect_playback and menu_ui_fixes follow as separate components."
+  "AP_component_patches_scope": "Core cache/sound chain; aspect_playback and menu_ui_fixes follow as separate components.",
+  "raw_alternative_looks": {
+    "recipe": "../../native/raw-alternative-looks/layout.json",
+    "module": "a7m4.raw_alternative_looks",
+    "input_stage": "After aspect-capture-clone and optional AWB; this exact profile requires AWB already applied",
+    "input_sha256": "c9399d46f231639d467f73316243bfae2620195502c8cc21fc2779ce810211aa",
+    "output_sha256": "5ec4dee8e126ed54ff476b349e4d76318c98d3cc2f0ac9a5583ec98155b93fc4",
+    "AP_MPR_AV_and_resources_unchanged": true
+  }
 }

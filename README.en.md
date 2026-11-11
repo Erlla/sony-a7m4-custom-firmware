@@ -43,7 +43,7 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 | SD update recovery | Trigger the camera's SD recovery updater from Fastboot while preserving same-body settings. | [Instructions](methods/00-sd-recovery/README.en.md) |
 | Custom update signing | Replace the update key and modify key verification to support self-signed packages. | [Instructions](methods/01-custom-signing/README.en.md) |
 | Firmware version display | Set the firmware version reported by the camera. | [Instructions](methods/02-firmware-version/README.en.md) |
-| FL2 / FL3 port | Port the FX2 FL2 and FL3 Creative Looks and associated colour configuration. | [Instructions](methods/03-fl2-fl3/README.en.md) |
+| FL2 / FL3 port | Port FX2 FL2/FL3 Creative Looks and colour configuration, with camera-written RAW alternatives for direct selection in Edit. | [Instructions](methods/03-fl2-fl3/README.en.md) |
 | Third-party batteries | Show battery percentage and suppress the caution while retaining charging and temperature protection. Updates still require a Sony battery. | [Instructions](methods/04-third-party-battery/README.en.md) |
 | Lens AF capability filtering | Retain lens-reported capabilities and speed profiles; no focus-speed improvement is promised. | [Instructions](methods/05-third-party-lens-af/README.en.md) |
 | Custom sounds | Import WAVs from SD for mechanical/electronic shutters; focus and shutter sounds preempt each other, with the latest trigger taking priority and separate clips and volumes. May take a few seconds to activate after power-on. | [Instructions](methods/06-custom-sounds/README.en.md) |

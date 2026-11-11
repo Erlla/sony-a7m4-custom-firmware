@@ -1,0 +1,128 @@
+{
+  "schema": "a7m4.raw-alternative-looks.component.v1",
+  "model": "ILCE-7M4",
+  "cp_base": "0x108000",
+  "file_bytes": 16236816,
+  "compiler": "arm-none-eabi-gcc (exact executable identity below)",
+  "compiler_sha256": "40df08ce8d40bfe8f24b10cfaf9f53becd812fd0f222b9ac81a99b9533fd70e9",
+  "compiler_flags": [
+    "-mcpu=cortex-a5",
+    "-mthumb",
+    "-mfloat-abi=soft",
+    "-Os",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ffreestanding",
+    "-fno-builtin",
+    "-fno-stack-protector",
+    "-fno-unwind-tables",
+    "-fno-asynchronous-unwind-tables",
+    "-nostdlib",
+    "-Wl,--build-id=none"
+  ],
+  "sources": {
+    "raw_list.c": "bba0ccf332bb4e9747e02b286531c985267f6746a04e1d61c74b69814381230d",
+    "raw_list.ld": "f69a9c7622224fe599988c0c80c1333226a7825ee9705a6df096de30f63c1a6f"
+  },
+  "identities": {
+    "c9399d46f231639d467f73316243bfae2620195502c8cc21fc2779ce810211aa": {
+      "input_stage": "After aspect-capture-clone and AWB priority",
+      "output_sha256": "5ec4dee8e126ed54ff476b349e4d76318c98d3cc2f0ac9a5583ec98155b93fc4"
+    }
+  },
+  "compiled_sections": [
+    {
+      "section": ".raw_constructor",
+      "VA": "0xba4960",
+      "bytes": 32,
+      "sha256": "463233abca6c2f267fd2ec7dbb9cc462f36847c22ac7f66f36abce750d2bfee7"
+    },
+    {
+      "section": ".raw_mapping",
+      "VA": "0x9ff8a4",
+      "bytes": 48,
+      "sha256": "55704aebc606c485d9bf6f4d99f5bb50f98845fd38b52878128695969d55cdb4"
+    },
+    {
+      "section": ".raw_quantity",
+      "VA": "0x9ff8e0",
+      "bytes": 32,
+      "sha256": "cda2c7b4045eef3d3fd4dfd3f68abb9b82f04c675549dc1907cf5721086732d1"
+    }
+  ],
+  "patches": [
+    {
+      "VA": "0xba4960",
+      "before": "0000000000000000000000000000000000000000000000000000000000000000",
+      "reason": ".raw_constructor",
+      "section": ".raw_constructor"
+    },
+    {
+      "VA": "0x9ff8a4",
+      "before": "46f6c172c0f24f1292f87030834201d1002034e092f87130834201d101202ee092f87230834201d1022028e092f87330",
+      "reason": ".raw_mapping",
+      "section": ".raw_mapping"
+    },
+    {
+      "VA": "0x9ff8e0",
+      "before": "834201d104201ce092f87530834201d1052016e092f87630834201d1062010e0",
+      "reason": ".raw_quantity",
+      "section": ".raw_quantity"
+    },
+    {
+      "VA": "0xa04144",
+      "before": "fef78cfc",
+      "reason": "Set only RAW count and two mappings in RAM before native construction",
+      "after": "a0f10cfc"
+    },
+    {
+      "VA": "0x9ff88c",
+      "before": "46f6c171",
+      "reason": "Accept legacy ten before initialization and twelve after RAW construction",
+      "after": "00f028b8"
+    },
+    {
+      "VA": "0xb8ee78",
+      "before": "0400000009000000",
+      "reason": "Use actual FL2/FL3 colors for native RAW alternate gamma",
+      "after": "1300000014000000"
+    }
+  ],
+  "preserved_VA_ranges": [
+    [
+      "0x118000",
+      "0x11e000"
+    ],
+    [
+      "0xba5a10",
+      "0xba5a14"
+    ]
+  ],
+  "RAM_config": {
+    "base_VA": "0x14f6fc1",
+    "backup_id": "0x300af",
+    "writes": {
+      "0x7a": 10,
+      "0x7b": 11,
+      "0x3": 12
+    },
+    "persistent_backup_modified": false
+  },
+  "sr2": {
+    "root_tags": 169,
+    "input_looks": 10,
+    "output_looks": 12,
+    "child_tags": 114,
+    "child_stride": 3110,
+    "input_bytes": 35398,
+    "output_bytes": 41618,
+    "child_region_end": "0xa2aa",
+    "next_region": "0xaed0"
+  },
+  "new_BSS_bytes": 0,
+  "new_heap_bytes": 0,
+  "written_patch_bytes": 128,
+  "actual_changed_bytes": 113
+}
