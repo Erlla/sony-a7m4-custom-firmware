@@ -1,6 +1,8 @@
 # 验证记录 / Validation
 
-2026-11-09：补充多台港版 A7M4 成功刷入的用户反馈。当前固件适用范围为中国大陆国行及香港港版，安装前须为索尼官方 V6.02；其他地区版本及其他固件版本尚未经实机测试。详见[安装验证说明](../no-fastboot-install/VALIDATION.md)。下方历史分项验证保留原有范围。 / Added successful-flashing reports from multiple Hong Kong-market A7M4 cameras. The firmware supports mainland-China and Hong Kong variants running official Sony V6.02 before installation; other regional variants and firmware versions remain untested. See [installation validation](../no-fastboot-install/VALIDATION.md). Historical component tests below retain their original scope.
+2026-11-11 更新安装反馈。目前已有国行、港版、日版和加拿大版 A7M4 机身刷入成功的反馈。除国行外，其他地区版本不保证兼容性。安装前须为索尼官方 V6.02。详见[安装验证说明](../no-fastboot-install/VALIDATION.md)。下方分项验证对应各自记录中的实机与样本。
+
+Installation feedback updated on 2026-11-11. Successful flashing has been reported on mainland China, Hong Kong, Japan and Canada-market A7M4 cameras. Compatibility is not guaranteed for regional variants other than mainland China. Official Sony V6.02 is required before installation. See [installation validation](../no-fastboot-install/VALIDATION.md). Each component result below applies to its recorded camera and samples.
 
 2026-10-21：新增[SD 更新救砖验证记录](../methods/00-sd-recovery/validation.md)。公开适配复用原有 FAT/fastboot 模块，离线核对恢复流程、连接错误、资源登记及 BAT 启动；没有操作相机，其他五项补丁配方未改变。 / Added public SD-recovery validation. The adaptation reuses existing FAT/fastboot modules, checks synthetic workflows/resources/launchers offline, and does not operate a camera or change the five patch recipes.
 

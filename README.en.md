@@ -2,7 +2,7 @@
 
 > **Flashing risk and compatibility**
 >
-> **This firmware was developed using a mainland-China-market A7M4 camera and an original Sony FE 50mm F1.4 GM lens. Cameras from other regions and third-party lenses may encounter unknown compatibility issues.**
+> **This firmware was developed using a mainland-China-market A7M4 camera and an original Sony FE 50mm F1.4 GM lens. Third-party lenses may encounter unknown compatibility issues.**
 >
 > Writing or modifying firmware can permanently brick the camera, prevent booting or destroy calibration and settings. Incorrect wiring can damage the camera and computer. You assume the risks of these operations.
 >
@@ -14,9 +14,9 @@
 
 English · [中文](README.md)
 
-**Supported configuration: mainland-China-market and Hong Kong-market Sony ILCE-7M4 (A7 IV / A7M4) cameras sold in their respective markets, running official Sony firmware V6.02 before installation.**
+**The installation baseline is a Sony ILCE-7M4 (A7 IV / A7M4) running official Sony firmware V6.02 before installation.**
 
-**Successful flashing has been reported on multiple Hong Kong-market A7M4 cameras. Regional variants other than mainland China and Hong Kong, and other firmware versions, have not yet been tested on hardware and remain outside the current supported scope.**
+**Successful flashing has been reported on mainland China, Hong Kong, Japan and Canada-market A7M4 cameras. Compatibility is not guaranteed for regional variants other than mainland China.**
 
 Provides installation without Fastboot, Fastboot maintenance tools and source for firmware modifications. Supported input hashes are documented in each method guide.
 

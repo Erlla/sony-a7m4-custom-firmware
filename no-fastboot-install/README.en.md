@@ -3,9 +3,9 @@
 [中文](README.md) · [Patch locations](IMPLEMENTATION.md) · [M4 Camera Tool guide](TOOL-1.0.0.md)
 
 > [!IMPORTANT]
-> **This firmware supports mainland-China-market and Hong Kong-market Sony ILCE-7M4 (A7 IV / A7M4) cameras, running official Sony firmware V6.02 before installation.**
+> **Before installation, confirm that the camera is a Sony ILCE-7M4 (A7 IV / A7M4) running official Sony firmware V6.02.**
 >
-> **Successful flashing has been reported on multiple Hong Kong-market A7M4 cameras. Other regional variants and other firmware versions have not yet been tested on hardware and remain outside the current supported scope.**
+> **Successful flashing has been reported on mainland China, Hong Kong, Japan and Canada-market A7M4 cameras. Compatibility is not guaranteed for regional variants other than mainland China.**
 
 A normal USB data cable prepares the Sony ILCE-7M4 updater; the camera then installs `BODYDATA.DAT` from its SD card. This route needs no Multi-port flashing cable, boot bridge or Fastboot session. The camera must boot normally and support USB mass-storage mode. It is not a recovery route for an unbootable camera.
 
