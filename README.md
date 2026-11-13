@@ -37,7 +37,7 @@
 
 ### AI Agent 模式（1.03）
 
-**模型建议：使用 [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news260910/)，或推理、代码与工具调用能力不低于该级别的大模型；Agent 还须具备联网、本机文件访问和命令执行能力。**
+**模型建议：使用 [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news261017/)，或推理、代码与工具调用能力不低于该级别的大模型；Agent 还须具备联网、本机文件访问和命令执行能力。**
 
 把下面整段复制给能够联网、访问本机文件并执行命令的本地 AI Agent。它会下载正式工具、逐步提示操作，也支持单独恢复普通 USB。
 
