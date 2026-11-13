@@ -1,4 +1,4 @@
-# Dense RAW chart and Fujifilm targets
+# Dense RAW chart and custom look targets
 
 [中文](DATASETS.md) · [Machine-readable manifest](charts/manifest.json) · [Training](README.en.md)
 
@@ -18,6 +18,18 @@ The directory contains `models/forward_model.json`, `models/grid_response.pt`, `
 
 Targets are RFCEX3.0 powered by SILKYPIX outputs: CC, Provia, Velvia, Astia, Reala Ace, Pro Neg.Hi/Std, Classic Neg., Nostalgic Neg., Eterna, Eterna Bleach Bypass and Acros. They are not replaced with Lightroom/DCP targets. **CC uses the controlled as-shot-WB export; the other eleven retain historical exports whose WB settings have not been independently verified per style.** Keep this status and each identity rather than describing all twelve as controlled as-shot targets or claiming improvement by replacing them.
 
-Existing target samples require no new export or photograph. New styles need targets generated from the same carrier, with an explicit recipe. Prefer16-bit sRGB, original size/orientation, exposure compensation0 and the agreed WB. Do not equate Kelvin labels across software. Add no computer lens correction.
+## Export your own look target
+
+Open `SONY-v4.5-100MP-5300K.ARW` in a grading application and apply the desired colour LUT or global recipe. Fix the development profile, WB and exposure. Configure the input gamut and transfer curve expected by the LUT. Convert the result to sRGB and export a flattened 16-bit RGB TIFF with embedded sRGB ICC. Disable automatic/local effects that change geometry or depend on scene content.
+
+The target must preserve the original **11648×8736** layout and orientation, with 364 columns×273 rows of 32-pixel tiles. The importer checks dimensions and orientation. Check actual tile placement as well, since automatic cropping, rotation and lens distortion correction can alter correspondence. Resizing to the expected dimensions cannot recover a changed layout.
+
+Pass the image through `--target-tiff` to obtain 99,372 target RGB values with the established five-pixel rule. Uncompressed, ZIP and LZW TIFFs are supported through `tifffile` and the `imagecodecs` dependency. The importer reads encoded sRGB values. Convert other ICC spaces in the editor before export. For untagged files, `--assume-srgb` records your confirmed export space. `--target-notes` can preserve the editor, LUT and development recipe, while `target.json` records file identity and import details.
+
+The fitted target includes the chosen base development plus LUT/global recipe. The model input remains the supplied Sony ARW. Custom targets use their own files, while bundled Fuji targets use `--film`. The seed and camera parameter capacity determine the reachable fit, reported through the output errors.
+
+## Existing targets and validation photographs
+
+Existing target samples can be reused directly. New targets use the same carrier and an explicit recipe, with agreed WB and exposure settings. Keep software-specific Kelvin labels in the recipe and preserve the chart geometry.
 
 Use the dense chart for gamut, neutral shadows and hue-versus-brightness behaviour. Reuse paired real photographs to protect materials, skin shadows, exposure and WB coverage. Ordinary paired photos work without a chart. Iterations reuse these data in the computer; no per-candidate camera shoot is required. Development/regression material used for selection is not an independent final test.

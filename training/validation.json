@@ -68,5 +68,42 @@
     "physical_camera": false,
     "filter_training": false,
     "implementation_sha256": "83a39a7c8d83387867e6d71accb5f5b2ffa791a9d5716b3e0093a63cb6bf89fa"
+  },
+  "custom_TIFF_target_workflow": {
+    "result": "PASS",
+    "target": "synthetic global affine RGB LUT",
+    "samples": 99372,
+    "steps": 180,
+    "before": {
+      "count": 99372,
+      "mean": 2.5032069598498827,
+      "p95": 5.313243474975712,
+      "maximum": 6.755827764343091,
+      "RGB_RMSE_255": 5.837334532685659
+    },
+    "after": {
+      "count": 99372,
+      "mean": 0.31775044982412676,
+      "p95": 1.1942186994793902,
+      "maximum": 2.354588862942791,
+      "RGB_RMSE_255": 1.012008488304506
+    },
+    "qualification": "aggregate",
+    "qualified": true,
+    "source_to_target_sampling_exact": true,
+    "same_device_candidate_replay_exact": true,
+    "historical_CPU_vs_current_CUDA_max_RGB16_difference": 1,
+    "historical_CPU_vs_current_CUDA_differing_channels": 73,
+    "exported_JSON_compiled": true,
+    "new_identity": true,
+    "bundled_CC_replay": true,
+    "physical_camera_test": false,
+    "editor_export_test": false,
+    "date": "2026-11-13",
+    "device": "cuda",
+    "torch": "2.14.1+cu130",
+    "unit_tests_passed": 12,
+    "mapping": "clip(encoded_sRGB * [1.03, 0.98, 0.94] + [0.005, 0, 0.01], 0, 1)",
+    "scope": "Synthetic target import, fitting and formal JSON replay on one chart; real editor export and physical camera evaluation pending"
   }
 }

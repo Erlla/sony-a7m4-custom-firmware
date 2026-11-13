@@ -129,9 +129,9 @@ py -3 -m venv .venv
 
 ## 三、LUT 训练方法
 
-使用已有 M4 电脑模型，在电脑中模拟“同一份 RAW＋原生 JSON → 机内颜色输出”，反复拟合自己的滤镜；在模型覆盖范围内，不需要每轮导入相机实拍。方法面向 AI Agent，支持复用合成大色卡和已有同源照片，包含模型依赖、网格／原生参数搜索及整数输出验证。
+支持将不同来源的色彩 LUT 或全局调色配方拟合为 A7M4 自定义滤镜。在调色软件中打开提供的索尼大色卡 ARW，应用目标效果，导出原布局的 16 位 sRGB TIFF，再交给 AI Agent 使用 M4 模型训练并输出相机可导入的 JSON。训练在电脑中迭代，复现程度由拟合误差与最终拍摄效果评估。
 
-**[训练入口、代码与素材](training/README.md)** · [AI Agent 执行指南](docs/custom-lut-training/AGENT_TRAINING.md) · [M4 模型说明](training/MODEL.md) · [大色卡与富士目标](training/DATASETS.md)
+**[训练入口、代码与素材](training/README.md)** · [AI Agent 执行指南](docs/custom-lut-training/AGENT_TRAINING.md) · [M4 模型说明](training/MODEL.md) · [大色卡与自定义目标](training/DATASETS.md)
 
 模型与大色卡作为独立训练素材附件提供；Sony 参考文件由使用者自行取得。模型复现误差、滤镜匹配误差及实机验收分别记录。[已有训练评估](docs/custom-lut-training/README.md)保留其原始数据范围与时间，不作为新用户的精度保证。
 

@@ -18,13 +18,25 @@ def main():
     parser.add_argument('--device',default='auto',choices=['auto','cpu','cuda'])
     parser.add_argument('--native',type=Path,help='Validated camera-look v2 seed/candidate JSON')
     parser.add_argument('--raw',type=Path)
-    parser.add_argument('--film',default='CC')
+    targets=parser.add_mutually_exclusive_group()
+    targets.add_argument('--film',help='Bundled Fuji target key; defaults to CC when no TIFF is supplied')
+    targets.add_argument('--target-tiff',type=Path,help='User-exported RGB16 sRGB dense chart')
+    parser.add_argument('--assume-srgb',action='store_true',help='Confirm sRGB for a target TIFF without an ICC profile')
+    parser.add_argument('--target-notes',default='',help='Editor, LUT, input space, WB and exposure recipe')
+    parser.add_argument('--qualification',choices=['per-colour','aggregate'],default='per-colour',
+                        help='Chart gate: every colour protected, or lower mean with non-increasing P95')
     parser.add_argument('--output',type=Path)
     parser.add_argument('--steps',type=int,default=1800)
     parser.add_argument('--trust',type=int,default=16)
     parser.add_argument('--name',default='My look')
     parser.add_argument('--roi',type=int,nargs=4,metavar=('X','Y','W','H'))
     args=parser.parse_args()
+    if (args.target_tiff or args.film) and args.action not in ('render-chart','fit-chart'):
+        parser.error('Target options apply to render-chart and fit-chart')
+    if (args.assume_srgb or args.target_notes) and args.target_tiff is None:
+        parser.error('--assume-srgb and --target-notes require --target-tiff')
+    if args.steps < 1 or args.trust < 0:
+        parser.error('--steps must be positive and --trust must be non-negative')
     import numpy as np
     import torch
     if args.device=='auto':args.device='cuda'if torch.cuda.is_available()else'cpu'
@@ -40,30 +52,44 @@ def main():
     out=args.output.resolve()
     if out.exists():
         parser.error('Choose a new output directory; previous results are retained')
-    out.mkdir(parents=True)
     native=w.fmt.parse(args.native.read_bytes());model.check_defaults(native)
     started=time.monotonic()
     if args.action in ('render-chart','fit-chart'):
         from evaluation import metrics
         dataset=w.read(model.assets/'charts/dataset.json')
-        with np.load(model.assets/'charts/fuji_targets.npz',allow_pickle=False)as z:
-            if args.film not in z:parser.error('Film not in target dataset: '+args.film)
-            target=z[args.film].copy()
+        if args.target_tiff is not None:
+            from chart_target import load_tiff
+            try:
+                target,target_info=load_tiff(args.target_tiff,dataset,assume_srgb=args.assume_srgb)
+            except (ValueError, OSError) as error:
+                parser.error(str(error))
+            target_info['recipe_notes']=args.target_notes
+        else:
+            film=args.film or 'CC'
+            target_path=model.assets/'charts/fuji_targets.npz'
+            with np.load(target_path,allow_pickle=False)as z:
+                if film not in z:parser.error('Film not in target dataset: '+film)
+                target=z[film].copy()
+            target_info=dict(kind='bundled-fuji',film=film,file=w.pin(target_path))
+        out.mkdir(parents=True)
+        w.save(out/'target.json',target_info)
         native16=model.chart_native(native)
         if args.action=='fit-chart':
             from fit_grid import fit
-            result=fit(model,native,native16,target,out,name=args.name,steps=args.steps,trust=args.trust)
+            result=fit(model,native,native16,target,out,name=args.name,steps=args.steps,trust=args.trust,
+                       qualification=args.qualification,new_identity=args.target_tiff is not None)
         else:
             prediction=model.sample(native16,model.bake(native))
             with np.load(model.assets/'charts/sony_input.npz',allow_pickle=False)as z:kinds=z['kind'].copy()
             result,de=metrics(prediction,target,kinds)
             np.savez_compressed(out/'samples.npz',prediction=prediction,target=target,deltaE00=de,kinds=kinds)
             w.save(out/'metrics.json',result)
-        result.update(native=w.pin(args.native),model=w.pin(model.path),dataset_id=dataset['dataset_id'],
+        result.update(native=w.pin(args.native),model=w.pin(model.path),dataset_id=dataset['dataset_id'],target=target_info,
                       seconds_total=time.monotonic()-started,physical_camera_test=False)
         w.save(out/'receipt.json',result)
     else:
         if args.raw is None:parser.error('Supply --raw')
+        out.mkdir(parents=True)
         import native_frontend as E
         result=E.decode(args.raw,native,out/'native.tif',dict(identity=model.identity),roi=args.roi)
         import tifffile

@@ -5,11 +5,12 @@ For a new look the Agent assigns data roles/guards before calling it.
 """
 import copy
 import time
+import uuid
 import numpy as np
 import torch
 import support as w
 import torch_color
-from evaluation import metrics, protects
+from evaluation import metrics, chart_qualification
 
 
 def differentiable_lab(rgb):
@@ -66,14 +67,22 @@ def propose(model, seed, native16, target, *, steps=1800, trust=16, sample_limit
     return values.detach().round().to(torch.int16).cpu().numpy(),history
 
 
-def fit(model, seed, native16, target, output, *, name, steps=1800, trust=16, guard=True):
-    """Keep seed on failed per-colour guards; do not label a proposal accepted."""
+def fit(model, seed, native16, target, output, *, name, steps=1800, trust=16, guard=True,
+        qualification='per-colour', new_identity=False):
+    """Export a candidate with formal chart scores and an explicit quality policy."""
     started=time.monotonic()
     baseline16=model.sample(native16,model.bake(seed))
     before,base_de=metrics(baseline16,target)
     grid,history=propose(model,seed,native16,target,steps=steps,trust=trust)
     candidate=copy.deepcopy(seed)
     candidate['name']=name
+    if new_identity:
+        candidate['id']=str(uuid.uuid4())
+        candidate['revision']=1
+        candidate['author']='M4 LUT training'
+        candidate['description']='Custom chart fit. See the training receipt for evaluation.'
+        candidate['provenance']=dict(seed_id=seed['id'],seed_revision=seed['revision'],
+                                     seed_payload_sha256=seed['payload_sha256'],seed_author=seed['author'])
     for branch in ('photo','live'):candidate['parameters']['grid'][branch]=grid.reshape(3,5,9,9).tolist()
     candidate=w.fmt.seal(candidate)
     destination=output/'candidate.json'
@@ -82,9 +91,10 @@ def fit(model, seed, native16, target, output, *, name, steps=1800, trust=16, gu
     candidate=w.fmt.parse(destination.read_bytes());w.fmt.compile_native(candidate)
     after16=model.sample(native16,model.bake(candidate))
     after,de=metrics(after16,target)
-    allowed=protects(de,base_de) if guard else False
-    accepted=allowed and after['all']['mean']<before['all']['mean']
-    result=dict(candidate_accepted=False,chart_candidate_qualified=accepted,per_colour_guard=allowed,epsilon=1e-4,
+    quality=chart_qualification(de,base_de,qualification)
+    if not guard:
+        quality.update(chart_candidate_qualified=False,per_colour_guard=False)
+    result=dict(candidate_accepted=False,**quality,
                 before=before,after=after,history=history,seconds=time.monotonic()-started,
                 grid_dimensions=1215,native_parameters_changed=False,camera_model_retrained=False,
                 additional_scene_guards='Agent must add task-specific protected pairs before adopting a look',

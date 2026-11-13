@@ -3,6 +3,7 @@ numpy>=2.0
 scipy>=1.15
 Pillow>=11
 tifffile>=2025.1
+imagecodecs>=2025.3
 rawpy>=0.19
 matplotlib>=3.9
 torch>=2.5

@@ -4,6 +4,8 @@
 
 An AI Agent uses the frozen M4 computer model, the same RAW input and paired target colours to search native camera parameters and export a JSON look for the custom LUT menu. Within the model's qualified scope, iterations run on the computer without importing each candidate into the camera and photographing again.
 
+Colour LUTs from different sources and global grading recipes can supply targets. Apply the desired look to the supplied Sony chart and export a TIFF for fitting. The twelve bundled Fujifilm targets provide ready-made examples.
+
 This directory contains research code and composable command entry points. It is intended for an Agent to read and adapt, with no desktop training application. Frozen model files, dense-chart RAWs and target samples are separate training assets, outside source history. Users obtain Sony reference files themselves.
 
 ## Prerequisites
@@ -27,18 +29,44 @@ $edit = 'D:\Sony-reference\Edit'
 $sr = 'D:\Sony-reference\srsettings0000.tbl'
 python training/run.py doctor --assets $assets --sony-edit $edit --srsettings $sr
 python training/run.py render-chart --assets $assets --sony-edit $edit --srsettings $sr `
-  --native 'D:\looks\my-look.json' --film CC --output 'D:\runs\baseline'
+  --native 'D:\looks\my-look.json' --target-tiff 'D:\targets\my-look.tif' --output 'D:\runs\baseline'
 python training/run.py render --assets $assets --sony-edit $edit --srsettings $sr `
   --raw 'D:\photos\scene.ARW' --native 'D:\looks\my-look.json' --output 'D:\runs\scene'
 ```
 
-`fit-chart` is a grid-proposal and integer-replay primitive for the Agent. Define dataset roles, shadow/skin protection, target settings and acceptance gates first using the [guide](../docs/custom-lut-training/AGENT_TRAINING.en.md). Chart fitting alone does not establish real-scene accuracy. `candidate.json` remains a proposal; `fit.json` reports whether its checks passed.
+## Apply a LUT and fit your own look
+
+1. Open `charts/SONY-v4.5-100MP-5300K.ARW` in an editor that supports this synthetic RAW.
+2. Fix the development profile, as-shot WB and exposure settings. Disable automatic grading, lens geometry correction and local effects. Set the input colour space and transfer curve required by the LUT, then apply it or your global grading recipe. The editor's base development contributes to the target appearance.
+3. Convert to sRGB and export a flattened **16-bit RGB TIFF, 11648×8736, with the original orientation and tile layout**, embedding sRGB ICC. Uncompressed, ZIP and LZW exports are supported. Preserve the 32×32 tile positions and check effective RAW cropping. See [target requirements](DATASETS.en.md).
+4. Give the TIFF and recipe to the Agent, score the starting look, then fit it using the command below.
+
+`fit-chart` optimises the grid with the frozen M4 model and formally replays the exported integer JSON. Custom TIFF fitting assigns a new look ID so the candidate can coexist with the seed.
 
 ```powershell
 python training/run.py fit-chart --assets $assets --sony-edit $edit --srsettings $sr `
-  --native 'D:\looks\my-look.json' --film CC --name 'My Classic Chrome' `
-  --steps 1800 --trust 16 --output 'D:\runs\cc-proposal'
+  --native 'D:\looks\my-look.json' --target-tiff 'D:\targets\my-look.tif' --name 'My look' `
+  --target-notes 'Global LUT, matching input space, as-shot WB, exposure 0, sRGB export' `
+  --qualification aggregate --steps 1800 --trust 16 --output 'D:\runs\my-look-proposal'
 ```
+
+Record the actual editor, LUT, input space, WB and exposure in `--target-notes`. For an untagged TIFF, `--assume-srgb` records your confirmation that the exported pixels are sRGB. Convert files carrying another ICC profile in the editor before export.
+
+| Output | Contents |
+|---|---|
+| `candidate.json` | Parsed and compiled look candidate |
+| `target.json` | Target identity, colour space, sampling and recipe notes |
+| `fit.json` | Before/after scores, optimisation history, chart gate and local regressions |
+| `paired_outputs.npz` | All chart targets, baseline/candidate colours and per-colour errors |
+| `receipt.json` | Input, target, model and result record |
+
+`--qualification aggregate` requires a lower mean ΔE00 and P95 no higher than the baseline plus 1e-4. It reports the number of regressed colours, largest per-colour regression and overall maximum error, allowing trade-offs when fitting a new style. The default `per-colour` policy requires a lower mean and every colour within its baseline error plus 1e-4. Keep the chosen references fixed during the run.
+
+`chart_candidate_qualified` reports the selected chart gate. The Agent uses paired photographs and gradient checks from the [guide](../docs/custom-lut-training/AGENT_TRAINING.en.md) to decide adoption. `candidate_accepted` stays `false`, and physical-camera results are recorded separately.
+
+Bundled targets remain accessible with `--film CC` and other keys, mutually exclusive with `--target-tiff`. Omitting both retains CC. Custom TIFF fitting uses the shared model, Sony inputs and your target image.
+
+Global hue, saturation, curves and colour mappings suit this workflow. Grain, soft focus, local masks and subject-aware effects require spatial or scene information beyond uniform colour tiles. Reproduction depends on camera parameter capacity, model coverage and target gamut.
 
 ## Method
 

@@ -42,3 +42,22 @@ def protects(candidate, baseline, epsilon=1e-4):
     """One fixed colour floor; tolerance does not accumulate across search steps."""
     candidate,baseline=map(np.asarray,(candidate,baseline))
     return bool(np.all(candidate<=baseline+epsilon))
+
+
+def chart_qualification(candidate, baseline, policy='per-colour', epsilon=1e-4):
+    """Score the chart and expose local trade-offs for an aggregate fit."""
+    candidate, baseline = map(np.asarray, (candidate, baseline))
+    per_colour = protects(candidate, baseline, epsilon)
+    mean_improved = bool(candidate.mean() < baseline.mean())
+    p95_protected = bool(np.percentile(candidate, 95) <= np.percentile(baseline, 95) + epsilon)
+    if policy == 'per-colour':
+        qualified = mean_improved and per_colour
+    elif policy == 'aggregate':
+        qualified = mean_improved and p95_protected
+    else:
+        raise ValueError('Unknown chart qualification policy: ' + policy)
+    regression = candidate - baseline
+    return dict(qualification=policy, chart_candidate_qualified=qualified,
+                per_colour_guard=per_colour, p95_guard=p95_protected, epsilon=epsilon,
+                regressed_colour_count=int(np.count_nonzero(regression > epsilon)),
+                maximum_colour_regression=float(max(0.0, regression.max())))

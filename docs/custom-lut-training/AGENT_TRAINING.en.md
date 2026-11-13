@@ -10,11 +10,15 @@ Repeatedly change a native look JSON, predict its camera output in the M4 comput
 
 ## Separate the tasks
 
-Camera-model calibration maps known-JSON RAW/JPEG pairs into a response model. New-style fitting reuses that frozen model to obtain native JSON from RAW/target pairs. Final physical acceptance is a separate, potentially grouped check. Model-versus-camera errors are different from filter-versus-Fujifilm errors. A synthetic chart is not an independent physical-camera validation.
+Camera-model calibration maps known-JSON RAW/JPEG pairs into a response model. New-style fitting reuses that frozen model to obtain native JSON from RAW/target pairs. Record model-versus-camera errors, filter-versus-target errors and physical-camera results separately. The chart establishes performance on its synthetic input.
 
 ## Inputs and pairing
 
 Use the supplied model assets, a valid native seed and same-source targets. Existing twelve-style target samples can be reused. A new style needs same-RAW output or a reproducible target-generation recipe. Unpaired reference images are style references rather than numerical ground truth.
+
+Users can apply colour LUTs from different sources or global recipes to the supplied Sony ARW chart in a grading application. Export a 11648×8736 RGB16 sRGB TIFF with its original orientation and layout. Score the seed using `render-chart --target-tiff`, then fit using `fit-chart --target-tiff`. Record the actual recipe in `--target-notes` and check LUT input space, base development, exposure and tile placement. Commands and export settings appear in the [training entry](../../training/README.en.md).
+
+Perform colour-space conversion in the editor. Use `--assume-srgb` for an untagged image only after confirming its export space. Convert images carrying another ICC profile before export. A single chart can start fitting, followed by real-photo and gradient evaluation using the same recipe. Grain, local masks, soft focus and semantic selection depend on additional spatial/scene information. Describe the result within its global-colour scope.
 
 Ordinary photos work without a professional chart. Include skin/skin shadows, blue and white materials, plants, dark materials and smooth gradients. Group same-RAW exports, bursts and related crops together. Split scene groups into training, development and final test before sampling; random pixel splitting is not unseen-scene validation.
 
@@ -43,6 +47,8 @@ The chart uses five interior pixels per32px tile in fixed order and the specifie
 Optimise1215 signed7 grid integers, `3×5×9×9`, range−64…63, while retaining native seed parameters. A relative±16 trust region is a starting budget, not a format limit. Keep photo/live grids consistent using the existing strategy without conflating native layouts.
 
 `fit_grid.propose` provides Adam/STE proposals and `fit-chart` demonstrates chart fitting. The1800-step default is illustrative, not an accuracy guarantee. Combine mean/tail ΔE00, shadow a*/b*/chroma, skin-shadow accuracy, continuity and parameter regularisation. Add the user's actual paired scene guards before adoption; chart-only candidates are labelled accordingly.
+
+Choose an explicit chart policy for a new style. `--qualification aggregate` requires a lower mean ΔE00 and P95 within the baseline plus 1e-4, allows colour trade-offs and reports their count and largest regression. The default `per-colour` retains every baseline colour limit plus 1e-4 and requires a lower mean. Save the baseline and use the chosen policy throughout the search. Review actual errors and gradients before adoption under either policy. Custom TIFF candidates receive a new UUID. The Agent should explicitly manage ID/revision when making subsequent revisions of the same look.
 
 ### 4. Extend with measured native responses
 

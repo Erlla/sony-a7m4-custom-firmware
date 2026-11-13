@@ -9,8 +9,8 @@
     },
     {
       "path": "training/AGENTS.md",
-      "bytes": 2703,
-      "sha256": "fbcb8997ad6f213616b73f75767e5ac28f38cac7729006f382ce5746d2a1f084"
+      "bytes": 3239,
+      "sha256": "e4802f2ed13dc19bf9ff17943e6e620a51f06f6e168b4ca9aa1096504d549864"
     },
     {
       "path": "training/assets-manifest.json",
@@ -19,13 +19,13 @@
     },
     {
       "path": "training/DATASETS.en.md",
-      "bytes": 2959,
-      "sha256": "9e532fa7f3646a0d7c852ce273df005f1d492fa9a87fd51ee86033434e931afd"
+      "bytes": 4543,
+      "sha256": "8f0a7ca606bb853bdcb0d1429b0d3730202a8168bca83e4828e36c9ea955eaf2"
     },
     {
       "path": "training/DATASETS.md",
-      "bytes": 3245,
-      "sha256": "97cbb173399a111e9dc0468bd5eb437471a48182fd1cb8df4885660c41713ea6"
+      "bytes": 4754,
+      "sha256": "ae1dcad8df38bfd8089c717fdc289ce791ef2b301cc2b55b35769c10fede8f53"
     },
     {
       "path": "training/MODEL.en.md",
@@ -44,28 +44,28 @@
     },
     {
       "path": "training/README.en.md",
-      "bytes": 5180,
-      "sha256": "5a2a0221f7d1a2e448cd9ef7eccf2b134eade4e6863d741b4d943288ff529863"
+      "bytes": 8108,
+      "sha256": "44ecc5c40d410d72650c80d25578287ce7dc3974e317280e949b5930c2614f2c"
     },
     {
       "path": "training/README.md",
-      "bytes": 5232,
-      "sha256": "6da7c4fbdd691e09b4f817f4507961a421e60f1f64174b2b9b63a3e4f06ae5ba"
+      "bytes": 7941,
+      "sha256": "3a8fe8a0f241397691c8e6a2e47d6ccc66aad73297c995607a450976bccac9c7"
     },
     {
       "path": "training/requirements.txt",
-      "bytes": 191,
-      "sha256": "640c9342140337e96ca8ec5584c5dce6f97897be7000e017610effa4842c26f8"
+      "bytes": 211,
+      "sha256": "709da4ff318361a37d6e8a06cab5a0b8eee6081863a2fb444a6b77742149ab4f"
     },
     {
       "path": "training/run.py",
-      "bytes": 4591,
-      "sha256": "8e00bccc5d9f9cce593851fe3214916e15a90e6bbcb2ab4d7c0fe97c00d0feff"
+      "bytes": 6400,
+      "sha256": "6cf48bd169be265078717c92186c00ab7bd0ece5f3f10fbe45fdcf8f4c695d29"
     },
     {
       "path": "training/validation.json",
-      "bytes": 2079,
-      "sha256": "6d968c12ec86e868a94c3dc81fd2d5e3589b61269f861616b4a709237e1ccb10"
+      "bytes": 3371,
+      "sha256": "40f5ae7442a2ea5b65d8a46ffd3c4c68dbfb7fa908b0441ea99f8f40a38e3f94"
     },
     {
       "path": "training/charts/manifest.json",
@@ -114,13 +114,13 @@
     },
     {
       "path": "training/source/evaluation.py",
-      "bytes": 2488,
-      "sha256": "523f6b30efbd20725df9a60f9625c163dac0f83aad1c6fd724ba8fb2c5862c74"
+      "bytes": 3534,
+      "sha256": "406155f5df284554f90b0414eed49bee0e1e070ed896aa4067b1a977b34ccb66"
     },
     {
       "path": "training/source/fit_grid.py",
-      "bytes": 5252,
-      "sha256": "cb30d4e1cbe89e908e302458e13e57d7f0d96ea5cf0c86411950eb7bbc5dac78"
+      "bytes": 5736,
+      "sha256": "41b7c13e4f1b33ca09d243d908bb0b688217c2c995948ea28b330ee6fd12c2ca"
     },
     {
       "path": "training/source/frozen_table.py",
@@ -376,6 +376,16 @@
       "path": "training/third_party/sonylook/table_cache.py",
       "bytes": 2530,
       "sha256": "4f9ffc4e17362448eb0f564becd705fd8e4fe7c1bc62bbb90717e36f25943ea6"
+    },
+    {
+      "path": "training/source/chart_target.py",
+      "bytes": 2616,
+      "sha256": "7661fca2cc08b881726854585cfc884cca6166ea3bb2baea7b2308dd680648d8"
+    },
+    {
+      "path": "training/tests/test_chart_target.py",
+      "bytes": 4249,
+      "sha256": "8cdbeb8b268e8646f2b8ebe6a91bd38965494da62b7dbff1e74c565ababe24b7"
     }
   ],
   "proprietary_Sony_runtime_included": false,

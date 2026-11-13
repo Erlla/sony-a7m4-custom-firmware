@@ -104,7 +104,7 @@ Use `maintain --already-fastboot` if already connected in Fastboot. Backup and w
 
 ## 3. LUT training methods
 
-Use the existing M4 computer model to simulate “the same RAW + native JSON → predicted camera output” and iteratively fit a look. Within model coverage, each candidate can be evaluated without another camera shoot. The workflow is designed for AI Agents, with reusable dense-chart/paired-photo data, model dependencies, grid/native search and formal integer-output verification.
+Fit colour LUTs from different sources or global grading recipes into A7M4 custom looks. Open the supplied Sony chart ARW in a grading application, apply the desired look, export a 16-bit sRGB TIFF with the original chart layout, and give it to an AI Agent to fit with the M4 model and produce camera-importable JSON. Iterations run on the computer. Fitting errors and final photographs establish the degree of reproduction.
 
 **[Training source and assets](training/README.en.md)** · [Agent execution guide](docs/custom-lut-training/AGENT_TRAINING.en.md) · [M4 model](training/MODEL.en.md) · [Dense chart and targets](training/DATASETS.en.md)
 
