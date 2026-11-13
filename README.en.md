@@ -33,17 +33,42 @@ Provides installation without Fastboot, Fastboot maintenance tools and source fo
 
 ## 1. Install firmware without Fastboot
 
-Use a normal USB data cable and **M4 Camera Tool 1.03** to prepare the updater, then install firmware from the camera SD card. The camera must boot normally and enter USB mass-storage mode.
+Use a normal USB data cable and **M4 Camera Tool** to prepare the updater, then install firmware from the camera SD card. The camera must boot normally and enter USB mass-storage mode.
+
+### AI Agent mode (1.03)
+
+**We recommend DeepSeek V4.1 Flash or a model with comparable or stronger reasoning, coding and tool-use capabilities. The Agent also needs internet access, local file access and command execution.** [DeepSeek V4.1 Flash](https://api-docs.deepseek.com/news/news261017/)
+
+Copy the entire prompt below into a local AI Agent with those capabilities. It will download the official tool package and guide you through the steps. It also supports restoring normal USB connectivity on its own.
+
+```text
+First, remind me that DeepSeek V4.1 Flash or a model with comparable or stronger capabilities is recommended, and that the Agent needs internet access, local file access and command execution.
+
+Read and follow the project's latest Agent operating instructions in full. The instructions are written in Chinese. Communicate with me in English throughout this task.
+https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/no-fastboot-install/agent/PROMPT.zh-CN.md
+
+Help me operate my Sony A7M4. If I have not stated my goal, first ask whether I want to install firmware or only restore normal USB connectivity, then follow the appropriate workflow.
+
+For firmware installation, first ask whether I want to download the latest compatible custom firmware, matching LUT pack and audio pack. Wait for my selection before downloading. After downloading, tell me where the files are and how to place them on the memory card. After installation, explain how to use the features available in the firmware version actually installed.
+
+During installation preparation, ask me to open the camera's MENU → Setup → USB → USB Connection Mode, select Mass Storage (MSC), and then connect the camera to the computer. Wait for me to confirm that the setting and connection are ready.
+
+Use concise English to explain progress and what I need to do. Wait for my explicit approval before writing the patch. When system authorization, USB reconnection or a restart is needed, explain the exact action and wait for my reply.
+
+If a problem occurs, actively investigate using this session's logs, the source matching the tool build and previous issues. Fix verifiable host-side problems and check the result. After confirming that the old task has ended and device operations have not started, preserve its records, archive stale state and create a new attempt as appropriate. If patching is already complete, continue with the remaining steps. Record the basis and result of each attempt, and keep working until completion or a specific blocker is identified. For USB-only recovery, use the independent recovery workflow.
+```
+
+**[Agent getting started (Chinese)](no-fastboot-install/agent/README.md)** · [Full operating instructions (Chinese)](no-fastboot-install/agent/PROMPT.zh-CN.md) · [Official runtime package](https://github.com/Erlla/sony-a7m4-custom-firmware/releases/tag/A7M4-Agent-ToolKit-V1.03) · [Agent source](no-fastboot-install/software/README.en.md)
+
+### Desktop application mode (1.03)
 
 1. Place a compatible `BODYDATA.DAT` in the **root of the card in slot 1**.
-2. Connect the camera to the computer with a normal USB cable and select **写入补丁** in M4 Camera Tool.
+2. Connect the camera to the computer with a normal USB cable and select **写入补丁 (Write patch)** in M4 Camera Tool.
 3. Wait for the tool to explicitly allow updating, disconnect USB, then install through the camera's version / software-update menu.
 
 **[Installation guide](no-fastboot-install/README.en.md)** · [Software guide](no-fastboot-install/TOOL-1.0.0.md) · [Source and build](no-fastboot-install/software/README.en.md) · [Principle and patch locations](no-fastboot-install/IMPLEMENTATION.md)
 
 Download firmware packages, M4 Camera Tool and the Fastboot toolkit from [Releases](https://github.com/Erlla/sony-a7m4-custom-firmware/releases). The camera tool does not validate the firmware package on the card; follow the installation guide to check files and prerequisites.
-
-Desktop and [AI Agent 1.03](no-fastboot-install/agent/README.md) now share one source tree, with single-process connection polling and menu-only continuation after a proven pre-session stop. Offline checks and hardware acceptance are recorded separately.
 
 ## 2. Fastboot modification methods
 
@@ -54,7 +79,7 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 | SD update recovery | Trigger the camera's SD recovery updater from Fastboot while preserving same-body settings. | [Instructions](methods/00-sd-recovery/README.en.md) |
 | Custom update signing | Replace the update key and modify key verification to support self-signed packages. | [Instructions](methods/01-custom-signing/README.en.md) |
 | Firmware version display | Set the firmware version reported by the camera. | [Instructions](methods/02-firmware-version/README.en.md) |
-| FL2 / FL3 port | Port FX2 FL2/FL3 Creative Looks and colour configuration, with camera-written RAW alternatives for direct selection in Edit. | [Instructions](methods/03-fl2-fl3/README.en.md) |
+| FL2 / FL3 port | Port FX2 FL2/FL3 Creative Looks and colour configuration, and embed two alternative parameter sets in RAW files for direct selection in Edit. | [Instructions](methods/03-fl2-fl3/README.en.md) |
 | Third-party batteries | Show battery percentage and suppress the caution while retaining charging and temperature protection. Updates still require a Sony battery. | [Instructions](methods/04-third-party-battery/README.en.md) |
 | Lens AF capability filtering | Retain lens-reported capabilities and speed profiles; no focus-speed improvement is promised. | [Instructions](methods/05-third-party-lens-af/README.en.md) |
 | Custom sounds | Import WAVs from SD for mechanical/electronic shutters; focus and shutter sounds preempt each other, with the latest trigger taking priority and separate clips and volumes. May take a few seconds to activate after power-on. | [Instructions](methods/06-custom-sounds/README.en.md) |
@@ -70,16 +95,16 @@ The Fastboot route requires a **Multi-port flashing cable and an RP2040-Zero boo
 | Prepare hardware and the host | [Wiring](docs/wiring.en.md) · [Setup and external resources](docs/setup.en.md) |
 | Back up, restore and maintain | [Advanced maintenance](advanced/) · [SD update recovery](methods/00-sd-recovery/README.en.md) |
 | Combine features and migrate installs | [Custom LUT integration](methods/08-custom-lut/INTEGRATION.md) · [FL2 / FL3 SD migration](methods/03-fl2-fl3/sd-colour-preservation.md) |
-| View interfaces and sample files | [LUT interface](methods/08-custom-lut/README.en.md) · [Sound samples](examples/custom-sounds/README.en.md) · [Aspect ratios](methods/07-custom-aspect-ratios/README.en.md) |
+| View interfaces and sample files | [LUT interface](methods/08-custom-lut/README.en.md#camera-photographs) · [Sound samples](examples/custom-sounds/README.en.md) · [Aspect ratios](methods/07-custom-aspect-ratios/README.en.md) |
 | Train and evaluate custom looks | [AI Agent training method](docs/custom-lut-training/AGENT_TRAINING.en.md) · [Current 15-look error report](docs/custom-lut-training/README.en.md) |
 | Read technical references | [Colour comparison](docs/fl23-colour-comparison-20261018/README.md) · [Validation notes](docs/validation.md) · [Reference register](REFERENCES.md) |
 | Contribute | [Contribution guide](CONTRIBUTING.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) |
 
 ### Fastboot tools
 
-The [Fastboot toolkit](fastboot/README.md) includes the camera payload, RP2040 UF2, historical source material, standalone entry/exit scripts and SD-recovery entry. Build the focused Release archive with `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip`.
+The **[Fastboot toolkit](fastboot/README.md)** includes the camera boot assets, RP2040 UF2, corresponding source material, and scripts for entering and exiting Fastboot, maintenance and SD recovery. Run `python tools/build_fastboot_release.py --output output/A7M4-Fastboot.zip` to generate a standalone archive for upload to Releases.
 
-The Windows x64 portable archive includes Python, its dependencies, Fastboot, SquashFS tools and a WinUSB installer. Extract it completely and run the BAT entries; a system Python installation is unnecessary. First-time driver setup needs administrator confirmation and the bundled Fastboot preset. `tools/build_fastboot_portable.py` builds this runtime-inclusive archive; runtime binaries remain outside the source tree.
+**The Windows x64 portable archive includes Python, its dependencies, Fastboot, SquashFS tools and a WinUSB installer. Extract it completely and run the BAT entries.** First-time driver installation on a new computer requires administrator approval. Load the Fastboot preset as described in the driver instructions. The portable builder is `tools/build_fastboot_portable.py`, and runtime binaries and tools are distributed in the Release ZIP. [Driver instructions (Chinese)](fastboot/README.md#便携版)
 
 Includes complete backups, version inspection and editing, custom updater preparation, same-camera restoration and restoration of official verification. Requires **Windows 10 / 11 and Python 3.11+**.
 
@@ -125,7 +150,7 @@ Models/charts are separate training assets; users obtain Sony reference files in
 
 This community project is not affiliated with Sony. Most recipes derive from **official A7M4 6.02**, with **FX2 1.01** as the FL2 / FL3 colour-data donor. See each method for its supported inputs.
 
-The maintainer explicitly authorized publication of their previously used [RSA key pair](keys/published/README.md). **The private key is public. Anyone can sign with it, so signatures accepted by this key cannot authenticate the publisher.** Inspect and build packages yourself. Generate a new private identity if you need independent signing authority.
+The maintainer explicitly authorized publication of their previously used RSA key pair. **The private key is public. Anyone can sign with it, so an updater using this public key cannot authenticate the publisher through signatures.** Review package contents yourself. For an independent signing identity, generate your own key pair and keep the private key offline. [Published RSA key pair](keys/published/README.md)
 
 This repository publishes original host code, patch recipes, documentation, the specified public keys and [three user-authorized WAV samples](examples/custom-sounds/README.en.md). Obtain Sony firmware, donor curves/matrices, camera calibration, backups and external drivers separately. Third-party material follows its own terms, described in [third-party notices](THIRD_PARTY_NOTICES.md). Boot assets and historical source material have separate [source and licensing notes](fastboot/SOURCES.md).
 
