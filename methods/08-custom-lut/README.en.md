@@ -2,6 +2,8 @@
 
 [中文](README.md) · [Implementation](IMPLEMENTATION.md) · [JSON contract](FORMAT.md) · [Integration](INTEGRATION.md) · [Training results](../../docs/custom-lut-training/README.en.md) · [Agent training method](../../docs/custom-lut-training/AGENT_TRAINING.en.md)
 
+See the [runtime cleanup method](RUNTIME-CLEANUP.en.md) for the source reductions and current component identities. The maintainer tested the cleaned integrated firmware and reported normal operation with no observed problems.
+
 Adds Custom LUTS under Exposure/Color → Color/Tone on the Sony A7 IV (ILCE-7M4).
 
 - Import individually converted **JSON LUT files from an SD card**, one file per look.

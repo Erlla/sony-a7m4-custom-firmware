@@ -1,0 +1,565 @@
+{
+  "model": "ILCE-7M4",
+  "input_AP_sha256": "a09d023c1464b35e01bfbfc12b66d418731cf752e1c85b152496ba459203cd65",
+  "output_AP_sha256": "5f559e84f5e43be45116455b366faf97a9bb846e881db7bc924882f87857a1b1",
+  "AP_patches": [
+    {
+      "VA": "0x5914980",
+      "offset": 93342080,
+      "before": "b2a90002",
+      "after": "8fa40002",
+      "bytes": 4,
+      "purpose": "Picture Profile alternate caption uses existing glyph-prefixed title"
+    }
+  ],
+  "LUT_title": "0x0200ab75",
+  "Picture_Profile_title": "0x0200a48f",
+  "Picture_Profile_alternate": "0x0200a9b2",
+  "glyph": "U+E662",
+  "strings": [
+    {
+      "path": "/share/app/string_arabic_horizontal.uxc",
+      "source_sha256": "47d9e3977a81c483c3cb920603f20a6f97ca742dc24854ad647eedce7e16652d",
+      "sha256": "ed76908f046e973bf08ea6097a8df09d557f50790aea615112ade4da80124a42",
+      "source_bytes": 176224,
+      "bytes": 176228,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_arabic_vertical.uxc",
+      "source_sha256": "55a96b884b20b782ed76c099941ae73aa140bf33d2c416e869c9dc266a5d79c1",
+      "sha256": "96d554ac919244ab4e95666e7317d80e7afea6d5735f40d3615e41d838748004",
+      "source_bytes": 176396,
+      "bytes": 176400,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_brazilianportuguese_horizontal.uxc",
+      "source_sha256": "08c1fda0b9a215fbcbd2e18a79f6093d55cce3b7724e109860a0ea4cb64e8aef",
+      "sha256": "a6281797fcfc3003453ca290bec673d625d790c9b2e0301c7a1219ce057d8e08",
+      "source_bytes": 133880,
+      "bytes": 133884,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_brazilianportuguese_vertical.uxc",
+      "source_sha256": "38a05aca17c86e558bac72907434bc483dc20a16d4cb942ee69c53aad10de8c1",
+      "sha256": "5bcee06d5f2d01f5e92d821b7ff89907bc87599d4cc3f5ffc9c1b0e230143c4c",
+      "source_bytes": 134744,
+      "bytes": 134748,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_bulgarian_horizontal.uxc",
+      "source_sha256": "c17445ef0dd9c61e3d36c7a88801342b953fc040b9f22d311de02fbe5ea80946",
+      "sha256": "142af9feda3783ec52950eceaca32b063fbf944614ecfd58ccbeb757ee6fb184",
+      "source_bytes": 193716,
+      "bytes": 193720,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_bulgarian_vertical.uxc",
+      "source_sha256": "87ac0684596543ad58409479b63b5ca43c48b13f4e6c0222dcd4b80dd15d602d",
+      "sha256": "bc13e033ba52eccbcd62eb0c4fe84d22a2d3c8c6d5bd35735d40f94b7003835a",
+      "source_bytes": 195912,
+      "bytes": 195916,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_canadianfrench_horizontal.uxc",
+      "source_sha256": "4cc2fb0af264efe2641bc4d8f3f4d283ecc3d88890ec828a6940b2a3f2763931",
+      "sha256": "aeaec0365b7c41948b3b25d1af75ed150900c9a205e4c38720f93f8f54c177b6",
+      "source_bytes": 45968,
+      "bytes": 45972,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_canadianfrench_vertical.uxc",
+      "source_sha256": "a2c501c396da7d6be4f026ca9f5d39bdb782873cc4f2b7ed0b246af0f5459253",
+      "sha256": "edc0f1cc03223fd6249034724ca922ad3eb0a01f5446285071e79d04c43b7450",
+      "source_bytes": 36620,
+      "bytes": 36624,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_croatian_horizontal.uxc",
+      "source_sha256": "6ce0d91c0dc191797ced6614aed4e20e06b7b1885e5927479935b96b7faf1c9b",
+      "sha256": "987fca00a0d408b5be71d0cd96f732e2d8817afeef3120e871195bf5e9121324",
+      "source_bytes": 129716,
+      "bytes": 129720,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_croatian_vertical.uxc",
+      "source_sha256": "da9cfeb3e9ad0bc3f88d401e5183359acfc5d9832d212e82267a47944321a7d1",
+      "sha256": "270572aa4aa62443ecef8d3c2ee5513c1975ffdc123ae1b2b2a49aab629ee8fd",
+      "source_bytes": 130524,
+      "bytes": 130528,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_czech_horizontal.uxc",
+      "source_sha256": "10e44d21c3f87b7beef198b542f8862e334bf53170c562b4a112284b3067f055",
+      "sha256": "3961af3c92ece0f0c43e6bb1c94cee06ff0e7014ed378defc6773c0a6ad41c8b",
+      "source_bytes": 132748,
+      "bytes": 132752,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_czech_vertical.uxc",
+      "source_sha256": "9095e713f23a46803889e5a422095b05f5cdea3f0d2cb85187c92fbedbdc577b",
+      "sha256": "aa52e8864cb5ab0426eee0a4ec7684ef5ab1e941854ff1d86a3236a3e6ede99f",
+      "source_bytes": 133568,
+      "bytes": 133572,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_danish_horizontal.uxc",
+      "source_sha256": "135d6d0873acaa68d2c13f65e811226f463f7000211783ef6b4fc0f4876234e1",
+      "sha256": "c56cebf5e474bb7c0bcb8144eb07f66ad87c8232f69f9c6217836f33efdf820e",
+      "source_bytes": 125896,
+      "bytes": 125900,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_danish_vertical.uxc",
+      "source_sha256": "d2a37af01891ff06d102d25e357a41c2c451f38c6556b0e0b156272dfdc6ef21",
+      "sha256": "25c40fd3b3ec6341e32b979742db904cf21df6a2cfde2b9ca1f0da544c5aadf7",
+      "source_bytes": 126376,
+      "bytes": 126380,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_dutch_horizontal.uxc",
+      "source_sha256": "9c5b6a94d4f0aef77abee6401f03fd60538d48d4da1b6095fc7e3d9045efe537",
+      "sha256": "bdc4833786bbeb0a611629dd6e2aa486ba5d9706ea87c2f56237ab6fbfda7067",
+      "source_bytes": 130120,
+      "bytes": 130124,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_dutch_vertical.uxc",
+      "source_sha256": "b4346f48c9282c6b45fa0c4327c78035d9cc06f8ce787840be0bbdccb1be885c",
+      "sha256": "d4f542d0aeb616c6a47e3055593a8dec8c403827127b05b8423787fc73cbfb31",
+      "source_bytes": 130808,
+      "bytes": 130812,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_english_horizontal.uxc",
+      "source_sha256": "078986b216cb82d31e51646c88ef373a6ac4104d3f26fbe52760653c6abbcf4f",
+      "sha256": "83e2a555ec31a668f67bdf99b657da1763e15ee0017dab5d223a64a81529bf26",
+      "source_bytes": 130488,
+      "bytes": 130492,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_english_vertical.uxc",
+      "source_sha256": "6d8e4c4339ed025a494288a4a383591e9a80d90ae7de93e0774ba10ecd9b8dbb",
+      "sha256": "a006ee98c433f31281e9eff412ecfd481aa03ed639f4649c6119b5790a148060",
+      "source_bytes": 131004,
+      "bytes": 131008,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_finnish_horizontal.uxc",
+      "source_sha256": "a73b5e16acecc46594980eceb600324b7f51f53dcd5186ed10cd50088666e7dd",
+      "sha256": "e8239a5b6663a4bcd539cccf8ee03714c2457078d7a75cbc8b1ef4778e62a855",
+      "source_bytes": 125232,
+      "bytes": 125236,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_finnish_vertical.uxc",
+      "source_sha256": "8adf3ea060cea808747c1fc40052c0e2cbf4d1d66da81d9b4f0cd72846279615",
+      "sha256": "ecc4bc1343c24c09d3e0b16ea9c6e27c93cfd321ba5b97420302bf59f63dd572",
+      "source_bytes": 126100,
+      "bytes": 126104,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_french_horizontal.uxc",
+      "source_sha256": "d5f78a6485a3e1abd417a88e76286f38b1f1a504109b8bd7389fd8d5fbfc5b7b",
+      "sha256": "c509fce418e388a20afe818dae93a3ae6ce0224876ff93a762334654b8486e9b",
+      "source_bytes": 141808,
+      "bytes": 141812,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_french_vertical.uxc",
+      "source_sha256": "14e600822cb4521e57fac730757c19a48b06d117efdda6869cb9d5d99a172834",
+      "sha256": "c8806c730cf51f95514bc35fb00ffc96948f70c5590b931176255f7dd9727b87",
+      "source_bytes": 143080,
+      "bytes": 143084,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_german_horizontal.uxc",
+      "source_sha256": "2d5542a3ebc2664614229acf6e892a7b6081cae8def37694aa1d362bbc3eb82f",
+      "sha256": "117854ef1d3da52802ba3040f33ab206ad1a558c5d759b414c5af5fb87a82c7d",
+      "source_bytes": 134728,
+      "bytes": 134732,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_german_vertical.uxc",
+      "source_sha256": "d71dfd4682599524ae338888766fbda796e77d660a5cb7bb094fd949cbc512b9",
+      "sha256": "0c8b95668c7a5cefab60df6040087fb69eaa01c4efca6709e199f417159b30e5",
+      "source_bytes": 136200,
+      "bytes": 136204,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_greek_horizontal.uxc",
+      "source_sha256": "e4b4d6c53055686e77ccfe0f1802b855cabf456b9af987892009f4124bb200e7",
+      "sha256": "cd56fd5ebf0569d5a93d75da7bd4bcdd43fd5e7165263599bcfb67c950fe77c8",
+      "source_bytes": 210752,
+      "bytes": 210756,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_greek_vertical.uxc",
+      "source_sha256": "89765ff2abab7bb34fcd29a6596f0cfcf5389368dbe386ead30cd24b1216ba83",
+      "sha256": "a02e03e89e8f98fb1e8769259db1ead7d5ceb9dcd77165a9d898c16d4c6ac639",
+      "source_bytes": 212684,
+      "bytes": 212688,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_hindi_horizontal.uxc",
+      "source_sha256": "fbc2cb78197e291d36c5664e349914922ebe4e3feebc87e06f631a9e27ea46fc",
+      "sha256": "e5478699043114eab0ec9bad164a1baed73f798fc2f9ece6a45bb316313ee28e",
+      "source_bytes": 260540,
+      "bytes": 260544,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_hindi_vertical.uxc",
+      "source_sha256": "952820ba07e9b58988815491dcaea1fff2bd09137cdf6427dbac60822edf2bd5",
+      "sha256": "05a057e1983ece70030bb6e6340a852e7b202e1e74d453838d5cde95da72ca4d",
+      "source_bytes": 260916,
+      "bytes": 260920,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_hungarian_horizontal.uxc",
+      "source_sha256": "2fe717656b55fa2f77dba8bb847e87bc1c36a55135fcd07fc4ce3b58e2636653",
+      "sha256": "d72805005bb03faa198e15d22c56b17bb00d9a31a74a2df7ed988189b244ab67",
+      "source_bytes": 137192,
+      "bytes": 137196,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_hungarian_vertical.uxc",
+      "source_sha256": "35aff045c69ae839bd0e724a79f67a0fa730b0caa51e04164aae72801ebf6771",
+      "sha256": "d973ec9ca8f973a297ab7c5af088911337f5ffb09a720708e0d914dd4716e260",
+      "source_bytes": 138464,
+      "bytes": 138468,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_indonesia_horizontal.uxc",
+      "source_sha256": "14d1d12a7604d3e4a4fd4211b7b14b7f1b0100453f1cb3eb28a96fa258bcc29c",
+      "sha256": "f8672c4977192bfd75d31a54aed9bc09341c5871d08c765afd01fc308cd04531",
+      "source_bytes": 124404,
+      "bytes": 124408,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_indonesia_vertical.uxc",
+      "source_sha256": "2e4d9bb441cc8b778cbdc0da2be4180d822a782b5ffbd8c88dd235df1fe74d43",
+      "sha256": "f9ba5e01b0f3009f6d85d14d5c10f5d0bae58df67a47c9772caceb4d5a248e49",
+      "source_bytes": 125160,
+      "bytes": 125164,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_italian_horizontal.uxc",
+      "source_sha256": "0fb303f6bfb958dab2e3d57c04e36917049b532ca461ea3b1d193e7f0089d49b",
+      "sha256": "3096e0760f60d37a08dad40b340e510e5d4e51bd03d45807575e7c9745454972",
+      "source_bytes": 134296,
+      "bytes": 134300,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_italian_vertical.uxc",
+      "source_sha256": "53d9b63c4ecd01d557009f4258b87e7e39eee9a2bd55bad5824dc166a0b2d5fb",
+      "sha256": "baf20d326674e36f40fa1665d29df70cd25306706d6e2bc16030e02aee6733a2",
+      "source_bytes": 137648,
+      "bytes": 137652,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_japanese_horizontal.uxc",
+      "source_sha256": "abaca50836673c18362d7a09c31458c32c80d916ce3c427bb1421c3964763f87",
+      "sha256": "a1247304bf3ec4f3704f6ddd492a2b776d277292dd2f705366bed1efb7c7e475",
+      "source_bytes": 167548,
+      "bytes": 167552,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_japanese_vertical.uxc",
+      "source_sha256": "74fdcc0b5015f930410c859cf1c119226ba62b29e7d09ed0b780d64827d6948f",
+      "sha256": "4f701a29ebb7ba586599f8839e1e22d028055a3cfa7b0144deba96d9ffb853ab",
+      "source_bytes": 167708,
+      "bytes": 167712,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_korean_horizontal.uxc",
+      "source_sha256": "806e9a04e224a9d9a0fdabaf5824b132fe9fc6b74d69956fd17182be4fe24776",
+      "sha256": "e5b4a11532241be188fa3182fc7086d507c652f5fc6d14e331a5c16e7e5c4ef1",
+      "source_bytes": 142680,
+      "bytes": 142684,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_korean_vertical.uxc",
+      "source_sha256": "fbd6601ab50354234280529235ddb475e1dced4c5d8da06b85e5e477a7f45327",
+      "sha256": "ed5df3ef0f913f003cabfa777b2ce1017bdb3f6321abd2a07470b0bba8030eae",
+      "source_bytes": 143364,
+      "bytes": 143368,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_malay_horizontal.uxc",
+      "source_sha256": "7c98fa49046b8a747f6b89eed9eeaac471d8df4e605a04cddc69a5b78da36024",
+      "sha256": "73e301905cbadac03228b603ffb175b6b87b3765da29dc5242e48a332f67567e",
+      "source_bytes": 122376,
+      "bytes": 122380,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_malay_vertical.uxc",
+      "source_sha256": "55945ba93c10f1f7f419e8815d67a8943397778d600cfb3b9c35ade34820eb2a",
+      "sha256": "3c6566411d4d3c67a99429f9dc1eca5edadf4c511f93901cd7e075aa766d3da8",
+      "source_bytes": 122960,
+      "bytes": 122964,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_norwegian_horizontal.uxc",
+      "source_sha256": "626d59d016d19cd6898504587377a50a1085d6697bc3a19064c0a4436d8f9d69",
+      "sha256": "c4e2e4d9aa1920f6b33af92d3d4434d19e3a762857188271a1679b730686f661",
+      "source_bytes": 122720,
+      "bytes": 122724,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_norwegian_vertical.uxc",
+      "source_sha256": "8e8f52defb00bfc3186d3b591575a21e00930dad8d43a24454aabb267024ab28",
+      "sha256": "16e6ebfd404a1d96d42f9b10903d13c613c4fe9c8a6c02e9dbce24a63ac42348",
+      "source_bytes": 123020,
+      "bytes": 123024,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_persian_horizontal.uxc",
+      "source_sha256": "21c23438bb545bcd53961b6f55009640230083ec55d5d977584663bcf39c7f8b",
+      "sha256": "28b0d1c35999c645830c9f28c868411eca148cfe97736869be2abf07021ef2d6",
+      "source_bytes": 186944,
+      "bytes": 186948,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_persian_vertical.uxc",
+      "source_sha256": "1603b700cf43d624ab4c54d88e7016635b8a9d1cfb1d3d146c9a5c49bad4927b",
+      "sha256": "0fc55080c54132cb81de0b9005f7fd04c57a8a2ecaddbc144d825bcc467e0ace",
+      "source_bytes": 187120,
+      "bytes": 187124,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_polish_horizontal.uxc",
+      "source_sha256": "3f03db4d045fbf6865b2aa1261bc06cbc54d5be13adabf5263eca717c02a89df",
+      "sha256": "bb9897c6d0fef9ec08767f89f6f9327970f78d027a0391db14b2c7cc25c0aa1b",
+      "source_bytes": 129548,
+      "bytes": 129552,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_polish_vertical.uxc",
+      "source_sha256": "0dd2f0151a210f63c94a699f4b864a52670425c932cc9ca65cc8db1947a95ccc",
+      "sha256": "c04df99b623554ccbd246fe3c317a42505279b97006b73544c31bff27bed5b55",
+      "source_bytes": 131392,
+      "bytes": 131396,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_portuguese_horizontal.uxc",
+      "source_sha256": "00199d2cb9dfb0dbe00453ce0f277dbcd28094f473389b8cf71b38595ab827f6",
+      "sha256": "26a31800c5d0e82d6c9fc316ed72d93900ce1e970a1fc10c33fc20abdf1ba518",
+      "source_bytes": 132984,
+      "bytes": 132988,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_portuguese_vertical.uxc",
+      "source_sha256": "bad7b86c6d24970859844b81559d68263e4eb531d11c4808e8d3d3129fb379b3",
+      "sha256": "fe0180f925253adb6437a8cf854aa357f3f45de11d145bf3b4c94b9b11fe256b",
+      "source_bytes": 134360,
+      "bytes": 134364,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_romanian_horizontal.uxc",
+      "source_sha256": "e36e4c9e9b2404587adee5f6240bbaf5a7f75cea83dadfa2c8cc69f34540c69c",
+      "sha256": "ceac84214da62aaa9ded842c9e0f3f3607367ac5e3161924621094e34af13a25",
+      "source_bytes": 134472,
+      "bytes": 134476,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_romanian_vertical.uxc",
+      "source_sha256": "d10ef52b15314b6596b79f7a46189e65f88b8b666aa18f83b305e451094b93fe",
+      "sha256": "73f3f437511a6b3063a56615ece17269f3d92fc1441ddf1fd449b7786363fbf2",
+      "source_bytes": 136120,
+      "bytes": 136124,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_russian_horizontal.uxc",
+      "source_sha256": "643caa43303e0d442e008ec6023ea4eee2de538a1c61bf6cfe0fd4b465b527d6",
+      "sha256": "c664bbccf55ae5e0a5f2dbfb7d42ba2e8a095928ecc2e7d44cd8b110502deeb6",
+      "source_bytes": 193776,
+      "bytes": 193780,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_russian_vertical.uxc",
+      "source_sha256": "63ee6c4252f1b1afbb52f3dbda7cf6c82cb50e3c579c8953b96bd713eb20f6dd",
+      "sha256": "269d941b8499ef84b5960d0f48304836eb65c79f331222fe4187dbe0229a292b",
+      "source_bytes": 196352,
+      "bytes": 196356,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_simplifiedchinese_horizontal.uxc",
+      "source_sha256": "00bfbafe5241674581ce45f83ff03eeb7959a162da1c3266f5eceb02e55fc35d",
+      "sha256": "420b7e0e69cc441b05d36bb5c6d927c35b8f7b08d20cd858a6b2364a6c401c06",
+      "source_bytes": 109808,
+      "bytes": 109812,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_simplifiedchinese_vertical.uxc",
+      "source_sha256": "2ec242d490265b07b82dfc872d087e292cc47227f7729d7ba7218745b357cc5a",
+      "sha256": "9d8c366979b7b6ac73051190b01978aa8439769bd79291e8d00f2bcae2984a5d",
+      "source_bytes": 109900,
+      "bytes": 109904,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_spanish_horizontal.uxc",
+      "source_sha256": "436c702a7f39badfa563e530d9316a73b76e910c51086ef652ed1dd766eb6236",
+      "sha256": "837e8ff7327c680dd7b1aaf6319ad6db170f7a8c32358e065746135bf44b0876",
+      "source_bytes": 133032,
+      "bytes": 133036,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_spanish_vertical.uxc",
+      "source_sha256": "735e44d8deee02c1abdcbe991de394a8c2cc1f28b7d228321eb9909f7fffb892",
+      "sha256": "4cc428701f6cd36f5567a3798695a1684198e1115c7a48f5fd4b2ae16d0c115a",
+      "source_bytes": 134644,
+      "bytes": 134648,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_swedish_horizontal.uxc",
+      "source_sha256": "e6b4c8f28caf6208eb8964b1f33e00af95a646cabe8b28c47de641cf93bf4b6a",
+      "sha256": "a6bbf609d8cd8f2c12dd4cc936782bddc2925de8fc005638b2311ae5424375d8",
+      "source_bytes": 125280,
+      "bytes": 125284,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_swedish_vertical.uxc",
+      "source_sha256": "d0c3a5d2292970c26532f788dbacdb24dc273d48b49b249ae7682b380a5c9983",
+      "sha256": "35b76a3e2c00bf213c70d5a7c02211978427c41d7e6db8efed93778c2b284fd3",
+      "source_bytes": 126852,
+      "bytes": 126856,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_thai_horizontal.uxc",
+      "source_sha256": "46c3d3f009fdb5e83c877eaf7cccd52ba122d6218e06a7eaaa949625b388fc31",
+      "sha256": "55acab3256e02673a4573ce17a96f2cb78bd5484c1abba55d67c6133bd879817",
+      "source_bytes": 265600,
+      "bytes": 265604,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_thai_vertical.uxc",
+      "source_sha256": "07b38164cb34724f3dc7afb4d658648f22fbab83fb8ffdc159814e6ea8971bfc",
+      "sha256": "95445b9208c5fabf9f377365e7d5bda851095e88a145e06aadd930403c892589",
+      "source_bytes": 268500,
+      "bytes": 268504,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_traditionalchinese_horizontal.uxc",
+      "source_sha256": "00891298d083213f8977353265cbbcd311a43271020d4e001311fbc888a3701f",
+      "sha256": "4b569501e5892c105f3c000dfa34d552cac7453b2c9af3023a649b7b11fe4bdf",
+      "source_bytes": 111944,
+      "bytes": 111948,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_traditionalchinese_vertical.uxc",
+      "source_sha256": "571e50f92643982effa4df3daa9d16caa21dce0a69da82074c2cf9f4427cbfba",
+      "sha256": "b15717ce9de4e17bbcd77fdaec22f16118b0005c45a92c16a02dab2e79b89c2e",
+      "source_bytes": 111820,
+      "bytes": 111824,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_turkish_horizontal.uxc",
+      "source_sha256": "c5ae82ad5bb14c57a5ccfe23d3b2a6990516e4c89bb2e840196c8e0175984738",
+      "sha256": "1a48ee65f3babd6e34508c1dea07c0897c4e695e76681c7e5b9448135bd10495",
+      "source_bytes": 126516,
+      "bytes": 126520,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_turkish_vertical.uxc",
+      "source_sha256": "edaa647ba7496c7b7eaf0b001659f4bf9465ec33e5d739a314d612bc259e9585",
+      "sha256": "d6dfcda5dff6c636a50811ed539967a754634a23053579eefeac6a2fb03024d5",
+      "source_bytes": 127808,
+      "bytes": 127812,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_ukrainian_horizontal.uxc",
+      "source_sha256": "cc3d511f48f1b6403a20e757ed2809946c7ac1f9dee733c6d2e852fca99d0738",
+      "sha256": "2c5b7a6432781b91a148b8966bc56e5e8908daa192b0b36ff60834df72533253",
+      "source_bytes": 192852,
+      "bytes": 192856,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_ukrainian_vertical.uxc",
+      "source_sha256": "7a434e6d0c2b2e7bd8d78b3015b2bf1f5c931b667e61f87c505cc39f6ebf2460",
+      "sha256": "f4083e3bcbe414c6e7b7167294a821b05a71d57d1a7332898421b1384ac93c39",
+      "source_bytes": 195804,
+      "bytes": 195808,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_vietnamese_horizontal.uxc",
+      "source_sha256": "fa087992f622421dbdbf7164702b0d25c3c5af49f04878ed5fcfcdb12f496d83",
+      "sha256": "b0c48be7479ad83772b8fa119a424ce9918c5e04cd965a5fad10c55eead8a2e6",
+      "source_bytes": 141292,
+      "bytes": 141296,
+      "added_bytes": 4
+    },
+    {
+      "path": "/share/app/string_vietnamese_vertical.uxc",
+      "source_sha256": "58a0d45cf1b15376d3326f75c4a1393560afae3d205d04d34a58852d7b1eb272",
+      "sha256": "80e88664549774e260a87b4c3926255a660c8404042fc2e1564e281a5f6e8d32",
+      "source_bytes": 142464,
+      "bytes": 142468,
+      "added_bytes": 4
+    }
+  ]
+}

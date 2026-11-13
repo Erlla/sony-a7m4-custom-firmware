@@ -1,5 +1,9 @@
 # LUT 编译缓存 / Persistent LUT compilation cache
 
+当前精简布局使用 1,694 字节的 LUT 专用构建，方法与命令见[运行时精简源码](../custom-lut/runtime-cleanup/README.md)。本页以下配方用于重建原始共享缓存阶段。
+
+The cleaned layout uses the 1,694-byte LUT-only build described in the [runtime cleanup sources](../custom-lut/runtime-cleanup/README.md). The recipe below rebuilds the original shared-cache stage.
+
 此模块保存 LUT 基础编译结果。八项微调与强度仍独立保存、正常应用；缺少或失效的缓存由原编译路径重建。原 JSON 和设置继续保留。
 
 ## 组件与构建

@@ -1,0 +1,22 @@
+{
+  "compiler": "Zig 0.14.1",
+  "compiler_sha256": "1ddf230367e07738c4a769eae66c1db7469e37bd520e81c86356453d0db2b9fd",
+  "source_hashes": {
+    "cache.ld": "b6dc54e4cb09247e6f75f1bc64af6ce385e24698d3e17d6b01460c6e07ac969f",
+    "lut_cache.c": "6e205301893c4f1ea1682a314f06f14d0db362b37f36846663fc6bdb7b3ff938",
+    "memory.c": "ed2a60e39d1a823a35f5bee0eeb6ec87b272baa8481712ae5124ff672a07f904",
+    "cache_common.h": "56019598eaaeeaf0dac01b73c47efb89972eb4f6de5e9eff2104e6966824d67c",
+    "include/p4_json.h": "f81837487f20046ab7366b3280c28d6b6edd69b4c7e0d6354b3203c21c56d8a8",
+    "include/p4_library.h": "936a82d80160f019dbcfb2555402f47b6e0cc0f0b718f11ce19526b3711ebbfe"
+  },
+  "source_header_dependencies": {},
+  "original_functions": {
+    "lut_read_original": 151217656,
+    "lut_verify_original": 151214996
+  },
+  "module": {
+    "VA": 151289856,
+    "bytes": 1694,
+    "code_sha256": "a1065e95a72f528ac5270f281032d639ce9624fc449ca96dc508294ff47ae249"
+  }
+}

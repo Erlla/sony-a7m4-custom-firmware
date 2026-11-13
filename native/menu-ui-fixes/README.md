@@ -2,6 +2,8 @@
 
 [自定义 LUT](../../methods/08-custom-lut/README.md) · [自定义纵横比](../../methods/07-custom-aspect-ratios/README.md) · [Exact component recipe](layout.json)
 
+后续 AP 标题字形修改见[图片配置文件与 LUT 图标](TITLE-ICONS.md)。[运行时精简](../../methods/08-custom-lut/RUNTIME-CLEANUP.md)将本页触摸逻辑并入 GUI 分发，原独立组件仍用于重建前置阶段。
+
 ## 修改与组合
 
 本组件补齐两处界面行为：自定义LUT左侧编号栏可触摸选择和预览；纵横比菜单的17:6、65:24、5:4、7:6显示各自对应的小图标。维护者已实机确认两项问题修复。

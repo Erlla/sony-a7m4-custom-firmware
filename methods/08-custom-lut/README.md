@@ -2,6 +2,8 @@
 
 [English](README.en.md) · [修改位置与实现](IMPLEMENTATION.md) · [JSON 格式](FORMAT.md) · [与其他方法组合](INTEGRATION.md) · [训练结果](../../docs/custom-lut-training/README.md) · [Agent 训练方法](../../docs/custom-lut-training/AGENT_TRAINING.md)
 
+运行时代码精简及当前组件身份见[精简方法](RUNTIME-CLEANUP.md)。维护者已测试精简后的组合固件，反馈运行正常、未发现问题。
+
 在 Sony A7 IV（ILCE-7M4）的“曝光/颜色 → 颜色/色调”中增加“自定义 LUTS”。每个滤镜保存独立参数，可直接在机内预览、调整、替换和删除。
 
 - **从 SD 卡单独导入**经过转换的 JSON 格式 LUT 文件，每个滤镜一个文件。

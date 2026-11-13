@@ -1496,5 +1496,27 @@
     "input_sha256": "c9399d46f231639d467f73316243bfae2620195502c8cc21fc2779ce810211aa",
     "output_sha256": "5ec4dee8e126ed54ff476b349e4d76318c98d3cc2f0ac9a5583ec98155b93fc4",
     "AP_MPR_AV_and_resources_unchanged": true
+  },
+  "components_scope": "Frozen pre-title-icon AP and pre-AWB CP. Current full components are listed in runtime_cleanup.",
+  "title_icons": {
+    "recipe": "../../native/menu-ui-fixes/title-icons.json",
+    "input_AP_sha256": "a09d023c1464b35e01bfbfc12b66d418731cf752e1c85b152496ba459203cd65",
+    "output_AP_sha256": "5f559e84f5e43be45116455b366faf97a9bb846e881db7bc924882f87857a1b1"
+  },
+  "runtime_cleanup": {
+    "recipe": "../../native/custom-lut/runtime-cleanup/layout.json",
+    "method": "RUNTIME-CLEANUP.md",
+    "components": {
+      "AP": {
+        "input_sha256": "5f559e84f5e43be45116455b366faf97a9bb846e881db7bc924882f87857a1b1",
+        "output_sha256": "b9e5a6b2a1b644ed9966d644dc1cbb4e110f45c743f37c04f84dceb69c169c71",
+        "bytes": 99221508
+      },
+      "CP": {
+        "input_sha256": "5ec4dee8e126ed54ff476b349e4d76318c98d3cc2f0ac9a5583ec98155b93fc4",
+        "output_sha256": "5502802f647234e1323022fb7b412b6d4934028c0196aabf1f8f62b53aef8255",
+        "bytes": 16236816
+      }
+    }
   }
 }

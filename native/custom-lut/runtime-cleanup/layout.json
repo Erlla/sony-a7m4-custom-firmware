@@ -1,0 +1,577 @@
+{
+  "model": "ILCE-7M4",
+  "scope": "Exact integrated components and authored source changes",
+  "input_AP_sha256": "5f559e84f5e43be45116455b366faf97a9bb846e881db7bc924882f87857a1b1",
+  "output_AP_sha256": "b9e5a6b2a1b644ed9966d644dc1cbb4e110f45c743f37c04f84dceb69c169c71",
+  "input_CP_sha256": "5ec4dee8e126ed54ff476b349e4d76318c98d3cc2f0ac9a5583ec98155b93fc4",
+  "output_CP_sha256": "5502802f647234e1323022fb7b412b6d4934028c0196aabf1f8f62b53aef8255",
+  "AP_bytes": 99221508,
+  "CP_bytes": 16236816,
+  "source_patch": {
+    "file": "source-changes.patch",
+    "sha256": "eb34e7b52e15a3519f03c1cec0487f02e359a0e0de16435a94597ba20fad915c",
+    "normalization": "UTF-8 LF; original relative include spelling restored; whitespace-only lines trimmed",
+    "files": [
+      {
+        "name": "lut_source_dispatch.S",
+        "module": "control",
+        "input_LF_sha256": "c7c3f4a90220c6f4db3b1eae97cf3b4b7ebebb1702e5fd105188b94f696c60ab",
+        "output_LF_sha256": "afb6a84262df69189a3337bb07111667942ad843b7ae9821de4604d83db9f7e0"
+      },
+      {
+        "name": "lut_source_dispatch.c",
+        "module": "control",
+        "input_LF_sha256": "597e11dc6f40ecb05e20cd01e96387e1b6a0320a35946da111aa8a54cb300d19",
+        "output_LF_sha256": "7f198ddf41217d35496b987349a0cf08559795360cd81fcd33d2fa7b6f1dd05f"
+      },
+      {
+        "name": "lut_stock_layout.native.c",
+        "module": "control",
+        "input_LF_sha256": "a4aac5b24788e9c185f6f9f2134ceda3ae95656a5b942e5e72580292194c13d7",
+        "output_LF_sha256": "229d7e0ace4724ac8cbe3ebd9aada0334ebff0772e7897155eb0b2a6a929a0f0"
+      },
+      {
+        "name": "native_control.c",
+        "module": "control",
+        "input_LF_sha256": "d9708b9465d1f3b7728d562e62ab7d53fa1c71e3ca7a436b3973d39b9ec0db3f",
+        "output_LF_sha256": "a7adf7bd8d10afba79e9472bc0ee60876626f575f4728e8df0999b1d51a7952b"
+      },
+      {
+        "name": "p4_gui.native_progress.c",
+        "module": "backend",
+        "input_LF_sha256": "ea14adf29d5418f7f2b5b08d868d3e94f32f75ac5603c3ce58cb2c6481b3ede8",
+        "output_LF_sha256": "d4a3847a68bd68e23c1c845a76fcff85216f8ca937b428d4a43ab83f781dbb4d"
+      }
+    ]
+  },
+  "removed_translation_units": [
+    "lut_ap_trace.c",
+    "lut_power_observer.c",
+    "native_perf.c",
+    "n6_entry_snapshot.c",
+    "p2_diag.c",
+    "p2_proc.c",
+    "p2_proc.S",
+    "clock_provider.c",
+    "clock_provider.S",
+    "p2_sd.c"
+  ],
+  "retained_functional_bridge": "p2_job_exec",
+  "modules": {
+    "control": {
+      "source_order": [
+        "lut_stock_entry.S",
+        "lut_stock_gauge.S",
+        "lut_source_dispatch.S",
+        "lut_source_dispatch.c",
+        "lut_sprite_ready.c",
+        "lut_power_lifecycle.c",
+        "lut_gauge_parameter_bound.c",
+        "lut_stock_numeric_list.c",
+        "lut_name_text_v617.c",
+        "lut_native_adapter.c",
+        "lut_ui.native.c",
+        "lut_stock_layout.native.c",
+        "lut_stock_projection.native.c",
+        "lut_widget_storage.native.c",
+        "native_catalog.c",
+        "native_wire.c",
+        "native_control.c",
+        "native_hooks.S",
+        "native_init.S",
+        "n6_model_power.c",
+        "factory_look_bind.c",
+        "factory_look_getters.S",
+        "ap_generation.c",
+        "sha256.c",
+        "native_progress_hook.S",
+        "lut_import_filename.c",
+        "lut_import_filename_hook.S"
+      ],
+      "segments": [
+        {
+          "VA": "0x9000000",
+          "flags": 5,
+          "filesz": 42228,
+          "memsz": 42228,
+          "sha256": "a86d832c265124f3b8ca0ccc4ac8df81a9492752f8699a7a3a52939d147a3d2c"
+        },
+        {
+          "VA": "0x8f73000",
+          "flags": 6,
+          "filesz": 31520,
+          "memsz": 31520,
+          "sha256": "179658306c27215ac599277588bcf846fb5b6228366a1f12414deb8ba6e4b27b"
+        }
+      ],
+      "linker_sha256": "a6fd6a04ad0a0a2b7112790a1dcf6481b837daabdb3b1cc4ca70e9648c93b844"
+    },
+    "backend": {
+      "source_order": [
+        "p4_runtime.c",
+        "p4_memory.c",
+        "p4_runtime_ports.c",
+        "p4_library.c",
+        "p4_native_io.c",
+        "p4_json.c",
+        "m4_native_data.c",
+        "parameter_codec.c",
+        "p4_exports.S",
+        "p4_gui.native_progress.c",
+        "p4_gui_timer.c",
+        "p6_transform.c"
+      ],
+      "segments": [
+        {
+          "VA": "0x9030000",
+          "flags": 5,
+          "filesz": 75732,
+          "memsz": 75732,
+          "sha256": "ddeb67fa1104d5534adb67e40cff7d102fa2d7ffe1683904d04b35e5b4b6b5d9"
+        },
+        {
+          "VA": "0x9050000",
+          "flags": 6,
+          "filesz": 4,
+          "memsz": 160,
+          "sha256": "313588ae36b23498c072b8718f9a3614d9e52b444cdcea74ecd49c93044741b3"
+        }
+      ],
+      "linker_sha256": "b2038a0a65f34ca0f989ff5d0b21c58db417c1526ab652eee8d7530d3a115e48"
+    }
+  },
+  "native_bindings": [
+    {
+      "VA": "0x1840c60",
+      "symbol": "n6_app_init_suffix",
+      "previous_target": "0x9009f04",
+      "target": "0x90086f4"
+    },
+    {
+      "VA": "0x18412bc",
+      "symbol": "p4_gui_native_loop_tail",
+      "previous_target": "0x900e39c",
+      "target": "0x9009c64"
+    },
+    {
+      "VA": "0x18c0424",
+      "symbol": "lut_import_filename_tail",
+      "previous_target": "0x900e560",
+      "target": "0x9009e28"
+    },
+    {
+      "VA": "0x1f0581c",
+      "symbol": "n6_global_power_hook",
+      "previous_target": "0x9009e8c",
+      "target": "0x900867c"
+    },
+    {
+      "VA": "0x221820c",
+      "symbol": "lut_widget_route",
+      "previous_target": "0x9003cf4",
+      "target": "0x9002e20"
+    },
+    {
+      "VA": "0x23ba044",
+      "symbol": "lut_widget_manager_init",
+      "previous_target": "0x90053b4",
+      "target": "0x900428c"
+    },
+    {
+      "VA": "0x290e6ac",
+      "symbol": "p3_factory_look_current",
+      "previous_target": "0x900cf74",
+      "target": "0x900883c"
+    },
+    {
+      "VA": "0x290e6d4",
+      "symbol": "p3_factory_look_still",
+      "previous_target": "0x900cfe8",
+      "target": "0x90088b0"
+    },
+    {
+      "VA": "0x290e6fc",
+      "symbol": "p3_factory_look_movie",
+      "previous_target": "0x900d05c",
+      "target": "0x9008924"
+    },
+    {
+      "VA": "0x351a738",
+      "symbol": "p2_job_exec",
+      "previous_target": "0x9006f40",
+      "target": "0x9005c04"
+    },
+    {
+      "VA": "0x351a774",
+      "symbol": "n6_owner_send",
+      "previous_target": "0x9006f08",
+      "target": "0x9005bcc"
+    },
+    {
+      "VA": "0x35e6244",
+      "symbol": "n6_leaf_hook",
+      "previous_target": "0x9009ddc",
+      "target": "0x90085cc"
+    },
+    {
+      "VA": "0x35f5508",
+      "symbol": "n6_capture_hook",
+      "previous_target": "0x9009e10",
+      "target": "0x9008600"
+    }
+  ],
+  "factories": [
+    {
+      "VA": "0x511d680",
+      "symbol": "lut_widget_presenter_factory",
+      "previous_target": "0x9004630",
+      "target": "0x90036d0",
+      "relocation": "Update the matching R_AARCH64_RELATIVE addend too"
+    },
+    {
+      "VA": "0x511d688",
+      "symbol": "lut_widget_controller_factory",
+      "previous_target": "0x9000000",
+      "target": "0x9000000",
+      "relocation": "Update the matching R_AARCH64_RELATIVE addend too"
+    },
+    {
+      "VA": "0x511d6e0",
+      "symbol": "lut_stock_editor_presenter_factory",
+      "previous_target": "0x9004ad8",
+      "target": "0x9003ad4",
+      "relocation": "Update the matching R_AARCH64_RELATIVE addend too"
+    },
+    {
+      "VA": "0x511d6e8",
+      "symbol": "lut_stock_editor_controller_factory",
+      "previous_target": "0x9000088",
+      "target": "0x9000088",
+      "relocation": "Update the matching R_AARCH64_RELATIVE addend too"
+    },
+    {
+      "VA": "0x50cd498",
+      "symbol": "lut_stock_gauge_factory",
+      "previous_target": "0x9000124",
+      "target": "0x9000124",
+      "relocation": "Update the matching R_AARCH64_RELATIVE addend too"
+    },
+    {
+      "VA": "0x50cd1f8",
+      "symbol": "p4_gui_text_factory",
+      "previous_target": "0x9031078",
+      "target": "0x9031078",
+      "relocation": "Update the matching R_AARCH64_RELATIVE addend too"
+    }
+  ],
+  "cache_calls": [
+    {
+      "VA": "0x9036494",
+      "original": "readrecord",
+      "target": "lut_read_cached",
+      "target_VA": "0x9048000"
+    },
+    {
+      "VA": "0x9036bc4",
+      "original": "readrecord",
+      "target": "lut_read_cached",
+      "target_VA": "0x9048000"
+    },
+    {
+      "VA": "0x9035340",
+      "original": "verify_written_record",
+      "target": "lut_verify_cached",
+      "target_VA": "0x9048440"
+    }
+  ],
+  "AP_write_ranges": [
+    {
+      "offset": 98893824,
+      "bytes": 61424,
+      "reason": "control 0x9000000",
+      "before_sha256": "1d68ed2ff09ec945f9f68e206479f98fcab86dcc63f7fd5666314d73204ee320",
+      "after_sha256": "0da0a1ab986646d467b8f96bc4c0455fd089699b45f7458dce9953d4cf9dc140"
+    },
+    {
+      "offset": 98316288,
+      "bytes": 53128,
+      "reason": "control 0x8f73000",
+      "before_sha256": "5eca0f56391d2234859ed8a59383c8000079bc1a82d225a7f00dc797492f92d2",
+      "after_sha256": "cde0834ce85807a1f116c06a238c0bc4ca0859b7390336cf57e2e9721c754766"
+    },
+    {
+      "offset": 99094528,
+      "bytes": 73340,
+      "reason": "backend and integrated selector touch",
+      "before_sha256": "d3cec7f2d31434b769d4bbee5465d315fa410fb03745499f1bad2e6b376e704c",
+      "after_sha256": "64ec021685a6a84bba5ab208519656288230b1a33440bdcaad2b0b49e27fc3b2"
+    },
+    {
+      "offset": 99221504,
+      "bytes": 4,
+      "reason": "backend initial state",
+      "before_sha256": "313588ae36b23498c072b8718f9a3614d9e52b444cdcea74ecd49c93044741b3",
+      "after_sha256": "313588ae36b23498c072b8718f9a3614d9e52b444cdcea74ecd49c93044741b3"
+    },
+    {
+      "offset": 99188736,
+      "bytes": 3551,
+      "reason": "LUT-only persistent cache",
+      "before_sha256": "c86a8aeb91b1fbbce696f976ae4fb4a3d6ef8f00c300a672793705ee8235935c",
+      "after_sha256": "385bc5949aa90d8737a4d3a1503269bef2096b8139c06c51b3a3e0fd3d60c569"
+    },
+    {
+      "offset": 99209216,
+      "bytes": 280,
+      "reason": "remove superseded standalone touch helper",
+      "before_sha256": "987d20fbac45dcfdc2762e87243693b9a9f4ab60b10671ba520a500f10ca5c53",
+      "after_sha256": "1f6c9de2e555d5d589e1149fed58f9cbcc101739df97d4a4d694a13f1242c5b9"
+    },
+    {
+      "offset": 25431136,
+      "bytes": 4,
+      "reason": "native entry n6_app_init_suffix",
+      "before_sha256": "413eb682b28159b9fc55e059b1560c446a4992c61e5c511fc2d694c148e951a4",
+      "after_sha256": "f8f9ac596ddb1cd9ecc92561bd8b09df7a3b3fcf5b63980b941412bc38cc36d7"
+    },
+    {
+      "offset": 25432764,
+      "bytes": 4,
+      "reason": "native entry p4_gui_native_loop_tail",
+      "before_sha256": "05c72ee0b601c6441a745c8bd0dbf540c0bcd678e9cd3f36e0067b211cc21de9",
+      "after_sha256": "6ceaafa8dc3f90af83e34a61dbd4b794d76be633cd2b65627108891e1f06df6a"
+    },
+    {
+      "offset": 25953316,
+      "bytes": 4,
+      "reason": "native entry lut_import_filename_tail",
+      "before_sha256": "8f64bf565e7d05e762d0de55b9cebbcb30efca36dd8d65aca55e4325f467931f",
+      "after_sha256": "1abe6313ce33ef0a58cb4c3bd80a897e35c7e0ac2ec4cc54eefcddd35df39ecb"
+    },
+    {
+      "offset": 32528412,
+      "bytes": 4,
+      "reason": "native entry n6_global_power_hook",
+      "before_sha256": "9d7ce6870b320b3eb680fb253e76fd0d532beb2750f82ba0546b76093275bef3",
+      "after_sha256": "4bff615428e5a4705fcae82dc63d86bcbd6b7867c8a470af4992a6eaee91a948"
+    },
+    {
+      "offset": 35750412,
+      "bytes": 4,
+      "reason": "native entry lut_widget_route",
+      "before_sha256": "84e7b7dcedf4143c392d3542e38d09587b0e388b33d6e0de4b7bc54d70d9df55",
+      "after_sha256": "ddaf3d968fa9a3729eee5e7ec178f2c1218a4906dc46b5316ce61a497fb9dfae"
+    },
+    {
+      "offset": 37462084,
+      "bytes": 4,
+      "reason": "native entry lut_widget_manager_init",
+      "before_sha256": "1932b447482b88f3f6531c6507547687027b0e6492e9bda331bbe8af74523bf6",
+      "after_sha256": "c71eca5c68fe88db9e38260a8ee15eb9ec052f98131a4ff1397343e0f6cad410"
+    },
+    {
+      "offset": 43050668,
+      "bytes": 4,
+      "reason": "native entry p3_factory_look_current",
+      "before_sha256": "386bc48e9719cac719a9a8c0ad1a239b5fcc21355040b7bcd2630d4574741089",
+      "after_sha256": "d503ca16bdfb5347de13e2d7bc25622d787404523ebddf5cabf14431d812becb"
+    },
+    {
+      "offset": 43050708,
+      "bytes": 4,
+      "reason": "native entry p3_factory_look_still",
+      "before_sha256": "c85a0e3858e252b394369ea097fddb212e0687c60544cb213de6db958145d04d",
+      "after_sha256": "6b2da0b0faecbc524828d8284541dbf807d47570934e8948a6176dd2020156a8"
+    },
+    {
+      "offset": 43050748,
+      "bytes": 4,
+      "reason": "native entry p3_factory_look_movie",
+      "before_sha256": "dd371a1d0ee567e72499ad4b961ea43a1f5ea41d80da6d5d5111fed1df8507a1",
+      "after_sha256": "2c2895984cecfd263622259de67cc08f4588126ab9de05e54ccac61cfd0b10e9"
+    },
+    {
+      "offset": 55682872,
+      "bytes": 4,
+      "reason": "native entry p2_job_exec",
+      "before_sha256": "53e932eed76ef974093811c547c82913d1cede062adb48dee399042e38ab9d42",
+      "after_sha256": "881e399686fec83172f957972a29983583b87db5fe4f68d7bf3bfbef18e89320"
+    },
+    {
+      "offset": 55682932,
+      "bytes": 4,
+      "reason": "native entry n6_owner_send",
+      "before_sha256": "195847382872e219ef19f79fc5174ef8d58fd718f4f6e4627e77aced7368239c",
+      "after_sha256": "8064f8aacc5cb7f721b9acf2cfd7b7a3b646165b4ce0147742b117bb41095f40"
+    },
+    {
+      "offset": 56517188,
+      "bytes": 4,
+      "reason": "native entry n6_leaf_hook",
+      "before_sha256": "4bd28f0a94e6eefae40a247006b8b64a6f4c86f81d674740f03c1776ab327214",
+      "after_sha256": "38655cc29a510069d0de137a9e5a1da904d34b0aca1fbfbf8adad61eddbfbfbc"
+    },
+    {
+      "offset": 56579336,
+      "bytes": 4,
+      "reason": "native entry n6_capture_hook",
+      "before_sha256": "401b48ef89f15cd5a95a6540281d45ab5bd5430c3c6b8b72caa235d3d9b010ac",
+      "after_sha256": "7511b405fb2b2abeb822aebf48cc62cad99c3118658a9c1e122c87c4d4ee9d0e"
+    },
+    {
+      "offset": 84660728,
+      "bytes": 8,
+      "reason": "factory p4_gui_text_factory",
+      "before_sha256": "cf98755cf501169d53516e04edc4a488778b7a00bbf6a820519134c68f6c56e0",
+      "after_sha256": "cf98755cf501169d53516e04edc4a488778b7a00bbf6a820519134c68f6c56e0"
+    },
+    {
+      "offset": 74928,
+      "bytes": 8,
+      "reason": "relative relocation p4_gui_text_factory",
+      "before_sha256": "cf98755cf501169d53516e04edc4a488778b7a00bbf6a820519134c68f6c56e0",
+      "after_sha256": "cf98755cf501169d53516e04edc4a488778b7a00bbf6a820519134c68f6c56e0"
+    },
+    {
+      "offset": 84661400,
+      "bytes": 8,
+      "reason": "factory lut_stock_gauge_factory",
+      "before_sha256": "7571c582eee1541473751f48180d416df9526a388be2c8fbcc843e3895b4176d",
+      "after_sha256": "7571c582eee1541473751f48180d416df9526a388be2c8fbcc843e3895b4176d"
+    },
+    {
+      "offset": 76944,
+      "bytes": 8,
+      "reason": "relative relocation lut_stock_gauge_factory",
+      "before_sha256": "7571c582eee1541473751f48180d416df9526a388be2c8fbcc843e3895b4176d",
+      "after_sha256": "7571c582eee1541473751f48180d416df9526a388be2c8fbcc843e3895b4176d"
+    },
+    {
+      "offset": 84989568,
+      "bytes": 8,
+      "reason": "factory lut_widget_presenter_factory",
+      "before_sha256": "96863dde338e810710fc43d7d732fc23deb916eb0191b74b9ca604ffd5f04d7c",
+      "after_sha256": "893d5dbfe66f87b6970e1331c2cbddbf3f460db2340813362d7ec2d478bc2ae2"
+    },
+    {
+      "offset": 465984,
+      "bytes": 8,
+      "reason": "relative relocation lut_widget_presenter_factory",
+      "before_sha256": "96863dde338e810710fc43d7d732fc23deb916eb0191b74b9ca604ffd5f04d7c",
+      "after_sha256": "893d5dbfe66f87b6970e1331c2cbddbf3f460db2340813362d7ec2d478bc2ae2"
+    },
+    {
+      "offset": 84989576,
+      "bytes": 8,
+      "reason": "factory lut_widget_controller_factory",
+      "before_sha256": "3ab5c46f74b1fb1d7aad6dd04a45c41c7f0b7e4b5d70001b997272cbd44d6492",
+      "after_sha256": "3ab5c46f74b1fb1d7aad6dd04a45c41c7f0b7e4b5d70001b997272cbd44d6492"
+    },
+    {
+      "offset": 466008,
+      "bytes": 8,
+      "reason": "relative relocation lut_widget_controller_factory",
+      "before_sha256": "3ab5c46f74b1fb1d7aad6dd04a45c41c7f0b7e4b5d70001b997272cbd44d6492",
+      "after_sha256": "3ab5c46f74b1fb1d7aad6dd04a45c41c7f0b7e4b5d70001b997272cbd44d6492"
+    },
+    {
+      "offset": 84989664,
+      "bytes": 8,
+      "reason": "factory lut_stock_editor_presenter_factory",
+      "before_sha256": "ca4f3845c4d32a3331d5a33b7e02e5d84729e7400116394e66d3239956974c96",
+      "after_sha256": "35416485b02ed087dea6eb167384754574e849817eaf97b5f7eac345df4ada83"
+    },
+    {
+      "offset": 466032,
+      "bytes": 8,
+      "reason": "relative relocation lut_stock_editor_presenter_factory",
+      "before_sha256": "ca4f3845c4d32a3331d5a33b7e02e5d84729e7400116394e66d3239956974c96",
+      "after_sha256": "35416485b02ed087dea6eb167384754574e849817eaf97b5f7eac345df4ada83"
+    },
+    {
+      "offset": 84989672,
+      "bytes": 8,
+      "reason": "factory lut_stock_editor_controller_factory",
+      "before_sha256": "4a977f381b9f92234533aff9f204954529c7bd1373644c941c690231731ab02d",
+      "after_sha256": "4a977f381b9f92234533aff9f204954529c7bd1373644c941c690231731ab02d"
+    },
+    {
+      "offset": 466056,
+      "bytes": 8,
+      "reason": "relative relocation lut_stock_editor_controller_factory",
+      "before_sha256": "4a977f381b9f92234533aff9f204954529c7bd1373644c941c690231731ab02d",
+      "after_sha256": "4a977f381b9f92234533aff9f204954529c7bd1373644c941c690231731ab02d"
+    },
+    {
+      "offset": 99090856,
+      "bytes": 16,
+      "reason": "segment meaningful length",
+      "before_sha256": "147cdcd6091e1c02570fccbe96abb09c1aeaaa46d82db6d72f4e1a2999718096",
+      "after_sha256": "5de7e17d699154dcfa3d5709c7ec76aaf661123533c5939cc1d5bf0f5c371fca"
+    },
+    {
+      "offset": 99091024,
+      "bytes": 16,
+      "reason": "segment meaningful length",
+      "before_sha256": "d0d9528b76ce4d15b9f6387728292c3a46132acdbab14fd4ff67a22d22aef2bd",
+      "after_sha256": "8424d37611b0f3e6ae0c4c67a720dac747d8d53ace3e185e83b5ba45568f02d2"
+    },
+    {
+      "offset": 99091192,
+      "bytes": 16,
+      "reason": "segment meaningful length",
+      "before_sha256": "eb6626baba612116b4b3eb8371a8dfcd19d949301ece0d736c3c11378e5b1ba7",
+      "after_sha256": "79553dde0b36e19dc7db01757b55f6abd541b57ddb8c92b61a583d11986f0e8b"
+    }
+  ],
+  "CP_write_ranges": [
+    {
+      "VA": 1179392,
+      "bytes": 168,
+      "before": "38b50546214b0c46984702283cd16b68022b39d12369012b36d11d4ad2f8b83843f051436361d2f840381a4aa361d2f8ec1ad2f8f05ad2f8203bd2f8382b1b0443ea05230b4343ea0263134ae361134b93f8ac1093f84c5092f8943092f834201b0443ea05230b4343ea02630c4a2362d2f81831d2f830110a4a92f8a42043ea014343ea0263636238bd00bf7df91100004056010060fc0000f12101007bf50000f0210100364b01",
+      "after": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "VA": 12210710,
+      "bytes": 4,
+      "before": "7af5739e",
+      "after": "7af5b19b"
+    },
+    {
+      "VA": 12210668,
+      "bytes": 4,
+      "before": "628c2ab9",
+      "after": "4d299809"
+    }
+  ],
+  "stable_backend_exports": {
+    "start": "0x9031000",
+    "bytes": 132,
+    "entries": 33
+  },
+  "cleared_touch_helper": {
+    "VA": "0x904d000",
+    "bytes": 280
+  },
+  "final_backend_LOAD_bytes": 114960,
+  "retained_helpers": [
+    "sound resume 0x904a000",
+    "sound token reuse 0x904b000",
+    "aspect playback 0x904c000"
+  ],
+  "metrics": {
+    "control_RX_before": 61424,
+    "control_RX_after": 42228,
+    "backend_RX_before": 77436,
+    "backend_RX_after": 75732,
+    "cache_RX_before": 3551,
+    "cache_RX_after": 1694,
+    "RX_and_constants_removed": 23205,
+    "control_state_before": 53128,
+    "control_state_after": 31520,
+    "GUI_context_before": 12696,
+    "GUI_context_after": 12320,
+    "scheduling_state_before": 896,
+    "scheduling_state_after": 72
+  }
+}

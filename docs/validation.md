@@ -62,6 +62,10 @@ The maintainer accepted landscape and portrait previews on the accepted integrat
 
 ## 自定义 LUT / Custom LUTs
 
+精简组合固件已获维护者实机运行正常的反馈。精简方法列出原生回放覆盖范围、组件身份及仍需长期观察的偶发问题。[运行时精简与验证范围](../methods/08-custom-lut/RUNTIME-CLEANUP.md)
+
+The maintainer reported normal operation of the cleaned integrated firmware. Its method records replay coverage, component identities and the scope of the physical feedback. [Runtime cleanup verification](../methods/08-custom-lut/RUNTIME-CLEANUP.en.md)
+
 [方法 8](../methods/08-custom-lut/README.md)记录 SD JSON 导入、16 槽、八项微调、强度与自动缓存回收。附维护者授权的六张实机界面照片、修改位置及组件身份，并记录与声音、纵横比和 AF 的共享调用/资源要求。缓存核心的主机线程检查不能替代真实相机调度与长期压力；界面验收不能代替色彩拟合测量。
 
 

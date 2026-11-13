@@ -2,6 +2,10 @@
 
 [方法入口](README.md) · [位置与组件身份](reference-layout.json)
 
+当前组合在本页基础组件链之后，应用[标题字形修复](../../native/menu-ui-fixes/TITLE-ICONS.md)和[运行时代码精简](RUNTIME-CLEANUP.md)。CP 精简输入包含 AWB 与机内 RAW FL2/FL3 备选外观。`reference-layout.json` 的 `components` 保留基础配方身份，`runtime_cleanup` 列出精简后的完整 AP/CP。
+
+For the current composition, apply the title glyph update and runtime cleanup after the base component chains below. CP cleanup follows AWB and the camera-written RAW FL2/FL3 alternatives. The reference preserves base recipe identities in `components` and records the final AP/CP identities in `runtime_cleanup`.
+
 核对采用当前实际 AP/CP 文件、公开方法的精确布局和原始调用关系。结论是需要**同步组合规则和文档**；已有独立方法仍保留其精确输入限制，不能通过扩大哈希白名单把旧地址配方用于新布局。
 
 | 方法 | 影响与处理 |

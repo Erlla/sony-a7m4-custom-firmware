@@ -1,0 +1,743 @@
+--- a/lut_source_dispatch.S
++++ b/lut_source_dispatch.S
+@@ -15,8 +15,6 @@
+  str x30,[sp,#48]
+  str w2,[sp,#56]
+  str wzr,[sp,#60]
+- mov x0,sp
+- bl lut_observer_wrapper_enter
+  mov x0,sp
+  bl lut_source_dispatch_apply
+  ldp x29,x30,[sp,#64]
+--- a/lut_source_dispatch.c
++++ b/lut_source_dispatch.c
+@@ -1,8 +1,6 @@
+ #include "lut_source_dispatch.h"
+ #include "lut_stock_layout.h"
+ #include "lut_power_lifecycle.h"
+-#include "lut_trace_hooks.h"
+-#include "lut_power_observer.h"
+ #include "lut_display_switch.h"
+ int lut_display_exact_source(uint64_t pc,uint32_t event,uint32_t raw){
+     /* Actual642 named records are <event,lengthIncludingNul,namePointer>.
+@@ -23,7 +21,7 @@
+     return pc==0x01f05d38u&&event==0x020f0002u&&notice;
+ }
+ static uint64_t read64(uint64_t p) {return *(const volatile uint64_t *)(uintptr_t)p;}
+-static int source_slot(const lut_source_call *a,uint32_t observe) {
++static int source_slot(const lut_source_call *a) {
+     uint64_t m=a->source_manager,s=a->controller_slot;
+     /* Actual manager1F0581C iteration uses +398,+3A0,+3A8,+3B0.
+      * Retirement1F0468C uses the corresponding caller-supplied slot.
+@@ -33,57 +31,49 @@
+     if(!m || !a->controller || !a->message || !a->source_frame ||
+        (m&7u) || (a->controller&7u) || (a->source_frame&15u) ||
+        m>UINT64_MAX-0x3b0u || s<m+0x398u || s>m+0x3b0u || (s&7u)){
+-        if(observe)lut_observer_note(LUT_OB_SLOT_SHAPE_REJECT,LUT_OB_R_SLOT_SHAPE,a->event,0);return 0;}
+-    if(read64(s)!=a->controller){if(observe)lut_observer_note(LUT_OB_SLOT_OWNER_REJECT,LUT_OB_R_SLOT_OWNER,a->event,0);return 0;}
+-    if(read64(a->controller+0x180u)!=m){if(observe)lut_observer_note(LUT_OB_MANAGER_REJECT,LUT_OB_R_MANAGER,a->event,0);return 0;}
++        return 0;}
++    if(read64(s)!=a->controller){return 0;}
++    if(read64(a->controller+0x180u)!=m){return 0;}
+     return 1;
+ }
+ int32_t lut_source_dispatch_apply(const lut_source_call *a) {
+     uint64_t pc,bias;
+-    if(!a || ((uintptr_t)a&7u) || a->reserved){lut_observer_note(LUT_OB_RECORD_REJECT,LUT_OB_R_RECORD,0,0);return 0;}
++    if(!a || ((uintptr_t)a&7u) || a->reserved){return 0;}
+     bias=lut_widget_bias();pc=a->return_pc-bias;
+-    if(pc!=0x1f05b4cu && pc!=0x1f05cdcu && pc!=0x1f05d38u && pc!=0x1f05d58u){lut_observer_note(LUT_OB_PC_REJECT,LUT_OB_R_PC,a->event,0);return 0;}
++    if(pc!=0x1f05b4cu && pc!=0x1f05cdcu && pc!=0x1f05d38u && pc!=0x1f05d58u){return 0;}
+     /* Original kind1 Widget transport uses manager1F05B34/B4C. Never
+      * interpret a3010002 lookalike from the unrelated power callsites. */
+-    if(a->event==0x3010002u && pc!=0x1f05b4cu){lut_observer_note(LUT_OB_PC_REJECT,LUT_OB_R_PC,a->event,0);return 0;}
+-    if(!source_slot(a,1))return 0;
++    if(a->event==0x3010002u && pc!=0x1f05b4cu){return 0;}
++    if(!source_slot(a))return 0;
+     if(pc==0x1f05b4cu) {
+         /* One callsite handles key stackcopy and source-input event branches. */
+         if(a->source_frame>UINT64_MAX-0xc8u ||
+-           (a->message!=a->source_frame+0xc8u && a->message!=a->source_input)){lut_observer_note(LUT_OB_MESSAGE_REJECT,LUT_OB_R_MESSAGE,a->event,0);return 0;}
+-    } else if(a->message!=a->source_input){lut_observer_note(LUT_OB_MESSAGE_REJECT,LUT_OB_R_MESSAGE,a->event,0);return 0;}
++           (a->message!=a->source_frame+0xc8u && a->message!=a->source_input)){return 0;}
++    } else if(a->message!=a->source_input){return 0;}
+     /* These original power messages originate only at the two paired
+      * manager calls1F05D34/54. The existing slot/frame/message guards stay. */
+     {
+         uint32_t raw=*(const volatile uint32_t *)(uintptr_t)(a->message+8u);
+-        lut_observer_note(LUT_OB_RAW_VALID,0,a->event,raw);
+         if(lut_power_original_message(a->event,raw) &&
+-           !lut_power_exact_source(pc,a->event,raw)){lut_observer_note(LUT_OB_POWER_SOURCE_REJECT,LUT_OB_R_POWER_SOURCE,a->event,0);return 0;}
++           !lut_power_exact_source(pc,a->event,raw)){return 0;}
+         if(lut_display_exact_source(pc,a->event,raw)){
+             /* Run the original scene MEMBER dispatcher, not merely the
+              * common All handler: D9's output-changed member is distinct.
+              * Lifecycle generic prepass must not steal this notification. */
+-            lut_observer_note(LUT_OB_LIFECYCLE_SOURCE,0,a->event,0);
+             int32_t ret=lut_widget_display_borrowed(a->controller,a->message,a->event);
+-            lut_observer_note(LUT_OB_NATIVE_RETURN,0,a->event,(uint32_t)ret);
+             return ret;
+         }
+         if(lut_lifecycle_exact_source(pc,a->event,raw) ||
+            lut_tact_power_exact_source(pc,a->event,raw) ||
+            lut_shared_input_exact_source(pc,a->event,raw)){
+-            lut_observer_note(LUT_OB_LIFECYCLE_SOURCE,0,a->event,0);
+             /* Exact whitelist/source ownership already checked above. No
+              * logger, allocator or queue call in this power capture path.
+              * Context only reads own state and source-bound AP MID RAM. */
+-            int power=lut_power_exact_source(pc,a->event,raw);
+-            if(power){lut_observer_note(LUT_OB_POWER_SOURCE,0,a->event,0);lut_trace_power_capture(a->event,lut_trace_power_context(raw));}
+             int32_t ret=lut_widget_lifecycle_borrowed(a->controller,a->message,a->event);
+-            if(power)lut_trace_power_result(a->event,(uint32_t)ret);
+-            lut_observer_note(LUT_OB_NATIVE_RETURN,0,a->event,(uint32_t)ret);
++
+             return ret;
+         }
+     }
+-    lut_observer_unlisted(a->event);
+     return lut_widget_dispatch_borrowed(a->controller,a->message,a->event);
+ }
+ uint64_t lut_source_exit_apply(const lut_source_call *a) {
+@@ -94,13 +84,13 @@
+         /* Original1F044DC passes target pointerX19 directly. Its manager
+          * and controller slot are liveX22/X23, captured by the LR-specific
+          * assembly branch, not the different1F0468C X23/X21 contract. */
+-        if(!source_slot(a,0) || a->message!=a->source_input)return 0;
++        if(!source_slot(a) || a->message!=a->source_input)return 0;
+         return lut_widget_source_exit_apply(a->controller,a->message);
+     }
+     if(pc==0x1f04798u)offset=0x80u;
+     else if(pc==0x1f04854u)offset=0x7cu;
+     else return 0;
+-    if(!source_slot(a,0) || a->source_frame>UINT64_MAX-offset ||
++    if(!source_slot(a) || a->source_frame>UINT64_MAX-offset ||
+        a->message!=a->source_frame+offset)return 0;
+     /* Original1F0468C then invokes actual controller VT+0 destructor and
+      * clears the exact same slot before registering its replacement.
+--- a/lut_stock_layout.native.c
++++ b/lut_stock_layout.native.c
+@@ -2,12 +2,8 @@
+ #include "lut_stock_layout.h"
+ #include "lut_source_dispatch.h"
+ #include "lut_power_lifecycle.h"
+-#include "lut_trace_hooks.h"
+-#include "lut_power_observer.h"
+ #include "lut_widget_storage.h"
+ #include "native_control.h"
+-#include "native_perf.h"
+-#include "n6_entry_snapshot.h"
+ #include "lut_display_switch.h"
+ #include "p4_gui.h"
+ #include "p4_import_layout.h"
+@@ -20,14 +16,8 @@
+ typedef uint64_t (*fn0)(void);
+ lut_stock_runtime lut_widget_runtime_state;
+ uint64_t lut_widget_bias(void){return (uint64_t)(uintptr_t)lut_widget_module_anchor-0x9000000u;}
+-uint32_t lut_trace_context(void){
+-    const lut_stock_runtime *g=&lut_widget_runtime_state;
+-    return (g->scene&255u)|((g->transition&255u)<<8)|
+-      ((!!g->request_active)<<16)|((!!g->state.is_open)<<17)|
+-      ((!!g->paint_error)<<18)|((g->session_epoch!=g->state.epoch)<<19)|
+-      ((!!g->controller)<<20)|((!!g->presenter)<<21);
+-}
+-static void phase(uint32_t id,uint32_t value){(void)lut_trace_once(id,value,lut_trace_context());}
++
++
+ static uint64_t addr(uint64_t a){return a+lut_widget_bias();}
+ static uint64_t r64(uint64_t a){return *(volatile uint64_t *)(uintptr_t)a;}
+ static uint32_t r32(uint64_t a){return *(volatile uint32_t *)(uintptr_t)a;}
+@@ -36,14 +26,7 @@
+ static void copy(void *d,const void *s,uint32_t n){uint8_t *p=d;const uint8_t *q=s;while(n--)*p++=*q++;}
+ static void zero(void *d,uint32_t n){uint8_t *p=d;while(n--)*p++=0;}
+ static uint32_t mid(void){return r32(((fn0)(uintptr_t)addr(0x28f18f0))());}
+-uint32_t lut_trace_power_context(uint32_t raw){
+-    const lut_stock_runtime *g=&lut_widget_runtime_state;
+-    uint32_t m=r32(addr(0x7fe6c60)); /* exact original28F18F0 result */
+-    return (m&0x7ffu)|((g->scene==0xda)<<11)|((!!g->request_active)<<12)|
+-      ((!!g->state.is_open)<<13)|((g->session_epoch!=g->state.epoch)<<14)|
+-      ((!!g->paint_error)<<15)|((raw&255u)<<16)|((!!g->controller)<<24)|
+-      ((!!g->presenter)<<25)|((!!g->transition)<<26);
+-}
++
+ 
+ static uint64_t no_model(uint64_t p,uint64_t m){(void)p;(void)m;return 0;}
+ static void destroy(uint64_t p){
+@@ -213,19 +196,18 @@
+ uint64_t lut_widget_route(uint64_t c,uint64_t a,uint64_t b,uint64_t d){
+     lut_stock_runtime *g=&lut_widget_runtime_state;uint32_t scene=0xd9;
+     if(mid()==1589 && r32(c+0x178)==0x2d6 && r32(a)==0x16d && !r32(addr(0x8f71f40))){
+-        n6_entry_capture();setup();g->request_active=1;g->request_manager=r64(c+0x180);g->manage_requested=0;g->transition=0;g->scene=0xd9;
+-        lut_trace_arm();lut_observer_arm(g->request_manager);phase(0,0xd9);
++        setup();g->request_active=1;g->request_manager=r64(c+0x180);g->manage_requested=0;g->transition=0;g->scene=0xd9;
+         return ((fn4)(uintptr_t)addr(0x2215344))(c,(uint64_t)(uintptr_t)&scene,b,d);
+     }return ((fn4)(uintptr_t)addr(0x2215344))(c,a,b,d);
+ }
+ static uint64_t construct(uint32_t scene,uint64_t i,uint64_t m,uint64_t context,uint64_t service,uint64_t pi,uint64_t layout){
+-    lut_stock_runtime *g=&lut_widget_runtime_state;phase(scene==0xda?11:1,scene);uint64_t c=((fn6)(uintptr_t)addr(scene==0xda?0x1d6d7b0:0x1d6d5d8))(i,m,context,service,pi,layout);
++    lut_stock_runtime *g=&lut_widget_runtime_state;uint64_t c=((fn6)(uintptr_t)addr(scene==0xda?0x1d6d7b0:0x1d6d5d8))(i,m,context,service,pi,layout);
+     setup();
+     if(!g->transition){catalog();p4_gui_open(scene,0);}
+     else if(g->transition!=scene || !g->state.is_open)return c;
+     else p4_gui_open(scene,1);
+     g->transition=0;g->scene=scene;g->session_epoch=g->state.epoch;g->controller=c;
+-    w64(c,(uint64_t)(uintptr_t)&g->controller_vtable[scene==0xda][2]);phase(scene==0xda?12:2,scene);return c;
++    w64(c,(uint64_t)(uintptr_t)&g->controller_vtable[scene==0xda][2]);return c;
+ }
+ uint64_t lut_widget_controller_factory_private(uint64_t i,uint64_t m,uint64_t c,uint64_t s,uint64_t p,uint64_t l){return construct(0xd9,i,m,c,s,p,l);}
+ uint64_t lut_stock_editor_controller_private(uint64_t i,uint64_t m,uint64_t c,uint64_t s,uint64_t p,uint64_t l){return construct(0xda,i,m,c,s,p,l);}
+@@ -249,14 +231,11 @@
+ static uint64_t presenter(uint32_t target,uint64_t i,uint64_t view,uint64_t context,uint64_t pi,uint64_t scene,uint64_t layout){
+     lut_stock_runtime *g=&lut_widget_runtime_state;uint32_t edit=target==0xda,orientation=layout==0?1:0,count=edit?107:34;
+     uint64_t p,vt,vo=edit?0x88:0x40,mo=edit?0x90:0x48,helper=edit?0x4e30:0x4dc0,helper2=edit?0x5488:0x5418;
+-    phase(edit?13:3,(uint32_t)layout);
+     if(mid()!=1589 || !g->request_active || !g->controller || scene!=target || g->scene!=target || g->request_manager!=r64(g->controller+0x180)){
+         /* With observer enabled, phase30 belongs exclusively to MENU summary.
+          * The old fallback condition/return delegate remains unchanged. */
+ #if LUT_POWER_OBSERVER_ENABLE
+-        lut_observer_presenter_fallback(target);
+ #else
+-        phase(30,target);
+ #endif
+         return ((fn6)(uintptr_t)addr(edit?0x1e5db94:0x1e5d2f4))(i,view,context,pi,scene,layout);}
+ 
+@@ -269,14 +248,13 @@
+     w64(p+(edit?0x5ae0:0x5a70),context);w32(p+(edit?0x5ae8:0x5a78),(uint32_t)pi);
+     ((fn6)(uintptr_t)addr(0x1b69f68))(p+helper,(uint64_t)(uintptr_t)style,count,0,0,0);
+     ((fn6)(uintptr_t)addr(0x1c02418))(p+helper2,(uint64_t)(uintptr_t)style,count,0,0,0);
+-    phase(edit?14:4,count);
+     p4_gui_capture_begin(scene);
+     {typedef uint64_t (*create_fn)(uint64_t,uint32_t,uint64_t,uint64_t,uint32_t,uint64_t,uint64_t,uint64_t);
+      ((create_fn)(uintptr_t)r64(vt+0x10))(view,(uint32_t)scene,(uint64_t)(uintptr_t)style,count,(uint32_t)layout,
+        (uint64_t)(uintptr_t)(edit?g->editor_masks:selector_masks()),addr(edit?0x40f7c88:0x40f4b30),addr(edit?0x40f7ad8:0x40f4aa8));}
+     p4_gui_capture_end(1);
+-    phase(edit?15:5,count);g->presenter=p;phase(edit?16:6,count);
+-    {int32_t first=lut_stock_first_update(p);phase(edit?17:7,(uint32_t)first);if(first==1)p4_gui_after_view_create();else p4_gui_capture_end(0);}return p;
++    g->presenter=p;
++    {int32_t first=lut_stock_first_update(p);if(first==1)p4_gui_after_view_create();else p4_gui_capture_end(0);}return p;
+ }
+ 
+ /* Original D9/DA VT40 protocol1D49ABC/1D499DC, with private styles/masks.
+@@ -316,10 +294,9 @@
+  old=r32(p+8);w32(p+8,next);edit=g->scene==0xda;
+  lut_stock_style*style=edit?g->editor[next==0?1:0]:selector_style(next==0?1:0);
+  if(old==next&&r64(p+0x10)==(uintptr_t)style)return 0;
+- if(edit)phase(23,(old&0xffffu)|(next<<16));
+  if(r64(p+0x10)!=(uintptr_t)style){(void)rebuild_view(p,next);}
+  else{uint64_t v=r64(p+(edit?0x88:0x40));p4_gui_capture_existing(g->scene);((fn2)(uintptr_t)r64(r64(v)+0x60))(v,next);p4_gui_capture_end(1);p4_gui_after_view_create();}
+- if(edit)phase(24,next);return 0;
++ return 0;
+ }
+ 
+ uint64_t lut_widget_presenter_factory(uint64_t i,uint64_t v,uint64_t c,uint64_t p,uint64_t s,uint64_t l){return presenter(0xd9,i,v,c,p,s,l);}
+@@ -350,11 +327,10 @@
+ }
+ int32_t lut_widget_lifecycle_borrowed(uint64_t c,uint64_t message,uint32_t event){
+     lut_stock_runtime *g=&lut_widget_runtime_state;
+-    if(!c || !message || c!=g->controller){lut_observer_private(LUT_OB_NATIVE_GATE_REJECT,LUT_OB_R_NATIVE_C,event,0,0);return 0;}
+-    if(g->scene!=0xd9 && g->scene!=0xda){lut_observer_private(LUT_OB_NATIVE_GATE_REJECT,LUT_OB_R_NATIVE_SCENE,event,0,0);return 0;}
+-    if(r32(c+0x178)!=g->scene){lut_observer_private(LUT_OB_NATIVE_GATE_REJECT,LUT_OB_R_NATIVE_C_SCENE,event,0,0);return 0;}
++    if(!c || !message || c!=g->controller){return 0;}
++    if(g->scene!=0xd9 && g->scene!=0xda){return 0;}
++    if(r32(c+0x178)!=g->scene){return 0;}
+     p4_gui_power(r32(message+8));
+-    lut_observer_private(LUT_OB_NATIVE_GATE_PASS,0,event,0,0);
+     /* Only the exact CDC/20F0/raw20F5 source can reach this branch from the
+      * source wrapper. Retain original outer thunk raw-load and native return;
+      * no Look enter/model refresh, forced ACK, or private close is added. */
+@@ -365,26 +341,25 @@
+ int32_t lut_widget_dispatch_borrowed(uint64_t c,uint64_t message,uint32_t event){
+     lut_stock_runtime *g=&lut_widget_runtime_state;uint32_t key,touch_back;uint64_t m;int32_t r;
+     uint32_t observed_mid;
+-    if(g->scene!=0xd9 && g->scene!=0xda){lut_observer_private(LUT_OB_UI_GATE_REJECT,LUT_OB_R_UI_SCENE,event,0,0);return 0;}
+-    if(c!=g->controller){lut_observer_private(LUT_OB_UI_GATE_REJECT,LUT_OB_R_UI_C,event,0,0);return 0;}
+-    if(g->session_epoch!=g->state.epoch){lut_observer_private(LUT_OB_UI_GATE_REJECT,LUT_OB_R_UI_EPOCH,event,0,0);return 0;}
++    if(g->scene!=0xd9 && g->scene!=0xda){return 0;}
++    if(c!=g->controller){return 0;}
++    if(g->session_epoch!=g->state.epoch){return 0;}
+     observed_mid=mid();
+-    if(observed_mid!=1589){lut_observer_private(LUT_OB_UI_GATE_REJECT,LUT_OB_R_UI_MID,event,observed_mid,1);return 0;}
+-    if(!g->request_active){lut_observer_private(LUT_OB_UI_GATE_REJECT,LUT_OB_R_UI_REQUEST,event,observed_mid,1);return 0;}
+-    if(r32(c+0x178)!=g->scene){lut_observer_private(LUT_OB_UI_GATE_REJECT,LUT_OB_R_UI_C_SCENE,event,observed_mid,1);return 0;}
+-    lut_observer_private(LUT_OB_UI_GATE_PASS,0,event,observed_mid,1);
++    if(observed_mid!=1589){return 0;}
++    if(!g->request_active){return 0;}
++    if(r32(c+0x178)!=g->scene){return 0;}
+     (void)key;(void)touch_back;(void)m;(void)r;
+     return p4_gui_dispatch(c,message,event);
+ }
+ 
+ uint64_t lut_widget_source_exit_apply(uint64_t c,uint64_t message){
+     lut_stock_runtime *g=&lut_widget_runtime_state;(void)message;
+-    if(c==g->controller){phase(9,message?r32(message):0);p4_gui_exit(g->transition);
++    if(c==g->controller){p4_gui_exit(g->transition);
+         /* Source1F0468C puts the actual outgoing/next scene scalar into the
+          * borrowed exit message. Keep the UI only for the requested peer. */
+         if(!g->transition || !message || r32(message)!=g->transition){
+             g->transition=0;g->state.is_open=0;g->request_active=0;
+-        }g->controller=0;phase(10,g->transition);if(!g->transition){n6p_cancel();lut_observer_disarm();lut_trace_disarm();}
++        }g->controller=0;
+     }return 1;
+ }
+ uint64_t lut_widget_manager_init(uint64_t c,const uint32_t *incoming){
+@@ -400,16 +375,16 @@
+     return r64(widget+8)==addr(0x40f7c88)+r32(addr(0x40f7ad8)+13*4);
+ }
+ uint64_t lut_stock_gauge_factory_private(uint64_t cap,uint64_t arena,uint64_t cursor,uint64_t common,uint64_t widget,uint64_t unused){
+-    phase(18,13);uint64_t object=((fn6)(uintptr_t)addr(0x185d0c0))(cap,arena,cursor,common,widget,unused);
+-    if(object)w64(object,(uint64_t)(uintptr_t)&lut_widget_runtime_state.gauge_vtable[2]);phase(19,!!object);return object;
++    uint64_t object=((fn6)(uintptr_t)addr(0x185d0c0))(cap,arena,cursor,common,widget,unused);
++    if(object)w64(object,(uint64_t)(uintptr_t)&lut_widget_runtime_state.gauge_vtable[2]);return object;
+ }
+ uint64_t lut_stock_gauge_update(uint64_t gauge){
+-    phase(20,13);uint64_t ret=((fn1)(uintptr_t)addr(0x187fa40))(gauge);phase(21,(uint32_t)ret);
++    uint64_t ret=((fn1)(uintptr_t)addr(0x187fa40))(gauge);
+     /* Original common-header layout lives+1D4; original orientation+c3C.
+      * Never apply the normal crop to portrait/rotated gauge geometry. */
+     if(lut_widget_runtime_state.request_active && lut_widget_runtime_state.scene==0xda &&
+        (lut_widget_runtime_state.reserved&1u) && r32(gauge+0x1d4)==0 && !*(const uint8_t *)(uintptr_t)(gauge+0xc3c) &&
+        *(const uint8_t *)(uintptr_t)(gauge+0x204) && lut_stock_sprite_crop_ready(gauge+0x460))
+         lut_stock_sprite_crop(gauge+0x460,addr(0x17183a0),addr(0x1716980));
+-    phase(22,13);return ret;
+-}
++    return ret;
++}
+--- a/native_control.c
++++ b/native_control.c
+@@ -1,12 +1,9 @@
+ #include "native_control.h"
+-#include "native_perf.h"
+-#include "n6_entry_snapshot.h"
+ #include "n6_model_power.h"
+ #include "lut_stock_layout.h"
+ #include "ap_generation.h"
+ #include "../publication/edit_values.h"
+ #include "p4_control.h"
+-#include "p4_cold_perf.h"
+ n6_state n6_control;
+ static p3_ap_state p3_control;
+ /* Worker-only reason for bootstrap backoff; no public state ABI change. */
+@@ -45,61 +42,33 @@
+  c->valid=0;p3g_sha256((const uint8_t*)&p4_control.intent.identity,sizeof(p4_control.intent.identity),c->identity);p4c_copy(c->binary,p4_control.binary,32);c->epoch=n6_control.epoch;c->bank=bank;c->valid=1;
+ }
+ 
+-/* Single control-worker writer; only finished/interrupted upload rows are published.
+- * The getter uses bounded atomic-word snapshots and cannot hold up a worker.
+- * No callback, filesystem or legacy P2 diagnostic is entered by this path. */
++/* Worker-owned scheduling state. Clock checks and healthy WRITE cadence use
++ * these fields. Historical reports and diagnostic counters are omitted. */
+ typedef struct {
+- p4c_perf_report current;
+- uint64_t owner_ns,last_ns,round_sequence,yield_ns;
+- uint32_t active,version,head,count,round_counted,round_acks_start;
+- uint32_t rows[P4CP_HISTORY][sizeof(p4c_perf_report)/4u];
+-} p4c_perf_state;
+-static p4c_perf_state cold_perf P4C_PRIVATE;
++ uint64_t sequence,last_ns,owner_ns,yield_ns;
++ uint64_t write_first_ns,cp_ack_ns,native_observed_ns,round_sequence;
++ uint32_t active;
++} upload_schedule_state;
++static upload_schedule_state upload_schedule P4C_PRIVATE;
+ static uint64_t worker_now_ns(void);
+-static void cold_stamp(uint64_t*out,uint64_t ns){
+- if(!cold_perf.active)return;
+- if(!ns||ns>0x7fffffffffffffffull||(cold_perf.last_ns&&ns<cold_perf.last_ns)){
+-  cold_perf.current.flags|=P4CP_CLOCK_INVALID;*out=0;return;
+- }
+- *out=ns;cold_perf.last_ns=ns;
+-}
+-static void cold_finish(int32_t status,uint32_t flags){
+- if(!cold_perf.active)return;cold_perf.current.status=status;cold_perf.current.flags|=flags;
+- uint64_t ms=cold_perf.yield_ns/1000000u;
+- if(ms>UINT32_MAX){cold_perf.current.flags|=P4CP_CLOCK_INVALID;cold_perf.current.yield_ms=0;}
+- else cold_perf.current.yield_ms=(uint32_t)ms;
+- uint32_t v=__atomic_load_n(&cold_perf.version,__ATOMIC_RELAXED);
+- if(cold_perf.current.write_calls&&v<=UINT32_MAX-2u){
+-  uint32_t h=__atomic_load_n(&cold_perf.head,__ATOMIC_RELAXED),n=__atomic_load_n(&cold_perf.count,__ATOMIC_RELAXED);
+-  h=n?(h+1u)%P4CP_HISTORY:0u;uint32_t words[sizeof(p4c_perf_report)/4u];p4c_copy(words,&cold_perf.current,sizeof(words));
+-  __atomic_store_n(&cold_perf.version,v+1u,__ATOMIC_SEQ_CST);
+-  for(uint32_t i=0;i<sizeof(words)/4u;i++)__atomic_store_n(&cold_perf.rows[h][i],words[i],__ATOMIC_SEQ_CST);
+-  __atomic_store_n(&cold_perf.head,h,__ATOMIC_SEQ_CST);__atomic_store_n(&cold_perf.count,n<P4CP_HISTORY?n+1u:n,__ATOMIC_SEQ_CST);
+-  __atomic_store_n(&cold_perf.version,v+2u,__ATOMIC_SEQ_CST);
+- }
+- cold_perf.active=0;
+-}
+-static void cold_begin(const p4r_intent*intent){
+- cold_finish(P4R_STALE,P4CP_CANCELED|P4CP_REPLACED);
+- if(intent->off){cold_perf.owner_ns=0;return;}p4c_zero(&cold_perf.current,sizeof(cold_perf.current));cold_perf.active=1;cold_perf.last_ns=0;cold_perf.yield_ns=0;
+- p4c_perf_report*r=&cold_perf.current;r->abi=P4CP_ABI;r->bytes=sizeof(*r);r->sequence=intent->sequence;r->slot=intent->slot;
+- r->revision=intent->identity.revision;r->epoch=n6_control.epoch;p4c_copy(r->content_sha256,intent->identity.content_sha256,32);
+- r->owner_ns=cold_perf.owner_ns;cold_perf.owner_ns=0;
+- if(r->owner_ns&&r->owner_ns<=0x7fffffffffffffffull)cold_perf.last_ns=r->owner_ns;
+- else if(r->owner_ns)r->flags|=P4CP_CLOCK_INVALID;
+- cold_stamp(&r->intent_ns,worker_now_ns());
+-}
+-int32_t p4_control_perf_snapshot(uint32_t index,p4c_perf_report*out,uint32_t bytes){
+- if(!out||bytes!=sizeof(*out)||index>=P4CP_HISTORY)return P4R_ARGUMENT;
+- for(uint32_t attempt=0;attempt<2u;attempt++){
+-  uint32_t v=__atomic_load_n(&cold_perf.version,__ATOMIC_SEQ_CST);if(v&1u)continue;
+-  uint32_t n=__atomic_load_n(&cold_perf.count,__ATOMIC_SEQ_CST),h=__atomic_load_n(&cold_perf.head,__ATOMIC_SEQ_CST);
+-  if(index>=n){if(v==__atomic_load_n(&cold_perf.version,__ATOMIC_SEQ_CST))return P4R_NOTREADY;continue;}
+-  h=(h+P4CP_HISTORY-index)%P4CP_HISTORY;uint32_t words[sizeof(*out)/4u];
+-  for(uint32_t i=0;i<sizeof(words)/4u;i++)words[i]=__atomic_load_n(&cold_perf.rows[h][i],__ATOMIC_SEQ_CST);
+-  if(v==__atomic_load_n(&cold_perf.version,__ATOMIC_SEQ_CST)){p4c_copy(out,words,sizeof(*out));return 0;}
+- }
+- return P4R_BUSY;
++static void upload_stamp(uint64_t *out,uint64_t ns){
++ if(!upload_schedule.active)return;
++ if(!ns||ns>0x7fffffffffffffffull||(upload_schedule.last_ns&&ns<upload_schedule.last_ns)){
++  *out=0;return;
++ }
++ *out=ns;upload_schedule.last_ns=ns;
++}
++static void upload_clock(uint64_t ns){
++ uint64_t ignored;
++ upload_stamp(&ignored,ns);
++}
++static void upload_begin(const p4r_intent *intent){
++ uint64_t owner_ns=upload_schedule.owner_ns;
++ p4c_zero(&upload_schedule,sizeof(upload_schedule));
++ if(intent->off)return;
++ upload_schedule.active=1;upload_schedule.sequence=intent->sequence;
++ if(owner_ns&&owner_ns<=0x7fffffffffffffffull)upload_schedule.last_ns=owner_ns;
++ upload_clock(worker_now_ns());
+ }
+ 
+ int32_t p4_control_debug(p4c_debug*out){
+@@ -108,7 +77,7 @@
+  for(unsigned i=0;i<P3G_BANKS;i++)out->cache_used+=!!p4_control.cache[i].valid;
+  out->uploads=p4_control.uploads;out->cache_hits=p4_control.cache_hits;out->cp_ack=p4_control.cp_ack;out->native_complete=n6_control.completed_key!=0;out->receipt_delivered=p4_control.delivered;out->error=p4_control.error;return 0;
+ }
+-uint32_t p4_control_private_bytes(void){return sizeof(p4_control)+sizeof(cold_perf);}
++uint32_t p4_control_private_bytes(void){return sizeof(p4_control)+sizeof(upload_schedule);}
+ 
+ uint32_t p3g_crc32(const void *p,uint32_t n){return n6_crc32(p,n);}
+ _Static_assert(sizeof(n6_thread)==40,"original AP thread descriptor");
+@@ -133,7 +102,7 @@
+ }
+ void n6_resume(void){if(request_resync())__atomic_store_n(&n6_control.quiesce,0u,__ATOMIC_RELEASE);}
+ static void reset_session(uint32_t resume){
+- cold_finish(P4R_CANCELED,P4CP_CANCELED);cold_perf.owner_ns=0;
++ upload_schedule.active=0;upload_schedule.owner_ns=0;
+  __atomic_store_n(&p3_control.quiesce,0u,__ATOMIC_RELEASE);
+  p3a_intent(&p3_control,0,0,0);p3_control.phase=P3A_IDLE;p3_control.pending=0;p4c_invalidate();
+  /* AP endpoint ownership is independent of the CP session. Do not destroy
+@@ -313,7 +282,6 @@
+     __atomic_load_n(&n6_control.context_generation,__ATOMIC_ACQUIRE)==context&&
+     __atomic_load_n(&n6_control.ack_key,__ATOMIC_ACQUIRE)==key){
+   n6_control.refreshes++;n6_control.last_color=active?(0xdfu+__atomic_load_n(&p4_control.native_bank,__ATOMIC_ACQUIRE)):n6_color(tuple[1],tuple[2]);
+-  n6p_complete(sequence,context,n6_control.last_color);
+   __atomic_store_n(&n6_control.completed_key,key,__ATOMIC_RELEASE);
+  }
+  __atomic_store_n(&owner_retire_notice,1u,__ATOMIC_RELEASE);
+@@ -327,15 +295,15 @@
+  if(!p4c_current()||!p4_control.have)return P4R_STALE;
+  p4r_receipt r;p4c_zero(&r,sizeof(r));r.intent=p4_control.intent;r.cp_epoch=n6_control.epoch;r.status=status;
+  if(!status){r.bank=__atomic_load_n(&p4_control.native_bank,__ATOMIC_ACQUIRE);r.cp_ack=p4_control.cp_ack;r.native_complete=completed;if(!r.intent.off)p4c_copy(r.binary_sha256,p4_control.binary,32);}
+- if(cold_perf.active&&completed&&!cold_perf.current.native_observed_ns)cold_stamp(&cold_perf.current.native_observed_ns,worker_now_ns());
+- int32_t rc=p4_runtime_owner_complete(&r);if(!rc){p4_control.delivered=1;cold_finish(status,status?P4CP_FAILED:P4CP_COMPLETE);}p4_control.error=status;return rc;
++ if(upload_schedule.active&&completed&&!upload_schedule.native_observed_ns)upload_stamp(&upload_schedule.native_observed_ns,worker_now_ns());
++ int32_t rc=p4_runtime_owner_complete(&r);if(!rc){p4_control.delivered=1;upload_schedule.active=0;}p4_control.error=status;return rc;
+ }
+ static int32_t p4c_accept(const p4r_intent*intent){
+  if(!intent->sequence||intent->sequence!=p4_runtime_desired_sequence()||intent->slot>16u||intent->off!=(intent->slot==16u))return P4R_STALE;
+  if(p4_control.have&&intent->sequence==p4_control.intent.sequence)return p4c_equal(intent,&p4_control.intent,sizeof(*intent))?0:P4R_ARGUMENT;
+  uint32_t serial=__atomic_load_n(&n6_control.mail_sequence,__ATOMIC_ACQUIRE);
+  if(serial&1u)return P4R_BUSY;
+- cold_begin(intent);
++ upload_begin(intent);
+  if(serial>UINT32_MAX-2u){
+   __atomic_store_n(&p4_control.visible_sequence,0,__ATOMIC_RELEASE);p3a_intent(&p3_control,0,0,0);
+   __atomic_store_n(&n6_control.ack_key,0,__ATOMIC_RELEASE);
+@@ -349,7 +317,7 @@
+  uint32_t data[4]={1u,(uint32_t)intent->sequence,intent->off?N6_OFF:intent->slot,intent->off?0u:10u};
+  __atomic_store_n(&n6_control.mail_sequence,serial+1u,__ATOMIC_SEQ_CST);
+  for(unsigned i=0;i<4;i++)__atomic_store_n(n6_control.mail_words+i,data[i],__ATOMIC_SEQ_CST);
+- n6p_request(serial+2u,data);__atomic_store_n(&n6_control.mail_sequence,serial+2u,__ATOMIC_SEQ_CST);
++ __atomic_store_n(&n6_control.mail_sequence,serial+2u,__ATOMIC_SEQ_CST);
+  __atomic_store_n(&p4_control.visible_sequence,intent->sequence,__ATOMIC_RELEASE);
+  p3_control.phase=P3A_IDLE;p3_control.pending=0;n6_control.attempts=n6_control.control_wait=0;return 0;
+ }
+@@ -369,7 +337,7 @@
+   p4_control.prepared_query=1;n6_control.attempts=n6_control.control_wait=0;return 2;
+  }
+  if(!p4_control.loaded){
+-  if(!p4_control.load_requested){int32_t rc=p4_runtime_owner_request_load(&p4_control.intent);if(rc<0)return rc;p4_control.load_requested=1;if(cold_perf.active)cold_stamp(&cold_perf.current.load_request_ns,worker_now_ns());}
++  if(!p4_control.load_requested){int32_t rc=p4_runtime_owner_request_load(&p4_control.intent);if(rc<0)return rc;p4_control.load_requested=1;if(upload_schedule.active)upload_clock(worker_now_ns());}
+   p4r_lease lease;int32_t rc=p4_runtime_owner_take_lease(p4_control.intent.sequence,&lease);if(rc)return rc==P4R_PENDING||(rc==P4R_STALE&&p4c_current())?2:rc;
+   uint8_t binary[32];uint32_t valid=p4c_current()&&lease.sequence==p4_control.intent.sequence&&lease.token&&lease.envelope&&lease.bytes>=5968u&&lease.bytes<=P3G_MAX_BLOB&&
+     p4c_equal(&lease.identity,&p4_control.intent.identity,sizeof(lease.identity));
+@@ -379,7 +347,7 @@
+   if(!valid){p4_runtime_owner_release_lease(lease.token);return P3G_INTEGRITY;}
+   p4c_copy(p4_control.binary,binary,32);p4c_copy(p4_control.content,lease.content_sha256,32);for(unsigned i=0;i<8;i++)p4_control.defaults[i]=lease.envelope[128u+4628u+2u*i];p4_control.length=lease.bytes;
+   uint32_t bank=p4c_cached_bank();p4_control.cached=!!bank;
+-  if(cold_perf.active){cold_stamp(&cold_perf.current.lease_ns,worker_now_ns());if(bank)cold_perf.current.flags|=P4CP_CACHE_HIT;}
++  if(upload_schedule.active){upload_clock(worker_now_ns());}
+   if(bank){rc=p3a_select_prepared(&p3_control,bank,p4_control.content,p4_control.defaults,n6_control.epoch);p4_control.cache_hits++;}
+   else{rc=p3a_begin(&p3_control,lease.envelope,lease.bytes,n6_control.epoch);p4_control.uploads++;}
+   if(!rc){p6_edit_defaults(p3_control.defaults,p4_control.defaults,p4_control.intent.settings.delta,p4_control.intent.settings.strength);p3_control.strength=p4_control.intent.settings.strength;}
+@@ -392,7 +360,7 @@
+ }
+ static void p4c_ack(uint64_t key,uint32_t domain){
+  p4_control.cp_ack=1;uint32_t bank=p3_control.bank;
+- if(cold_perf.active){cold_perf.current.bank=bank;if(!cold_perf.current.cp_ack_ns)cold_stamp(&cold_perf.current.cp_ack_ns,worker_now_ns());}
++ if(upload_schedule.active){if(!upload_schedule.cp_ack_ns)upload_stamp(&upload_schedule.cp_ack_ns,worker_now_ns());}
+  __atomic_store_n(&p4_control.native_bank,bank,__ATOMIC_RELEASE);
+  if(bank&&domain&&!p4_control.intent.off)p4c_cache_receipt();
+  __atomic_store_n(&n6_control.acknowledged,bank?(0xa00u|bank):0u,__ATOMIC_RELEASE);
+@@ -417,7 +385,7 @@
+  }
+  if(n6_control.endpoint[0]&&(p4_control.online_epoch!=n6_control.epoch||n6_control.endpoint[0]!=p4_control.online_endpoint)){
+   rc=p4_runtime_owner_online(lut_widget_bias(),n6_control.epoch,n6_control.endpoint[0]);
+-  if(rc<0){p4_control.error=rc;__atomic_store_n(&n6_control.error,(uint32_t)rc,__ATOMIC_RELEASE);return rc;}p4_control.online_epoch=n6_control.epoch;p4_control.online_endpoint=n6_control.endpoint[0];cold_perf.owner_ns=worker_now_ns();
++  if(rc<0){p4_control.error=rc;__atomic_store_n(&n6_control.error,(uint32_t)rc,__ATOMIC_RELEASE);return rc;}p4_control.online_epoch=n6_control.epoch;p4_control.online_endpoint=n6_control.endpoint[0];upload_schedule.owner_ns=worker_now_ns();
+  }
+  p4r_intent next;rc=p4_runtime_owner_take_intent(&next);
+  if(!rc){rc=p4c_accept(&next);if(rc<0&&rc!=P4R_STALE){p4_control.error=rc;return rc;}}
+@@ -465,8 +433,8 @@
+  if(n6_control.attempts>=32u&&(int32_t)n6_control.error==-101)return -101;
+  if(n6_control.attempts>=32u&&n6_control.control_wait){n6_control.control_wait--;return (int32_t)n6_control.error;}
+  if(n6_control.attempts>=32u)n6_control.control_wait=99;else n6_control.attempts++;
+- rc=p3a_next(&p3_control,(uint8_t*)&q);if(rc)return rc;uint32_t perf_write=p3_control.phase==P3A_WRITE;
+- if(perf_write&&cold_perf.active){cold_perf.current.write_calls++;if(cold_perf.round_sequence==cold_perf.current.sequence&&!cold_perf.round_counted){cold_perf.current.write_rounds++;cold_perf.round_counted=1;}if(!cold_perf.current.write_first_ns&&cold_perf.round_sequence!=cold_perf.current.sequence)cold_stamp(&cold_perf.current.write_first_ns,worker_now_ns());}
++ rc=p3a_next(&p3_control,(uint8_t*)&q);if(rc)return rc;uint32_t is_write=p3_control.phase==P3A_WRITE;
++ if(is_write&&upload_schedule.active){if(!upload_schedule.write_first_ns&&upload_schedule.round_sequence!=upload_schedule.sequence)upload_stamp(&upload_schedule.write_first_ns,worker_now_ns());}
+  rc=n6_rpc(&q,&r);
+  if(__atomic_load_n(&n6_control.quiesce,__ATOMIC_ACQUIRE))return 3;if(!current_resume()||!p4c_current())return -102;
+  if(rc){
+@@ -484,7 +452,7 @@
+  }
+  uint32_t after,check[4];if(!read_words(&n6_control.mail_sequence,n6_control.mail_words,check,4,&after)||after!=sequence||__atomic_load_n(&n6_control.context_generation,__ATOMIC_ACQUIRE)!=context)return -102;
+  rc=p3a_receive(&p3_control,(const uint8_t*)&r);
+- if(!rc&&perf_write&&cold_perf.active){cold_perf.current.write_acks++;if(cold_perf.round_sequence==cold_perf.current.sequence){uint32_t count=cold_perf.current.write_acks-cold_perf.round_acks_start;if(count>cold_perf.current.max_round_writes)cold_perf.current.max_round_writes=count;}if(p3_control.phase!=P3A_WRITE)cold_stamp(&cold_perf.current.write_last_ack_ns,worker_now_ns());}
++ if(!rc&&is_write&&upload_schedule.active){if(p3_control.phase!=P3A_WRITE)upload_clock(worker_now_ns());}
+  if(rc==P3G_INTEGRITY&&p4_control.cached&&p3_control.phase==P3A_FAILED)return request_resync()?2:-105;
+  __atomic_store_n(&n6_control.error,(uint32_t)rc,__ATOMIC_RELEASE);if(rc){(void)p4c_report(rc,0);return rc;}
+  n6_control.attempts=n6_control.control_wait=0;n6_control.tx=p3_control.tx;
+@@ -505,9 +473,9 @@
+ static __attribute__((noinline)) uint32_t worker_round(void){
+  uint32_t healthy=0;
+  uint64_t started=0,last=0;if(p3_control.phase==P3A_WRITE)started=last=worker_now_ns();
+- uint64_t perf_sequence=cold_perf.active?cold_perf.current.sequence:0;
+- cold_perf.round_sequence=perf_sequence;cold_perf.round_counted=0;cold_perf.round_acks_start=cold_perf.current.write_acks;
+- if(perf_sequence&&p3_control.phase==P3A_WRITE&&!cold_perf.current.write_first_ns)cold_stamp(&cold_perf.current.write_first_ns,started);
++ uint64_t upload_sequence=upload_schedule.active?upload_schedule.sequence:0;
++ upload_schedule.round_sequence=upload_sequence;
++ if(upload_sequence&&p3_control.phase==P3A_WRITE&&!upload_schedule.write_first_ns)upload_stamp(&upload_schedule.write_first_ns,started);
+  for(uint32_t i=0;i<P4C_WRITE_BURST;i++){
+   uint32_t phase=p3_control.phase,offset=p3_control.offset,tx=p3_control.tx;
+   uint32_t epoch=n6_control.epoch,length=p3_control.length;
+@@ -523,28 +491,28 @@
+      p3_control.work_resume!=resume||!current_resume()||!p4c_current()||
+      __atomic_load_n(&p4_control.visible_sequence,__ATOMIC_ACQUIRE)!=visible||
+      __atomic_load_n(&n6_control.quiesce,__ATOMIC_ACQUIRE)){
+-   if(perf_sequence&&cold_perf.active&&cold_perf.current.sequence==perf_sequence&&phase==P3A_WRITE)cold_perf.current.guard_stops++;break;
++   break;
+   }
+-  if(!started||started>0x7fffffffffffffffull){if(cold_perf.active){cold_perf.current.clock_stops++;cold_perf.current.flags|=P4CP_CLOCK_INVALID;}break;}
++  if(!started||started>0x7fffffffffffffffull){break;}
+   uint64_t now=worker_now_ns();
+-  if(now<=last||now>0x7fffffffffffffffull){if(cold_perf.active){cold_perf.current.clock_stops++;cold_perf.current.flags|=P4CP_CLOCK_INVALID;}break;}
+-  if(i+1u>=P4C_WRITE_BASELINE&&now-started>=P4C_WRITE_BUDGET_NS){if(cold_perf.active)cold_perf.current.budget_stops++;healthy=1;break;}
++  if(now<=last||now>0x7fffffffffffffffull){break;}
++  if(i+1u>=P4C_WRITE_BASELINE&&now-started>=P4C_WRITE_BUDGET_NS){healthy=1;break;}
+   last=now;if(i+1u==P4C_WRITE_BURST)healthy=1;
+  }
+- if(cold_perf.active&&__atomic_load_n(&n6_control.quiesce,__ATOMIC_ACQUIRE))cold_finish(P4R_CANCELED,P4CP_CANCELED);
+- else if(cold_perf.active&&n6_control.attempts>=32u&&(int32_t)n6_control.error==-101)cold_finish(-101,P4CP_FAILED);
++ if(upload_schedule.active&&__atomic_load_n(&n6_control.quiesce,__ATOMIC_ACQUIRE))upload_schedule.active=0;
++ else if(upload_schedule.active&&n6_control.attempts>=32u&&(int32_t)n6_control.error==-101)upload_schedule.active=0;
+  return healthy;
+ }
+ 
+ /* Only the known healthy WRITE continuation gets a shorter requested
+  * sleep. This never queues more RPCs concurrently or changes burst limits.
+- * Recheck after n6p_tick so a new intent/resume/power notice restores10ms.
++ * Recheck before sleep so a new intent/resume/power notice restores10ms.
+  * Measured elapsed sleep includes scheduler return latency, not pure CPU
+  * idle time. It is accumulated in ns and converted once when publishing. */
+ static int healthy_write_sleep(void){
+- return cold_perf.active&&p3_control.phase==P3A_WRITE&&p3_control.epoch==n6_control.epoch&&!p3_control.pending&&
++ return upload_schedule.active&&p3_control.phase==P3A_WRITE&&p3_control.epoch==n6_control.epoch&&!p3_control.pending&&
+         !p3_control.error&&!n6_control.error&&p4c_current()&&current_resume()&&
+-        cold_perf.current.sequence==__atomic_load_n(&p4_control.visible_sequence,__ATOMIC_ACQUIRE)&&
++        upload_schedule.sequence==__atomic_load_n(&p4_control.visible_sequence,__ATOMIC_ACQUIRE)&&
+         p3_control.work_sequence==__atomic_load_n(&n6_control.mail_sequence,__ATOMIC_ACQUIRE)&&
+         p3_control.work_context==__atomic_load_n(&n6_control.context_generation,__ATOMIC_ACQUIRE)&&
+         p3_control.work_resume==__atomic_load_n(&n6_control.resume_handled,__ATOMIC_ACQUIRE)&&
+@@ -555,9 +523,9 @@
+  uint64_t sequence=0,before=0;
+  healthy=healthy&&healthy_write_sleep();
+  if(healthy){
+-  sequence=cold_perf.current.sequence;before=worker_now_ns();
+-  if(!before||before>0x7fffffffffffffffull||(cold_perf.last_ns&&before<cold_perf.last_ns)){
+-   cold_perf.current.flags|=P4CP_CLOCK_INVALID;healthy=0;
++  sequence=upload_schedule.sequence;before=worker_now_ns();
++  if(!before||before>0x7fffffffffffffffull||(upload_schedule.last_ns&&before<upload_schedule.last_ns)){
++   healthy=0;
+   }
+  }
+  if(healthy&&!healthy_write_sleep())healthy=0;
+@@ -567,15 +535,15 @@
+   /* A cancel/new desired can arrive during sleep. The control worker still
+    * owns the old row until its next step; only that same row may receive Y.
+    * Never attribute this interval to a newly accepted intent. */
+-  if(cold_perf.active&&cold_perf.current.sequence==sequence){
+-   if(!after||after>0x7fffffffffffffffull||after<=before||UINT64_MAX-cold_perf.yield_ns<after-before)cold_perf.current.flags|=P4CP_CLOCK_INVALID;
+-   else{cold_perf.yield_ns+=after-before;cold_perf.last_ns=after;}
++  if(upload_schedule.active&&upload_schedule.sequence==sequence){
++   if(!after||after>0x7fffffffffffffffull||after<=before||UINT64_MAX-upload_schedule.yield_ns<after-before)(void)0;
++   else{upload_schedule.yield_ns+=after-before;upload_schedule.last_ns=after;}
+   }
+  }
+ }
+ static void *worker(void *unused){
+  (void)unused;
+- for(;;){n6_control.worker_ticks++;uint32_t healthy=worker_round();n6p_tick();worker_sleep(healthy);}return 0;
++ for(;;){n6_control.worker_ticks++;uint32_t healthy=worker_round();worker_sleep(healthy);}return 0;
+ }
+ 
+ int32_t n6_start(void){
+@@ -591,7 +559,7 @@
+  __atomic_store_n(&n6_control.started,1u,__ATOMIC_RELEASE);return 0;
+ }
+ int32_t n6_boot(void){int32_t rc=n6_ui_bootstrap();if(rc<0)return rc;n6_resume();return n6_start();}
+-void n6_quiesce(void){p4_runtime_owner_pause();p3a_quiesce(&p3_control);__atomic_store_n(&n6_control.quiesce,1u,__ATOMIC_RELEASE);n6p_cancel();}
++void n6_quiesce(void){p4_runtime_owner_pause();p3a_quiesce(&p3_control);__atomic_store_n(&n6_control.quiesce,1u,__ATOMIC_RELEASE);}
+ void n6_notice_builtin(void){__atomic_store_n(&n6_control.notice,1,__ATOMIC_RELEASE);}
+ /* One contiguous text pool and an opaque noinline index lookup avoid the
+  * optimizer synthesizing an ABS64 string-pointer switch table. */
+@@ -616,8 +584,6 @@
+ }
+ 
+ const char *n6_display_status(void){
+- const char *perf=n6p_status();if(perf)return perf;
+- const char *entry=n6_entry_status();if(entry)return entry;
+  /* UI owner binds this string once. Healthy asynchronous states are not
+   * persistent product banners; raw n6_status_text remains a debug accessor. */
+  if(__atomic_load_n(&n6_control.notice,__ATOMIC_ACQUIRE))return "请从SD导入外观";
+--- a/p4_gui.native_progress.c
++++ b/p4_gui.native_progress.c
+@@ -1,7 +1,6 @@
+ #include "p4_gui.h"
+ #include "p4_import_layout.h"
+ #include "../../20261027_p6_reclaim/runtime/p4_completion_detail.h"
+-#include "../control/p4_cold_perf.h"
+ #include "lut_name_text_v617.h"
+ #include "lut_stock_numeric_list.h"
+ enum {G_NORMAL,G_BROWSER,G_CLOSED,G_CARD,G_DELETE,G_CONFIRM};
+@@ -20,13 +19,11 @@
+  /* Read-only diagnostic storage never replaces the in-flight
+   * catalog/identity snapshot and never uses the small GUI stack. */
+  uint32_t diagnostic_timer_calls,diagnostic_poll_calls;
+- p4r_snapshot diagnostic_snapshot;char diagnostic_lines[3][65];
++ p4r_snapshot diagnostic_snapshot;
+  /* Appended fields preserve all prior diagnostic offsets. */
+  uint32_t source_card,list_top;
+  /* Process-lifetime cleanup; never contains a presenter/view pointer. */
+  uint32_t deferred_restore,cleanup_reserved;uint64_t cleanup_thread;
+- /* Explicit RAM-only diagnostic view; never aliases transaction snapshots. */
+- p4c_perf_report perf;uint32_t perf_active,perf_index;
+  p6_settings draft;uint32_t edit_field,delete_mask;int16_t author_defaults[8];
+ } p4_gui_context;
+ static p4_gui_context *context;
+@@ -42,19 +39,11 @@
+ static void zero(void*d,uint32_t n){uint8_t*p=d;while(n--)*p++=0;}
+ static uint32_t length(const char*s){uint32_t n=0;while(s[n])n++;return n+1;}
+ static void status(const char*s){if(!context)return;uint32_t n=0;while(n<95&&s[n]){context->status[n]=s[n];n++;}context->status[n]=0;}
+-static void perf_append(char*s,uint32_t*at,const char*t){while(*t&&*at<64)s[(*at)++]=*t++;s[*at]=0;}
+-static void perf_number(char*s,uint32_t*at,uint64_t n){char b[21];uint32_t k=0;do{b[k++]=(char)('0'+n%10u);n/=10u;}while(n&&k<20);while(k&&*at<64)s[(*at)++]=b[--k];s[*at]=0;}
+-static void perf_value(char*s,uint32_t*at,const char*label,uint64_t n){perf_append(s,at,label);perf_number(s,at,n);}
+-static void perf_interval(char*s,uint32_t*at,const char*label,uint64_t start,uint64_t end){perf_append(s,at,label);if((context->perf.flags&P4CP_CLOCK_INVALID)||!start||!end||end<start)perf_append(s,at,"-");else perf_number(s,at,(end-start)/1000000u);}
+-static void perf_read(void){
+- p4_gui_context*q=context;zero(&q->perf,sizeof(q->perf));zero(q->diagnostic_lines,sizeof(q->diagnostic_lines));
+- int32_t rc=p4_control_perf_snapshot(q->perf_index,&q->perf,sizeof(q->perf));
+- uint32_t a=0;char*s=q->diagnostic_lines[0];perf_value(s,&a,"#",q->perf_index+1u);
+- if(rc||q->perf.abi!=P4CP_ABI||q->perf.bytes!=sizeof(q->perf)||q->perf.slot>=16){perf_append(s,&a,rc==P4R_BUSY?" BUSY":" NO DATA");return;}
+- perf_value(s,&a," S",q->perf.slot+1u);perf_value(s,&a," R",q->perf.revision);perf_value(s,&a," Q",q->perf.sequence);perf_value(s,&a," F",q->perf.flags);perf_append(s,&a," E");if(q->perf.status<0)perf_append(s,&a,"-");perf_number(s,&a,q->perf.status<0?(uint64_t)-(int64_t)q->perf.status:(uint64_t)q->perf.status);
+- a=0;s=q->diagnostic_lines[1];perf_interval(s,&a,"I",q->perf.owner_ns,q->perf.intent_ns);perf_interval(s,&a," L",q->perf.load_request_ns,q->perf.lease_ns);perf_interval(s,&a," W",q->perf.write_first_ns,q->perf.write_last_ack_ns);perf_interval(s,&a," N",q->perf.cp_ack_ns,q->perf.native_observed_ns);perf_interval(s,&a," T",q->perf.intent_ns,q->perf.native_observed_ns);perf_append(s,&a,"ms");
+- a=0;s=q->diagnostic_lines[2];perf_value(s,&a,"A",q->perf.write_acks);perf_value(s,&a,"/",q->perf.write_calls);perf_value(s,&a," R",q->perf.write_rounds);perf_value(s,&a," B",q->perf.budget_stops);perf_value(s,&a," C",q->perf.clock_stops);perf_value(s,&a," G",q->perf.guard_stops);perf_value(s,&a," M",q->perf.max_round_writes);perf_append(s,&a," Y");if(q->perf.flags&P4CP_CLOCK_INVALID)perf_append(s,&a,"-");else perf_number(s,&a,q->perf.yield_ms);
+-}
++
++
++
++
++
+ static p4_gui_context*get(void){if(context)return context;typedef void*(*alloc_fn)(uint64_t);context=((alloc_fn)(uintptr_t)addr(0x17152c0))(sizeof(*context));if(context){zero(context,sizeof(*context));context->mode=G_CLOSED;context->focus=context->last_slot=P4R_OFF;}return context;}
+ uint32_t p4_gui_context_bytes(void){return sizeof(p4_gui_context);}
+ static void set_error(int32_t rc){switch(rc){case P4L_CHANGED:status("卡已移除");break;case P4L_LIMIT:status("文件超限");break;case P4L_CONFLICT:status("修订冲突");break;case P4L_DOWNGRADE:status("修订较旧");break;case P4L_FULL:status("存储已满");break;case -6:status("调整缓存已满，请重启");break;case P4R_BUSY:case P4L_BUSY:status("处理中");break;default:status("操作失败");break;}}
+@@ -66,7 +55,7 @@
+ static int32_t change_mode(uint32_t value){int32_t rc=lut_widget_import_mode((value==G_CARD||value==G_DELETE||value==G_CONFIRM)?1u:value==G_BROWSER?2u:0u);if(rc<0){set_error(rc);return rc;}context->mode=value;return 0;}
+ static void refresh(void){lut_stock_runtime*g=&lut_widget_runtime_state;if(g->request_active&&!g->transition&&(!context||!context->closed)&&g->presenter&&g->controller){lut_widget_refresh(g->presenter,0);if(context)context->reserved|=GUI_VISIBLE;}}
+ void p4_gui_open(uint32_t scene,uint32_t peer){lut_stock_runtime*g=&lut_widget_runtime_state;p4_gui_state_init();p4_gui_context*q=get();if(!q)return;(void)p4_gui_catalog(&g->adapter,&g->state);
+- if(!peer){(void)lut_widget_import_mode(0);q->perf_active=0;q->source_card=q->list_top=0;g->state.epoch++;g->state.is_open=1;q->mode=G_NORMAL;q->closed=q->power_off=q->auto_close=0;q->token=0;q->action=q->next_action=A_NONE;q->commit_after_preview=0;q->reserved=0;q->focus=q->snapshot.ready?q->snapshot.committed_slot:P4R_OFF;g->state.focused_slot=q->focus;status(q->snapshot.ready?"":"读取中");}
++ if(!peer){(void)lut_widget_import_mode(0);q->source_card=q->list_top=0;g->state.epoch++;g->state.is_open=1;q->mode=G_NORMAL;q->closed=q->power_off=q->auto_close=0;q->token=0;q->action=q->next_action=A_NONE;q->commit_after_preview=0;q->reserved=0;q->focus=q->snapshot.ready?q->snapshot.committed_slot:P4R_OFF;g->state.focused_slot=q->focus;status(q->snapshot.ready?"":"读取中");}
+  if(scene==0xda&&q->focus<16&&q->scene!=0xda){q->draft=q->snapshot.settings[q->focus];q->edit_field=1;copy(q->author_defaults,q->snapshot.author_defaults,16);}
+  q->scene=scene;g->state.pane=scene==0xda?LUT_UI_STRENGTH_PANE:LUT_UI_SLOT_PANE;}
+ static void poll_gui(void*opaque);
+@@ -184,7 +173,32 @@
+  else{unsigned k=q->edit_field-1;static const int8_t low[8]={-9,-9,-9,0,-9,0,1,0},hi[8]={9,9,9,9,9,9,5,9};int n=q->draft.delta[k]+direction,absolute=q->author_defaults[k]+n;if(absolute<low[k]||absolute>hi[k])return;q->draft.delta[k]=(int16_t)n;}
+  user_preview();
+ }
+-int32_t p4_gui_dispatch(uint64_t c,uint64_t message,uint32_t event){p4_gui_context*q=get();lut_stock_runtime*g=&lut_widget_runtime_state;uint32_t key;
++int32_t p4_gui_dispatch(uint64_t c,uint64_t message,uint32_t event){
++ if(lut_widget_runtime_state.scene==0xd9 && event==0x20f0001u && context && context->mode==G_NORMAL){
++    lut_stock_runtime *g=&lut_widget_runtime_state;
++    p4_gui_context *q=context;
++    if (!message) return 0;
++    const uint32_t *m = (const uint32_t *)(uintptr_t)message;
++    if (m[0] != 4 || m[2] != event || m[3] != 0 || m[4] != 9 || m[5] != 0xd9 || m[6] > 16)
++        return 0;
++    if (g->transition || !q->timer.active) return 1;
++    if ((q->token || q->next_action) &&
++        !(q->action == A_PREVIEW && !q->commit_after_preview)) {
++        refresh();
++        return 1;
++    }
++    uint32_t slot = m[6] ? m[6] - 1 : P4R_OFF;
++    if (slot != q->focus) {
++        q->focus = g->state.focused_slot = slot;
++        q->commit_after_preview = 0;
++        q->reserved &= ~(GUI_IDENTITY_RETRIED | GUI_IDENTITY_REFRESH);
++        queue(A_PREVIEW);
++    }
++    refresh();
++    return 1;
++
++ }
++p4_gui_context*q=get();lut_stock_runtime*g=&lut_widget_runtime_state;uint32_t key;
+  uint32_t touch_back=g->scene==0xda&&event==0x3010002u&&message&&r32(message)==1&&r32(message+8)==event&&r32(message+0xc)==16&&r32(message+0x18)==0xda;
+  if(touch_back)key=LUT_UI_BACK;
+  else if(event==0x2030000u){if(!q||q->token||q->next_action)return 1;if(g->scene==0xda){p6_settings reset;zero(&reset,sizeof(reset));reset.strength=10;q->draft=reset;user_preview();}
+@@ -205,13 +219,9 @@
+  else if(lut_native_key(event,&key)!=0)return 0;
+  if(!q){if(key==LUT_UI_BACK){g->request_active=0;((fn2)(uintptr_t)addr(0x22462d0))(c,0);}return 1;}
+  if(g->transition)return 1;
+- if(key==LUT_UI_BACK){q->perf_active=0;navigate_back();return 1;}
++ if(key==LUT_UI_BACK){navigate_back();return 1;}
+  if(!q->timer.active){status("页面未就绪");refresh();return 1;}
+- if(q->perf_active){
+-  if(g->scene!=0xd9||q->mode!=G_NORMAL||q->focus!=P4R_OFF||q->token||q->next_action||q->deferred_restore)q->perf_active=0;
+-  else{if(key==LUT_UI_UP||key==LUT_UI_DOWN){q->perf_index=key==LUT_UI_UP?(q->perf_index+P4CP_HISTORY-1u)%P4CP_HISTORY:(q->perf_index+1u)%P4CP_HISTORY;perf_read();refresh();}else if(key==LUT_UI_RIGHT||key==LUT_UI_CONFIRM){q->perf_active=0;refresh();}return 1;}
+- }
+- if(g->scene==0xd9&&q->mode==G_NORMAL&&q->focus==P4R_OFF&&!q->token&&!q->next_action&&!q->deferred_restore&&key==LUT_UI_RIGHT){q->perf_active=1;q->perf_index=0;perf_read();refresh();return 1;}
++
+  if(g->scene==0xd9&&q->mode==G_NORMAL&&key==LUT_UI_LEFT){
+   if(q->focus>=16){status("请选择槽位");refresh();return 1;}
+   q->target=q->focus;cancel_navigation();q->source_card=0;q->cursor=q->page_first=q->list_top=0;
+@@ -235,7 +245,7 @@
+ void p4_gui_power(uint32_t raw){p4_gui_context*q=context;if(!q)return;if(raw==0x020f0005u||raw==0x0100003bu||raw==0x0100008fu||raw==0x01000090u||raw==0x010000deu){q->power_off=1;if(q->token)(void)p4_runtime_cancel(q->token);q->token=0;q->action=q->next_action=A_NONE;q->commit_after_preview=0;(void)lut_widget_import_mode(0);q->reserved&=~(GUI_IDENTITY_RETRIED|GUI_IDENTITY_REFRESH);q->closed=1;q->mode=G_CLOSED;(void)p4_gui_timer_disarm(&q->timer);q->capture=0;}
+  else if(raw==0x020f0004u||raw==0x0100003cu||raw==0x0100003du||raw==0x0100008eu){q->power_off=0;lut_stock_runtime*g=&lut_widget_runtime_state;if(q->anchor&&g->request_active&&g->controller&&g->presenter&&g->state.is_open){q->closed=0;(void)change_mode(G_NORMAL);q->auto_close=0;queue(A_RESTORE_NORMAL);p4_gui_after_view_create();}}}
+ void p4_gui_render(const lut_ui_state**state,const lut_native_adapter**adapter){p4_gui_context*q=context;lut_stock_runtime*g=&lut_widget_runtime_state;if(!q){*state=&g->state;*adapter=&g->adapter;return;}q->render_state=g->state;if(q->scene==0xda&&q->focus<16)q->render_state.draft_step[q->focus]=q->draft.strength;q->render_adapter=g->adapter;if(q->mode==G_BROWSER){zero(q->render_adapter.names,sizeof(q->render_adapter.names));q->render_state.valid_mask=q->page.count?(1u<<q->page.count)-1u:0;q->render_state.focused_slot=q->page.count?q->cursor:16;for(uint32_t i=0;i<q->page.count&&i<16;i++)copy(q->render_adapter.names[i],q->page.rows[i].id.name,64);}*state=&q->render_state;*adapter=&q->render_adapter;}
+-const char*p4_gui_status(void){p4_gui_context*q=context;if(!q)return "资源不足";if(q->perf_active&&!q->closed&&!q->power_off)return "RAM诊断";if(q->status[0])return q->status;if(!q->snapshot.ready)return "读取中";if(q->focus<16&&(q->snapshot.pending_mask&(1u<<q->focus)))return "新版待切换";return "";}
++const char*p4_gui_status(void){p4_gui_context*q=context;if(!q)return "资源不足";if(q->status[0])return q->status;if(!q->snapshot.ready)return "读取中";if(q->focus<16&&(q->snapshot.pending_mask&(1u<<q->focus)))return "新版待切换";return "";}
+ static uint8_t*param(lut_stock_entry*m,uint32_t i){return m[i].type==2&&m[i].param?(uint8_t*)(uintptr_t)m[i].param:0;}
+ static void text(uint8_t*p,const char*s){if(p)lut_text_v617_bind(p,0x658,s,length(s),LUT_TEXT_V617_RESOURCE);}
+ static uint32_t decimal(char*p,uint32_t n){if(n>=10){p[0]=(char)('0'+n/10);p[1]=(char)('0'+n%10);return 2;}p[0]=(char)('0'+n);return 1;}
+@@ -271,7 +281,6 @@
+  }
+  if(scene!=0xd9||count!=34)return;
+  if(q->mode==G_NORMAL&&q->focus<16)option_values(typed(m,13,0x5e),&q->snapshot.settings[q->focus],q->snapshot.author_defaults,0);
+- if(q->perf_active&&q->mode==G_NORMAL&&q->focus==P4R_OFF&&!q->closed&&!q->power_off){for(uint32_t i=0;i<3;i++){uint8_t*p=param(m,16+i);if(p){text(p,q->diagnostic_lines[i]);p[0x2c]=1;}}return;}
+  if(q->mode!=G_CARD&&q->mode!=G_BROWSER&&q->mode!=G_DELETE&&q->mode!=G_CONFIRM)return;
+  for(uint32_t i=0;i<34;i++)if(m[i].param)((uint8_t*)(uintptr_t)m[i].param)[0x2c]=0;
+  uint32_t active=q->mode!=G_BROWSER?11u:9u;for(uint32_t i=0;i<active;i++)if(m[i].param)((uint8_t*)(uintptr_t)m[i].param)[0x2c]=1;
