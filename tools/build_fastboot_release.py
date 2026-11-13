@@ -15,7 +15,8 @@ ENTRIES = ('进入fastboot', '退出fastboot开机', '备份全部数据', '查�
 
 def build(output):
     files = {f'a7m4/{name}.py': (ROOT / 'a7m4' / (name + '.py')).read_bytes() for name in MODULES}
-    for name in ('pyproject.toml', 'setup.bat', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'REFERENCES.md',
+    for name in ('pyproject.toml', 'setup.bat', 'LICENSE', 'LICENSE-MIT-LEGACY',
+                 'THIRD_PARTY_NOTICES.md', 'REFERENCES.md',
                  'a7m4/profiles/updater.json', 'a7m4/profiles/sd-recovery.json',
                  'advanced/_launch.cmd', 'advanced/_launch_recovery.cmd',
                  'tools/register_resources.py', 'tools/prepare_fastboot_resources.py',

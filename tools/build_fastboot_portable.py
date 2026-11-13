@@ -118,7 +118,7 @@ def build(args):
 
 ## 来源与许可
 
-本项目原创代码采用 MIT；Python、第三方库及工具保留各自许可，见其 LICENSE/NOTICE 和 `PORTABLE_COMPONENTS.json`。WinUSB 安装使用 Zadig/libwdi，包中附带其源码以及 SquashFS 与压缩库的对应源码，见 `third-party-sources/`。相机启动组件的来源和许可范围见 [SOURCES](fastboot/SOURCES.md)。
+本次许可变更后的新增原创代码和修改采用 [GNU GPLv3（GPL-3.0-only）](LICENSE)，允许商业和非商业使用、修改及分发，分发时须遵守 GPLv3 的许可、声明及对应源代码提供要求。历史内容按 [原 MIT 许可](LICENSE-MIT-LEGACY) 授权。Python、第三方库及工具的许可见其 LICENSE/NOTICE 和 `PORTABLE_COMPONENTS.json`。WinUSB 安装使用 Zadig/libwdi，包中附带其源码以及 SquashFS 与压缩库的对应源码，见 `third-party-sources/`。相机启动组件的来源和许可范围见 [SOURCES](fastboot/SOURCES.md)。
 '''.encode('utf-8')
     files['SHA256SUMS.txt'] = ''.join(sha(data) + '  ' + name + '\n' for name, data in sorted(files.items())).encode('utf-8')
     args.output.parent.mkdir(parents=True, exist_ok=True)

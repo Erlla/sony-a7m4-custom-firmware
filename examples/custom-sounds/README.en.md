@@ -2,7 +2,7 @@
 
 [中文](README.md) · [Custom sound feature and integration](../../methods/06-custom-sounds/README.en.md)
 
-`YEAH.WAV`, `DAGOU.WAV` and `JIAO.WAV` are user-supplied samples explicitly authorized for public reference and testing. They retain their original bytes, without re-encoding, normalization or gain changes. See the [sample notice](../../THIRD_PARTY_NOTICES.md#reference-sound-samples--参考音频); the MIT license for the project's original code does not automatically apply to these audio files.
+`YEAH.WAV`, `DAGOU.WAV` and `JIAO.WAV` are user-supplied samples explicitly authorized for public reference and testing. They retain their original bytes, without re-encoding, normalization or gain changes. See the [sample notice](../../THIRD_PARTY_NOTICES.md#reference-sound-samples--参考音频); these audio files follow the separate authorization of their rights holders.
 
 ## Import into the camera
 

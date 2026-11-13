@@ -1,16 +1,27 @@
 # Sony A7 IV custom firmware and tools
 
-> **Flashing risk and compatibility**
+> [!WARNING]
+> **Read before use · Disclaimer and license**
+>
+> This independent community research project provides firmware modification methods, tools and documentation free of charge for learning and technical exchange. Sony has no affiliation with, authorization of or endorsement of this project.
+>
+> **GPLv3 open-source license.** Original project material released from this license change uses [GNU GPLv3 (GPL-3.0-only)](LICENSE), permitting use, modification, sharing and commercial activities, including commercial photography, software sales and paid services. Distribution of covered programs or modified versions must preserve license and copyright notices and meet the GPLv3 requirements for providing Corresponding Source. Historical MIT material and third-party components follow their respective licenses.
+>
+> The author provides this project free of charge, offers no paid flashing service and has authorized no one to offer paid services in the author's name. Impersonating Sony, the author or an authorized provider, including claims of warranty coverage under those identities, is prohibited. Third parties are responsible for their own paid activities.
+>
+> **Development baseline and compatibility**
 >
 > **This firmware was developed using a mainland-China-market A7M4 camera and an original Sony FE 50mm F1.4 GM lens. Third-party lenses may encounter unknown compatibility issues.**
 >
-> Writing or modifying firmware can permanently brick the camera, prevent booting or destroy calibration and settings. Incorrect wiring can damage the camera and computer. You assume the risks of these operations.
+> Writing or modifying firmware can permanently brick the camera, prevent booting, cause boot loops or malfunctions, and destroy photographs, calibration or settings. Official updates, warranty coverage and repairs may also be affected. Incorrect wiring can damage the camera and computer. Successful writes and matching readbacks still require actual boot and functional validation. Recovery functions can also fail to restore the camera.
 >
-> **Back up your own camera before any write. Use an original Sony battery for firmware updates.** Maintain stable power and connections throughout writes. Never restore another camera's backup onto your body.
+> **Back up your own camera and important data before any write. Use an original Sony battery for firmware updates.** Maintain stable power and connections throughout writes, and avoid unplugging, powering off or removing the card. Follow explicit tool prompts for USB reconnection. Restore your camera using its own backup.
 >
 > **We strongly recommend having working Fastboot tools, a Multi-port flashing cable and an RP2040-Zero boot bridge ready before updating firmware**, so maintenance and recovery are available if something goes wrong.
 >
 > **We recommend installing the firmware with assistance from an AI Agent.** For most common installation, driver and USB connection issues, an AI Agent can help investigate and address the problem using the project documentation, complete error messages and runtime logs.
+>
+> **Operate only equipment you lawfully own or have explicit permission to modify.** Understand the procedure and complete backups first. You bear the risks of device damage and repair costs. Stop if you cannot accept those risks.
 
 English · [中文](README.md)
 
@@ -116,7 +127,11 @@ This community project is not affiliated with Sony. Most recipes derive from **o
 
 The maintainer explicitly authorized publication of their previously used [RSA key pair](keys/published/README.md). **The private key is public. Anyone can sign with it, so signatures accepted by this key cannot authenticate the publisher.** Inspect and build packages yourself. Generate a new private identity if you need independent signing authority.
 
-This repository publishes original host code, patch recipes, documentation, the specified public keys and [three user-authorized WAV samples](examples/custom-sounds/README.en.md). Obtain Sony firmware, donor curves/matrices, camera calibration, backups and external drivers separately. Original source uses [MIT](LICENSE); third-party material retains its own terms, described in [third-party notices](THIRD_PARTY_NOTICES.md). Boot assets and historical source material have separate [source and licensing notes](fastboot/SOURCES.md); they are not relicensed as this project’s MIT software.
+This repository publishes original host code, patch recipes, documentation, the specified public keys and [three user-authorized WAV samples](examples/custom-sounds/README.en.md). Obtain Sony firmware, donor curves/matrices, camera calibration, backups and external drivers separately. Third-party material follows its own terms, described in [third-party notices](THIRD_PARTY_NOTICES.md). Boot assets and historical source material have separate [source and licensing notes](fastboot/SOURCES.md).
+
+Original project material released from this license change uses the **GNU General Public License v3.0 only (GPL-3.0-only)**. Commercial and noncommercial use, modification and distribution are permitted. Distribution of covered programs or modified versions must preserve copyright and license notices, identify changes and meet the GPLv3 requirements for providing Corresponding Source. The original English license text defines the rights, obligations and disclaimers. [Full license](LICENSE)
+
+Code, documentation and contributions already published under MIT through commit `468043977f9ca5fd0bf03b2002f6e40f35cbf667` retain their original grants, including commercial-use rights. Subsequent original material and changes are licensed under GPLv3. [Historical MIT license](LICENSE-MIT-LEGACY)
 
 
 ## Acknowledgements

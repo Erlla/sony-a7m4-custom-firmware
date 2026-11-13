@@ -1,5 +1,7 @@
 # Runtime components and acknowledgements
 
+New original project code and changes published from the license transition use GNU GPLv3 (GPL-3.0-only). Historical MIT material retains its existing grants. Portable builds include both texts in `licenses/`. [Project license](https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/LICENSE) · [Historical MIT notice](https://github.com/Erlla/sony-a7m4-custom-firmware/blob/main/LICENSE-MIT-LEGACY)
+
 The no-Fastboot installation approach references [YuuLuo/a7c2-camera-tools](https://github.com/YuuLuo/a7c2-camera-tools). USB protocol research also relies on the public work listed in the repository [REFERENCES.md](../../REFERENCES.md).
 
 Runtime components are **not vendored here**. The build consumes separately supplied, hash-locked files and retains their accompanying licenses. A project source license does not relicense manufacturer drivers or third-party binaries.

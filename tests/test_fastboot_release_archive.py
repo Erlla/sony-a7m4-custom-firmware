@@ -23,6 +23,9 @@ def test_recovery_archive_has_importable_source_and_exact_profile(tmp_path):
             assert 'A7M4-Fastboot/' + name in names
         archive.extractall(root)
     package = root / 'A7M4-Fastboot'
+    for name in ('LICENSE', 'LICENSE-MIT-LEGACY'):
+        source_license = Path(__file__).resolve().parents[1] / name
+        assert (package / name).read_bytes() == source_license.read_bytes()
     source = Path(__file__).resolve().parents[1] / 'a7m4/profiles/sd-recovery.json'
     assert (package / 'a7m4/profiles/sd-recovery.json').read_bytes() == source.read_bytes()
     result = subprocess.run([sys.executable, '-B', '-c',

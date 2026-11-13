@@ -1,6 +1,6 @@
 # 来源与构建资料
 
-主机维护代码采用仓库 MIT 许可。相机端启动程序、RP2040 桥及其历史源码来自 [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE)，不改为本项目 MIT 许可。
+本次许可变更后的新增原创主机维护代码及修改采用 [GNU GPLv3（GPL-3.0-only）](../LICENSE)，历史内容继续按 [原 MIT 许可](../LICENSE-MIT-LEGACY) 授权。相机端启动程序、RP2040 桥及其历史源码来自 [DavidBuchanan314/ILCE-7M4-RE](https://github.com/DavidBuchanan314/ILCE-7M4-RE)，其许可范围见下方来源说明。
 
 | 项目 | 对应资料 |
 |---|---|

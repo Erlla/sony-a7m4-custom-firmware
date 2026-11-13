@@ -2,7 +2,7 @@
 
 [English](README.en.md) · [自定义声音功能与集成方法](../../methods/06-custom-sounds/README.md)
 
-提供 `YEAH.WAV`、`DAGOU.WAV` 和 `JIAO.WAV` 三个参考与测试音频。文件由用户提供并明确授权公开，保持原始字节，没有重新编码、归一化或调整音量。音频的授权说明见[第三方说明](../../THIRD_PARTY_NOTICES.md#reference-sound-samples--参考音频)；仓库原创代码的 MIT 许可不自动适用于这些音频。
+提供 `YEAH.WAV`、`DAGOU.WAV` 和 `JIAO.WAV` 三个参考与测试音频。文件由用户提供并明确授权公开，保持原始字节，没有重新编码、归一化或调整音量。音频的授权说明见[第三方说明](../../THIRD_PARTY_NOTICES.md#reference-sound-samples--参考音频)；这些音频按权利人的单独授权提供。
 
 ## 导入到相机
 
