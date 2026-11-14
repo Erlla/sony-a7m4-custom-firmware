@@ -13,7 +13,7 @@ Adds Custom LUTS under Exposure/Color → Color/Tone on the Sony A7 IV (ILCE-7M4
 
 ## Operation
 
-Put converted `.json` files in `PRIVATE/M4ROOT/GENERAL/LUT/`. Open Custom LUTS, enter import, choose the card and file, and follow the on-camera import/replacement flow. Select a look using the keys or by touching the left number column, press Right for the detailed editor, select a control with Left/Right, and change it with Up/Down or the on-screen controls. Confirm saves; Cancel restores the previous selection/settings. Reset restores the look's defaults and 100% strength. The deletion page supports removing the current look or clearing all looks.
+Put converted `.json` files in `PRIVATE/M4ROOT/GENERAL/LUT/`. Open Custom LUTS, press Left to enter import, choose the card and file, and follow the on-camera import/replacement flow. Select a look using the keys or by touching the left number column, press Right for the detailed editor, select a control with Left/Right, and change it with Up/Down or the on-screen controls. Confirm saves; Cancel restores the previous selection/settings. Reset restores the look's defaults and 100% strength. The deletion page supports removing the current look or clearing all looks.
 
 Contrast, highlights, shadows and saturation range from −9 to +9; fade, sharpness and clarity from 0 to 9; sharpness range from 1 to 5. Strength runs from 10% to 100% in 10% steps. Lower strength approaches **fixed factory ST defaults**, independently of the user's current ST adjustments.
 
