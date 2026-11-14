@@ -1,0 +1,65 @@
+SECTIONS {
+ .text 0x9019000 : { *(.text*) *(.rodata*) }
+ ASSERT(. <= 0x9020000,"Aspect extension overlaps RW data")
+ .bss 0x9021000 (NOLOAD) : { *(.bss*) *(COMMON) }
+ ASSERT(. <= 0x9021130,"Aspect state ABI changed")
+ /DISCARD/ : { *(.eh_frame*) *(.comment*) *(.note*) }
+}
+native_aspect_get = 0x1c83a2c;
+native_aspect_set = 0x1ca0e64;
+native_aspect_commit = 0x1cd2ed8;
+native_open = 0x1715170;
+native_read = 0x1715270;
+native_write = 0x17163c0;
+native_close = 0x17173f0;
+native_fsync = 0x17175b0;
+native_rename = 0x1714e50;
+aspect_trace_stamp = 0x9010c0c;
+native_guide_producer = 0x244cf94;
+native_guide_producer_body = 0x244d1b4;
+native_guide_update_body = 0x186d23c;
+native_guide_destructor_body = 0x186d2b0;
+native_guide_fit = 0x186cfe8;
+native_guide_portrait = 0x186ca74;
+native_still_display_allow = 0x244d2e4;
+native_still_display_deny = 0x244cfc4;
+native_capability_first_body = 0x21853a4;
+native_capability_second_body = 0x2195ff4;
+native_selection_widget_position = 0x1717260;
+native_selection_rect_position = 0x1716380;
+native_selection_rect_size = 0x17176d0;
+native_selection_rect_color = 0x1715a70;
+native_selection_widget_mode = 0x1716630;
+native_model_lock = 0x2ee71e8;
+native_model_unlock = 0x2ee6ec4;
+native_yuv_x = 0x290e1b0;
+native_yuv_y = 0x290e1d8;
+native_yuv_w = 0x290e200;
+native_yuv_h = 0x290e228;
+native_output = 0x290f850;
+native_panel_aspect = 0x291d34c;
+native_mode = 0x28ecdf8;
+native_still_aspect = 0x28f3eb8;
+native_orientation = 0x292db14;
+native_display_mapping = 0x28efaf4;
+native_fn_widget_position = 0x1717260;
+native_fn_rect_position = 0x1716380;
+native_fn_rect_size = 0x17176d0;
+native_fn_rect_color = 0x1715a70;
+native_fn_widget_mode = 0x1716630;
+native_list_body = 0x1c02810;
+native_size_alias_body = 0x1c0ee4c;
+native_option_apply_body = 0x1c06838;
+native_still_format_send = 0x35ed6e0;
+previous_option_register = 0x8fb9028;
+previous_option_parent_register = 0x8fb90a0;
+native_option_register = 0x1cd0fe4;
+native_option_parent_register = 0x1cd1934;
+native_option_alias_register = 0x1cd2bec;
+previous_option_gate = 0x50bbe80;
+aspect_option_table = 0x9022000;
+aspect_ap_effective = aspect_preview_effective;
+aspect_ap_menu_get = aspect_preview_menu_get;
+aspect_ap_menu_set = aspect_preview_menu_set;
+aspect_ap_before_apply = aspect_preview_before_apply;
+aspect_ap_menu_commit = aspect_preview_menu_commit;

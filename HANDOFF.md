@@ -198,3 +198,12 @@
 - Translate the current Chinese root README section by section, including both Agent and desktop installation modes, the complete copyable Agent prompt, model requirements, download choices, USB mass-storage preparation, user confirmations and recovery handling. A short Agent overview can omit operational content readers need.
 - The English prompt requests English replies while linking to the existing canonical PROMPT.zh-CN.md. Label Chinese-only destinations and use English counterparts where available. Match link destinations and section anchors as well as prose, including the LUT camera photographs and portable driver instructions.
 - Preserve the Chinese page as the translation baseline. Synchronize recent remote edits before comparing, and distinguish the instruction to review package contents from an added requirement to build them. The key-handling paragraph includes offline private-key storage in both languages.
+
+## Six-ratio and normal automatic-review layer
+
+- Method7 now includes21:9 and2.35:1, plus the maintainer-accepted RAW+JPEG/no-histogram stretch fix. Keep acceptance.json separate from original offline receipts and do not extend it to histogram review, other formats, outputs or orientations.
+- a7m4.aspect_autoreview and aspect_ratio_resources rebuild the exact AP/CP/MPR and 70 banks. Inputs are cleanup AP, a subsequent exact sound-recovery CP and prior playback MPR. The sound-recovery CP is not the plain cleanup output; do not widen old hash allowlists. No DAT, firmware image, font or compiler is published.
+- Token ID occupies bits0–3, completion bit4, epoch bits5+; schema2 and IDs4–7 retain their meanings. Update all consumers/resources and both 18-pair playback tables together.
+- fit.c plus the explicit-mode post-link correction reproduce the accepted 436-byte helper. The temporary geometry mode must be0; auto mode1 causes CP 627A8C/628004 to override the submitted rectangle. Preserve NZCV, native-ratio bypasses and original layout-state restoration.
+- A direct call to the manual rectangle helper bypasses the native auto/manual dispatch and cannot validate this failure. Keep native run selection, actual dispatch/state accessors, relayout and VPH-target-copy boundaries explicit. Segmented replay is not complete hardware display submission.
+- Public icon decode returns (pixels, blocks); compare its first element with RGBA4444 input. Resource generation uses the pinned Arial Bold font and original bank identities, preserving old live payloads.

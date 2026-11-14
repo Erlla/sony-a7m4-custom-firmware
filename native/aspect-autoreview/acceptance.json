@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-14",
+  "source": "maintainer report in this chat",
+  "statement": "实测已修复该问题，请推送至github对应位置",
+  "context": {
+    "record_format": "RAW+JPEG",
+    "histogram": false,
+    "prior_symptom": "7:6 stretched horizontally; 21:9 stretched vertically during automatic review"
+  },
+  "automatic_review_stretch_reported_fixed": true,
+  "new_ratios_previously_reported_working": true,
+  "associated_DAT_sha256": "cfb7929594f3f0a770b9fbecaff1269cd945bc0932e3ddbabf73050f8eda475f",
+  "AP_sha256": "c5f9bc7c6e0401b92a3b244122f3e013f61db4ae0ba2e423f02b2760adccf5fc",
+  "CP_sha256": "cebf825e159fbf6974dbbf95a5e987d18b7db8526a98a96130257a2b808ae5da",
+  "association": "Feedback after delivered R4; no new binary readback or expanded test matrix supplied",
+  "all_formats_devices_histogram_and_orientations_claimed": false,
+  "original_build_receipts_preserved": true
+}

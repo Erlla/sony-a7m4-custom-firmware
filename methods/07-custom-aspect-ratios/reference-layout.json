@@ -890,5 +890,10 @@
     },
     "new_BSS_bytes": 0,
     "new_heap_bytes": 0
+  },
+  "current_extension": {
+    "recipe": "../../native/aspect-autoreview/layout.json",
+    "method": "../../native/aspect-autoreview/README.md",
+    "scope": "Six added ratios and accepted normal automatic-review fit; older identities below remain frozen"
   }
 }

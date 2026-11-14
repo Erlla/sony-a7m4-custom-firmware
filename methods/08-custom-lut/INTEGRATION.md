@@ -59,3 +59,9 @@ AP当前完整顺序为：声音生命周期→相册放大兼容AP→[菜单UI�
 纵横比小图标需同步image-23/image-32两个资源库；只改AP字段会缺少匹配图像。原Fn资源有效字节不变。LUT触摸复用原预览事务，触摸时不保存；两个UI层不修改CP、MPR、声音、AWB或成片裁切。维护者已确认这两项UI问题修复。
 
 English: after sound lifecycle and the aspect-playback AP component, apply lut-touch and then aspect-ap. Apply both image-bank components with the aspect AP field update. The previous recipes retain their exact identities; the current AP and image-bank outputs are listed in menu_ui_fixes. Existing preview transactions, Fn payloads, CP/MPR, sound, AWB and capture geometry are preserved. The maintainer confirmed both reported UI issues are resolved.
+
+## 六比例与普通自动检视
+
+[方法7的新组件](../../native/aspect-autoreview/README.md)在精简AP、精确声音恢复CP与既有回放MPR之后，配套更新AP/CP/libmpr及70个资源。原捕获包装、任务冻结与复制、RAW FL2/FL3、声音恢复页、AWB、LUT触摸和标题保留；AVCAM不变。token低4位ID、bit4完成、bit5以上epoch，不能混用旧消费者。reference-layout.json的aspect_autoreview登记独立输入/输出，旧components及runtime_cleanup保持原身份。
+
+The [six-ratio/normal-review layer](../../native/aspect-autoreview/README.en.md) follows the exact cleanup AP, sound-recovery CP and prior playback MPR. Update all components and 70 banks together. Existing capture wrappers, RAW alternatives, sounds, AWB and LUT UI are retained. The independent manifest records its own identities; older recipes stay frozen.

@@ -1518,5 +1518,24 @@
         "bytes": 16236816
       }
     }
+  },
+  "aspect_autoreview": {
+    "recipe": "../../native/aspect-autoreview/layout.json",
+    "method": "../../native/aspect-autoreview/README.md",
+    "scope": "After cleanup AP, exact sound-recovery CP and existing playback MPR; see the independent input identities",
+    "components": {
+      "ap": {
+        "input_sha256": "b9e5a6b2a1b644ed9966d644dc1cbb4e110f45c743f37c04f84dceb69c169c71",
+        "output_sha256": "c5f9bc7c6e0401b92a3b244122f3e013f61db4ae0ba2e423f02b2760adccf5fc"
+      },
+      "cp": {
+        "input_sha256": "b859d62630d1115009b66ae28bbfabc668773a918a52bb6a0c76d0b35d0e9f4f",
+        "output_sha256": "cebf825e159fbf6974dbbf95a5e987d18b7db8526a98a96130257a2b808ae5da"
+      },
+      "mpr": {
+        "input_sha256": "bbbf679d85b85432f87e7bacf5afd385e51de9af3d4493b9d952d0b0d062850a",
+        "output_sha256": "cdce68c65813c8492a2268ec7364276d6f4e54495d5d8b0bacfeaf4d96cc708f"
+      }
+    }
   }
 }

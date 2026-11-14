@@ -74,3 +74,9 @@ The maintainer reported normal operation of the cleaned integrated firmware. Its
 维护者于2026-11-11确认Edit已能识别机内新增的FL2/FL3备选外观。[实现及反馈范围](../methods/03-fl2-fl3/raw-alternative-looks-validation.md)区分目录识别、原生离线回放与后续渲染验证。
 
 On 2026-11-11 the maintainer confirmed that Edit recognizes the camera-written FL2/FL3 alternatives. The [implementation validation scope](../methods/03-fl2-fl3/raw-alternative-looks-validation.md) separates recognition, native offline replay and rendering evidence.
+
+## 六比例与自动检视 / Six ratios and automatic review
+
+维护者已确认21:9、2.35:1正常，并在最终候选上反馈自动检视拉伸已修复；上下文为RAW+JPEG、不显示直方图。公开源码重建AP、CP、libmpr及70个资源，与该固件的对应组件逐字一致。[配方](../native/aspect-autoreview/README.md)、[实测范围](../native/aspect-autoreview/acceptance.json)和[离线边界](../native/aspect-autoreview/validation.json)独立记录。直方图分支、零尺寸哨兵布局及其余输出/格式/方向组合未因此获得验收。
+
+The maintainer confirmed both added ratios and the final automatic-review stretch fix in the reported RAW+JPEG/no-histogram context. Public source reconstructs all three components and 70 resource banks exactly. Histogram review, zero-size sentinel layouts and all other physical combinations are outside that acceptance.

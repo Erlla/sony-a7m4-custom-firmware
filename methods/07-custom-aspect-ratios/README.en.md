@@ -1,8 +1,10 @@
-# Custom aspect ratios: 17:6, 65:24, 5:4 and 7:6
+# Custom aspect ratios: 17:6, 65:24, 5:4, 7:6, 21:9 and 2.35:1
+
+The current implementation adds 21:9 and 2.35:1 and fixes stretched automatic review for the reported RAW+JPEG/no-histogram context. The maintainer confirmed the fix. [Source and build method](../../native/aspect-autoreview/README.en.md) include matching AP, CP, libmpr, resources and exact identities.
 
 [中文](README.md) · [Implementation details (中文)](IMPLEMENTATION.md) · [Method index](../../README.en.md)
 
-Adds **17:6, 65:24, 5:4 and 7:6** to the existing Aspect Ratio setting on the Sony A7 IV (ILCE-7M4), alongside the stock 3:2, 4:3, 16:9 and 1:1 options. Selection uses the existing menu or Fn menu, with matching labels, Fn icons and live-view masks. The maintainer confirmed landscape and portrait previews on the accepted integrated feature build.
+Adds **17:6, 65:24, 5:4, 7:6, 21:9 and 2.35:1** to the existing Aspect Ratio setting on the Sony A7 IV (ILCE-7M4), alongside the stock 3:2, 4:3, 16:9 and 1:1 options. Selection uses the existing menu or Fn menu, with matching labels, Fn icons and live-view masks. The earlier four-ratio build has accepted landscape and portrait previews; the scope of the new-ratio and automatic-review feedback is recorded above.
 
 This page documents the final functionality, implementation and camera examples. A complete firmware requires integration against compatible programs and resources; this page provides neither a standalone installer nor a complete firmware download. See the [main project requirements](../../README.en.md).
 
@@ -17,10 +19,11 @@ The capture chain also includes [frozen-ratio inheritance for task copies](../..
 
 | Item | Behavior |
 | --- | --- |
-| Added ratios | 17:6, 65:24, 5:4 and 7:6, alongside the four stock options |
+| Added ratios | 17:6, 65:24, 5:4, 7:6, 21:9 and 2.35:1, alongside the four stock options |
 | JPEG / HEIF | Center-cropped output using the selected ratio and the encoder's pixel-alignment requirements |
 | RAW | Original image area retained; the JPEG in RAW+JPEG uses the selected crop |
 | Face/eye-priority AF | JPEG and RAW+JPEG retain the selected custom crop with AF enabled; RAW keeps its original frame |
+| Automatic review | Centered display with side or top/bottom bars without a histogram; the maintainer confirmed the RAW+JPEG stretch fix |
 | In-camera album | Custom-ratio JPEG / RAW+JPEG photos support magnified playback using their actual cropped dimensions |
 | Labels and Fn icons | Display the selected custom ratio |
 | Aspect-ratio selection page | Preview follows the highlighted option; confirmation applies it, cancellation returns to the saved selection |
@@ -36,7 +39,7 @@ Preview masking and photo cropping are separate processing paths. Masks guide co
 ## Operation
 
 1. Open Aspect Ratio from the camera menu or the Fn menu.
-2. Select 17:6, 65:24, 5:4 or 7:6 after the stock options, then confirm.
+2. Select 17:6, 65:24, 5:4, 7:6, 21:9 or 2.35:1 after the stock options, then confirm.
 3. Compose within the visible mask in the shooting view. The mask follows display orientation when the camera rotates.
 4. Save JPEG / HEIF for cropped output; also save RAW when the original image area is needed.
 5. Open a JPEG / RAW+JPEG photo in the camera album and magnify the cropped image.
@@ -45,7 +48,7 @@ Preview masking and photo cropping are separate processing paths. Masks guide co
 
 | Component | Implementation |
 | --- | --- |
-| Menu and resources | Extend the original option list with four entries and matching text, list presentation and Fn icons |
+| Menu and resources | Extend the original option list with six entries and matching text, list presentation and Fn icons |
 | Selection state | Keep the highlighted and confirmed ratios distinct for browsing and capture, preserving confirm, cancel and saved-selection behavior |
 | Image output | Pass the target ratio to the JPEG/HEIF center-crop paths, calculate dimensions with encoder alignment, and preserve RAW geometry |
 | Preview drawing | Calculate two mask regions from the live-view rectangle, pixel aspect ratio and selected ratio for the shooting view, Fn menu and aspect-ratio selection page |

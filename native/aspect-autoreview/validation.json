@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "source_rebuilds_match_accepted_components": [
+    {
+      "component": "ap",
+      "sha256": "c5f9bc7c6e0401b92a3b244122f3e013f61db4ae0ba2e423f02b2760adccf5fc",
+      "bytes": 99221508,
+      "exact": true
+    },
+    {
+      "component": "cp",
+      "sha256": "cebf825e159fbf6974dbbf95a5e987d18b7db8526a98a96130257a2b808ae5da",
+      "bytes": 16236816,
+      "exact": true
+    },
+    {
+      "component": "mpr",
+      "sha256": "cdce68c65813c8492a2268ec7364276d6f4e54495d5d8b0bacfeaf4d96cc708f",
+      "bytes": 3670016,
+      "exact": true
+    }
+  ],
+  "resource_banks": 70,
+  "prior_native_tests": 355,
+  "prior_R3_counterexamples": 120,
+  "native_receipt_sha256": "d70e588cb2489af73d878a5774c7630f1e2df6c995ff22b07c63ab19fd369c8b",
+  "emulation_boundaries": [
+    "OS/IPC responses and viewport queries are fixtures",
+    "Aspect registration, relayout and VPH target-copy are segmented native replays",
+    "No complete hardware display submission is simulated"
+  ],
+  "maintainer_acceptance_file": "acceptance.json",
+  "unverified": [
+    "Histogram branch",
+    "Zero-size sentinel layout",
+    "Other formats, physical outputs and orientations beyond maintainer feedback"
+  ]
+}
