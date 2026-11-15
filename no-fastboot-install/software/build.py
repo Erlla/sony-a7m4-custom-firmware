@@ -250,6 +250,7 @@ def build_product(assets, destination):
             shutil.copyfile(HERE / name, output / name)
         for name in ('LICENSE', 'LICENSE-MIT-LEGACY'):
             shutil.copyfile(HERE.parents[1] / name, output / 'licenses' / name)
+        shutil.copyfile(HERE / 'HISTORICAL-LICENSE.md', output / 'licenses/HISTORICAL-LICENSE.md')
         shutil.copyfile(output / 'app/ui/使用说明.md', output / '使用说明.md')
         paths = [p for group in ('app', 'runtime', 'vendor', 'tools', 'licenses') for p in (output / group).rglob('*') if p.is_file()]
         paths += [output / name for name in ('README.md', 'THIRD_PARTY.md', '使用说明.md')]

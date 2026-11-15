@@ -6,6 +6,12 @@ New original host code, offline builders, patch recipes and documentation publis
 
 Sony firmware, extracted libraries, donor color/gamma data, camera personalization, Google SDK components, external payloads and other third-party software follow their respective terms. The maintainer requested publication of exactly the two historical boot assets under `fastboot/assets/`, with their source material and identities. The licensing status of these external components is described in [fastboot/SOURCES.md](fastboot/SOURCES.md). Full camera images, Sony libraries, donor data, SDK drivers and host executables remain outside the source tree. The publication checker allows only the two named, hash-pinned boot assets.
 
+## Historical camera-side helpers / 历史相机端辅助代码
+
+The maintainer-owned original portions of `native/bootstrap.c`, `native/lifecycle_worker.c`, `native/linux_a64.h`, `writer/writer.c` and `writer/sha256.h` under `no-fastboot-install/software/app/` at commit `d849c6074a0da9433e24288eee2ef64e3b7561bd` are MIT-licensed, including modified source and the corresponding compiled portions. The pinned identities, scope clarification, source-review findings and complete notices to retain are recorded in the [historical helper notice](no-fastboot-install/software/HISTORICAL-LICENSE.md). Matching helpers from the MIT-licensed QAQLeonard reference retain its copyright notice alongside this project's notice.
+
+上述提交中五个文件由维护者拥有版权的原创部分按 MIT 授权，覆盖修改源码和相应编译代码。[专项许可说明](no-fastboot-install/software/HISTORICAL-LICENSE.md)列出精确文件身份、相机端授权范围、来源核对结果及完整保留声明，并补充匹配的 QAQLeonard 辅助实现的上游 MIT 署名。
+
 ## Research upstreams and external executables
 
 - The Windows x64 portable Release archive includes the official CPython embeddable runtime and dependency wheels with their license files, selected Fastboot binaries with the Platform Tools NOTICE, and SquashFS tools with their library licenses and corresponding source archives. These runtime files remain outside the source repository.
@@ -17,7 +23,7 @@ Sony firmware, extracted libraries, donor color/gamma data, camera personalizati
 - squashfs-tools-ng 1.3.2: CLI tools GPL-3.0-or-later, libsquashfs LGPL-3.0-or-later. External local binaries must retain their license material. If you distribute such binaries, satisfy corresponding-source and dependency-notice requirements; a link alone may be insufficient. Compression/library dependencies keep their own licenses.
 - RP2040 toolchain: arduino-pico has mixed core/library notices; Pico SDK is BSD-3-Clause with bundled notices. GCC/Binutils and Arduino CLI retain their own terms. The local historical UF2/payload have not been demonstrated reproducibly identical to a clean upstream checkout.
 
-- [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research): A7C II research reference and historical0.1.0 recipe comparison. Its newly authored code is MIT; no source/payload is copied here. Its Sony firmware, colour data and separately supplied profiles are not covered by this repository's project license.
+- [QAQLeonard/a7c2-fl23-research](https://github.com/QAQLeonard/a7c2-fl23-research): A7C II research reference and historical0.1.0 recipe comparison. Its newly authored code is MIT. Native helper matches and their upstream attribution are recorded in the [historical helper notice](no-fastboot-install/software/HISTORICAL-LICENSE.md). Its Sony firmware, colour data and separately supplied profiles follow their respective rights.
 
 ## Python distributions
 
