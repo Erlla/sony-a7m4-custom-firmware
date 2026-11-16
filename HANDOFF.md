@@ -78,6 +78,10 @@
 - Telnet/USB share the ULOGIO restoration recipe; SSH uses the existing normal-system daemon plus startup/NSS/configuration; Multi UART uses the independent p1/Cetus/RP2040 bridge. SFTP and Wi-Fi do not add separate shell methods.
 - Preserve the distinction between p1 and p15 libsencore offsets, the two-byte USB input/output payload, physical partition length and filesystem length, and persistent p10 paths. UART also changes p2 boot flags and cannot shoot in the updater environment.
 - Reference inputs and upstream resources remain separately obtained. Do not publish personal SSH keys, camera backups, research paths, raw device logs or derivative firmware binaries. Do not describe this documentation set as a one-click installer or an integrated validation of SSH plus ULOGIO.
+- ULOGIO initialization is reached through the relocated .init_array entry. In the bound stock 6.02 library, slot VA 0x18d20 uses R_AARCH64_ABS64 against __ulogio_so_init at 0x3238. Rebuilding dynsym must update the .rela.dyn symbol reference. The worker starts at 0x362c and calls Telnet init at 0x38dc.
+- Keep the two donor enable reads at 0x5b48/0x5b6c changed to mov w0,#1, and include the init-tail nfds recomputation at mapped donor 0x5d64. Record these donor addresses in reference-layout.json and map them into the new RX layout.
+- Preserving original 6.02 VAs permits new RX code reached through the original 0x50b4 entry. Document the mapping explicitly so donor addresses remain distinguishable from original target addresses.
+- Check listener creation, select coverage and accepted-socket PTY wiring as separate stages. An unserviced accept queue can eventually cause connection timeouts. Attribute a reporter's failure only after inspecting their candidate or runtime evidence.
 
 ## Desktop tool maintenance
 
@@ -214,3 +218,4 @@
 - A complete sc() token match with the pinned QAQLeonard installer and several SHA-256 implementation matches require more precise attribution than a blanket claim of no copied source. Retain Copyright (c) 2026 A7C II FL2/FL3 preview contributors with the MIT text alongside the original A7M4 notice. Similar algorithm constants alone do not establish authorship, and the complete pre-import provenance remains partial.
 - The old QAQLeonard repository name redirects to a7c2-tools. The connector returned a raw redirect and rejected the numeric-ID contents URL, so fixed upstream files and license were checked through the public GitHub API with redirects. Keep the fixed upstream commit 0bf1dbb68298bc2e6e643bfd8ce44aee6615cae6 in citations.
 - Validation passed 20 build/asset tests and 14 subtests. An inert runtime/native build verified the helper notice and both license texts against the release inventory. All five pinned source hashes, full MIT permission text, exact copyright lines, local documentation links and the publication checker passed. The five native source files retain their existing bytes.
+

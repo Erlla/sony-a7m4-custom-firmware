@@ -37,7 +37,28 @@
           "0x5afc",
           "0x5da8"
         ]
-      ]
+      ],
+      "listener_enable_patches": {
+        "address_type": "donor ELF VA; apply after mapping each instruction into the destination RX segment",
+        "instructions": [
+          {
+            "va": "0x5b48",
+            "before": "ldr w0, [x21, #0x18]",
+            "after": "mov w0, #1",
+            "after_bytes_le": "20008052"
+          },
+          {
+            "va": "0x5b6c",
+            "before": "ldr w0, [x21, #0x18]",
+            "after": "mov w0, #1",
+            "after_bytes_le": "20008052"
+          }
+        ],
+        "init_nfds_hook_donor_va": "0x5d64",
+        "recompute_nfds_donor_va": "0x4448",
+        "replay_instruction": "ldp x19, x20, [sp, #0x10]",
+        "resume_donor_va": "0x5d68"
+      }
     },
     "ulogio_target": {
       "firmware": "Official 6.02",
@@ -53,7 +74,32 @@
         "0x4100",
         "0x49b8",
         "0x49d0"
-      ]
+      ],
+      "constructor": {
+        "dt_init_array_va": "0x18d18",
+        "dt_init_arraysz_bytes": 16,
+        "slot_va": "0x18d20",
+        "slot_file_offset": "0x8d20",
+        "relocation_section": ".rela.dyn",
+        "relocation_type": "R_AARCH64_ABS64",
+        "relocation_type_value": 257,
+        "addend": 0,
+        "original_dynsym_index": 112,
+        "symbol": "__ulogio_so_init",
+        "symbol_va": "0x3238",
+        "symbol_size_bytes": 304,
+        "worker_entry_va": "0x362c",
+        "telnet_init_call_va": "0x38dc",
+        "telnet_init_plt_va": "0x3060",
+        "rebuild_requirement": "Keep the constructor relocation bound to __ulogio_so_init using the rebuilt dynamic symbol index."
+      },
+      "reference_clone_layout": {
+        "clone_base_va": "0x1a000",
+        "donor_window_base_va": "0x4000",
+        "mapping": "mapped(donor_va) = clone_base + donor_va - 0x4000",
+        "telnet_init_destination_va": "0x1bafc",
+        "note": "Preserve existing 6.02 code, data and exported addresses; place transplanted functions in a new RX segment and branch from the original entry."
+      }
     },
     "normal_sencore": {
       "firmware": "Official 6.02",
@@ -142,3 +188,4 @@
     "https://github.com/ma1co/Sony-PMCA-RE"
   ]
 }
+
