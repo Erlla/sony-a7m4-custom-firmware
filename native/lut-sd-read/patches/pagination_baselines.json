@@ -1,0 +1,52 @@
+{
+  "name": "lut-sd-edge-page-flip",
+  "description": "At list wrap edges, bump page_start and enqueue type=2 msg so the existing backend page loader runs. Page size stays 16. First/last edges stay put (functional gray).",
+  "shared": {
+    "va_delta": "0x31B0000",
+    "bss": "0x8F73A00",
+    "cave_clear": "0x8F88220",
+    "cave_wrap": "0x8F88240",
+    "cave_total": "0x9042E7C",
+    "total_site": "0x90333E0",
+    "total_site_before": "a80e00b968fe4091",
+    "page_size": 16,
+    "msg_layout": {
+      "seq": 0,
+      "type": 8,
+      "start_index": 24,
+      "field_68": 104,
+      "type_open": 1,
+      "type_page": 2
+    }
+  },
+  "baselines": {
+    "author_0.12": {
+      "appfw_sha256_prefix": "adfe6117",
+      "wrap_site": "0x9002D1C",
+      "wrap_resume": "0x9002D4C",
+      "open_branch": "0x900774C",
+      "open_continue": "0x900748C",
+      "msg_page": "0x8F77000",
+      "msg_off": "0x614",
+      "msg_va": "0x8F77614",
+      "status": "legacy; sites for Erlla/author Toolkit builds"
+    },
+    "community_1119": {
+      "appfw_sha256": "c5f9bc7c6e0401b92a3b244122f3e013f61db4ae0ba2e423f02b2760adccf5fc",
+      "wrap_site": "0x9001F6C",
+      "wrap_resume": "0x9001F9C",
+      "wrap_site_before": "1f41007109028052e00313aae807881a3f0800712a159f1a08010a0b0a45007108318a1a0a0500511f01007128018a1a",
+      "open_branch": "0x90063FC",
+      "open_continue": "0x900613C",
+      "msg_page": "0x8F77000",
+      "msg_off": "0x41C",
+      "msg_va": "0x8F7741C",
+      "status": "verified; used by out_lut_fastscan_page_1119_6.01"
+    }
+  },
+  "do_not": [
+    "Raise GUI window 0x10\u21920x40 (crashed on ~151 json)",
+    "Expand in-camera USER slots beyond 16 (separate design; not this feature)",
+    "Sync-call producer/refresh from wrap cave (hung UI thread)"
+  ]
+}

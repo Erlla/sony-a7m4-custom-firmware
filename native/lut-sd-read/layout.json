@@ -1,0 +1,55 @@
+{
+  "feature": "lut-sd-read",
+  "license": "GPL-3.0-only",
+  "scope": [
+    "Import-from-SD fast-scan",
+    "import-relax for scan/confirm meta mismatch",
+    "type=2 edge page-flip (page size 16)"
+  ],
+  "out_of_scope": [
+    "in-camera USER slot expansion beyond 16",
+    "GUI window raise 0x10 to 0x40"
+  ],
+  "va_delta": "0x31B0000",
+  "components": [
+    "patches/fast_scan.json",
+    "patches/import_relax.json",
+    "patches/pagination_baselines.json",
+    "asm/",
+    "apply_to_appfw.py"
+  ],
+  "verified_baselines": {
+    "community_1119": {
+      "label": "community BODYDATA1119-derived appFw",
+      "appfw_size": 99221508,
+      "fast_scan_before_match": true,
+      "pagination_sites": {
+        "WRAP_SITE": "0x9001F6C",
+        "WRAP_RESUME": "0x9001F9C",
+        "OPEN_BRANCH": "0x90063FC",
+        "OPEN_CONTINUE": "0x900613C",
+        "TOTAL_SITE": "0x90333E0",
+        "MSG": "0x8F7741C",
+        "BSS": "0x8F73A00",
+        "CAVE_CLEAR": "0x8F88220",
+        "CAVE_WRAP": "0x8F88240",
+        "CAVE_TOTAL": "0x9042E7C"
+      },
+      "reference_appfw_after_sha256": "64feb5e6af6499883069e16e939e9fef60d70373ab92575501e13f7be306e84c",
+      "note": "Research pack SHA recorded for replay; full BODYDATA not shipped in this PR",
+      "appfw_before_sha256": "c5f9bc7c6e0401b92a3b244122f3e013f61db4ae0ba2e423f02b2760adccf5fc",
+      "appfw_sha256": "c5f9bc7c6e0401b92a3b244122f3e013f61db4ae0ba2e423f02b2760adccf5fc"
+    },
+    "author_0.12": {
+      "note": "Toolkit/author appFw; wrap/open/msg offsets differ \u2014 use --baseline author_0.12",
+      "pagination_sites": {
+        "WRAP_SITE": "0x9002D1C",
+        "WRAP_RESUME": "0x9002D4C",
+        "OPEN_BRANCH": "0x900774C",
+        "OPEN_CONTINUE": "0x900748C",
+        "MSG": "0x8F77614"
+      }
+    }
+  },
+  "suggested_upstream_path": "native/lut-sd-read/"
+}
