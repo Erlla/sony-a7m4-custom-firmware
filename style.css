@@ -38,6 +38,7 @@ th,td{padding:12px 14px;text-align:left;border:0}
 thead th{background:#e8eee6;font-size:.86rem;font-weight:500;color:#4b5b50}
 thead th:first-child{width:27%}thead th:nth-child(4){width:15%}thead th:last-child{width:23%}
 tbody tr+tr>*{border-top:1px solid #e2e7e1}tbody th{font-size:1rem;line-height:1.35}tbody td{font: .94rem var(--mono);font-variant-numeric:tabular-nums}
+.variant{display:block;margin-top:.35rem;color:var(--muted);font-size:.875rem;font-weight:400;line-height:1.55}
 tbody tr:hover{background:#f8faf6}.date{color:var(--muted);white-space:nowrap}
 .actions{white-space:nowrap}.actions a{font:600 .85rem/1.4 "Inter","Microsoft YaHei",sans-serif;display:inline-block;padding:5px 9px;border:1px solid #becdc0;border-radius:5px;color:#264e38;background:#f1f5ee}
 .actions a+a{margin-left:6px;color:#415148;background:#fff}.actions a:hover{border-color:#476b53;background:#e4eddf}
