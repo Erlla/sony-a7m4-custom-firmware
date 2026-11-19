@@ -25,6 +25,8 @@
 
 English · [中文](README.md)
 
+**[α7 IV filter library](https://erlla.github.io/sony-a7m4-custom-firmware/)** · Browse Fujifilm, Ricoh, Kodak and Leica looks. Download each look as a camera JSON or Lightroom XMP file and check its mean and 95th-percentile ΔE00 and update date.
+
 **The installation baseline is a Sony ILCE-7M4 (A7 IV / A7M4) running official Sony firmware V6.02 before installation.**
 
 **Successful flashing has been reported on mainland China, Hong Kong, Japan and Canada-market A7M4 cameras. Compatibility is not guaranteed for regional variants other than mainland China.**

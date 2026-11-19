@@ -25,6 +25,8 @@
 
 [English](README.en.md) · 中文
 
+**[α7 IV 滤镜库](https://erlla.github.io/sony-a7m4-custom-firmware/)** · 按富士、理光、柯达和徕卡筛选，下载机身 JSON 或 Lightroom XMP，查看每款滤镜的平均色差（ΔE00）、P95 和更新日期。
+
 **机型与安装基线为 Sony ILCE-7M4（A7 IV / A7M4），安装前固件版本须为索尼官方 V6.02。**
 
 **目前已有国行、港版、日版和加拿大版 A7M4 机身刷入成功的反馈。除国行外，其他地区版本不保证兼容性。**
