@@ -32,7 +32,7 @@ Compiled base results persist internally for reuse after power-on. All eight adj
 
 Extract the look package first and place the desired JSON files directly in that directory. Exceeding the entry limit **fails the scan rather than showing only the first 256 entries**. Add files in batches and keep archives, documentation and unnecessary subdirectories elsewhere. The camera still stores at most 16 looks at once; the card can hold more import candidates.
 
-An oversized or invalid JSON can also fail the current list scan/import. If a file is missing, check its name, native format and location. These are separate limits for each file, the designated import directory and camera slots—not a limit on the total files on the SD card.
+An oversized or invalid JSON file can cause the scan or import to fail. Firmware built with [SD import list fast scan](../../native/lut-sd-read/README.md) lists candidates by filename and reports these errors when you select the file and confirm the import. If a file is missing, check its name, native format and location. These are separate limits for each file, the designated import directory and camera slots—not a limit on the total files on the SD card.
 
 ## Camera photographs
 

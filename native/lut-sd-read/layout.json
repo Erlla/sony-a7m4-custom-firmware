@@ -1,0 +1,24 @@
+{
+  "feature": "lut-sd-read",
+  "license": "GPL-3.0-only",
+  "scope": [
+    "Import-from-SD fast-scan",
+    "Validate the selected file on import"
+  ],
+  "components": [
+    "patches/fast_scan.json",
+    "patches/import_relax.json",
+    "apply_to_appfw.py"
+  ],
+  "verified_baselines": {
+    "community_1119": {
+      "appfw_size": 99221508,
+      "appfw_sha256": "c5f9bc7c6e0401b92a3b244122f3e013f61db4ae0ba2e423f02b2760adccf5fc",
+      "reference_appfw_after_sha256": "5fce9c73b9dff3f42f8ade3effc848ddbf1c24f39f8cea036e5c29700759a8fa"
+    },
+    "author_0.12": {
+      "appfw_size": 99221508,
+      "appfw_sha256": "adfe61178b57e8f4e7e6fa6102f8762f3d9fb74586dec46b71e4ab23c6db9ab1"
+    }
+  }
+}

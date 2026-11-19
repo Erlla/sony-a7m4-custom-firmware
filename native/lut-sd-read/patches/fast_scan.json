@@ -1,0 +1,16 @@
+{
+  "name": "lut-sd-fast-scan",
+  "description": "Skip per-file JSON parse during Import-from-SD listing; Import confirm re-parses the chosen file.",
+  "va_delta": "0x31B0000",
+  "patch": {
+    "va": "0x9034B6C",
+    "offset": "0x5E84B6C",
+    "size": 80,
+    "before": "3bfdff9740070035f5ab40b9b5060034089b83526202178be103152a2800a072030086526002088b089b89526800a0726402088bc30d009440050035089b8952e05300916800a0726102088b51000094",
+    "after": "35008052e0530091e8031faa1f682838080500911f5102f1a1ffff540d0000141f2003d51f2003d51f2003d51f2003d51f2003d51f2003d51f2003d51f2003d51f2003d51f2003d51f2003d51f2003d5",
+    "notes": [
+      "mov w21,#1; zero 0x94-byte meta at [sp,#0x14]; b #0x9034bbc (add-entry)",
+      "Verified identical on author BODYDATA(0.12) and community BODYDATA1119 appFw"
+    ]
+  }
+}

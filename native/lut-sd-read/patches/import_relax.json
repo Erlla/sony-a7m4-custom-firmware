@@ -1,0 +1,21 @@
+{
+  "name": "lut-sd-import-relax",
+  "description": "After fast-scan, confirm compares size/meta against scan-time fields and fails with -0x57d. NOP those checks; confirm already re-parses the chosen file.",
+  "va_delta": "0x31B0000",
+  "patches": [
+    {
+      "va": "0x9034F34",
+      "offset": "0x5E84F34",
+      "before": "bf02086b41030054",
+      "after": "1f2003d51f2003d5",
+      "notes": "NOP cmp w21,w8 / b.ne size-mismatch"
+    },
+    {
+      "va": "0x9034F7C",
+      "offset": "0x5E84F7C",
+      "before": "e8031faa",
+      "after": "0b000014",
+      "notes": "b #0x9034fa8 — skip 0x94-byte meta compare"
+    }
+  ]
+}
