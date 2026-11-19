@@ -36,7 +36,7 @@ h2 small{font:normal .83rem var(--mono);letter-spacing:.09em;color:var(--muted)}
 table{background:#fff;width:100%;border-spacing:0;border-collapse:separate;border:1px solid var(--line);border-radius:8px;overflow:hidden;table-layout:fixed}
 th,td{padding:12px 14px;text-align:left;border:0}
 thead th{background:#e8eee6;font-size:.86rem;font-weight:500;color:#4b5b50}
-thead th:first-child{width:27%}thead th:nth-child(5){width:15%}thead th:last-child{width:23%}
+thead th:first-child{width:27%}thead th:nth-child(4){width:15%}thead th:last-child{width:23%}
 tbody tr+tr>*{border-top:1px solid #e2e7e1}tbody th{font-size:1rem;line-height:1.35}tbody td{font: .94rem var(--mono);font-variant-numeric:tabular-nums}
 tbody tr:hover{background:#f8faf6}.date{color:var(--muted);white-space:nowrap}
 .actions{white-space:nowrap}.actions a{font:600 .85rem/1.4 "Inter","Microsoft YaHei",sans-serif;display:inline-block;padding:5px 9px;border:1px solid #becdc0;border-radius:5px;color:#264e38;background:#f1f5ee}
@@ -50,9 +50,9 @@ footer{padding-block:20px 32px;border-top:1px solid var(--line);font-size:.86rem
   .catalog{padding-top:20px}nav{gap:6px;padding-bottom:14px}nav a{padding:7px 10px;gap:5px;font-size:.9rem}
   .notes{gap:8px 18px}.group{margin:23px 0}.group h2{margin-bottom:10px}
   table,tbody{display:block}thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-  tbody tr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 8px;padding:14px}
+  tbody tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px;padding:14px}
   tbody tr+tr{border-top:1px solid var(--line)}tbody tr+tr>*{border:0}
   tbody th,tbody td{padding:0}tbody th{grid-column:1/-1}
   td[data-label]::before{content:attr(data-label);display:block;font: .78rem/1.5 "Microsoft YaHei",sans-serif;color:var(--muted)}
-  .date{align-self:center;font-size:.85rem}.actions{grid-column:2/4;align-self:end;text-align:right}.actions a{padding:7px 8px}
+  .date{align-self:center;font-size:.85rem}.actions{grid-column:2;align-self:end;text-align:right}.actions a{padding:7px 8px}
 }
