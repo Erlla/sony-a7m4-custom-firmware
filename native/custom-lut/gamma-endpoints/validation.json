@@ -1,0 +1,25 @@
+{
+  "parser_cases_per_target": 14,
+  "parser_targets_executed": ["x86_64-windows", "AArch64", "ARM32"],
+  "parser_accepted_outputs_equal": true,
+  "accepted": [
+    "existing published M4 CC",
+    "all 129 R5 CC photo values with endpoint 131071 and M4 controls, with live endpoint 124000",
+    "photo/live endpoints 4096 and 4097",
+    "18-bit maximum endpoint 262143"
+  ],
+  "rejected": [
+    "zero endpoint",
+    "photo or live endpoint above the 18-bit range",
+    "photo or live endpoint word mismatch",
+    "nonzero curve start",
+    "decreasing curve",
+    "wrong photo or live template controls",
+    "unsupported control field"
+  ],
+  "strength_cases_executed_on_host": 40,
+  "strength_range_percent": [10, 100],
+  "derived_validator_compiled_for_arm32": true,
+  "camera_tested": false,
+  "installable_firmware_built": false
+}

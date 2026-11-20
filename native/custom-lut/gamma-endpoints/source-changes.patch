@@ -1,0 +1,113 @@
+diff --git a/20261021/task28_p1_runtime_codec/parameter_codec.c b/20261021/task28_p1_runtime_codec/parameter_codec.c
+--- a/20261021/task28_p1_runtime_codec/parameter_codec.c
++++ b/20261021/task28_p1_runtime_codec/parameter_codec.c
+@@ -147,17 +147,19 @@
+   uint32_t e=s[516+i];if(e>15||!(widths[i]>>e))return PC_RANGE;
+   intervals+=1u<<e;
+  }if(intervals!=128)return PC_RANGE;
+- int profile=-1;
++ int profile_matches=0;
+  for(unsigned p=0;p<4;p++){
+   int equal=((ctx==6)==(p%2==1));
+-  for(unsigned i=0;i<44;i++)if(s[528+i]!=pc_profiles[p][i])equal=0;
+-  if(equal)profile=(int)p;
+- }if(profile<0)return PC_PROFILE;
++  /* The endpoint word at 0x220 follows Y[128]. All other bytes are fixed. */
++  for(unsigned i=0;i<44;i++)
++   if((i<16||i>=20)&&s[528+i]!=pc_profiles[p][i])equal=0;
++  if(equal)profile_matches=1;
++ }if(!profile_matches)return PC_PROFILE;
+  uint32_t previous=0;
+  for(unsigned i=0;i<129;i++){
+   uint32_t v=u32(s+i*4);if(v>262143||(i&&v<previous))return PC_RANGE;previous=v;
+  }
+- if(u32(s)!=0||previous!=pc_endpoints[profile])return PC_PROFILE;
++ if(u32(s)!=0||!previous||u32(s+0x220)!=previous)return PC_PROFILE;
+  return PC_OK;
+ }
+ static uint32_t grid_value(const uint8_t*s,unsigned index){
+diff --git a/20261021/task28_p1_runtime_codec/approved_profiles.h b/20261021/task28_p1_runtime_codec/approved_profiles.h
+--- a/20261021/task28_p1_runtime_codec/approved_profiles.h
++++ b/20261021/task28_p1_runtime_codec/approved_profiles.h
+@@ -5,4 +5,3 @@
+ {0,0,0,0,0,0,0,0,16,0,1,49,3,0,0,0,129,255,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+ {0,0,0,0,0,0,0,0,16,0,1,49,6,0,0,0,129,255,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+ };
+-static const uint32_t pc_endpoints[4]={130944,130944,130945,130945};
+diff --git a/20261023_p3_native_engine/native_data/m4_native_data.c b/20261023_p3_native_engine/native_data/m4_native_data.c
+--- a/20261023_p3_native_engine/native_data/m4_native_data.c
++++ b/20261023_p3_native_engine/native_data/m4_native_data.c
+@@ -53,14 +53,16 @@
+   intervals+=1u<<e;
+  }
+  if(intervals!=128) return PC_RANGE;
+- for (unsigned i=0;i<44;i++) if(s[528+i]!=live_metadata[i]) return PC_PROFILE;
++ /* Preserve the live controls except for the endpoint word at 0x220. */
++ for (unsigned i=0;i<44;i++)
++  if((i<16||i>=20)&&s[528+i]!=live_metadata[i]) return PC_PROFILE;
+  uint32_t previous=0;
+  for (unsigned i=0;i<129;i++) {
+   uint32_t v=rd32(s+i*4);
+   if(v>262143||(i&&v<previous)) return PC_RANGE;
+   previous=v;
+  }
+- if(rd32(s)!=0||previous!=122844u) return PC_PROFILE;
++ if(rd32(s)!=0||!previous||rd32(s+0x220)!=previous) return PC_PROFILE;
+  return PC_OK;
+ }
+ static uint32_t grid_at(const uint8_t *s,unsigned index) {
+diff --git a/20261027_p6_reclaim/native_data/m4_native_data.c b/20261027_p6_reclaim/native_data/m4_native_data.c
+--- a/20261027_p6_reclaim/native_data/m4_native_data.c
++++ b/20261027_p6_reclaim/native_data/m4_native_data.c
+@@ -53,14 +53,16 @@
+   intervals+=1u<<e;
+  }
+  if(intervals!=128) return PC_RANGE;
+- for (unsigned i=0;i<44;i++) if(s[528+i]!=live_metadata[i]) return PC_PROFILE;
++ /* Preserve the live controls except for the endpoint word at 0x220. */
++ for (unsigned i=0;i<44;i++)
++  if((i<16||i>=20)&&s[528+i]!=live_metadata[i]) return PC_PROFILE;
+  uint32_t previous=0;
+  for (unsigned i=0;i<129;i++) {
+   uint32_t v=rd32(s+i*4);
+   if(v>262143||(i&&v<previous)) return PC_RANGE;
+   previous=v;
+  }
+- if(rd32(s)!=0||previous!=122844u) return PC_PROFILE;
++ if(rd32(s)!=0||!previous||rd32(s+0x220)!=previous) return PC_PROFILE;
+  return PC_OK;
+ }
+ static uint32_t grid_at(const uint8_t *s,unsigned index) {
+diff --git a/20261027_p6_reclaim/native_data/p6_native_data.c b/20261027_p6_reclaim/native_data/p6_native_data.c
+--- a/20261027_p6_reclaim/native_data/p6_native_data.c
++++ b/20261027_p6_reclaim/native_data/p6_native_data.c
+@@ -5,13 +5,24 @@
+ static uint32_t mixed(uint32_t a,uint32_t b,uint32_t s){return (a*(10-s)+b*s+5)/10;}
+ static int gamma(const uint8_t*p,unsigned branch,unsigned context,unsigned strength){
+  static const uint16_t widths[12]={32,32,64,128,256,512,1024,2048,4096,8192,16384,32768};
+- uint32_t st=branch?122368:context==6?130946:131001,endpoint=0;
++ uint32_t st=branch?122368:context==6?130946:131001;
++ uint32_t endpoint=word(p+512);
++ if(word(p)||word(p+0x220)!=endpoint)return PC_PROFILE;
++ /* A derived envelope has no original Y[128]. Check the range reachable
++  * by blending a nonzero 18-bit endpoint with the fixed ST endpoint. */
++ if(endpoint<mixed(st,1,strength)||endpoint>mixed(st,262143,strength))return PC_RANGE;
++ unsigned profile_matches=0;
+  for(unsigned template=0;template<(branch?1u:2u);template++){
+-  unsigned profile=template*2u+(context==6);uint32_t end=mixed(st,branch?122844:pc_endpoints[profile],strength),ok=1;
+-  for(unsigned i=0;i<44;i++){uint8_t want=branch?pc_profiles[1][i]:pc_profiles[profile][i];if(branch&&i==11)want=50;if(i>=16&&i<20)want=(uint8_t)(end>>(8*(i-16)));if(p[528+i]!=want)ok=0;}
+-  if(ok)endpoint=end;
++  unsigned profile=template*2u+(context==6),ok=1;
++  for(unsigned i=0;i<44;i++){
++   if(i>=16&&i<20)continue;
++   uint8_t want=branch?pc_profiles[1][i]:pc_profiles[profile][i];
++   if(branch&&i==11)want=50;
++   if(p[528+i]!=want)ok=0;
++  }
++  if(ok)profile_matches=1;
+  }
+- if(!endpoint||word(p)||word(p+512)!=endpoint)return PC_PROFILE;
++ if(!profile_matches)return PC_PROFILE;
+  unsigned intervals=0;for(unsigned k=0;k<12;k++){unsigned e=p[516+k];if(e>15||!(widths[k]>>e))return PC_RANGE;intervals+=1u<<e;}if(intervals!=128)return PC_RANGE;
+  uint32_t previous=0;for(unsigned i=0;i<129;i++){uint32_t v=word(p+4*i);if(v<previous||v>262143)return PC_RANGE;previous=v;}return 0;
+ }
