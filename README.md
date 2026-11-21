@@ -23,9 +23,13 @@
 >
 > **仅操作本人合法持有或已获明确授权的设备。** 请先理解操作流程并完成备份，自行承担设备损坏与维修风险。无法接受这些风险时请退出。
 
-[English](README.en.md) · 中文
+> [!TIP]
+> **滤镜与音频下载**
+>
+> - **[α7 IV 滤镜库](https://erlla.github.io/sony-a7m4-custom-firmware/)** · 按富士、理光、柯达和徕卡筛选，下载机身 JSON 或 Lightroom XMP，查看每款滤镜的平均色差（ΔE00）、P95 和更新日期。
+> - **[α7 IV 音频库](https://erlla.github.io/sony-a7m4-custom-firmware/sounds.html)** · 在线试听并下载自定义快门声和对焦声音（WAV）。
 
-**[α7 IV 滤镜库](https://erlla.github.io/sony-a7m4-custom-firmware/)** · 按富士、理光、柯达和徕卡筛选，下载机身 JSON 或 Lightroom XMP，查看每款滤镜的平均色差（ΔE00）、P95 和更新日期。
+[English](README.en.md) · 中文
 
 **机型与安装基线为 Sony ILCE-7M4（A7 IV / A7M4），安装前固件版本须为索尼官方 V6.02。**
 
