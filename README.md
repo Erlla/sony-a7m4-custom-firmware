@@ -187,3 +187,10 @@ py -3 -m venv .venv
 
 欢迎通过 Issue 或 Pull Request 提交问题与改进。新增基线请附输入哈希、地址映射与修改依据；请勿提交个人私钥、机身校准、备份或完整固件。详见[贡献指南](CONTRIBUTING.md)。
 
+## 开发者交流 / Community
+
+欢迎对索尼相机逆向感兴趣的开发者加入 Discord 频道交流排查经验。
+
+**注：本群仅面向开发者技术讨论，不解决刷机时出现的问题、不提供一键刷机包或代刷服务**
+
+[![加入 Discord 开发者交流群](https://img.shields.io/badge/Discord-Join%20Dev%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/BjNct7Czt)

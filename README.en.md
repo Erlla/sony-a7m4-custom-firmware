@@ -187,3 +187,10 @@ Thanks also to the open-source tools and dependencies used by this project. Full
 
 Issues and pull requests are welcome. For new baselines, include input hashes, address maps and the basis for changes. Do not submit personal private keys, camera calibration, backups or complete firmware. See the [contribution guide](CONTRIBUTING.md).
 
+## Developer community
+
+Developers interested in reverse engineering Sony cameras are welcome to join the Discord channel and share troubleshooting experience.
+
+**Note: This community is for technical discussion among developers. It does not troubleshoot firmware flashing issues or provide one-click firmware packages or flashing services.**
+
+[![Join the Discord developer chat](https://img.shields.io/badge/Discord-Join%20Dev%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/BjNct7Czt)
