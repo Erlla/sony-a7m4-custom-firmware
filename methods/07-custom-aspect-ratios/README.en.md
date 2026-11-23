@@ -44,6 +44,8 @@ Preview masking and photo cropping are separate processing paths. Masks guide co
 4. Save JPEG / HEIF for cropped output; also save RAW when the original image area is needed.
 5. Open a JPEG / RAW+JPEG photo in the camera album and magnify the cropped image.
 
+With the HEIF playback fix, the camera album can also open previously captured custom-crop HIF files. Playback of the 17:6 crop was confirmed on an ILCE-7M4 using the original files. [HEIF reader changes and sample measurements](IMPLEMENTATION.md#heif-album)
+
 ## Final implementation
 
 | Component | Implementation |
@@ -72,7 +74,7 @@ The maintainer supplied and authorized publication of these two **65:24** exampl
 
 ## Validation results
 
-The maintainer confirmed correct labels, Fn icons and captured image dimensions, then confirmed that landscape and portrait previews both work in the integrated camera test. JPEG crop dimensions and original RAW geometry have sample-based checks. The photos above show the 65:24 interface. HEIF is included in the crop implementation; this page does not supply a separate measured HEIF camera sample.
+The maintainer confirmed the labels, Fn icons, captured dimensions and previews in both orientations. The photos above show the 65:24 interface. Four original 17:6 HEIF files each contained a 7008×2472 primary image, a 1616×568 screen preview and a 320×112 thumbnail. The repaired reader parsed all four, and the maintainer confirmed playback in the camera album.
 
 The selection-page implementation passed 336 native creation/rotation/mask-clearing cases, 3,475 drawing checks and 3,968 calling-convention checks. The final installation package passed signature, 739,727-block, partition-CRC and target-file verification. Hardware acceptance refers to the maintainer's single A7M4 and does not certify arbitrary models, firmware combinations or every output device.
 
