@@ -8,8 +8,9 @@ import json
 from pathlib import Path
 
 
-def load_profile() -> dict:
-    return json.loads(files("a7m4").joinpath("profiles/custom-sound-lifecycle.json").read_text("utf-8"))
+def load_profile(*, burst: bool = False) -> dict:
+    name = "custom-sound-burst.json" if burst else "custom-sound-lifecycle.json"
+    return json.loads(files("a7m4").joinpath("profiles", name).read_text("utf-8"))
 
 
 def digest(data: bytes) -> str:
@@ -40,11 +41,12 @@ def patch_component(data: bytes, component: str, profile: dict | None = None) ->
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--burst", action="store_true", help="Apply the burst retrigger recipe to its listed integrated input")
     parser.add_argument("--component", choices=("ap", "cp"), required=True)
     parser.add_argument("--input", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
-    result = patch_component(args.input.read_bytes(), args.component)
+    result = patch_component(args.input.read_bytes(), args.component, load_profile(burst=args.burst))
     with args.output.open("xb") as stream:
         stream.write(result)
     print(digest(result))

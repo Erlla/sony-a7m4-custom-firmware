@@ -99,6 +99,12 @@ For missing or incorrect menu text, see the [resource-only repair](menu-resource
 python -m a7m4.custom_sound verify-resources --fs-root local/final-package-fs
 ```
 
+## Shutter sound during high-speed bursts
+
+Closing and reopening the player for each shot takes time between exposures. A new exposure can interrupt the previous sound, and waiting requests can merge. The burst fix adds silence after a short shutter clip to keep the player ready between shots. Each subsequent exposure notification restarts playback at the first sample, so the sound follows changes in shooting cadence.
+
+Developers can apply `--burst` to the listed integrated AP and CP inputs and include both outputs together. In native-code replay with a roughly 70 ms clip and 100 ms between triggers, all three modeled startup delays produced 20 playback starts for 20 triggers. The first shot still incurs startup latency. Exposure-to-speaker timing on a camera remains unmeasured. [Build commands, compatible inputs and validation conditions](../../native/custom-sounds/burst/README.md)
+
 ## Source and firmware integration
 
 The [implementation map](IMPLEMENTATION.md) identifies shutter policy, directory construction, menu resource IDs, persistence, AP/CP ownership and volume changes. The [native build guide](../../native/custom-sounds/README.md) covers all six modules, address-preserving post-link edits and generation of current-policy sources.

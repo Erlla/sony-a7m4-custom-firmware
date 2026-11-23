@@ -99,6 +99,12 @@ python -m a7m4.custom_sound_lifecycle --component cp --input output/cpapp-b.hand
 python -m a7m4.custom_sound verify-resources --fs-root local/final-package-fs
 ```
 
+## 高速连拍快门声
+
+在电子快门高速连拍中，逐张关闭再打开播放器会占用两张照片之间的时间。当下一次曝光到来时，前一张的声音可能被截断，或多个等待播放的请求被合并。连拍修复在短快门声后补静音，让播放器跨过拍摄间隔保持就绪。下一次曝光通知到达后，播放器从第一采样点重播，因此节奏跟随拍摄速度。
+
+开发者可对配方列出的组合 AP、CP 分别应用 `--burst`，再将两项输出一起集成。使用约 70 ms 的声音、按 100 ms 间隔触发的原生代码回放中，三种启动延迟条件下均为 20 次触发、20 次起播。首声仍有初始化延迟，机身扬声器与实际曝光之间的同步尚待实测。[构建命令、适用输入和验证条件](../../native/custom-sounds/burst/README.md)
+
 ## 源码与完整固件集成
 
 [实现方法](IMPLEMENTATION.md)列出快门策略、目录拼接、菜单资源 ID、持久化、AP/CP 资源交接与音量的具体修改位置。[原生构建说明](../../native/custom-sounds/README.md)包含六模块编译、保持地址的后链接修改及当前策略源码的生成方式。

@@ -15,9 +15,11 @@ from a7m4.custom_sound_lifecycle import load_profile
 from elftools.elf.elffile import ELFFile
 
 
-def build(compiler: Path, zig: Path, output: Path) -> dict:
-    profile = load_profile()
-    source = ROOT / "native/custom-sounds/lifecycle"
+def build(compiler: Path, zig: Path, output: Path, *, burst: bool = False) -> dict:
+    profile = load_profile(burst=burst)
+    source = ROOT / "native/custom-sounds"
+    if not burst:
+        source = source / "lifecycle"
     for name, expected in profile["source_hashes"].items():
         if hashlib.sha256((source / name).read_bytes()).hexdigest() != expected:
             raise ValueError("Source identity mismatch: " + name)
@@ -58,8 +60,9 @@ def build(compiler: Path, zig: Path, output: Path) -> dict:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--burst", action="store_true", help="Build and verify the burst retrigger modules")
     parser.add_argument("--arm-gcc", required=True, type=Path)
     parser.add_argument("--zig", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
-    build(args.arm_gcc, args.zig, args.output)
+    build(args.arm_gcc, args.zig, args.output, burst=args.burst)
