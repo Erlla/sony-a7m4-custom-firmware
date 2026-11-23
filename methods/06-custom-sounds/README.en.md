@@ -6,6 +6,8 @@ Adds **Custom Shutter Sound** and **Custom Focus Sound** under Shooting → Shut
 
 AF-S / AF-A focus confirmation uses a separate clip or the stock default. Each sound slot stores its own switch, WAV and volume. Silent mode suppresses both custom sounds.
 
+On builds with sound shortcuts, open Custom Key/Dial Set. for stills or movies, then assign Custom Shutter Sound and Custom Focus Sound to buttons under Shutter/Silent. Both buttons have been confirmed on an ILCE-7M4 to open their respective settings pages. [Shortcut patch locations and method](IMPLEMENTATION.md#sound-shortcuts)
+
 Focus and shutter sounds **preempt each other, with the latest trigger taking priority**. Focus confirmation interrupts a playing shutter clip; taking a photo interrupts the focus clip. Another focus confirmation can interrupt and restart the focus clip. During a burst, each new exposure retriggers the sound. After activity stops, the final clip finishes naturally without replaying older requests.
 
 ## Long sessions
