@@ -1,0 +1,141 @@
+{
+  "passed": true,
+  "defect_reproduced": true,
+  "AP_sha256": "0cb44d4b8b4a7a9675603de6c10c5e7b4dbeae06e6226566e420f565bff8b1a0",
+  "cases": [
+    {
+      "event": "0x2010000",
+      "name": "EVENT_INPUT_TACT_UP_ON",
+      "record_VA": "0x57bc9d8",
+      "string_VA": "0x4f22da8",
+      "returned": 1,
+      "focus_before": 16,
+      "focus_after": 15
+    },
+    {
+      "event": "0x2010003",
+      "name": "EVENT_INPUT_TACT_DOWN_ON",
+      "record_VA": "0x57bca08",
+      "string_VA": "0x4f22df2",
+      "returned": 1,
+      "focus_before": 16,
+      "focus_after": 0
+    },
+    {
+      "event": "0x2010011",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_UP_ON",
+      "record_VA": "0x57bcae8",
+      "string_VA": "0x4f22f6b",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2010013",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_UP_REPEAT",
+      "record_VA": "0x57bcb08",
+      "string_VA": "0x4f22fb8",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2010014",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_DOWN_ON",
+      "record_VA": "0x57bcb18",
+      "string_VA": "0x4f22fe2",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2010016",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_DOWN_REPEAT",
+      "record_VA": "0x57bcb38",
+      "string_VA": "0x4f23033",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2050000",
+      "name": "EVENT_INPUT_OTHER_WHEEL_RIGHT",
+      "record_VA": "0x57bcd38",
+      "string_VA": "0x4f23524",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2050001",
+      "name": "EVENT_INPUT_OTHER_WHEEL_LEFT",
+      "record_VA": "0x57bcd48",
+      "string_VA": "0x4f23542",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2050002",
+      "name": "EVENT_INPUT_OTHER_WHEEL2_RIGHT",
+      "record_VA": "0x57bcd58",
+      "string_VA": "0x4f2355f",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2050003",
+      "name": "EVENT_INPUT_OTHER_WHEEL2_LEFT",
+      "record_VA": "0x57bcd68",
+      "string_VA": "0x4f2357e",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2050004",
+      "name": "EVENT_INPUT_OTHER_WHEEL3_RIGHT",
+      "record_VA": "0x57bcd78",
+      "string_VA": "0x4f2359c",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2050005",
+      "name": "EVENT_INPUT_OTHER_WHEEL3_LEFT",
+      "record_VA": "0x57bcd88",
+      "string_VA": "0x4f235bb",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2050006",
+      "name": "EVENT_INPUT_OTHER_WHEEL2_SUB_RIGHT",
+      "record_VA": "0x57bcd98",
+      "string_VA": "0x4f235d9",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "event": "0x2050007",
+      "name": "EVENT_INPUT_OTHER_WHEEL2_SUB_LEFT",
+      "record_VA": "0x57bcda8",
+      "string_VA": "0x4f235fc",
+      "returned": 0,
+      "focus_before": 16,
+      "focus_after": 16
+    },
+    {
+      "case": "ignored_joystick_then_working_touch",
+      "focus_after": 1
+    }
+  ],
+  "executed": "Actual main AP shortcut route, controller, widget capture/timer setup and LUT dispatcher.",
+  "fixtures": "View allocation/rendering, catalog unavailable and platform services.",
+  "limits": "Named events are injected after hardware delivery; intermittent device cause not proven.",
+  "camera_tested": false
+}

@@ -73,3 +73,9 @@ The [six-ratio/normal-review layer](../../native/aspect-autoreview/README.en.md)
 本次组合按实际 ELF 重定位修正声音三项菜单的按键事件，保留音量入口；MPR 仅移植 HEIF 主图与辅助预览识别，不复制录像实验整库。英文显示模块及全部资源保持，CP、更新器及版本元数据不变。菜单与语言原生回放通过，英文布局仍待机身确认。
 
 English: integrate the localized AP and all 34 common UXC banks together. The pinned post-cleanup layout differs from earlier touch layouts. The linked language reference records both the language-only and combined shortcut/HEIF component identities. The combined sound menus retain their volume entries through the actual relocated registry; HEIF changes are ported into the existing reader. CP and updater are unchanged. Native menu/language replay passed; physical English layout remains unverified.
+
+## LUT 摇杆与拨轮输入
+
+在上面的英文资源／快捷键／HEIF **组合 AP** 之后应用[输入适配器](../../native/custom-lut/input-adapter/README.md)，输入 `0cb44d4b…`，输出 `db820a26…`。原 GUI 入口串接 `0x904FC00` 的 368 字节模块，既有 RX 终点从 `0x904FBF0` 延长至 `0x904FD70`，不覆盖语言层。CP、MPR、资源和其他 AP 字节保持；输入／输出完整身份由 `reference-layout.json` 的 `input_adapter` 单独记录。维护者已确认本次输入问题修复，此结论不扩大为英文布局的专项验收。
+
+English: apply the [input adapter](INPUT.en.md) after the combined UI-language/shortcut/HEIF AP, not the language-only component. It appends 368 bytes at `0x904FC00`, chains the existing dispatcher and extends the RX segment to `0x904FD70`, preserving the language layer and other AP bytes. CP, MPR and resources remain unchanged. The separate input-adapter reference pins the complete identities and records acceptance of the reported input issue.

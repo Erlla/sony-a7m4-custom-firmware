@@ -1543,5 +1543,14 @@
     "method": "UI-LANGUAGES.md",
     "english_method": "UI-LANGUAGES.en.md",
     "physical_camera_tested": false
+  },
+  "input_adapter": {
+    "reference": "../../native/custom-lut/input-adapter/reference.json",
+    "method": "INPUT.md",
+    "english_method": "INPUT.en.md",
+    "input_stage": "Combined UI-language, shortcut and HEIF AP",
+    "input_AP_sha256": "0cb44d4b8b4a7a9675603de6c10c5e7b4dbeae06e6226566e420f565bff8b1a0",
+    "output_AP_sha256": "db820a263c23e29b15e98057976bc58a6af9c2aa9885709216ea7c2fc8b23666",
+    "maintainer_confirmed_issue_resolved": true
   }
 }

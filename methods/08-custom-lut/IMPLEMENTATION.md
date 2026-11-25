@@ -146,3 +146,7 @@ CP LUT RX 使用 `0x118000..0x11B000`；网格/生命周期代码使用 `0x11C00
 ## LUT 内部界面语言
 
 [英文与简繁中文资源](UI-LANGUAGES.md)补齐选卡、文件列表、九项调节和状态提示。50 个新 ID 放入 34 个横竖共用库；显示层将产品标签交给原生资源查询，用户名称保持动态文本。源码、固定 ABI 与精确组件身份见 [ui-languages](../../native/custom-lut/ui-languages/README.md)。该显示层使用精简后布局，并已与快捷键、声音菜单注册修复及 HEIF 回放修复组合，机身英文显示待验。
+
+## 摇杆与拨轮输入
+
+[输入适配方法](INPUT.md)在英文资源／快捷键／HEIF 组合 AP 上追加 17 种事件映射。LUT 所属入口 `0x903104C` 经 `0x904FC00` 适配器继续调用 `0x903E5E0`，借用消息不变，预览事务与触摸仍由原 GUI 处理。源码、精确构建与回放证据见 [input-adapter](../../native/custom-lut/input-adapter/README.md)。维护者已确认 Issue #52 问题修复。

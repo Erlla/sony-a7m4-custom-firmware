@@ -1,6 +1,6 @@
 # Custom LUTs: SD import and independent adjustments
 
-[中文](README.md) · [Implementation](IMPLEMENTATION.md) · [JSON contract](FORMAT.md) · [Integration](INTEGRATION.md) · [Training results](../../docs/custom-lut-training/README.en.md) · [Agent training method](../../docs/custom-lut-training/AGENT_TRAINING.en.md) · [Interface language resources](UI-LANGUAGES.en.md)
+[中文](README.md) · [Implementation](IMPLEMENTATION.md) · [JSON contract](FORMAT.md) · [Integration](INTEGRATION.md) · [Training results](../../docs/custom-lut-training/README.en.md) · [Agent training method](../../docs/custom-lut-training/AGENT_TRAINING.en.md) · [Interface language resources](UI-LANGUAGES.en.md) · [Joystick and dial input](INPUT.en.md)
 
 See the [runtime cleanup method](RUNTIME-CLEANUP.en.md) for the source reductions and current component identities. The maintainer tested the cleaned integrated firmware and reported normal operation with no observed problems.
 
@@ -15,7 +15,7 @@ Adds Custom LUTS under Exposure/Color → Color/Tone on the Sony A7 IV (ILCE-7M4
 
 On builds with the shortcut, open Custom Key/Dial Set. for stills or movies and assign Custom LUTS under Color/Tone to a camera button. From the shooting screen, press the button to open the LUT slot selector. This was confirmed on an ILCE-7M4. [Shortcut registration and routing](IMPLEMENTATION.md#lut-shortcut)
 
-Put converted `.json` files in `PRIVATE/M4ROOT/GENERAL/LUT/`. Open Custom LUTS, press Left to enter import, choose the card and file, and follow the on-camera import/replacement flow. Select a look using the keys or by touching the left number column, press Right for the detailed editor, select a control with Left/Right, and change it with Up/Down or the on-screen controls. Confirm saves; Cancel restores the previous selection/settings. Reset restores the look's defaults and 100% strength. The deletion page supports removing the current look or clearing all looks.
+Put converted `.json` files in `PRIVATE/M4ROOT/GENERAL/LUT/`. Open Custom LUTS, press Left to enter import, choose the card and file, and follow the on-camera import/replacement flow. Select a look using direction keys, the joystick, a dial or the left touch column. Press Right for the detailed editor, select a control with Left/Right, and change it with Up/Down, a dial or the on-screen controls. A right dial turn moves down in lists or increases the selected adjustment; a left turn does the reverse. Confirm saves; Cancel restores the previous selection/settings. Reset restores the look's defaults and 100% strength. The deletion page supports removing the current look or clearing all looks.
 
 Contrast, highlights, shadows and saturation range from −9 to +9; fade, sharpness and clarity from 0 to 9; sharpness range from 1 to 5. Strength runs from 10% to 100% in 10% steps. Lower strength approaches **fixed factory ST defaults**, independently of the user's current ST adjustments.
 

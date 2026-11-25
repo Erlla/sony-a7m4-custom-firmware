@@ -1,6 +1,6 @@
 # 自定义 LUT：SD 卡导入与独立微调
 
-[English](README.en.md) · [修改位置与实现](IMPLEMENTATION.md) · [JSON 格式](FORMAT.md) · [与其他方法组合](INTEGRATION.md) · [训练结果](../../docs/custom-lut-training/README.md) · [Agent 训练方法](../../docs/custom-lut-training/AGENT_TRAINING.md) · [界面英文资源](UI-LANGUAGES.md)
+[English](README.en.md) · [修改位置与实现](IMPLEMENTATION.md) · [JSON 格式](FORMAT.md) · [与其他方法组合](INTEGRATION.md) · [训练结果](../../docs/custom-lut-training/README.md) · [Agent 训练方法](../../docs/custom-lut-training/AGENT_TRAINING.md) · [界面英文资源](UI-LANGUAGES.md) · [摇杆与拨轮输入](INPUT.md)
 
 运行时代码精简及当前组件身份见[精简方法](RUNTIME-CLEANUP.md)。维护者已测试精简后的组合固件，反馈运行正常、未发现问题。
 
@@ -17,7 +17,7 @@
 
 1. 将转换好的 `.json` 文件放到 SD 卡的 `PRIVATE/M4ROOT/GENERAL/LUT/` 目录。
 2. 打开“自定义 LUTS”，按左键进入导入，选择存储卡和滤镜文件，按界面提示导入或替换槽位。
-3. 用实体按键或触摸左侧编号栏选择滤镜预览，按右键进入详细调节；左右选择项目，上下调整数值，也可使用屏幕上的调节控件。
+3. 用方向键、摇杆、拨轮或触摸左侧编号栏选择滤镜预览，按右键进入详细调节；左右选择项目，上下或拨轮调整数值，也可使用屏幕上的调节控件。拨轮在列表页右转向下、左转向上，在微调页右转增加、左转减少。
 4. 确认后保存；取消返回之前的选择与参数。“重置”恢复该滤镜的默认参数和 100% 强度。删除页可删除当前滤镜或清空全部滤镜。
 
 普通 `.cube`、DCP 等文件需要先转换为本项目的原生参数 JSON；改扩展名不能完成转换。JSON 格式与色彩匹配质量是两件事，参见[格式与转换边界](FORMAT.md)。

@@ -1,0 +1,10 @@
+{
+  "date": "2026-11-25",
+  "public_AP_matches_accepted_component_byte_for_byte": true,
+  "AP_bytes": 99221508,
+  "AP_sha256": "db820a263c23e29b15e98057976bc58a6af9c2aa9885709216ea7c2fc8b23666",
+  "source_sha256": "3229a2ea1225df0219183111f2d39f351e0749bb04a8c6f5c19281cad8104138",
+  "compiler": "Zig 0.14.1",
+  "unsupported_input_rejected_before_compilation": true,
+  "scope": "Public source build and component comparison; recorded native replay results are separate evidence."
+}

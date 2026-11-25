@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "bias": "0x100000000",
+      "scene": "0xd9",
+      "event": "0x2050000",
+      "target": "0x2010003"
+    },
+    {
+      "bias": "0x100000000",
+      "scene": "0xda",
+      "event": "0x2050000",
+      "target": "0x2010000"
+    },
+    {
+      "bias": "0x100000000",
+      "scene": "0xd9",
+      "event": "0x2010013",
+      "target": "0x2010000"
+    },
+    {
+      "bias": "0x100000000",
+      "scene": "0xd9",
+      "event": "0x201001e",
+      "target": "0x201001e"
+    },
+    {
+      "bias": "0x100000000",
+      "scene": "0xdb",
+      "event": "0x2050000",
+      "target": "0x2050000"
+    },
+    {
+      "bias": "0x400000000",
+      "scene": "0xd9",
+      "event": "0x2050000",
+      "target": "0x2010003"
+    },
+    {
+      "bias": "0x400000000",
+      "scene": "0xda",
+      "event": "0x2050000",
+      "target": "0x2010000"
+    },
+    {
+      "bias": "0x400000000",
+      "scene": "0xd9",
+      "event": "0x2010013",
+      "target": "0x2010000"
+    },
+    {
+      "bias": "0x400000000",
+      "scene": "0xd9",
+      "event": "0x201001e",
+      "target": "0x201001e"
+    },
+    {
+      "bias": "0x400000000",
+      "scene": "0xdb",
+      "event": "0x2050000",
+      "target": "0x2050000"
+    }
+  ],
+  "AP_sha256": "db820a263c23e29b15e98057976bc58a6af9c2aa9885709216ea7c2fc8b23666",
+  "boundary": "Installed entry and adapter execute; existing dispatcher is an observation sink."
+}

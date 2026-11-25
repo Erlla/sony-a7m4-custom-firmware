@@ -1,0 +1,244 @@
+{
+  "passed": true,
+  "count": 43,
+  "cases": [
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2010011",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_UP_ON",
+      "focus": 15,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2010013",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_UP_REPEAT",
+      "focus": 15,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2010014",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_DOWN_ON",
+      "focus": 0,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2010016",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_DOWN_REPEAT",
+      "focus": 0,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2010017",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_LEFT_ON",
+      "focus": 16,
+      "requests": 0
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2010019",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_LEFT_REPEAT",
+      "focus": 16,
+      "requests": 0
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x201001a",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_RIGHT_ON",
+      "focus": 16,
+      "requests": 0
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x201001c",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_RIGHT_REPEAT",
+      "focus": 16,
+      "requests": 0
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x201001d",
+      "name": "EVENT_INPUT_TACT_MULTI_SELECTOR_ENTER_ON",
+      "focus": 16,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2050000",
+      "name": "EVENT_INPUT_OTHER_WHEEL_RIGHT",
+      "focus": 0,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2050001",
+      "name": "EVENT_INPUT_OTHER_WHEEL_LEFT",
+      "focus": 15,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2050002",
+      "name": "EVENT_INPUT_OTHER_WHEEL2_RIGHT",
+      "focus": 0,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2050003",
+      "name": "EVENT_INPUT_OTHER_WHEEL2_LEFT",
+      "focus": 15,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2050004",
+      "name": "EVENT_INPUT_OTHER_WHEEL3_RIGHT",
+      "focus": 0,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2050005",
+      "name": "EVENT_INPUT_OTHER_WHEEL3_LEFT",
+      "focus": 15,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2050006",
+      "name": "EVENT_INPUT_OTHER_WHEEL2_SUB_RIGHT",
+      "focus": 0,
+      "requests": 1
+    },
+    {
+      "case": "alias_matches_existing_key",
+      "event": "0x2050007",
+      "name": "EVENT_INPUT_OTHER_WHEEL2_SUB_LEFT",
+      "focus": 15,
+      "requests": 1
+    },
+    {
+      "case": "wheel_adjusts_edit_value",
+      "event": "0x2050000",
+      "contrast": 1
+    },
+    {
+      "case": "wheel_adjusts_edit_value",
+      "event": "0x2050001",
+      "contrast": -1
+    },
+    {
+      "case": "wheel_adjusts_edit_value",
+      "event": "0x2050002",
+      "contrast": 1
+    },
+    {
+      "case": "wheel_adjusts_edit_value",
+      "event": "0x2050003",
+      "contrast": -1
+    },
+    {
+      "case": "wheel_adjusts_edit_value",
+      "event": "0x2050004",
+      "contrast": 1
+    },
+    {
+      "case": "wheel_adjusts_edit_value",
+      "event": "0x2050005",
+      "contrast": -1
+    },
+    {
+      "case": "wheel_adjusts_edit_value",
+      "event": "0x2050006",
+      "contrast": 1
+    },
+    {
+      "case": "wheel_adjusts_edit_value",
+      "event": "0x2050007",
+      "contrast": -1
+    },
+    {
+      "case": "rapid_wheel_keeps_latest_focus",
+      "events": 40,
+      "focus": 5,
+      "requests": 2
+    },
+    {
+      "case": "confirm_locks_target_until_commit",
+      "requests": 2
+    },
+    {
+      "case": "touch_wheel_joystick_mix_then_MENU"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x2010012"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x2010015"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x2010018"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x201001b"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x201001e"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x201001f"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x2010020"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x2050008"
+    },
+    {
+      "case": "release_or_unmapped_event_preserved",
+      "event": "0x2020000"
+    },
+    {
+      "case": "existing_owner_or_readiness_gate",
+      "state": "transition"
+    },
+    {
+      "case": "existing_owner_or_readiness_gate",
+      "state": "inactive_timer"
+    },
+    {
+      "case": "existing_owner_or_readiness_gate",
+      "state": "foreign_controller"
+    },
+    {
+      "case": "existing_owner_or_readiness_gate",
+      "state": "foreign_menu"
+    },
+    {
+      "case": "existing_owner_or_readiness_gate",
+      "state": "epoch"
+    },
+    {
+      "case": "all_17_touch_rows_preserved"
+    }
+  ],
+  "baseline_AP_sha256": "0cb44d4b8b4a7a9675603de6c10c5e7b4dbeae06e6226566e420f565bff8b1a0",
+  "candidate_AP_sha256": "db820a263c23e29b15e98057976bc58a6af9c2aa9885709216ea7c2fc8b23666",
+  "debug_ELF_sha256": "f7099bc8afcf77d4f6dc8fdfbb730ead165ed5cbe90cd75f9dafd3652cac8476",
+  "verified_debug_function_bytes": true,
+  "camera_tested": false,
+  "executed": "Original native shortcut route, owned controller, GUI dispatch/queue, tail completion and commit/cancel.",
+  "fixtures": "Graphics allocation/rendering and manager pop sink, backend catalog/submit/poll receipts, libObj timer service and platform services; edit-view activation is seeded."
+}

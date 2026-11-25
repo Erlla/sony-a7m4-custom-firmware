@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "issue": "https://github.com/Erlla/sony-a7m4-custom-firmware/issues/52",
+  "input_stage": "Combined UI-language, shortcut and HEIF AP listed by ../ui-languages/reference.json",
+  "input_AP_sha256": "0cb44d4b8b4a7a9675603de6c10c5e7b4dbeae06e6226566e420f565bff8b1a0",
+  "output_AP_sha256": "db820a263c23e29b15e98057976bc58a6af9c2aa9885709216ea7c2fc8b23666",
+  "AP_bytes": 99221508,
+  "source_sha256": "3229a2ea1225df0219183111f2d39f351e0749bb04a8c6f5c19281cad8104138",
+  "compiler": "Zig 0.14.1",
+  "entry_VA": "0x903104c",
+  "module_VA": "0x904fc00",
+  "module_bytes": 368,
+  "existing_dispatch_VA": "0x903e5e0",
+  "current_lut_scene_VA": "0x8f73030",
+  "new_writable_bytes": 0,
+  "other_AP_bytes_preserved": true,
+  "edits": [
+    {
+      "offset": 99094604,
+      "bytes": 4,
+      "purpose": "owned LUT dispatcher entry",
+      "before_sha256": "7b4b08eb57e90b5ba6885b9629030b76f531ab050926d05640f8c3871c043434",
+      "after_sha256": "5a8b22170f0faa860abc8931e43ac0ba5e6c0778e96a65e338bc2aecaf1d3635",
+      "after_hex": "ed7a0014"
+    },
+    {
+      "offset": 99220480,
+      "bytes": 368,
+      "purpose": "input adapter",
+      "before_sha256": "71818ecc26433c32172dd9a3544657971c7078daa2257da7c3c303e08693cb23",
+      "after_sha256": "5a3f1d79765daaff65e1fad1679861107dc904a4884f732fe4a3614f64eb21bd",
+      "payload": "linked_RX_segment"
+    },
+    {
+      "offset": 99091192,
+      "bytes": 16,
+      "purpose": "extend existing RX segment",
+      "before_sha256": "1fc3385b1e9b5a9614a2c314fe30ed5e315705432d9fe987f14751b98b965ced",
+      "after_sha256": "479182358e3d23f03141534e6ec140fa9797705cbac3200cf11bbfbcf6c05591",
+      "after_hex": "70fd01000000000070fd010000000000"
+    }
+  ],
+  "validation": {
+    "baseline_defect_reproduced": true,
+    "baseline_cases": 15,
+    "GUI_regression_cases": 43,
+    "relocation_cases": 10,
+    "load_biases": [
+      "0x100000000",
+      "0x400000000"
+    ],
+    "maintainer_confirmed_issue_resolved": true,
+    "confirmation_date": "2026-11-25",
+    "scope": "Confirmation concerns the reported input problem; no per-case hardware test matrix was supplied."
+  }
+}
