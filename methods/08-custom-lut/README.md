@@ -1,6 +1,6 @@
 # 自定义 LUT：SD 卡导入与独立微调
 
-[English](README.en.md) · [修改位置与实现](IMPLEMENTATION.md) · [JSON 格式](FORMAT.md) · [与其他方法组合](INTEGRATION.md) · [训练结果](../../docs/custom-lut-training/README.md) · [Agent 训练方法](../../docs/custom-lut-training/AGENT_TRAINING.md)
+[English](README.en.md) · [修改位置与实现](IMPLEMENTATION.md) · [JSON 格式](FORMAT.md) · [与其他方法组合](INTEGRATION.md) · [训练结果](../../docs/custom-lut-training/README.md) · [Agent 训练方法](../../docs/custom-lut-training/AGENT_TRAINING.md) · [界面英文资源](UI-LANGUAGES.md)
 
 运行时代码精简及当前组件身份见[精简方法](RUNTIME-CLEANUP.md)。维护者已测试精简后的组合固件，反馈运行正常、未发现问题。
 

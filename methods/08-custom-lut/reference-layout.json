@@ -1537,5 +1537,11 @@
         "output_sha256": "cdce68c65813c8492a2268ec7364276d6f4e54495d5d8b0bacfeaf4d96cc708f"
       }
     }
+  },
+  "ui_languages": {
+    "reference": "../../native/custom-lut/ui-languages/reference.json",
+    "method": "UI-LANGUAGES.md",
+    "english_method": "UI-LANGUAGES.en.md",
+    "physical_camera_tested": false
   }
 }

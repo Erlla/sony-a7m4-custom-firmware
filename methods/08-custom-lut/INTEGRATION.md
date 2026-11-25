@@ -65,3 +65,11 @@ English: after sound lifecycle and the aspect-playback AP component, apply lut-t
 [方法7的新组件](../../native/aspect-autoreview/README.md)在精简AP、精确声音恢复CP与既有回放MPR之后，配套更新AP/CP/libmpr及70个资源。原捕获包装、任务冻结与复制、RAW FL2/FL3、声音恢复页、AWB、LUT触摸和标题保留；AVCAM不变。token低4位ID、bit4完成、bit5以上epoch，不能混用旧消费者。reference-layout.json的aspect_autoreview登记独立输入/输出，旧components及runtime_cleanup保持原身份。
 
 The [six-ratio/normal-review layer](../../native/aspect-autoreview/README.en.md) follows the exact cleanup AP, sound-recovery CP and prior playback MPR. Update all components and 70 banks together. Existing capture wrappers, RAW alternatives, sounds, AWB and LUT UI are retained. The independent manifest records its own identities; older recipes stay frozen.
+
+## LUT 英文资源与主线快捷键／HEIF 组合
+
+[语言显示层](UI-LANGUAGES.md)必须将 AP 与 34 个共用 UXC 库一起集成。精简后 AP 使用 0x904D000..0x904FBF0；旧触摸配方的同名预留空间不能直接沿用。语言层的基线与输出摘要、随后合并快捷键和 HEIF 的 AP/MPR 身份由 `ui_languages` 引用的清单单独记录，不替换上面的历史配方身份。
+
+本次组合按实际 ELF 重定位修正声音三项菜单的按键事件，保留音量入口；MPR 仅移植 HEIF 主图与辅助预览识别，不复制录像实验整库。英文显示模块及全部资源保持，CP、更新器及版本元数据不变。菜单与语言原生回放通过，英文布局仍待机身确认。
+
+English: integrate the localized AP and all 34 common UXC banks together. The pinned post-cleanup layout differs from earlier touch layouts. The linked language reference records both the language-only and combined shortcut/HEIF component identities. The combined sound menus retain their volume entries through the actual relocated registry; HEIF changes are ported into the existing reader. CP and updater are unchanged. Native menu/language replay passed; physical English layout remains unverified.

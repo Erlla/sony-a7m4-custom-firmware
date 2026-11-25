@@ -1,6 +1,6 @@
 # Custom LUTs: SD import and independent adjustments
 
-[中文](README.md) · [Implementation](IMPLEMENTATION.md) · [JSON contract](FORMAT.md) · [Integration](INTEGRATION.md) · [Training results](../../docs/custom-lut-training/README.en.md) · [Agent training method](../../docs/custom-lut-training/AGENT_TRAINING.en.md)
+[中文](README.md) · [Implementation](IMPLEMENTATION.md) · [JSON contract](FORMAT.md) · [Integration](INTEGRATION.md) · [Training results](../../docs/custom-lut-training/README.en.md) · [Agent training method](../../docs/custom-lut-training/AGENT_TRAINING.en.md) · [Interface language resources](UI-LANGUAGES.en.md)
 
 See the [runtime cleanup method](RUNTIME-CLEANUP.en.md) for the source reductions and current component identities. The maintainer tested the cleaned integrated firmware and reported normal operation with no observed problems.
 

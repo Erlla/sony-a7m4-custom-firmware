@@ -1,0 +1,84 @@
+{
+  "input_sha256": "01a89f1cba17c995cf6525b83c68c9f081c01e57247135b53b022ed89ffe1941",
+  "output_sha256": "41d3570883f7d96f03c14612465d7360668309ea2b560f92b3cf35277eaa265b",
+  "module_bytes": 11248,
+  "module_va": "0x904d000",
+  "entries": {
+    "lut_stock_bind": 151013704,
+    "p4_gui_render_overlay": 151254628
+  },
+  "edits": [
+    {
+      "offset": 99209216,
+      "bytes": 11248,
+      "purpose": "localized display component",
+      "before_sha256": "5aecaec4e5bb01e821f49230c4e2440ffd1feee2941e0c5c4061cc21f90043fb",
+      "after_sha256": "408ca3a94d48c34f160106cf4fbf0be925db576bdfddd625107b277d1e4cc1fb"
+    },
+    {
+      "offset": 98912584,
+      "bytes": 4,
+      "purpose": "lut_stock_bind",
+      "before_sha256": "ee0306753ebfb5ec84806afafed1ff02c839a2c7287d85921480ed6f40e53b0e",
+      "after_sha256": "8d1bb68bf31c549950d969155c585e44e5a086aa6d1b49c620ce0316beb63f8f"
+    },
+    {
+      "offset": 99153508,
+      "bytes": 4,
+      "purpose": "p4_gui_render_overlay",
+      "before_sha256": "c4e75707f087ee902a6a5f6b8437741f05323f5de3fa083fff9779e33dce8bf9",
+      "after_sha256": "70d0db342eef84738628ed19d017be31c29bd8c09694f20d7ab0c10ab6cf3f5a"
+    },
+    {
+      "offset": 99091192,
+      "bytes": 16,
+      "purpose": "map localized display code as RX",
+      "before_sha256": "79553dde0b36e19dc7db01757b55f6abd541b57ddb8c92b61a583d11986f0e8b",
+      "after_sha256": "1fc3385b1e9b5a9614a2c314fe30ed5e315705432d9fe987f14751b98b965ced"
+    }
+  ],
+  "new_writable_bytes": 0,
+  "required_resource_banks": 34,
+  "schema": "a7m4.lut-ui-languages.v1",
+  "address_convention": "ELF virtual addresses; file edits are explicitly marked offsets",
+  "language_policy": "Simplified Chinese / Traditional Chinese / English fallback for other 32 languages",
+  "first_id": "0x0204e85e",
+  "last_id": "0x0204e88f",
+  "bank": "0x27",
+  "module_symbols": {
+    "lut_localized_render_overlay": 151310336,
+    "lut_localized_stock_bind": 151314344
+  },
+  "combined_main": {
+    "output_AP_sha256": "0cb44d4b8b4a7a9675603de6c10c5e7b4dbeae06e6226566e420f565bff8b1a0",
+    "output_MPR_sha256": "91771eda489a01834bdfa9e3b00c6e2aa824804640b7af218e5a001dc928cbca",
+    "input_MPR_sha256": "cdce68c65813c8492a2268ec7364276d6f4e54495d5d8b0bacfeaf4d96cc708f",
+    "LUT_English_code_preserved": true,
+    "recording_changes_imported": false,
+    "CP_changed": false,
+    "updater_changed": false
+  },
+  "validation": {
+    "native_language_queries": 9520,
+    "languages": 34,
+    "orientations": 2,
+    "load_biases": 2,
+    "physical_camera_tested": false,
+    "font_rasterization_tested": false,
+    "fixtures": [
+      "display-device queries",
+      "filename argument setters",
+      "file handles and reads",
+      "allocation and cache bookkeeping"
+    ]
+  },
+  "source_sha256": {
+    "labels.inc": "67b7768be5a34880ac046f8ff6b9e45893b168ca8c9dd27594e23b7fe09fa4e8",
+    "lut_name_text_v617.h": "1af11afabd0270b4bdfbb9e5352f0ee4151609c300b6d1570b72e1b26949191e",
+    "lut_ui_text.c": "1616f25689fd05313c70e1e90bdeb88663a8fadcdfa268b6129ceb7dc57a1263",
+    "lut_ui_text.h": "2b5cd23f5d636cd0c2fa08fb8e8752e6db86deac4192c55af196412e8d48ff09",
+    "overlay.c": "ddab50fc50fb2ef770f06885add3f744aa5f9449d382748606818468e702f579",
+    "projection.c": "9ee4d509f44b94766cf1ecace023d65aa453a5c4bcdfab42087faaca39a66667",
+    "ui.ld": "84cb347f7599a7e8ab23299b68632f6ab7afcca5d4ebf39a560e76fcd66bc07f"
+  }
+}
